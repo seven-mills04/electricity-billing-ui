@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -17,39 +17,69 @@ import ActionButtons from "../components/ActionButtons";
 import ConsumerDialog from "../components/ConsumerDialog";
 import ConfirmDialog from "../components/ConfirmDialog";
 
+import {getConsumers,deleteConsumer,} from "../api/consumerApi";
+
 const Consumers = () => {
   const [search, setSearch] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
-
   const [snackbar, setSnackbar] = useState(false);
+  const [rows, setRows] = useState([]);
+  const [selectedConsumer, setSelectedConsumer] = useState(null);
+  useEffect(() => {
+    fetchConsumers();
+  }, []);
 
-  const rows = [
-    {
-      id: 1,
-      consumerNumber: "CON1001",
-      name: "Rahul Sharma",
-      city: "Delhi",
-      mobile: "9876543210",
-      status: "Active",
-    },
-    {
-      id: 2,
-      consumerNumber: "CON1002",
-      name: "Aman Verma",
-      city: "Noida",
-      mobile: "9988776655",
-      status: "Inactive",
-    },
-    {
-      id: 3,
-      consumerNumber: "CON1003",
-      name: "Priya Singh",
-      city: "Ghaziabad",
-      mobile: "9123456789",
-      status: "Active",
-    },
-  ];
+  const fetchConsumers = async () => {
+    try {
+      const response = await getConsumers();
+
+      console.log("Response:", response.data);
+
+      const consumers = response.data.content || [];
+
+      const data = consumers.map((consumer) => ({
+  id: consumer.id,
+  consumerNumber: consumer.consumerNumber,
+  firstName: consumer.firstName,
+  lastName: consumer.lastName,
+  email: consumer.email,
+  phone: consumer.phone,
+
+  name: `${consumer.firstName} ${consumer.lastName}`,
+  city: "-",
+  mobile: consumer.phone,
+ status: consumer.connections?.some(
+  (connection) => connection.status === "ACTIVE"
+)
+  ? "Active"
+  : "Inactive",
+}));
+
+      setRows(data);
+    } catch (error) {
+      console.error("Error fetching consumers:", error);
+    }
+  };
+
+  const handleDelete = async () => {
+  try {
+    if (!selectedConsumer) return;
+
+    await deleteConsumer(selectedConsumer.id);
+
+    setDeleteOpen(false);
+    setSelectedConsumer(null);
+
+    fetchConsumers();
+
+    setSnackbar(true);
+
+  } catch (error) {
+    console.error(error);
+    alert("Failed to delete consumer");
+  }
+};
 
   const filteredRows = rows.filter((row) =>
     row.name.toLowerCase().includes(search.toLowerCase())
@@ -92,19 +122,24 @@ const Consumers = () => {
       headerName: "Actions",
       flex: 1.2,
       sortable: false,
-      renderCell: () => (
-        <ActionButtons
-          onView={() => setSnackbar(true)}
-          onEdit={() => setDialogOpen(true)}
-          onDelete={() => setDeleteOpen(true)}
-        />
+      renderCell: (params) => (
+  <ActionButtons
+    onView={() => setSnackbar(true)}
+    onEdit={() => {
+      setSelectedConsumer(params.row);
+      setDialogOpen(true);
+    }}
+    onDelete={() => {
+      setSelectedConsumer(params.row);
+      setDeleteOpen(true);
+    }}
+  />
       ),
     },
   ];
 
   return (
     <Box sx={{ p: 3 }}>
-
       <Typography variant="h4" fontWeight="bold" mb={1}>
         Consumers
       </Typography>
@@ -114,11 +149,10 @@ const Consumers = () => {
       </Typography>
 
       <Grid container spacing={2} mb={4}>
-
         <Grid item xs={12} md={3}>
           <StatsCard
             title="Total Consumers"
-            value="324"
+            value={rows.length}
             color="#1976d2"
           />
         </Grid>
@@ -126,7 +160,7 @@ const Consumers = () => {
         <Grid item xs={12} md={3}>
           <StatsCard
             title="Active"
-            value="280"
+            value={rows.filter((r) => r.status === "Active").length}
             color="#2e7d32"
           />
         </Grid>
@@ -134,7 +168,7 @@ const Consumers = () => {
         <Grid item xs={12} md={3}>
           <StatsCard
             title="Inactive"
-            value="44"
+            value={rows.filter((r) => r.status !== "Active").length}
             color="#d32f2f"
           />
         </Grid>
@@ -146,7 +180,6 @@ const Consumers = () => {
             color="#ed6c02"
           />
         </Grid>
-
       </Grid>
 
       <Box
@@ -154,7 +187,6 @@ const Consumers = () => {
         justifyContent="space-between"
         mb={3}
       >
-
         <TextField
           label="Search Consumer"
           size="small"
@@ -169,29 +201,34 @@ const Consumers = () => {
         >
           Add Consumer
         </Button>
-
       </Box>
 
       <DataTable
         rows={filteredRows}
         columns={columns}
       />
-
-      <ConsumerDialog
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-      />
+       
+       <ConsumerDialog
+  open={dialogOpen}
+  onClose={() => {
+    setDialogOpen(false);
+    setSelectedConsumer(null);
+  }}
+  onSuccess={fetchConsumers}
+  consumer={selectedConsumer}
+/>
+      
 
       <ConfirmDialog
-        open={deleteOpen}
-        title="Delete Consumer"
-        message="Are you sure you want to delete this consumer?"
-        onClose={() => setDeleteOpen(false)}
-        onConfirm={() => {
-          setDeleteOpen(false);
-          setSnackbar(true);
-        }}
-      />
+  open={deleteOpen}
+  title="Delete Consumer"
+  message="Are you sure you want to delete this consumer?"
+  onClose={() => {
+    setDeleteOpen(false);
+    setSelectedConsumer(null);
+  }}
+  onConfirm={handleDelete}
+/>
 
       <Snackbar
         open={snackbar}
@@ -202,7 +239,6 @@ const Consumers = () => {
           Action completed successfully.
         </Alert>
       </Snackbar>
-
     </Box>
   );
 };

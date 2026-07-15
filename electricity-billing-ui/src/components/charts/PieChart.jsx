@@ -1,42 +1,59 @@
 import {
-    Chart as ChartJS,
-    ArcElement,
-    Tooltip,
-    Legend
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
 } from "chart.js";
 
 import { Pie } from "react-chartjs-2";
 
 ChartJS.register(
-    ArcElement,
-    Tooltip,
-    Legend
+  ArcElement,
+  Tooltip,
+  Legend
 );
 
-const PieChart = () => {
+const PieChart = ({ paidBills, unpaidBills }) => {
+  const data = {
+    labels: [
+      "Paid Bills",
+      "Unpaid Bills",
+    ],
 
-    const data = {
-
-        labels: [
-            "Paid",
-            "Pending",
-            "Overdue"
+    datasets: [
+      {
+        data: [
+          paidBills,
+          unpaidBills,
         ],
 
-        datasets: [
-            {
-                data: [65,25,10],
-
-                backgroundColor: [
-                    "#2e7d32",
-                    "#ed6c02",
-                    "#d32f2f",
-                ],
-            },
+        backgroundColor: [
+          "#2e7d32",
+          "#ed6c02",
         ],
-    };
 
-    return <Pie data={data} />;
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    plugins: {
+      legend: {
+        position: "top",
+      },
+    },
+
+    responsive: true,
+    maintainAspectRatio: true,
+  };
+
+  return (
+    <Pie
+      data={data}
+      options={options}
+    />
+  );
 };
 
 export default PieChart;

@@ -5,20 +5,39 @@ const StatsCard = ({ title, value, color }) => {
     <Card
       elevation={3}
       sx={{
+        borderRadius: 4,
         borderLeft: `6px solid ${color}`,
-        borderRadius: 3,
+        boxShadow: 3,
+        transition: "all .25s ease",
         height: "100%",
+        "&:hover": {
+          transform: "translateY(-5px)",
+          boxShadow: 8,
+        },
       }}
     >
-      <CardContent>
-        <Typography variant="subtitle2" color="text.secondary">
+      <CardContent
+        sx={{
+          py: 3,
+        }}
+      >
+        <Typography
+          variant="subtitle2"
+          color="text.secondary"
+          sx={{
+            fontWeight: 600,
+            letterSpacing: 0.4,
+          }}
+        >
           {title}
         </Typography>
 
         <Typography
-          variant="h4"
-          fontWeight="bold"
-          mt={1}
+          variant="h3"
+          sx={{
+            fontWeight: "bold",
+            mt: 1,
+          }}
         >
           {value}
         </Typography>

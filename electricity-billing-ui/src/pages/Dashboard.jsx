@@ -1,12 +1,64 @@
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Box, Grid, Paper, Typography, Chip } from "@mui/material";
+
 import StatsCard from "../components/StatsCard";
 import RevenueChart from "../components/charts/RevenueChart";
 import PieChart from "../components/charts/PieChart";
+import { getConsumers } from "../api/consumerApi";
+import { getDashboard } from "../api/dashboardApi";
+import { getPayments } from "../api/paymentApi";
 
 const Dashboard = () => {
+  const [dashboard, setDashboard] = useState({
+  totalConsumers: 0,
+  totalConnections: 0,
+  totalBills: 0,
+  paidBills: 0,
+  unpaidBills: 0,
+  monthlyRevenue: 0,
+  todayCollection: 0,
+  totalRevenue: 0,
+});
+
+const [consumers, setConsumers] = useState([]);
+  useEffect(() => {
+    fetchDashboard();
+    fetchConsumers();
+    fetchPayments();
+  }, []);
+
+  const [payments, setPayments] = useState([]);
+
+  const fetchDashboard = async () => {
+  try {
+    const response = await getDashboard();
+    setDashboard(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const fetchConsumers = async () => {
+  try {
+    const response = await getConsumers();
+
+    setConsumers(response.data.content || response.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const fetchPayments = async () => {
+  try {
+    const response = await getPayments();
+
+    setPayments(response.data || []);
+  } catch (error) {
+    console.error(error);
+  }
+};
   return (
     <Box sx={{ p: 3 }}>
-
       <Typography variant="h4" fontWeight="bold" gutterBottom>
         Dashboard
       </Typography>
@@ -20,7 +72,7 @@ const Dashboard = () => {
         <Grid item xs={12} sm={6} md={3}>
           <StatsCard
             title="Consumers"
-            value="324"
+           value={dashboard.totalConsumers}
             color="#1976d2"
           />
         </Grid>
@@ -28,7 +80,7 @@ const Dashboard = () => {
         <Grid item xs={12} sm={6} md={3}>
           <StatsCard
             title="Connections"
-            value="298"
+            value={dashboard.totalConnections}
             color="#2e7d32"
           />
         </Grid>
@@ -36,7 +88,7 @@ const Dashboard = () => {
         <Grid item xs={12} sm={6} md={3}>
           <StatsCard
             title="Bills"
-            value="147"
+            value={dashboard.totalBills}
             color="#ed6c02"
           />
         </Grid>
@@ -44,73 +96,122 @@ const Dashboard = () => {
         <Grid item xs={12} sm={6} md={3}>
           <StatsCard
             title="Revenue"
-            value="₹12.45L"
+            value={Number(dashboard.totalRevenue || 0).toLocaleString("en-IN", {style: "currency",currency: "INR",})}
             color="#8e24aa"
           />
         </Grid>
 
-        <Grid item xs={12} md={8}>
-          <Paper sx={{ p: 3, borderRadius: 3 }}>
-            <Typography variant="h6" mb={2}>
-              Revenue Trend
-            </Typography>
-
-            <RevenueChart />
-          </Paper>
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 3, borderRadius: 3 }}>
+        
+        <Grid item xs={12} lg={7}>
+  <Paper
+    sx={{
+      p: 3,
+      borderRadius: 4,
+      boxShadow: 3,
+      height: "100%",
+    }}
+  >
             <Typography variant="h6" mb={2}>
               Bill Status
             </Typography>
 
-            <PieChart />
+           <PieChart
+              paidBills={dashboard.paidBills}
+               unpaidBills={dashboard.unpaidBills}
+             />
           </Paper>
         </Grid>
 
-        <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 3, borderRadius: 3 }}>
+        <Grid item xs={12} lg={5}>
+          <Paper
+  sx={{
+    p: 3,
+    borderRadius: 4,
+    boxShadow: 3,
+    height: "100%",
+  }}
+>
             <Typography variant="h6">
-              Recent Consumers
-            </Typography>
+               Recent Consumers
+                </Typography>
 
-            <Typography mt={2}>
-              • Rahul Sharma
-            </Typography>
-
-            <Typography>
-              • Aman Verma
-            </Typography>
-
-            <Typography>
-              • Priya Singh
-            </Typography>
+              {consumers.length === 0 ? (
+  <Typography mt={2}>
+    No consumers found
+  </Typography>
+) : (
+  consumers
+    .slice(-5)
+    .reverse()
+    .map((consumer) => (
+      <Chip
+  key={consumer.id}
+  label={`${consumer.firstName} ${consumer.lastName}`}
+  color="primary"
+  variant="outlined"
+  sx={{
+    mr: 1,
+    mb: 1,
+  }}
+/>
+    ))
+)}
           </Paper>
         </Grid>
 
-        <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 3, borderRadius: 3 }}>
+        <Grid item xs={12} >
+          <Paper
+  sx={{
+    p: 3,
+    mt: 1,
+    borderRadius: 4,
+    boxShadow: 3,
+  }}
+>
             <Typography variant="h6">
               Recent Payments
             </Typography>
 
-            <Typography mt={2}>
-              CON1001 — ₹2,450
-            </Typography>
+            {payments.length === 0 ? (
+  <Typography mt={2}>
+    No payments found
+  </Typography>
+) : (
+  payments
+    .slice(-5)
+    .reverse()
+    .map((payment) => (
+      <Box
+  key={payment.id}
+  sx={{
+    p: 2,
+    mb: 2,
+    borderRadius: 2,
+    border: "1px solid #E0E0E0",
+    backgroundColor: "#FAFAFA",
+  }}
+>
+        <Typography fontWeight="bold">
+          {payment.transactionId}
+        </Typography>
 
-            <Typography>
-              CON1002 — ₹1,980
-            </Typography>
+        <Typography variant="body2">
+          ₹{Number(payment.amountPaid).toFixed(2)}
+        </Typography>
 
-            <Typography>
-              CON1003 — ₹3,120
-            </Typography>
+        <Typography
+          variant="caption"
+          color="text.secondary"
+        >
+          {payment.paymentDate}
+        </Typography>
+      </Box>
+    ))
+)}
           </Paper>
         </Grid>
 
       </Grid>
-
     </Box>
   );
 };

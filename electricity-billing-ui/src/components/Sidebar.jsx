@@ -1,9 +1,18 @@
-import { Drawer, Toolbar, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import {
+  Drawer,
+  Toolbar,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
+import BoltIcon from "@mui/icons-material/Bolt";
+import ElectricMeterIcon from "@mui/icons-material/ElectricMeter";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import PaymentIcon from "@mui/icons-material/Payment";
-import BoltIcon from "@mui/icons-material/Bolt";
 
 import { Link } from "react-router-dom";
 
@@ -24,32 +33,53 @@ const Sidebar = () => {
       <Toolbar />
 
       <List>
-
+        {/* Dashboard */}
         <ListItemButton component={Link} to="/dashboard">
-          <ListItemIcon><DashboardIcon /></ListItemIcon>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItemButton>
 
+        {/* Consumers */}
         <ListItemButton component={Link} to="/consumers">
-          <ListItemIcon><PeopleIcon /></ListItemIcon>
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
           <ListItemText primary="Consumers" />
         </ListItemButton>
 
-        <ListItemButton>
-          <ListItemIcon><BoltIcon /></ListItemIcon>
+        {/* Connections */}
+        <ListItemButton component={Link} to="/connections">
+          <ListItemIcon>
+            <BoltIcon />
+          </ListItemIcon>
           <ListItemText primary="Connections" />
         </ListItemButton>
 
-        <ListItemButton>
-          <ListItemIcon><ReceiptIcon /></ListItemIcon>
+        {/* Meter Readings */}
+        <ListItemButton component={Link} to="/meter-readings">
+          <ListItemIcon>
+            <ElectricMeterIcon />
+          </ListItemIcon>
+          <ListItemText primary="Meter Readings" />
+        </ListItemButton>
+
+        {/* Bills */}
+        <ListItemButton component={Link} to="/bills">
+          <ListItemIcon>
+            <ReceiptIcon />
+          </ListItemIcon>
           <ListItemText primary="Bills" />
         </ListItemButton>
 
-        <ListItemButton>
-          <ListItemIcon><PaymentIcon /></ListItemIcon>
+        {/* Payments */}
+        <ListItemButton component={Link} to="/payments">
+          <ListItemIcon>
+            <PaymentIcon />
+          </ListItemIcon>
           <ListItemText primary="Payments" />
         </ListItemButton>
-
       </List>
     </Drawer>
   );
