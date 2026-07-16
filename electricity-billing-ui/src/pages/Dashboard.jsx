@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Container, Typography, Box, Card, Button, Stack, Avatar, CircularProgress } from '@mui/material';
-import { Zap, Receipt, Users, AlertCircle, Download } from 'lucide-react';
+import { 
+  Grid, Container, Typography, Box, Card, Button, Stack, Avatar, CircularProgress,
+  Dialog, DialogTitle, DialogContent, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
+} from '@mui/material';
+import { Zap, Receipt, Users, AlertCircle, Download, X } from 'lucide-react';
 import StatCard from '../components/StatsCard'; 
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, ComposedChart, Bar, Line, PieChart, Pie, Cell } from 'recharts';
 import { motion } from 'framer-motion';
@@ -75,6 +78,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
+  const [activeDetail, setActiveDetail] = useState(null);
   const [stats, setStats] = useState({
     consumption: '0 kWh',
     revenue: '₹0.00',
@@ -388,6 +392,396 @@ const Dashboard = () => {
     doc.save(`System_Report_${new Date().toISOString().split('T')[0]}.pdf`);
   };
 
+  const renderUsageDetails = () => (
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Below is a high-resolution graph representing your historical actual consumption and predicted forecast. The forecast uses linear regression based on seasonal historical trends.
+        </Typography>
+        <Box sx={{ width: '100%', height: 320, p: 1, border: '1px solid #F1F5F9', borderRadius: '8px', bgcolor: '#FAFAFA' }}>
+          <ResponsiveContainer>
+            <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+              <defs>
+                <linearGradient id="detailUsage" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#4F46E5" stopOpacity={0.1}/>
+                  <stop offset="95%" stopColor="#4F46E5" stopOpacity={0}/>
+                </linearGradient>
+                <linearGradient id="detailPredicted" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#0D9488" stopOpacity={0.1}/>
+                  <stop offset="95%" stopColor="#0D9488" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
+              <XAxis dataKey="name" tick={{ fill: '#64748B', fontSize: 11 }} />
+              <YAxis tick={{ fill: '#64748B', fontSize: 11 }} />
+              <Tooltip content={<CustomTooltip />} />
+              <Area type="monotone" dataKey="upperBoundKwh" stroke="none" fill="#0D9488" fillOpacity={0.03} />
+              <Area type="monotone" dataKey="lowerBoundKwh" stroke="none" fill="#0D9488" fillOpacity={0.03} />
+              <Area type="monotone" dataKey="kwh" stroke="#4F46E5" strokeWidth={3} fill="url(#detailUsage)" name="Actual" />
+              <Area type="monotone" dataKey="predictedKwh" stroke="#0D9488" strokeWidth={3} strokeDasharray="5 5" fill="url(#detailPredicted)" name="Forecast" />
+            </AreaChart>
+          </ResponsiveContainer>
+        </Box>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant="subtitle1" sx={{ fontWeight: 650, mb: 1.5 }}>
+          Detailed Monthly Log
+        </Typography>
+        <TableContainer component={Paper} variant="outlined" sx={{ boxShadow: 'none' }}>
+          <Table size="small">
+            <TableHead sx={{ bgcolor: '#F8FAFC' }}>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 600 }}>Month</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 600 }}>Actual Usage</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 600 }}>Forecasted</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 600 }}>Est. Cost (₹)</TableCell>
+                <TableCell align="center" sx={{ fontWeight: 600 }}>Status</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {chartData.map((row, idx) => {
+                const usageVal = row.kwh !== null ? `${row.kwh.toLocaleString()} kWh` : '-';
+                const predVal = row.predictedKwh !== null ? `${row.predictedKwh.toLocaleString()} kWh` : '-';
+                const units = row.kwh !== null ? row.kwh : row.predictedKwh;
+                const estCost = units ? `₹${Math.round(units * 7.50).toLocaleString()}` : '-';
+                return (
+                  <TableRow key={idx}>
+                    <TableCell sx={{ fontWeight: 550 }}>{row.name} {row.year || 2026}</TableCell>
+                    <TableCell align="right">{usageVal}</TableCell>
+                    <TableCell align="right">{predVal}</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 600, color: 'primary.main' }}>{estCost}</TableCell>
+                    <TableCell align="center">
+                      <Box sx={{ 
+                        display: 'inline-block',
+                        px: 1, py: 0.2, 
+                        borderRadius: '4px',
+                        fontSize: '0.7rem',
+                        fontWeight: 600,
+                        bgcolor: row.kwh !== null ? 'rgba(79, 70, 229, 0.05)' : 'rgba(13, 148, 136, 0.05)',
+                        color: row.kwh !== null ? '#4F46E5' : '#0D9488'
+                      }}>
+                        {row.kwh !== null ? 'HISTORICAL' : 'FORECAST'}
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Grid>
+    </Grid>
+  );
+
+  const renderSolarDetails = () => (
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Direct breakdown of energy imported from the grid compared to local clean solar energy generation and the net total consumed.
+        </Typography>
+        <Box sx={{ width: '100%', height: 320, p: 1, border: '1px solid #F1F5F9', borderRadius: '8px', bgcolor: '#FAFAFA' }}>
+          <ResponsiveContainer>
+            <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
+              <XAxis dataKey="name" tick={{ fill: '#64748B', fontSize: 11 }} />
+              <YAxis tick={{ fill: '#64748B', fontSize: 11 }} />
+              <Tooltip />
+              <Bar dataKey="grid" fill="#4F46E5" barSize={16} name="Grid Import" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="solar" fill="#10B981" barSize={16} name="Solar Gen" radius={[4, 4, 0, 0]} />
+              <Line type="monotone" dataKey="net" stroke="#F59E0B" strokeWidth={3} name="Net Consumption" />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </Box>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant="subtitle1" sx={{ fontWeight: 650, mb: 1.5 }}>
+          Net Metering Financial Summary
+        </Typography>
+        <TableContainer component={Paper} variant="outlined" sx={{ boxShadow: 'none' }}>
+          <Table size="small">
+            <TableHead sx={{ bgcolor: '#F8FAFC' }}>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 600 }}>Month</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 600 }}>Grid Import</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 600 }}>Solar Generated</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 600 }}>Net Usage</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 600 }}>Solar Offset %</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {chartData.map((row, idx) => {
+                const grid = row.grid || 0;
+                const solar = row.solar || 0;
+                const net = row.net || 0;
+                const offset = grid > 0 ? `${Math.round((solar / grid) * 100)}%` : '0%';
+                return (
+                  <TableRow key={idx}>
+                    <TableCell sx={{ fontWeight: 550 }}>{row.name}</TableCell>
+                    <TableCell align="right">{grid.toLocaleString()} kWh</TableCell>
+                    <TableCell align="right" sx={{ color: '#10B981', fontWeight: 550 }}>{solar.toLocaleString()} kWh</TableCell>
+                    <TableCell align="right">{net.toLocaleString()} kWh</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 600, color: 'secondary.main' }}>{offset}</TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Grid>
+    </Grid>
+  );
+
+  const renderLoadProfileDetails = () => (
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          This profile shows the hourly average household demand. Shifting heavy appliance usage to Off-Peak or Shoulder hours can significantly reduce your monthly electricity bills.
+        </Typography>
+        <Box sx={{ width: '100%', height: 300, p: 1, border: '1px solid #F1F5F9', borderRadius: '8px', bgcolor: '#FAFAFA' }}>
+          <ResponsiveContainer>
+            <AreaChart 
+              data={[
+                { hour: '00:00', load: 1.2, type: 'Off-Peak', rate: '₹4.50/kWh' },
+                { hour: '03:00', load: 0.8, type: 'Off-Peak', rate: '₹4.50/kWh' },
+                { hour: '06:00', load: 1.5, type: 'Shoulder', rate: '₹7.50/kWh' },
+                { hour: '09:00', load: 2.8, type: 'Shoulder', rate: '₹7.50/kWh' },
+                { hour: '12:00', load: 3.2, type: 'Shoulder', rate: '₹7.50/kWh' },
+                { hour: '15:00', load: 2.5, type: 'Shoulder', rate: '₹7.50/kWh' },
+                { hour: '18:00', load: 5.4, type: 'Peak', rate: '₹11.20/kWh' },
+                { hour: '21:00', load: 4.8, type: 'Peak', rate: '₹11.20/kWh' },
+                { hour: '24:00', load: 1.6, type: 'Off-Peak', rate: '₹4.50/kWh' }
+              ]} 
+              margin={{ top: 10, right: 10, left: -10, bottom: 0 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
+              <XAxis dataKey="hour" tick={{ fill: '#64748B', fontSize: 11 }} />
+              <YAxis tick={{ fill: '#64748B', fontSize: 11 }} />
+              <Tooltip />
+              <Area type="monotone" dataKey="load" stroke="#F59E0B" strokeWidth={3} fill="#FEF3C7" name="Demand (kW)" />
+            </AreaChart>
+          </ResponsiveContainer>
+        </Box>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant="subtitle1" sx={{ fontWeight: 650, mb: 1.5 }}>
+          Time-of-Use Tariff Rates & Insights
+        </Typography>
+        <TableContainer component={Paper} variant="outlined" sx={{ boxShadow: 'none' }}>
+          <Table size="small">
+            <TableHead sx={{ bgcolor: '#F8FAFC' }}>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 600 }}>Tariff Zone</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Hours</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 600 }}>Average Load</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 600 }}>Tariff Rate</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Recommendations</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 600, color: '#E11D48' }}>Peak</TableCell>
+                <TableCell>18:00 - 22:00</TableCell>
+                <TableCell align="right">5.1 kW</TableCell>
+                <TableCell align="right" sx={{ color: '#E11D48', fontWeight: 600 }}>₹11.20 / kWh</TableCell>
+                <TableCell sx={{ fontSize: '0.78rem' }}>Turn off HVAC, avoid running heavy dishwashers or EV chargers.</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 600, color: '#F59E0B' }}>Shoulder</TableCell>
+                <TableCell>06:00 - 18:00</TableCell>
+                <TableCell align="right">2.5 kW</TableCell>
+                <TableCell align="right">₹7.50 / kWh</TableCell>
+                <TableCell sx={{ fontSize: '0.78rem' }}>Standard usage. Ideal for running high-efficiency solar appliances.</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 600, color: '#10B981' }}>Off-Peak</TableCell>
+                <TableCell>22:00 - 06:00</TableCell>
+                <TableCell align="right">1.2 kW</TableCell>
+                <TableCell align="right" sx={{ color: '#10B981', fontWeight: 600 }}>₹4.50 / kWh</TableCell>
+                <TableCell sx={{ fontSize: '0.78rem' }}>Highly discounted. Program EV charging and laundry to start here.</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Grid>
+    </Grid>
+  );
+
+  const renderBreakdownDetails = () => (
+    <Grid container spacing={3}>
+      <Grid item xs={12} md={6}>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Visual percentage breakdown of electricity used by household appliances based on smart circuit readings.
+        </Typography>
+        <Box sx={{ width: '100%', height: 260, position: 'relative', border: '1px solid #F1F5F9', borderRadius: '8px', p: 1, bgcolor: '#FAFAFA' }}>
+          <ResponsiveContainer>
+            <PieChart>
+              <Pie
+                data={[
+                  { name: 'Air Conditioning', value: 42, color: '#E11D48' },
+                  { name: 'EV Charger', value: 22, color: '#3B82F6' },
+                  { name: 'Water Heater', value: 15, color: '#F59E0B' },
+                  { name: 'Kitchen & Fridge', value: 13, color: '#10B981' },
+                  { name: 'Lighting & TV', value: 8, color: '#6B7280' }
+                ]}
+                cx="50%"
+                cy="50%"
+                innerRadius={55}
+                outerRadius={85}
+                paddingAngle={4}
+                dataKey="value"
+              >
+                {[
+                  { name: 'Air Conditioning', value: 42, color: '#E11D48' },
+                  { name: 'EV Charger', value: 22, color: '#3B82F6' },
+                  { name: 'Water Heater', value: 15, color: '#F59E0B' },
+                  { name: 'Kitchen & Fridge', value: 13, color: '#10B981' },
+                  { name: 'Lighting & TV', value: 8, color: '#6B7280' }
+                ].map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </Box>
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <Typography variant="subtitle1" sx={{ fontWeight: 650, mb: 1.5 }}>
+          Appliance Load Audit
+        </Typography>
+        <TableContainer component={Paper} variant="outlined" sx={{ boxShadow: 'none' }}>
+          <Table size="small">
+            <TableHead sx={{ bgcolor: '#F8FAFC' }}>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 600 }}>Appliance</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 600 }}>Share</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 600 }}>Est. Cost</TableCell>
+                <TableCell align="center" sx={{ fontWeight: 600 }}>Rating</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {[
+                { name: 'Air Conditioning (HVAC)', pct: '42%', cost: '₹2,450', rating: '⭐⭐⭐⭐⭐' },
+                { name: 'EV Charging', pct: '22%', cost: '₹1,280', rating: '⭐⭐⭐⭐' },
+                { name: 'Water Heater (Geyser)', pct: '15%', cost: '₹870', rating: '⭐⭐⭐' },
+                { name: 'Refrigerator & Kitchen', pct: '13%', cost: '₹750', rating: '⭐⭐⭐⭐⭐' },
+                { name: 'Lighting, Fans & TV', pct: '8%', cost: '₹460', rating: '⭐⭐⭐⭐' }
+              ].map((row, idx) => (
+                <TableRow key={idx}>
+                  <TableCell sx={{ fontWeight: 550 }}>{row.name}</TableCell>
+                  <TableCell align="right">{row.pct}</TableCell>
+                  <TableCell align="right" sx={{ fontWeight: 600 }}>{row.cost}</TableCell>
+                  <TableCell align="center">{row.rating}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Grid>
+    </Grid>
+  );
+
+  const renderCarbonDetails = () => (
+    <Grid container spacing={3}>
+      <Grid item xs={12} md={4}>
+        <Box sx={{ border: '1px solid #F1F5F9', borderRadius: '8px', p: 3, textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', bgcolor: '#F0FDF4' }}>
+          <Typography variant="h3" sx={{ fontWeight: 800, color: '#10B981', mb: 1 }}>
+            35%
+          </Typography>
+          <Typography variant="subtitle1" sx={{ fontWeight: 650, color: '#065F46' }}>
+            Net Carbon Offset
+          </Typography>
+          <Typography variant="caption" color="text.secondary" sx={{ mt: 1 }}>
+            Your solar panels offset more than a third of your monthly energy grid consumption!
+          </Typography>
+        </Box>
+      </Grid>
+      <Grid item xs={12} md={8}>
+        <Typography variant="subtitle1" sx={{ fontWeight: 650, mb: 1.5 }}>
+          Monthly Sustainability Impact Report
+        </Typography>
+        <Stack spacing={2}>
+          <Box sx={{ p: 1.5, border: '1px solid #E2E8F0', borderRadius: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box>
+              <Typography variant="subtitle2" sx={{ fontWeight: 650 }}>CO₂ Carbon Emissions Avoided</Typography>
+              <Typography variant="caption" color="text.secondary">Equal to greenhouse gas emissions from gas cars</Typography>
+            </Box>
+            <Typography variant="body1" sx={{ fontWeight: 750, color: '#10B981' }}>245.5 kg CO₂</Typography>
+          </Box>
+          <Box sx={{ p: 1.5, border: '1px solid #E2E8F0', borderRadius: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box>
+              <Typography variant="subtitle2" sx={{ fontWeight: 650 }}>Trees Growing Equivalent</Typography>
+              <Typography variant="caption" color="text.secondary">Carbon absorbed by seedlings for a decade</Typography>
+            </Box>
+            <Typography variant="body1" sx={{ fontWeight: 750, color: '#10B981' }}>6.2 Trees</Typography>
+          </Box>
+          <Box sx={{ p: 1.5, border: '1px solid #E2E8F0', borderRadius: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box>
+              <Typography variant="subtitle2" sx={{ fontWeight: 650 }}>Coal Burned Avoided</Typography>
+              <Typography variant="caption" color="text.secondary">Fossil fuel burned to yield grid equivalents</Typography>
+            </Box>
+            <Typography variant="body1" sx={{ fontWeight: 750, color: '#10B981' }}>270 lbs</Typography>
+          </Box>
+        </Stack>
+      </Grid>
+    </Grid>
+  );
+
+  const renderActivityDetails = () => (
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Full system transaction audit. Log shows payments received, billing notifications, and connection state audits.
+        </Typography>
+        <TableContainer component={Paper} variant="outlined" sx={{ boxShadow: 'none' }}>
+          <Table size="small">
+            <TableHead sx={{ bgcolor: '#F8FAFC' }}>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 600 }}>Payer</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Payment Method</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Transaction Date</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 600 }}>Amount Paid</TableCell>
+                <TableCell align="center" sx={{ fontWeight: 600 }}>Status</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {recentPayments.map((row, idx) => (
+                <TableRow key={idx}>
+                  <TableCell sx={{ fontWeight: 550 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Avatar sx={{ width: 24, height: 24, fontSize: '0.65rem', bgcolor: 'primary.main' }}>
+                        {row.initials}
+                      </Avatar>
+                      <Typography variant="body2" sx={{ fontSize: '0.85rem', fontWeight: 600 }}>
+                        {row.name}
+                      </Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell>{row.action}</TableCell>
+                  <TableCell>{row.time}</TableCell>
+                  <TableCell align="right" sx={{ fontWeight: 600, color: '#059669' }}>{row.amount}</TableCell>
+                  <TableCell align="center">
+                    <Box sx={{ 
+                      display: 'inline-block',
+                      px: 1, py: 0.2, 
+                      borderRadius: '4px',
+                      fontSize: '0.7rem',
+                      fontWeight: 600,
+                      bgcolor: 'rgba(5, 150, 105, 0.05)',
+                      color: '#059669'
+                    }}>
+                      COMPLETED
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Grid>
+    </Grid>
+  );
+
   if (loading) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh" }}>
@@ -472,13 +866,20 @@ const Dashboard = () => {
             <Grid item xs={12} md={4}>
               <motion.div variants={itemVariants}>
                 <Card 
+                  onClick={() => setActiveDetail('usage')}
                   sx={{ 
                     p: 3, 
                     height: '420px', 
                     display: 'flex', 
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    boxShadow: 'none'
+                    boxShadow: 'none',
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 12px 20px rgba(0,0,0,0.05)'
+                    }
                   }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -572,13 +973,20 @@ const Dashboard = () => {
             <Grid item xs={12} md={4}>
               <motion.div variants={itemVariants}>
                 <Card 
+                   onClick={() => setActiveDetail('solar')}
                    sx={{ 
                      p: 3, 
                      height: '420px', 
                      display: 'flex', 
                      flexDirection: 'column',
                      justifyContent: 'space-between',
-                     boxShadow: 'none'
+                     boxShadow: 'none',
+                     cursor: 'pointer',
+                     transition: 'transform 0.2s, box-shadow 0.2s',
+                     '&:hover': {
+                       transform: 'translateY(-4px)',
+                       boxShadow: '0 12px 20px rgba(0,0,0,0.05)'
+                     }
                    }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -656,13 +1064,20 @@ const Dashboard = () => {
             <Grid item xs={12} md={4}>
               <motion.div variants={itemVariants}>
                 <Card 
+                  onClick={() => setActiveDetail('loadProfile')}
                   sx={{ 
                     p: 3, 
                     height: '420px', 
                     display: 'flex', 
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    boxShadow: 'none'
+                    boxShadow: 'none',
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 12px 20px rgba(0,0,0,0.05)'
+                    }
                   }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -751,13 +1166,20 @@ const Dashboard = () => {
             <Grid item xs={12} md={4}>
               <motion.div variants={itemVariants}>
                 <Card 
+                   onClick={() => setActiveDetail('breakdown')}
                    sx={{ 
                      p: 3, 
                      height: '380px', 
                      display: 'flex', 
                      flexDirection: 'column',
                      justifyContent: 'space-between',
-                     boxShadow: 'none'
+                     boxShadow: 'none',
+                     cursor: 'pointer',
+                     transition: 'transform 0.2s, box-shadow 0.2s',
+                     '&:hover': {
+                       transform: 'translateY(-4px)',
+                       boxShadow: '0 12px 20px rgba(0,0,0,0.05)'
+                     }
                    }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -845,13 +1267,20 @@ const Dashboard = () => {
             <Grid item xs={12} md={4}>
               <motion.div variants={itemVariants}>
                 <Card 
+                  onClick={() => setActiveDetail('carbon')}
                   sx={{ 
                     p: 3, 
                     height: '380px', 
                     display: 'flex', 
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    boxShadow: 'none'
+                    boxShadow: 'none',
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 12px 20px rgba(0,0,0,0.05)'
+                    }
                   }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -921,13 +1350,20 @@ const Dashboard = () => {
             <Grid item xs={12} md={4}>
               <motion.div variants={itemVariants}>
                 <Card 
+                  onClick={() => setActiveDetail('activity')}
                   sx={{ 
                     p: 3, 
                     height: '380px', 
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    boxShadow: 'none'
+                    boxShadow: 'none',
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 12px 20px rgba(0,0,0,0.05)'
+                    }
                   }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -995,6 +1431,51 @@ const Dashboard = () => {
           </Grid>
         </motion.div>
       </Container>
+
+      {/* POPUP DETAIL MODAL DIALOG */}
+      <Dialog 
+        open={Boolean(activeDetail)} 
+        onClose={() => setActiveDetail(null)}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: '12px',
+            p: 1
+          }
+        }}
+      >
+        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', pb: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography variant="h5" sx={{ fontWeight: 700, letterSpacing: '-0.02em', color: 'text.primary' }}>
+              {activeDetail === 'usage' && 'Usage Analytics & Forecast'}
+              {activeDetail === 'solar' && 'Solar & Net Metering Details'}
+              {activeDetail === 'loadProfile' && 'Daily Load Curve & Tariff Insights'}
+              {activeDetail === 'breakdown' && 'Appliance Energy Breakdown'}
+              {activeDetail === 'carbon' && 'Environmental Impact & Sustainability Report'}
+              {activeDetail === 'activity' && 'All Recent Transactions'}
+            </Typography>
+          </Box>
+          <IconButton onClick={() => setActiveDetail(null)} size="small" sx={{ color: 'text.secondary' }}>
+            <X size={20} />
+          </IconButton>
+        </DialogTitle>
+
+        <DialogContent dividers sx={{ borderTop: '1px solid #F1F5F9', borderBottom: '1px solid #F1F5F9', py: 3 }}>
+          {activeDetail === 'usage' && renderUsageDetails()}
+          {activeDetail === 'solar' && renderSolarDetails()}
+          {activeDetail === 'loadProfile' && renderLoadProfileDetails()}
+          {activeDetail === 'breakdown' && renderBreakdownDetails()}
+          {activeDetail === 'carbon' && renderCarbonDetails()}
+          {activeDetail === 'activity' && renderActivityDetails()}
+        </DialogContent>
+        
+        <Box sx={{ p: 2, display: 'flex', justifyContent: 'flex-end' }}>
+          <Button variant="contained" onClick={() => setActiveDetail(null)} sx={{ textTransform: 'none', fontWeight: 600 }}>
+            Close Details
+          </Button>
+        </Box>
+      </Dialog>
     </Box>
   );
 };
