@@ -140,7 +140,10 @@ const Dashboard = () => {
 
       // 2. Compute KPI Metrics
       const totalConsumption = displayReadings.reduce((sum, r) => sum + Number(r.unitsConsumed || 0), 0);
-      const totalRevenuePaid = displayPayments.reduce((sum, p) => sum + Number(p.amountPaid || 0), 0);
+      // Compute amount paid from filtered PAID bills (avoids broken nested payment→connection chain)
+      const totalRevenuePaid = displayBills
+        .filter(b => b.billStatus === "PAID")
+        .reduce((sum, b) => sum + Number(b.totalAmount || 0), 0);
       const pendingBillsCount = displayBills.filter(b => b.billStatus === "UNPAID").length;
 
       let displayConsumersLabel = "Active Consumers";
@@ -255,29 +258,50 @@ const Dashboard = () => {
       }
       setChartData(finalChartData);
 
-      // 4. Map Recent Activity (latest 5 payments)
-      const sortedPayments = displayPayments.slice(-5).reverse();
-      const mappedActivity = sortedPayments.map(p => {
-        const consumer = p.bill?.meterReading?.connection?.consumer;
-        const cName = consumer ? `${consumer.firstName} ${consumer.lastName}` : "Consumer User";
-        const initials = consumer ? `${consumer.firstName[0]}${consumer.lastName[0]}`.toUpperCase() : "CU";
-        
-        let displayTime = "Recent Transaction";
-        if (p.paymentDate) {
-          displayTime = p.paymentDate;
-        }
+      // 4. Map Recent Activity
+      // For consumers: use filtered PAID bills (payment chain not fully serialized)
+      // For admin: use payments list
+      let mappedActivity = [];
 
-        return {
-          name: cName,
-          action: `Bill Paid (${p.paymentMode || 'ONLINE'})`,
-          time: displayTime,
-          amount: `+₹${Number(p.amountPaid || 0).toLocaleString()}`,
-          positive: true,
-          initials: initials
-        };
-      });
+      if (userRole === "CONSUMER") {
+        const recentPaidBills = displayBills
+          .filter(b => b.billStatus === "PAID")
+          .slice(-5)
+          .reverse();
 
-      // If no payments exist in database, display simple defaults
+        mappedActivity = recentPaidBills.map(b => {
+          const consumer = b.meterReading?.connection?.consumer;
+          const cName = consumer ? `${consumer.firstName} ${consumer.lastName}` : (localStorage.getItem("consumerName") || "Consumer User");
+          const initials = cName.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
+          return {
+            name: cName,
+            action: `Bill Paid – ${b.billingMonth || b.billNumber}`,
+            time: b.billDate || "Recent",
+            amount: `+₹${Number(b.totalAmount || 0).toLocaleString()}`,
+            positive: true,
+            initials
+          };
+        });
+      } else {
+        const sortedPayments = displayPayments.slice(-5).reverse();
+        mappedActivity = sortedPayments.map(p => {
+          const consumer = p.bill?.meterReading?.connection?.consumer;
+          const cName = consumer ? `${consumer.firstName} ${consumer.lastName}` : "Consumer User";
+          const initials = consumer ? `${consumer.firstName[0]}${consumer.lastName[0]}`.toUpperCase() : "CU";
+          let displayTime = "Recent Transaction";
+          if (p.paymentDate) displayTime = p.paymentDate;
+          return {
+            name: cName,
+            action: `Bill Paid (${p.paymentMode || 'ONLINE'})`,
+            time: displayTime,
+            amount: `+₹${Number(p.amountPaid || 0).toLocaleString()}`,
+            positive: true,
+            initials
+          };
+        });
+      }
+
+      // If no activity exists in database, display simple defaults
       if (mappedActivity.length === 0) {
         setRecentPayments([
           { name: 'No Payments', action: 'No transactions found in database', time: '-', amount: '₹0.00', positive: false, initials: 'NP' }
