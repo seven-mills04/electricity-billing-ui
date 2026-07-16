@@ -468,8 +468,10 @@ const Dashboard = () => {
               />
             </Grid>
 
-            {/* BOTTOM ROW: Large chart on the left, Recent Activity on the right */}
-            <Grid item xs={12} lg={8}>
+            {/* LEFT COLUMN: Large analytical charts */}
+            <Grid item xs={12} lg={8} sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              
+              {/* Card 1: Usage Analytics & Forecast */}
               <motion.div variants={itemVariants}>
                 <Card 
                   sx={{ 
@@ -567,84 +569,8 @@ const Dashboard = () => {
                   </Box>
                 </Card>
               </motion.div>
-            </Grid>
 
-            {/* RECENT ACTIVITY */}
-            <Grid item xs={12} lg={4}>
-              <motion.div variants={itemVariants}>
-                <Card 
-                  sx={{ 
-                    p: 3, 
-                    height: '460px', 
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    boxShadow: 'none'
-                  }}
-                >
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                    <Box>
-                      <Typography variant="h6" sx={{ fontWeight: 650, color: 'text.primary', letterSpacing: '-0.015em' }}>
-                        Recent Activity
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        Recent payments processed
-                      </Typography>
-                    </Box>
-                  </Box>
-
-                  <Stack spacing={1.5} sx={{ flexGrow: 1, overflowY: 'auto', pr: 0.5, my: 1 }}>
-                    {recentPayments.map((item, idx) => (
-                      <Box 
-                        key={idx} 
-                        sx={{ 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          justifyContent: 'space-between',
-                          py: 1,
-                          borderBottom: idx !== recentPayments.length - 1 ? '1px solid #F1F5F9' : 'none'
-                        }}
-                      >
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                          <Avatar 
-                            sx={{ 
-                              bgcolor: 'rgba(37, 99, 235, 0.05)', 
-                              color: 'primary.main', 
-                              fontSize: '0.75rem', 
-                              fontWeight: 600,
-                              width: 36,
-                              height: 36,
-                            }}
-                          >
-                            {item.initials}
-                          </Avatar>
-                          <Box>
-                            <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
-                              {item.name}
-                            </Typography>
-                            <Typography variant="caption" color="text.secondary">
-                              {item.action} • {item.time}
-                            </Typography>
-                          </Box>
-                        </Box>
-                        <Typography 
-                          variant="body2" 
-                          sx={{ 
-                            fontWeight: 600, 
-                            color: item.positive ? '#059669' : 'text.primary' 
-                          }}
-                        >
-                          {item.amount}
-                        </Typography>
-                      </Box>
-                    ))}
-                  </Stack>
-                </Card>
-              </motion.div>
-            </Grid>
-
-            {/* SOLAR & NET METERING */}
-            <Grid item xs={12} lg={8}>
+              {/* Card 2: Solar & Net Metering */}
               <motion.div variants={itemVariants}>
                 <Card 
                    sx={{ 
