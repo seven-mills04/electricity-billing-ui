@@ -15,6 +15,7 @@ import StatsCard from "../components/StatsCard";
 import DataTable from "../components/DataTable";
 import ActionButtons from "../components/ActionButtons";
 import ConfirmDialog from "../components/ConfirmDialog";
+import DetailsDialog from "../components/DetailsDialog";
 
 import {
   getConnections,
@@ -31,6 +32,8 @@ const Connections = () => {
   const [selectedConnection, setSelectedConnection] = useState(null);
 
   const [snackbar, setSnackbar] = useState(false);
+  const [viewOpen, setViewOpen] = useState(false);
+  const [viewConnection, setViewConnection] = useState(null);
 
   useEffect(() => {
     fetchConnections();
@@ -47,6 +50,7 @@ const Connections = () => {
       status: connection.status,
       sanctionedLoad: connection.sanctionedLoad,
       phaseType: connection.phaseType,
+      rawConnection: connection,
     }));
 
     setRows(data);
@@ -109,7 +113,10 @@ const filteredRows = rows.filter((row) =>
     sortable: false,
     renderCell: (params) => (
       <ActionButtons
-        onView={() => {}}
+        onView={() => {
+          setViewConnection(params.row);
+          setViewOpen(true);
+        }}
         onEdit={() => {
         setSelectedConnection(params.row);
         setDialogOpen(true);
@@ -230,6 +237,41 @@ return (
         setSelectedConnection(null);
       }}
       onConfirm={handleDelete}
+    />
+
+    <DetailsDialog
+      open={viewOpen}
+      onClose={() => setViewOpen(false)}
+      title="Connection Specifications"
+      subtitle={`Connection ID: ${viewConnection?.connectionNumber || "-"}`}
+      sections={[
+        {
+          title: "Technical Properties",
+          fields: [
+            { label: "Connection Number", value: viewConnection?.connectionNumber, sm: 6 },
+            { label: "Meter Serial Number", value: viewConnection?.meterNumber, sm: 6 },
+            { label: "Connection Category", value: viewConnection?.connectionType, sm: 6 },
+            { label: "Load Capacity (kW)", value: viewConnection?.sanctionedLoad ? `${viewConnection.sanctionedLoad} kW` : "-", sm: 6 },
+            { label: "Phase Category", value: viewConnection?.phaseType, sm: 6 },
+            { label: "Connection Status", value: viewConnection?.status, sm: 6 }
+          ]
+        },
+        {
+          title: "Associated Consumer Details",
+          fields: [
+            { 
+              label: "Consumer Name", 
+              value: viewConnection?.rawConnection?.consumer 
+                ? `${viewConnection.rawConnection.consumer.firstName} ${viewConnection.rawConnection.consumer.lastName}` 
+                : "-", 
+              sm: 6 
+            },
+            { label: "Consumer Number", value: viewConnection?.rawConnection?.consumer?.consumerNumber, sm: 6 },
+            { label: "Email Address", value: viewConnection?.rawConnection?.consumer?.email, sm: 6 },
+            { label: "Phone Number", value: viewConnection?.rawConnection?.consumer?.phone, sm: 6 }
+          ]
+        }
+      ]}
     />
 
     <Snackbar

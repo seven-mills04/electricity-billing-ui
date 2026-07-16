@@ -15,6 +15,7 @@ import DataTable from "../components/DataTable";
 import ActionButtons from "../components/ActionButtons";
 import ConfirmDialog from "../components/ConfirmDialog";
 import MeterReadingDialog from "../components/MeterReadingDialog";
+import DetailsDialog from "../components/DetailsDialog";
 
 import {
   getMeterReadings,
@@ -35,6 +36,8 @@ const MeterReadings = () => {
     message: "",
     severity: "success",
   });
+  const [viewOpen, setViewOpen] = useState(false);
+  const [viewReading, setViewReading] = useState(null);
 
   useEffect(() => {
     fetchMeterReadings();
@@ -125,7 +128,10 @@ const MeterReadings = () => {
       sortable: false,
       renderCell: (params) => (
         <ActionButtons
-          onView={() => {}}
+          onView={() => {
+            setViewReading(params.row);
+            setViewOpen(true);
+          }}
           onEdit={() => {
             setSelectedReading(params.row);
             setDialogOpen(true);
@@ -229,6 +235,45 @@ const MeterReadings = () => {
           setSelectedReading(null);
         }}
         onConfirm={handleDelete}
+      />
+
+      <DetailsDialog
+        open={viewOpen}
+        onClose={() => setViewOpen(false)}
+        title="Meter Reading Statement"
+        subtitle={`Connection: ${viewReading?.connectionNumber || "-"}`}
+        sections={[
+          {
+            title: "Reading Specifics",
+            fields: [
+              { label: "Connection Number", value: viewReading?.connectionNumber, sm: 6 },
+              { label: "Meter Serial Number", value: viewReading?.connection?.meterNumber || "-", sm: 6 },
+              { label: "Reading Date", value: viewReading?.readingDate, sm: 6 },
+              { label: "Remarks / Status", value: viewReading?.remarks, sm: 6 }
+            ]
+          },
+          {
+            title: "Consumption Metrics",
+            fields: [
+              { label: "Previous Reading index", value: viewReading?.previousReading ? `${viewReading.previousReading} kWh` : "-", sm: 6 },
+              { label: "Current Reading index", value: viewReading?.currentReading ? `${viewReading.currentReading} kWh` : "-", sm: 6 },
+              { label: "Total Units Consumed", value: viewReading?.unitsConsumed ? `${viewReading.unitsConsumed} kWh` : "-", sm: 12 }
+            ]
+          },
+          {
+            title: "Registered Consumer",
+            fields: [
+              { 
+                label: "Consumer Name", 
+                value: viewReading?.connection?.consumer 
+                  ? `${viewReading.connection.consumer.firstName} ${viewReading.connection.consumer.lastName}` 
+                  : "-", 
+                sm: 6 
+              },
+              { label: "Consumer Number", value: viewReading?.connection?.consumer?.consumerNumber, sm: 6 }
+            ]
+          }
+        ]}
       />
 
       <Snackbar

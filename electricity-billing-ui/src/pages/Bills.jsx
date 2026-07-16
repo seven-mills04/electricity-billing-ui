@@ -36,7 +36,7 @@ const Bills = () => {
 
       console.log("Bills API:", response.data);
 
-      const data = response.data.map((bill) => ({
+      let data = response.data.map((bill) => ({
         id: bill.id,
         billNumber: bill.billNumber,
         billDate: bill.billDate,
@@ -45,7 +45,17 @@ const Bills = () => {
           bill.meterReading?.connection?.connectionNumber || "-",
         amount: bill.totalAmount,
         status: bill.billStatus,
+        rawBill: bill,
       }));
+
+      const role = localStorage.getItem("userRole");
+      if (role === "CONSUMER") {
+        const connStr = localStorage.getItem("consumerConnections");
+        const consumerConns = connStr ? JSON.parse(connStr) : [];
+        data = data.filter((bill) =>
+          consumerConns.includes(bill.connectionNumber)
+        );
+      }
 
       setRows(data);
     } catch (error) {

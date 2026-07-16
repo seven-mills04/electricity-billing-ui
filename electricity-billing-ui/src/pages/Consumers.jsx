@@ -16,6 +16,7 @@ import DataTable from "../components/DataTable";
 import ActionButtons from "../components/ActionButtons";
 import ConsumerDialog from "../components/ConsumerDialog";
 import ConfirmDialog from "../components/ConfirmDialog";
+import DetailsDialog from "../components/DetailsDialog";
 
 import {getConsumers,deleteConsumer,} from "../api/consumerApi";
 
@@ -26,6 +27,8 @@ const Consumers = () => {
   const [snackbar, setSnackbar] = useState(false);
   const [rows, setRows] = useState([]);
   const [selectedConsumer, setSelectedConsumer] = useState(null);
+  const [viewOpen, setViewOpen] = useState(false);
+  const [viewConsumer, setViewConsumer] = useState(null);
   useEffect(() => {
     fetchConsumers();
   }, []);
@@ -124,7 +127,10 @@ const Consumers = () => {
       sortable: false,
       renderCell: (params) => (
   <ActionButtons
-    onView={() => setSnackbar(true)}
+    onView={() => {
+      setViewConsumer(params.row);
+      setViewOpen(true);
+    }}
     onEdit={() => {
       setSelectedConsumer(params.row);
       setDialogOpen(true);
@@ -229,6 +235,36 @@ const Consumers = () => {
   }}
   onConfirm={handleDelete}
 />
+
+      <DetailsDialog
+        open={viewOpen}
+        onClose={() => setViewOpen(false)}
+        title="Consumer Record Details"
+        subtitle={`Consumer ID: ${viewConsumer?.consumerNumber || "-"}`}
+        sections={[
+          {
+            title: "Identity & Profile",
+            fields: [
+              { label: "Consumer Number", value: viewConsumer?.consumerNumber, sm: 6 },
+              { label: "Full Name", value: viewConsumer?.name, sm: 6 }
+            ]
+          },
+          {
+            title: "Contact Details",
+            fields: [
+              { label: "Email Address", value: viewConsumer?.email, sm: 6 },
+              { label: "Mobile Number", value: viewConsumer?.mobile, sm: 6 }
+            ]
+          },
+          {
+            title: "Account Status",
+            fields: [
+              { label: "Account State", value: viewConsumer?.status, sm: 6 },
+              { label: "City Region", value: viewConsumer?.city, sm: 6 }
+            ]
+          }
+        ]}
+      />
 
       <Snackbar
         open={snackbar}

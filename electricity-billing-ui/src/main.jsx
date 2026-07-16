@@ -1,20 +1,19 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import { ThemeProvider, CssBaseline } from "@mui/material";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App.jsx';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from './styles/theme';
 
-import "@fontsource/roboto";
-
-import App from "./App";
-import theme from "./styles/theme";
-
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <BrowserRouter>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        {/* CssBaseline takes care of the background color and fonts automatically */}
+        <CssBaseline />
         <App />
-      </BrowserRouter>
-    </ThemeProvider>
-  </React.StrictMode>
+      </ThemeProvider>
+    </BrowserRouter>
+  </React.StrictMode>,
 );

@@ -49,7 +49,7 @@ const Payments = () => {
     try {
       const response = await getPayments();
 
-      const data = response.data.map((payment) => ({
+      let data = response.data.map((payment) => ({
         id: payment.id,
         transactionId: payment.transactionId,
         paymentDate: payment.paymentDate,
@@ -58,7 +58,17 @@ const Payments = () => {
         billNumber: payment.bill.billNumber,
         connectionNumber:
           payment.bill.meterReading.connection.connectionNumber,
+        rawPayment: payment,
       }));
+
+      const role = localStorage.getItem("userRole");
+      if (role === "CONSUMER") {
+        const connStr = localStorage.getItem("consumerConnections");
+        const consumerConns = connStr ? JSON.parse(connStr) : [];
+        data = data.filter((payment) =>
+          consumerConns.includes(payment.connectionNumber)
+        );
+      }
 
       setRows(data);
     } catch (error) {
@@ -76,9 +86,18 @@ const Payments = () => {
     try {
       const response = await getBills();
 
-      const bills = response.data.filter(
+      let bills = response.data.filter(
         (bill) => bill.billStatus === "UNPAID"
       );
+
+      const role = localStorage.getItem("userRole");
+      if (role === "CONSUMER") {
+        const connStr = localStorage.getItem("consumerConnections");
+        const consumerConns = connStr ? JSON.parse(connStr) : [];
+        bills = bills.filter((b) =>
+          consumerConns.includes(b.meterReading?.connection?.connectionNumber)
+        );
+      }
 
       setUnpaidBills(bills);
     } catch (error) {
