@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Grid, Container, Typography, Box, Card, Button, Stack, Avatar, CircularProgress,
-  Dialog, DialogTitle, DialogContent, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
+  Dialog, DialogTitle, DialogContent, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grow
 } from '@mui/material';
 import { Zap, Receipt, Users, AlertCircle, Download, X } from 'lucide-react';
 import StatCard from '../components/StatsCard'; 
@@ -13,6 +13,11 @@ import { getMeterReadings } from '../api/meterReadingApi';
 import { getPayments } from '../api/paymentApi';
 import { getBills } from '../api/billApi';
 import { jsPDF } from 'jspdf';
+
+// Custom transition for MUI Dialog to grow/scale open organically
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Grow ref={ref} {...props} timeout={350} />;
+});
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -864,7 +869,12 @@ const Dashboard = () => {
 
             {/* SECOND ROW: 3 Large analytical charts side-by-side */}
             <Grid item xs={12} md={4}>
-              <motion.div variants={itemVariants}>
+              <motion.div 
+                variants={itemVariants}
+                whileHover={{ scale: 1.025, y: -6 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 18 }}
+              >
                 <Card 
                   onClick={() => setActiveDetail('usage')}
                   sx={{ 
@@ -874,12 +884,7 @@ const Dashboard = () => {
                     flexDirection: 'column',
                     justifyContent: 'space-between',
                     boxShadow: 'none',
-                    cursor: 'pointer',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
-                    '&:hover': {
-                      transform: 'translateY(-4px)',
-                      boxShadow: '0 12px 20px rgba(0,0,0,0.05)'
-                    }
+                    cursor: 'pointer'
                   }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -971,7 +976,12 @@ const Dashboard = () => {
             </Grid>
 
             <Grid item xs={12} md={4}>
-              <motion.div variants={itemVariants}>
+              <motion.div 
+                variants={itemVariants}
+                whileHover={{ scale: 1.025, y: -6 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 18 }}
+              >
                 <Card 
                    onClick={() => setActiveDetail('solar')}
                    sx={{ 
@@ -981,12 +991,7 @@ const Dashboard = () => {
                      flexDirection: 'column',
                      justifyContent: 'space-between',
                      boxShadow: 'none',
-                     cursor: 'pointer',
-                     transition: 'transform 0.2s, box-shadow 0.2s',
-                     '&:hover': {
-                       transform: 'translateY(-4px)',
-                       boxShadow: '0 12px 20px rgba(0,0,0,0.05)'
-                     }
+                     cursor: 'pointer'
                    }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -1062,7 +1067,12 @@ const Dashboard = () => {
             </Grid>
 
             <Grid item xs={12} md={4}>
-              <motion.div variants={itemVariants}>
+              <motion.div 
+                variants={itemVariants}
+                whileHover={{ scale: 1.025, y: -6 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 18 }}
+              >
                 <Card 
                   onClick={() => setActiveDetail('loadProfile')}
                   sx={{ 
@@ -1072,12 +1082,7 @@ const Dashboard = () => {
                     flexDirection: 'column',
                     justifyContent: 'space-between',
                     boxShadow: 'none',
-                    cursor: 'pointer',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
-                    '&:hover': {
-                      transform: 'translateY(-4px)',
-                      boxShadow: '0 12px 20px rgba(0,0,0,0.05)'
-                    }
+                    cursor: 'pointer'
                   }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -1164,7 +1169,12 @@ const Dashboard = () => {
 
             {/* THIRD ROW: Supporting breakdown, carbon footprint, recent activity */}
             <Grid item xs={12} md={4}>
-              <motion.div variants={itemVariants}>
+              <motion.div 
+                variants={itemVariants}
+                whileHover={{ scale: 1.025, y: -6 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 18 }}
+              >
                 <Card 
                    onClick={() => setActiveDetail('breakdown')}
                    sx={{ 
@@ -1174,12 +1184,7 @@ const Dashboard = () => {
                      flexDirection: 'column',
                      justifyContent: 'space-between',
                      boxShadow: 'none',
-                     cursor: 'pointer',
-                     transition: 'transform 0.2s, box-shadow 0.2s',
-                     '&:hover': {
-                       transform: 'translateY(-4px)',
-                       boxShadow: '0 12px 20px rgba(0,0,0,0.05)'
-                     }
+                     cursor: 'pointer'
                    }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -1265,7 +1270,12 @@ const Dashboard = () => {
             </Grid>
 
             <Grid item xs={12} md={4}>
-              <motion.div variants={itemVariants}>
+              <motion.div 
+                variants={itemVariants}
+                whileHover={{ scale: 1.025, y: -6 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 18 }}
+              >
                 <Card 
                   onClick={() => setActiveDetail('carbon')}
                   sx={{ 
@@ -1275,12 +1285,7 @@ const Dashboard = () => {
                     flexDirection: 'column',
                     justifyContent: 'space-between',
                     boxShadow: 'none',
-                    cursor: 'pointer',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
-                    '&:hover': {
-                      transform: 'translateY(-4px)',
-                      boxShadow: '0 12px 20px rgba(0,0,0,0.05)'
-                    }
+                    cursor: 'pointer'
                   }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -1348,7 +1353,12 @@ const Dashboard = () => {
             </Grid>
 
             <Grid item xs={12} md={4}>
-              <motion.div variants={itemVariants}>
+              <motion.div 
+                variants={itemVariants}
+                whileHover={{ scale: 1.025, y: -6 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 18 }}
+              >
                 <Card 
                   onClick={() => setActiveDetail('activity')}
                   sx={{ 
@@ -1358,12 +1368,7 @@ const Dashboard = () => {
                     flexDirection: 'column',
                     justifyContent: 'space-between',
                     boxShadow: 'none',
-                    cursor: 'pointer',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
-                    '&:hover': {
-                      transform: 'translateY(-4px)',
-                      boxShadow: '0 12px 20px rgba(0,0,0,0.05)'
-                    }
+                    cursor: 'pointer'
                   }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -1436,6 +1441,7 @@ const Dashboard = () => {
       <Dialog 
         open={Boolean(activeDetail)} 
         onClose={() => setActiveDetail(null)}
+        TransitionComponent={Transition}
         maxWidth="md"
         fullWidth
         PaperProps={{
@@ -1456,18 +1462,26 @@ const Dashboard = () => {
               {activeDetail === 'activity' && 'All Recent Transactions'}
             </Typography>
           </Box>
-          <IconButton onClick={() => setActiveDetail(null)} size="small" sx={{ color: 'text.secondary' }}>
-            <X size={20} />
-          </IconButton>
+          <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.9 }} style={{ display: 'inline-block' }}>
+            <IconButton onClick={() => setActiveDetail(null)} size="small" sx={{ color: 'text.secondary' }}>
+              <X size={20} />
+            </IconButton>
+          </motion.div>
         </DialogTitle>
 
         <DialogContent dividers sx={{ borderTop: '1px solid #F1F5F9', borderBottom: '1px solid #F1F5F9', py: 3 }}>
-          {activeDetail === 'usage' && renderUsageDetails()}
-          {activeDetail === 'solar' && renderSolarDetails()}
-          {activeDetail === 'loadProfile' && renderLoadProfileDetails()}
-          {activeDetail === 'breakdown' && renderBreakdownDetails()}
-          {activeDetail === 'carbon' && renderCarbonDetails()}
-          {activeDetail === 'activity' && renderActivityDetails()}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+          >
+            {activeDetail === 'usage' && renderUsageDetails()}
+            {activeDetail === 'solar' && renderSolarDetails()}
+            {activeDetail === 'loadProfile' && renderLoadProfileDetails()}
+            {activeDetail === 'breakdown' && renderBreakdownDetails()}
+            {activeDetail === 'carbon' && renderCarbonDetails()}
+            {activeDetail === 'activity' && renderActivityDetails()}
+          </motion.div>
         </DialogContent>
         
         <Box sx={{ p: 2, display: 'flex', justifyContent: 'flex-end' }}>
