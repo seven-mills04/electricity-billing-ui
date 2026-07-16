@@ -48,13 +48,21 @@ const Login = () => {
     }
   };
 
+  const hashPassword = async (password) => {
+    const msgBuffer = new TextEncoder().encode(password);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  };
+
   const handleAdminLogin = async (e) => {
     e.preventDefault();
     setError("");
     try {
+      const hashedPassword = await hashPassword(adminPass);
       const response = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/auth/login`, {
         username: adminUser,
-        password: adminPass
+        password: hashedPassword
       });
       const { token, role, consumerName } = response.data;
       localStorage.setItem("authToken", token);
@@ -86,9 +94,10 @@ const Login = () => {
     }
 
     try {
+      const hashedPassword = await hashPassword("password");
       const response = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/auth/login`, {
         username: target.consumerNumber.toLowerCase(),
-        password: "password"
+        password: hashedPassword
       });
       const { token, role, consumerId, consumerName } = response.data;
       
