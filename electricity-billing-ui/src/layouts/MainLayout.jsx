@@ -123,13 +123,14 @@ const MainLayout = () => {
         >
           <Box
             sx={{
-              bgcolor: "primary.main",
+              background: "linear-gradient(135deg, #2563EB 0%, #10B981 100%)",
               color: "#ffffff",
               p: 0.8,
               borderRadius: "8px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              boxShadow: "0 4px 12px rgba(37, 99, 235, 0.25)"
             }}
           >
             <Zap size={18} fill="currentColor" />
@@ -257,10 +258,11 @@ const MainLayout = () => {
           ml: {
             sm: `${drawerWidth}px`,
           },
-          bgcolor: "rgba(255, 255, 255, 0.8)",
-          backdropFilter: "blur(12px)",
-          borderBottom: "1px solid #E2E8F0",
+          bgcolor: "rgba(255, 255, 255, 0.85)",
+          backdropFilter: "blur(16px)",
+          borderBottom: "1px solid #F1F5F9",
           color: "#0F172A",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.015)"
         }}
       >
         <Toolbar sx={{ justifyContent: "space-between", px: { xs: 2.5, sm: 4 } }}>
@@ -287,9 +289,60 @@ const MainLayout = () => {
             >
               {getPageTitle()}
             </Typography>
+
+            {/* Glowing Grid Status Badge */}
+            <Box 
+              sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: 0.8, 
+                ml: 2, 
+                px: 1.2, 
+                py: 0.4, 
+                bgcolor: '#ECFDF5', 
+                border: '1px solid #A7F3D0', 
+                borderRadius: '12px',
+                display: { xs: 'none', md: 'flex' }
+              }}
+            >
+              <Box 
+                sx={{ 
+                  width: 6, 
+                  height: 6, 
+                  borderRadius: '50%', 
+                  bgcolor: '#10B981', 
+                  boxShadow: '0 0 8px #10B981',
+                  '@keyframes pulse': {
+                    '0%': { opacity: 0.4 },
+                    '50%': { opacity: 1 },
+                    '100%': { opacity: 0.4 }
+                  },
+                  animation: 'pulse 1.8s infinite'
+                }} 
+              />
+              <Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: '#065F46', letterSpacing: '-0.01em' }}>
+                GRID OPERATIONAL
+              </Typography>
+            </Box>
           </Stack>
 
           <Stack direction="row" spacing={2} alignItems="center">
+            {/* Dynamic Connection/Sector Info Pill */}
+            <Box 
+              sx={{ 
+                px: 1.5, 
+                py: 0.5, 
+                borderRadius: '8px', 
+                border: '1px solid #E2E8F0', 
+                bgcolor: '#F8FAFC',
+                display: { xs: 'none', sm: 'block' }
+              }}
+            >
+              <Typography sx={{ fontSize: '0.72rem', fontWeight: 600, color: 'text.secondary' }}>
+                {userRole === "ADMIN" ? "Scope: Sector-4 Grid" : `Account: ${localStorage.getItem("consumerNumber") || 'Default'}`}
+              </Typography>
+            </Box>
+
             <IconButton
               sx={{
                 border: "1px solid #E2E8F0",
@@ -330,12 +383,13 @@ const MainLayout = () => {
 
             <Avatar
               sx={{
-                bgcolor: "primary.main",
+                background: "linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%)",
                 color: "#ffffff",
                 fontWeight: 700,
                 fontSize: "0.8rem",
                 width: 36,
                 height: 36,
+                boxShadow: "0 2px 8px rgba(79, 70, 229, 0.25)"
               }}
             >
               {userInitials}
