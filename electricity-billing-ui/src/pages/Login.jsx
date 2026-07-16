@@ -17,7 +17,8 @@ import {
   Stack,
 } from "@mui/material";
 import { Zap } from "lucide-react";
-import { getConsumers } from "../api/consumerApi";
+import { getPublicConsumers } from "../api/consumerApi";
+import axios from "axios";
 
 const Login = () => {
   const [tab, setTab] = useState(0);
@@ -32,17 +33,14 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if already logged in
-    const role = localStorage.getItem("userRole");
-    if (role) {
-      navigate("/dashboard");
-    }
+    // Clear credentials on loading login page
+    localStorage.clear();
     fetchConsumers();
   }, [navigate]);
 
   const fetchConsumers = async () => {
     try {
-      const response = await getConsumers();
+      const response = await getPublicConsumers();
       const list = response.data.content || response.data || [];
       setConsumers(list);
     } catch (err) {
@@ -50,19 +48,25 @@ const Login = () => {
     }
   };
 
-  const handleAdminLogin = (e) => {
+  const handleAdminLogin = async (e) => {
     e.preventDefault();
     setError("");
-    if (adminUser === "admin" && adminPass === "admin") {
-      localStorage.setItem("userRole", "ADMIN");
-      localStorage.setItem("consumerName", "Admin User");
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/auth/login`, {
+        username: adminUser,
+        password: adminPass
+      });
+      const { token, role, consumerName } = response.data;
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("userRole", role);
+      localStorage.setItem("consumerName", consumerName);
       navigate("/dashboard");
-    } else {
-      setError("Invalid admin username or password.");
+    } catch (err) {
+      setError(err.response?.data || "Invalid admin username or password.");
     }
   };
 
-  const handleConsumerLogin = (e) => {
+  const handleConsumerLogin = async (e) => {
     e.preventDefault();
     setError("");
     
@@ -76,18 +80,34 @@ const Login = () => {
       );
     }
 
-    if (target) {
-      localStorage.setItem("userRole", "CONSUMER");
-      localStorage.setItem("consumerId", target.id);
-      localStorage.setItem("consumerNumber", target.consumerNumber);
-      localStorage.setItem("consumerName", `${target.firstName} ${target.lastName}`);
+    if (!target) {
+      setError("Consumer record not found. Please try again or choose from the dropdown.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/auth/login`, {
+        username: target.consumerNumber.toLowerCase(),
+        password: "password"
+      });
+      const { token, role, consumerId, consumerName } = response.data;
       
-      const connectionNumbers = (target.connections || []).map(c => c.connectionNumber);
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("userRole", role);
+      localStorage.setItem("consumerId", consumerId);
+      localStorage.setItem("consumerNumber", target.consumerNumber);
+      localStorage.setItem("consumerName", consumerName);
+      
+      const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+      const consumerRes = await axios.get(`${BASE_URL}/api/consumers/${consumerId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const connectionNumbers = (consumerRes.data.connections || []).map(c => c.connectionNumber);
       localStorage.setItem("consumerConnections", JSON.stringify(connectionNumbers));
       
       navigate("/dashboard");
-    } else {
-      setError("Consumer record not found. Please try again or choose from the dropdown.");
+    } catch (err) {
+      setError(err.response?.data || "Authentication failed for this consumer user.");
     }
   };
 

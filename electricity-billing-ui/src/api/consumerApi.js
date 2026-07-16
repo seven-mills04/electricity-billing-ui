@@ -7,6 +7,10 @@ export const getConsumers = () => {
     return axios.get(API_URL);
 };
 
+export const getPublicConsumers = () => {
+    return axios.get(`${BASE_URL}/api/auth/consumers`);
+};
+
 export const addConsumer = (consumer) => {
     return axios.post(API_URL, consumer);
 };
