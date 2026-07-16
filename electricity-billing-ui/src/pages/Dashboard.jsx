@@ -93,6 +93,8 @@ const Dashboard = () => {
   const [chartData, setChartData] = useState([]);
   const [recentPayments, setRecentPayments] = useState([]);
   const [allReadings, setAllReadings] = useState([]);
+  const [dailyLoadData, setDailyLoadData] = useState([]);
+  const [breakdownData, setBreakdownData] = useState([]);
 
   const userRole = localStorage.getItem("userRole") || "ADMIN";
   const connStr = localStorage.getItem("consumerConnections");
@@ -257,6 +259,50 @@ const Dashboard = () => {
         }
       }
       setChartData(finalChartData);
+
+      // 5. Compute user-specific Daily Load Profile from actual avg daily consumption
+      const avgDailyKwh = displayReadings.length > 0
+        ? displayReadings.reduce((s, r) => s + Number(r.unitsConsumed || 0), 0) / (displayReadings.length * 30)
+        : 8.0; // fallback ~8 kWh/day
+
+      // Distribute avg daily consumption across 24h using a realistic load curve shape
+      const loadShape = [
+        { hour: '00:00', factor: 0.06, type: 'Off-Peak' },
+        { hour: '03:00', factor: 0.04, type: 'Off-Peak' },
+        { hour: '06:00', factor: 0.07, type: 'Shoulder' },
+        { hour: '09:00', factor: 0.12, type: 'Shoulder' },
+        { hour: '12:00', factor: 0.14, type: 'Shoulder' },
+        { hour: '15:00', factor: 0.11, type: 'Shoulder' },
+        { hour: '18:00', factor: 0.22, type: 'Peak' },
+        { hour: '21:00', factor: 0.18, type: 'Peak' },
+        { hour: '24:00', factor: 0.06, type: 'Off-Peak' },
+      ];
+      const computedLoadData = loadShape.map(({ hour, factor, type }) => ({
+        hour,
+        load: parseFloat((avgDailyKwh * factor).toFixed(2)),
+        type
+      }));
+      setDailyLoadData(computedLoadData);
+
+      // 6. Compute user-specific Load Breakdown from avg monthly consumption
+      const avgMonthlyKwh = displayReadings.length > 0
+        ? displayReadings.reduce((s, r) => s + Number(r.unitsConsumed || 0), 0) / displayReadings.length
+        : 300;
+      const energyRate = 6.50; // ₹/kWh (matches backend)
+      // Percentage splits based on typical Indian residential profile
+      const applianceSplits = [
+        { name: 'Air Conditioning', pct: 38, color: '#E11D48' },
+        { name: 'Water Heater', pct: 18, color: '#F59E0B' },
+        { name: 'Kitchen & Fridge', pct: 16, color: '#10B981' },
+        { name: 'Lighting & Fans', pct: 14, color: '#6B7280' },
+        { name: 'TV & Electronics', pct: 14, color: '#3B82F6' },
+      ];
+      const computedBreakdown = applianceSplits.map(a => ({
+        ...a,
+        value: a.pct,
+        estCost: `₹${Math.round(avgMonthlyKwh * (a.pct / 100) * energyRate).toLocaleString()}`
+      }));
+      setBreakdownData(computedBreakdown);
 
       // 4. Map Recent Activity
       // For consumers: use filtered PAID bills (payment chain not fully serialized)
@@ -569,17 +615,7 @@ const Dashboard = () => {
         <Box sx={{ width: '100%', height: 300, p: 1, border: '1px solid #F1F5F9', borderRadius: '8px', bgcolor: '#FAFAFA' }}>
           <ResponsiveContainer>
             <AreaChart 
-              data={[
-                { hour: '00:00', load: 1.2, type: 'Off-Peak', rate: '₹4.50/kWh' },
-                { hour: '03:00', load: 0.8, type: 'Off-Peak', rate: '₹4.50/kWh' },
-                { hour: '06:00', load: 1.5, type: 'Shoulder', rate: '₹7.50/kWh' },
-                { hour: '09:00', load: 2.8, type: 'Shoulder', rate: '₹7.50/kWh' },
-                { hour: '12:00', load: 3.2, type: 'Shoulder', rate: '₹7.50/kWh' },
-                { hour: '15:00', load: 2.5, type: 'Shoulder', rate: '₹7.50/kWh' },
-                { hour: '18:00', load: 5.4, type: 'Peak', rate: '₹11.20/kWh' },
-                { hour: '21:00', load: 4.8, type: 'Peak', rate: '₹11.20/kWh' },
-                { hour: '24:00', load: 1.6, type: 'Off-Peak', rate: '₹4.50/kWh' }
-              ]} 
+              data={dailyLoadData} 
               margin={{ top: 10, right: 10, left: -10, bottom: 0 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
@@ -610,21 +646,21 @@ const Dashboard = () => {
               <TableRow>
                 <TableCell sx={{ fontWeight: 600, color: '#E11D48' }}>Peak</TableCell>
                 <TableCell>18:00 - 22:00</TableCell>
-                <TableCell align="right">5.1 kW</TableCell>
+                <TableCell align="right">{dailyLoadData.find(d => d.type === 'Peak')?.load ?? '—'} kW</TableCell>
                 <TableCell align="right" sx={{ color: '#E11D48', fontWeight: 600 }}>₹11.20 / kWh</TableCell>
                 <TableCell sx={{ fontSize: '0.78rem' }}>Turn off HVAC, avoid running heavy dishwashers or EV chargers.</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell sx={{ fontWeight: 600, color: '#F59E0B' }}>Shoulder</TableCell>
                 <TableCell>06:00 - 18:00</TableCell>
-                <TableCell align="right">2.5 kW</TableCell>
+                <TableCell align="right">{dailyLoadData.find(d => d.type === 'Shoulder')?.load ?? '—'} kW</TableCell>
                 <TableCell align="right">₹7.50 / kWh</TableCell>
                 <TableCell sx={{ fontSize: '0.78rem' }}>Standard usage. Ideal for running high-efficiency solar appliances.</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell sx={{ fontWeight: 600, color: '#10B981' }}>Off-Peak</TableCell>
                 <TableCell>22:00 - 06:00</TableCell>
-                <TableCell align="right">1.2 kW</TableCell>
+                <TableCell align="right">{dailyLoadData.find(d => d.type === 'Off-Peak')?.load ?? '—'} kW</TableCell>
                 <TableCell align="right" sx={{ color: '#10B981', fontWeight: 600 }}>₹4.50 / kWh</TableCell>
                 <TableCell sx={{ fontSize: '0.78rem' }}>Highly discounted. Program EV charging and laundry to start here.</TableCell>
               </TableRow>
@@ -645,13 +681,7 @@ const Dashboard = () => {
           <ResponsiveContainer>
             <PieChart>
               <Pie
-                data={[
-                  { name: 'Air Conditioning', value: 42, color: '#E11D48' },
-                  { name: 'EV Charger', value: 22, color: '#3B82F6' },
-                  { name: 'Water Heater', value: 15, color: '#F59E0B' },
-                  { name: 'Kitchen & Fridge', value: 13, color: '#10B981' },
-                  { name: 'Lighting & TV', value: 8, color: '#6B7280' }
-                ]}
+                data={breakdownData}
                 cx="50%"
                 cy="50%"
                 innerRadius={55}
@@ -659,13 +689,7 @@ const Dashboard = () => {
                 paddingAngle={4}
                 dataKey="value"
               >
-                {[
-                  { name: 'Air Conditioning', value: 42, color: '#E11D48' },
-                  { name: 'EV Charger', value: 22, color: '#3B82F6' },
-                  { name: 'Water Heater', value: 15, color: '#F59E0B' },
-                  { name: 'Kitchen & Fridge', value: 13, color: '#10B981' },
-                  { name: 'Lighting & TV', value: 8, color: '#6B7280' }
-                ].map((entry, index) => (
+                {breakdownData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
@@ -689,18 +713,12 @@ const Dashboard = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {[
-                { name: 'Air Conditioning (HVAC)', pct: '42%', cost: '₹2,450', rating: '⭐⭐⭐⭐⭐' },
-                { name: 'EV Charging', pct: '22%', cost: '₹1,280', rating: '⭐⭐⭐⭐' },
-                { name: 'Water Heater (Geyser)', pct: '15%', cost: '₹870', rating: '⭐⭐⭐' },
-                { name: 'Refrigerator & Kitchen', pct: '13%', cost: '₹750', rating: '⭐⭐⭐⭐⭐' },
-                { name: 'Lighting, Fans & TV', pct: '8%', cost: '₹460', rating: '⭐⭐⭐⭐' }
-              ].map((row, idx) => (
+              {breakdownData.map((row, idx) => (
                 <TableRow key={idx}>
                   <TableCell sx={{ fontWeight: 550 }}>{row.name}</TableCell>
-                  <TableCell align="right">{row.pct}</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 600 }}>{row.cost}</TableCell>
-                  <TableCell align="center">{row.rating}</TableCell>
+                  <TableCell align="right">{row.pct}%</TableCell>
+                  <TableCell align="right" sx={{ fontWeight: 600 }}>{row.estCost}</TableCell>
+                  <TableCell align="center">{'⭐'.repeat(5 - Math.floor(idx * 0.8))}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -1126,17 +1144,7 @@ const Dashboard = () => {
                   <Box sx={{ width: '100%', height: 290, mt: 1 }}>
                     <ResponsiveContainer>
                       <AreaChart 
-                        data={[
-                          { hour: '00:00', load: 1.2, type: 'Off-Peak' },
-                          { hour: '03:00', load: 0.8, type: 'Off-Peak' },
-                          { hour: '06:00', load: 1.5, type: 'Shoulder' },
-                          { hour: '09:00', load: 2.8, type: 'Shoulder' },
-                          { hour: '12:00', load: 3.2, type: 'Shoulder' },
-                          { hour: '15:00', load: 2.5, type: 'Shoulder' },
-                          { hour: '18:00', load: 5.4, type: 'Peak' },
-                          { hour: '21:00', load: 4.8, type: 'Peak' },
-                          { hour: '24:00', load: 1.6, type: 'Off-Peak' }
-                        ]} 
+                        data={dailyLoadData} 
                         margin={{ top: 10, right: 5, left: -20, bottom: 0 }}
                       >
                         <defs>
@@ -1231,13 +1239,7 @@ const Dashboard = () => {
                       <ResponsiveContainer>
                         <PieChart>
                           <Pie
-                            data={[
-                              { name: 'Air Conditioning', value: 42, color: '#E11D48' },
-                              { name: 'EV Charger', value: 22, color: '#3B82F6' },
-                              { name: 'Water Heater', value: 15, color: '#F59E0B' },
-                              { name: 'Kitchen & Fridge', value: 13, color: '#10B981' },
-                              { name: 'Lighting & TV', value: 8, color: '#6B7280' }
-                            ]}
+                            data={breakdownData}
                             cx="50%"
                             cy="50%"
                             innerRadius={45}
@@ -1245,13 +1247,7 @@ const Dashboard = () => {
                             paddingAngle={4}
                             dataKey="value"
                           >
-                            {[
-                              { name: 'Air Conditioning', value: 42, color: '#E11D48' },
-                              { name: 'EV Charger', value: 22, color: '#3B82F6' },
-                              { name: 'Water Heater', value: 15, color: '#F59E0B' },
-                              { name: 'Kitchen & Fridge', value: 13, color: '#10B981' },
-                              { name: 'Lighting & TV', value: 8, color: '#6B7280' }
-                            ].map((entry, index) => (
+                            {breakdownData.map((entry, index) => (
                               <Cell key={`cell-${index}`} fill={entry.color} />
                             ))}
                           </Pie>
@@ -1262,28 +1258,21 @@ const Dashboard = () => {
                         </PieChart>
                       </ResponsiveContainer>
                       <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center' }}>
-                        <Typography variant="h6" sx={{ fontWeight: 750, color: 'text.primary', m: 0 }}>
-                          42%
-                        </Typography>
-                        <Typography sx={{ fontSize: '0.58rem', color: 'text.secondary', fontWeight: 600 }}>
-                          AC Share
-                        </Typography>
-                      </Box>
+                         <Typography variant="h6" sx={{ fontWeight: 750, color: 'text.primary', m: 0 }}>
+                           {breakdownData[0]?.pct || 38}%
+                         </Typography>
+                         <Typography sx={{ fontSize: '0.58rem', color: 'text.secondary', fontWeight: 600 }}>
+                           {breakdownData[0]?.name?.split(' ')[0] || 'AC'} Share
+                         </Typography>
+                       </Box>
                     </Box>
 
-                    {/* Custom Legend */}
                     <Grid container spacing={1} sx={{ mt: 1, px: 1 }}>
-                      {[
-                        { name: 'AC (HVAC)', pct: '42%', color: '#E11D48' },
-                        { name: 'EV Charger', pct: '22%', color: '#3B82F6' },
-                        { name: 'Water Heater', pct: '15%', color: '#F59E0B' },
-                        { name: 'Kitchen & Fridge', pct: '13%', color: '#10B981' },
-                        { name: 'Lighting & TV', pct: '8%', color: '#6B7280' }
-                      ].map((item, idx) => (
+                      {breakdownData.map((item, idx) => (
                         <Grid item xs={6} key={idx} sx={{ display: 'flex', alignItems: 'center', gap: 0.8 }}>
                           <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: item.color }} />
                           <Typography sx={{ fontSize: '0.68rem', color: 'text.primary', fontWeight: 550, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                            {item.name} ({item.pct})
+                            {item.name} ({item.pct}%)
                           </Typography>
                         </Grid>
                       ))}
