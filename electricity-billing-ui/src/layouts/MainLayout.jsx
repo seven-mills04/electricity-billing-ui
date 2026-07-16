@@ -29,6 +29,7 @@ import {
   Users,
   CreditCard,
 } from "lucide-react";
+import { motion } from "framer-motion";
 
 const drawerWidth = 260;
 
@@ -146,48 +147,60 @@ const MainLayout = () => {
 
           return (
             <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
-              <ListItemButton
-                onClick={() => {
-                  navigate(item.path);
-                  setMobileOpen(false);
-                }}
-                sx={{
-                  borderRadius: "8px",
-                  py: 1,
-                  bgcolor: isActive ? "rgba(79, 70, 229, 0.06)" : "transparent",
-                  color: isActive ? "primary.main" : "text.secondary",
-                  "&:hover": {
-                    bgcolor: isActive
-                      ? "rgba(79, 70, 229, 0.09)"
-                      : "rgba(0, 0, 0, 0.02)",
-                    color: isActive ? "primary.main" : "text.primary",
-                    "& .MuiListItemIcon-root": {
-                      color: "primary.main",
-                    },
-                  },
-                  transition: "all 0.15s ease",
-                }}
+              <motion.div
+                style={{ width: "100%" }}
+                whileHover={{ x: 6 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 450, damping: 25 }}
               >
-                <ListItemIcon
-                  className="MuiListItemIcon-root"
+                <ListItemButton
+                  onClick={() => {
+                    navigate(item.path);
+                    setMobileOpen(false);
+                  }}
                   sx={{
+                    borderRadius: "8px",
+                    py: 1,
+                    px: 2,
+                    bgcolor: isActive ? "rgba(79, 70, 229, 0.05)" : "transparent",
                     color: isActive ? "primary.main" : "text.secondary",
-                    minWidth: 38,
-                    transition: "color 0.15s ease",
+                    borderLeft: isActive ? "3px solid #2563EB" : "3px solid transparent",
+                    borderTopLeftRadius: isActive ? "0px" : "8px",
+                    borderBottomLeftRadius: isActive ? "0px" : "8px",
+                    "&:hover": {
+                      bgcolor: isActive
+                        ? "rgba(79, 70, 229, 0.08)"
+                        : "rgba(0, 0, 0, 0.02)",
+                      color: isActive ? "primary.main" : "text.primary",
+                      "& .MuiListItemIcon-root": {
+                        color: "primary.main",
+                        transform: "scale(1.08)"
+                      },
+                    },
+                    transition: "all 0.2s ease",
                   }}
                 >
-                  {item.icon}
-                </ListItemIcon>
+                  <ListItemIcon
+                    className="MuiListItemIcon-root"
+                    sx={{
+                      color: isActive ? "primary.main" : "text.secondary",
+                      minWidth: 38,
+                      transition: "all 0.2s ease",
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
 
-                <ListItemText
-                  primary={item.text}
-                  primaryTypographyProps={{
-                    fontWeight: isActive ? 600 : 500,
-                    fontSize: "0.875rem",
-                    letterSpacing: "-0.01em",
-                  }}
-                />
-              </ListItemButton>
+                  <ListItemText
+                    primary={item.text}
+                    primaryTypographyProps={{
+                      fontWeight: isActive ? 600 : 500,
+                      fontSize: "0.875rem",
+                      letterSpacing: "-0.01em",
+                    }}
+                  />
+                </ListItemButton>
+              </motion.div>
             </ListItem>
           );
         })}
@@ -200,35 +213,47 @@ const MainLayout = () => {
           borderTop: "1px solid #E2E8F0",
         }}
       >
-        <ListItemButton
-          sx={{
-            borderRadius: "8px",
-            color: "error.main",
-            py: 1,
-            "&:hover": {
-              bgcolor: "rgba(220, 38, 38, 0.04)",
-            },
-            transition: "all 0.15s ease",
-          }}
-          onClick={handleSignOut}
+        <motion.div
+          whileHover={{ x: 6 }}
+          whileTap={{ scale: 0.98 }}
+          transition={{ type: "spring", stiffness: 450, damping: 25 }}
         >
-          <ListItemIcon
+          <ListItemButton
             sx={{
+              borderRadius: "8px",
               color: "error.main",
-              minWidth: 38,
+              py: 1,
+              px: 2,
+              "&:hover": {
+                bgcolor: "rgba(220, 38, 38, 0.04)",
+                "& .MuiListItemIcon-root": {
+                  transform: "scale(1.08)"
+                }
+              },
+              transition: "all 0.15s ease",
             }}
+            onClick={handleSignOut}
           >
-            <LogOut size={18} />
-          </ListItemIcon>
+            <ListItemIcon
+              className="MuiListItemIcon-root"
+              sx={{
+                color: "error.main",
+                minWidth: 38,
+                transition: "all 0.2s ease",
+              }}
+            >
+              <LogOut size={18} />
+            </ListItemIcon>
 
-          <ListItemText
-            primary="Sign Out"
-            primaryTypographyProps={{
-              fontWeight: 600,
-              fontSize: "0.875rem",
-            }}
-          />
-        </ListItemButton>
+            <ListItemText
+              primary="Sign Out"
+              primaryTypographyProps={{
+                fontWeight: 600,
+                fontSize: "0.875rem",
+              }}
+            />
+          </ListItemButton>
+        </motion.div>
       </Box>
     </Box>
   );
