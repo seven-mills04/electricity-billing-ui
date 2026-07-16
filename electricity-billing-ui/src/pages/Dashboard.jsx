@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Container, Typography, Box, Card, Button, Stack, Avatar, CircularProgress } from '@mui/material';
-import { Zap, Receipt, Users, AlertCircle, Plus, Download } from 'lucide-react';
+import { Zap, Receipt, Users, AlertCircle, Download } from 'lucide-react';
 import StatCard from '../components/StatsCard'; 
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, ComposedChart, Bar, Line, PieChart, Pie, Cell } from 'recharts';
 import { motion } from 'framer-motion';
@@ -468,36 +468,34 @@ const Dashboard = () => {
               />
             </Grid>
 
-            {/* LEFT COLUMN: Large analytical charts */}
-            <Grid item xs={12} lg={8} sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              
-              {/* Card 1: Usage Analytics & Forecast */}
+            {/* SECOND ROW: 3 Large analytical charts side-by-side */}
+            <Grid item xs={12} md={4}>
               <motion.div variants={itemVariants}>
                 <Card 
                   sx={{ 
                     p: 3, 
-                    height: '460px', 
+                    height: '420px', 
                     display: 'flex', 
                     flexDirection: 'column',
                     justifyContent: 'space-between',
                     boxShadow: 'none'
                   }}
                 >
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
                     <Box>
                       <Typography variant="h6" sx={{ fontWeight: 650, color: 'text.primary', letterSpacing: '-0.015em' }}>
                         Usage Analytics
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
-                        Consumption data over the last six months
+                        Consumption data & forecast
                       </Typography>
                     </Box>
                     <Box sx={{ px: 1.2, py: 0.4, bgcolor: 'rgba(79, 70, 229, 0.05)', color: 'primary.main', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 600 }}>
-                      Live kWh readings
+                      Live kWh
                     </Box>
                   </Box>
  
-                  <Box sx={{ width: '100%', height: 330, mt: 1 }}>
+                  <Box sx={{ width: '100%', height: 290, mt: 1 }}>
                     <ResponsiveContainer>
                       <AreaChart data={chartData} margin={{ top: 10, right: 5, left: -20, bottom: 0 }}>
                         <defs>
@@ -569,26 +567,27 @@ const Dashboard = () => {
                   </Box>
                 </Card>
               </motion.div>
+            </Grid>
 
-              {/* Card 2: Solar & Net Metering */}
+            <Grid item xs={12} md={4}>
               <motion.div variants={itemVariants}>
                 <Card 
                    sx={{ 
                      p: 3, 
-                     height: '460px', 
+                     height: '420px', 
                      display: 'flex', 
                      flexDirection: 'column',
                      justifyContent: 'space-between',
                      boxShadow: 'none'
                    }}
                 >
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
                     <Box>
                       <Typography variant="h6" sx={{ fontWeight: 650, color: 'text.primary', letterSpacing: '-0.015em' }}>
                         Solar & Net Metering
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
-                        Solar generation vs grid import & net usage
+                        Solar vs grid import & net usage
                       </Typography>
                     </Box>
                     <Box sx={{ px: 1.2, py: 0.4, bgcolor: 'rgba(16, 185, 129, 0.05)', color: '#10B981', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 600 }}>
@@ -596,7 +595,7 @@ const Dashboard = () => {
                     </Box>
                   </Box>
   
-                  <Box sx={{ width: '100%', height: 330, mt: 1 }}>
+                  <Box sx={{ width: '100%', height: 290, mt: 1 }}>
                     <ResponsiveContainer>
                       <ComposedChart data={chartData} margin={{ top: 10, right: 5, left: -20, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
@@ -644,9 +643,9 @@ const Dashboard = () => {
                             return null;
                           }}
                         />
-                        <Bar dataKey="grid" fill="#4F46E5" barSize={15} radius={[4, 4, 0, 0]} name="Grid Import" />
-                        <Bar dataKey="solar" fill="#10B981" barSize={15} radius={[4, 4, 0, 0]} name="Solar Generation" />
-                        <Line type="monotone" dataKey="net" stroke="#F59E0B" strokeWidth={3} name="Net Consumed" dot={{ r: 4 }} />
+                        <Bar dataKey="grid" fill="#4F46E5" barSize={12} radius={[4, 4, 0, 0]} name="Grid Import" />
+                        <Bar dataKey="solar" fill="#10B981" barSize={12} radius={[4, 4, 0, 0]} name="Solar Generation" />
+                        <Line type="monotone" dataKey="net" stroke="#F59E0B" strokeWidth={2.5} name="Net Consumed" dot={{ r: 3 }} />
                       </ComposedChart>
                     </ResponsiveContainer>
                   </Box>
@@ -654,20 +653,114 @@ const Dashboard = () => {
               </motion.div>
             </Grid>
 
-            {/* APPLIANCE LOAD BREAKDOWN */}
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} md={4}>
+              <motion.div variants={itemVariants}>
+                <Card 
+                  sx={{ 
+                    p: 3, 
+                    height: '420px', 
+                    display: 'flex', 
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    boxShadow: 'none'
+                  }}
+                >
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                    <Box>
+                      <Typography variant="h6" sx={{ fontWeight: 650, color: 'text.primary', letterSpacing: '-0.015em' }}>
+                        Daily Load Profile
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Hourly load curve (24-hour cycle)
+                      </Typography>
+                    </Box>
+                    <Box sx={{ px: 1.2, py: 0.4, bgcolor: 'rgba(245, 158, 11, 0.05)', color: '#F59E0B', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 600 }}>
+                      Peak 18:00 - 22:00
+                    </Box>
+                  </Box>
+ 
+                  <Box sx={{ width: '100%', height: 290, mt: 1 }}>
+                    <ResponsiveContainer>
+                      <AreaChart 
+                        data={[
+                          { hour: '00:00', load: 1.2, type: 'Off-Peak' },
+                          { hour: '03:00', load: 0.8, type: 'Off-Peak' },
+                          { hour: '06:00', load: 1.5, type: 'Shoulder' },
+                          { hour: '09:00', load: 2.8, type: 'Shoulder' },
+                          { hour: '12:00', load: 3.2, type: 'Shoulder' },
+                          { hour: '15:00', load: 2.5, type: 'Shoulder' },
+                          { hour: '18:00', load: 5.4, type: 'Peak' },
+                          { hour: '21:00', load: 4.8, type: 'Peak' },
+                          { hour: '24:00', load: 1.6, type: 'Off-Peak' }
+                        ]} 
+                        margin={{ top: 10, right: 5, left: -20, bottom: 0 }}
+                      >
+                        <defs>
+                          <linearGradient id="colorLoad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.08}/>
+                            <stop offset="95%" stopColor="#F59E0B" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                        <XAxis 
+                          dataKey="hour" 
+                          axisLine={false} 
+                          tickLine={false} 
+                          tick={{ fill: '#64748B', fontSize: 11, fontWeight: 500 }} 
+                        />
+                        <YAxis 
+                          axisLine={false} 
+                          tickLine={false} 
+                          tick={{ fill: '#64748B', fontSize: 11, fontWeight: 500 }} 
+                        />
+                        <Tooltip 
+                          content={({ active, payload, label }) => {
+                            if (active && payload && payload.length) {
+                              const data = payload[0].payload;
+                              return (
+                                <Box sx={{ bgcolor: '#ffffff', border: '1px solid #E2E8F0', borderRadius: '6px', p: 1.5, boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)' }}>
+                                  <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 0.5, fontWeight: 600 }}>
+                                    Time: {label} ({data.type})
+                                  </Typography>
+                                  <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 600 }}>
+                                    Average Demand: <span style={{ color: '#F59E0B' }}>{data.load} kW</span>
+                                  </Typography>
+                                </Box>
+                              );
+                            }
+                            return null;
+                          }}
+                        />
+                        <Area 
+                          type="monotone" 
+                          dataKey="load" 
+                          stroke="#F59E0B" 
+                          strokeWidth={2.5} 
+                          fillOpacity={1} 
+                          fill="url(#colorLoad)" 
+                          name="Demand (kW)" 
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </Box>
+                </Card>
+              </motion.div>
+            </Grid>
+
+            {/* THIRD ROW: Supporting breakdown, carbon footprint, recent activity */}
+            <Grid item xs={12} md={4}>
               <motion.div variants={itemVariants}>
                 <Card 
                    sx={{ 
                      p: 3, 
-                     height: '460px', 
+                     height: '380px', 
                      display: 'flex', 
                      flexDirection: 'column',
                      justifyContent: 'space-between',
                      boxShadow: 'none'
                    }}
                 >
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
                     <Box>
                       <Typography variant="h6" sx={{ fontWeight: 650, color: 'text.primary', letterSpacing: '-0.015em' }}>
                         Load Breakdown
@@ -681,9 +774,9 @@ const Dashboard = () => {
                     </Box>
                   </Box>
 
-                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: 330 }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: 290 }}>
                     {/* Donut Chart */}
-                    <Box sx={{ width: '100%', height: 180, position: 'relative' }}>
+                    <Box sx={{ width: '100%', height: 160, position: 'relative' }}>
                       <ResponsiveContainer>
                         <PieChart>
                           <Pie
@@ -696,8 +789,8 @@ const Dashboard = () => {
                             ]}
                             cx="50%"
                             cy="50%"
-                            innerRadius={55}
-                            outerRadius={75}
+                            innerRadius={45}
+                            outerRadius={65}
                             paddingAngle={4}
                             dataKey="value"
                           >
@@ -718,17 +811,17 @@ const Dashboard = () => {
                         </PieChart>
                       </ResponsiveContainer>
                       <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center' }}>
-                        <Typography variant="h5" sx={{ fontWeight: 750, color: 'text.primary', m: 0 }}>
+                        <Typography variant="h6" sx={{ fontWeight: 750, color: 'text.primary', m: 0 }}>
                           42%
                         </Typography>
-                        <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600 }}>
-                          HVAC Peak
+                        <Typography sx={{ fontSize: '0.58rem', color: 'text.secondary', fontWeight: 600 }}>
+                          AC Share
                         </Typography>
                       </Box>
                     </Box>
 
                     {/* Custom Legend */}
-                    <Grid container spacing={1} sx={{ mt: 2, px: 1 }}>
+                    <Grid container spacing={1} sx={{ mt: 1, px: 1 }}>
                       {[
                         { name: 'AC (HVAC)', pct: '42%', color: '#E11D48' },
                         { name: 'EV Charger', pct: '22%', color: '#3B82F6' },
@@ -736,15 +829,165 @@ const Dashboard = () => {
                         { name: 'Kitchen & Fridge', pct: '13%', color: '#10B981' },
                         { name: 'Lighting & TV', pct: '8%', color: '#6B7280' }
                       ].map((item, idx) => (
-                        <Grid item xs={6} key={idx} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: item.color }} />
-                          <Typography sx={{ fontSize: '0.72rem', color: 'text.primary', fontWeight: 550, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                        <Grid item xs={6} key={idx} sx={{ display: 'flex', alignItems: 'center', gap: 0.8 }}>
+                          <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: item.color }} />
+                          <Typography sx={{ fontSize: '0.68rem', color: 'text.primary', fontWeight: 550, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
                             {item.name} ({item.pct})
                           </Typography>
                         </Grid>
                       ))}
                     </Grid>
                   </Box>
+                </Card>
+              </motion.div>
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+              <motion.div variants={itemVariants}>
+                <Card 
+                  sx={{ 
+                    p: 3, 
+                    height: '380px', 
+                    display: 'flex', 
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    boxShadow: 'none'
+                  }}
+                >
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                    <Box>
+                      <Typography variant="h6" sx={{ fontWeight: 650, color: 'text.primary', letterSpacing: '-0.015em' }}>
+                        Carbon Footprint
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Impact & solar offset
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 32, height: 32, borderRadius: '50%', bgcolor: 'rgba(16, 185, 129, 0.08)', color: '#10B981' }}>
+                      <Zap size={18} />
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 3, my: 1, height: 180 }}>
+                    {/* Visual Offset Gauge using Circular SVG */}
+                    <Box sx={{ position: 'relative', width: 90, height: 90, flexShrink: 0 }}>
+                      <svg width="90" height="90" viewBox="0 0 36 36">
+                        {/* Background track */}
+                        <circle cx="18" cy="18" r="15.915" fill="none" stroke="#E2E8F0" strokeWidth="2.5" />
+                        {/* Green progress (e.g. 35% offset) */}
+                        <circle cx="18" cy="18" r="15.915" fill="none" stroke="#10B981" strokeWidth="2.8" 
+                          strokeDasharray="35 100" strokeDashoffset="25" strokeLinecap="round" />
+                      </svg>
+                      <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 750, color: '#10B981', m: 0 }}>
+                          35%
+                        </Typography>
+                        <Typography sx={{ fontSize: '0.62rem', color: 'text.secondary', fontWeight: 600 }}>
+                          Offset
+                        </Typography>
+                      </Box>
+                    </Box>
+
+                    {/* Key Metrics list */}
+                    <Box sx={{ flexGrow: 1 }}>
+                      <Box sx={{ mb: 1.5 }}>
+                        <Typography sx={{ fontSize: '0.68rem', color: 'text.secondary', display: 'block', fontWeight: 600 }}>
+                          CO₂ PREVENTED
+                        </Typography>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 750, color: '#10B981', lineHeight: 1.2 }}>
+                          245.5 kg
+                        </Typography>
+                      </Box>
+                      <Box>
+                        <Typography sx={{ fontSize: '0.68rem', color: 'text.secondary', display: 'block', fontWeight: 600 }}>
+                          NET EMISSIONS
+                        </Typography>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 750, color: 'text.primary', lineHeight: 1.2 }}>
+                          456.2 kg
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ p: 1.2, bgcolor: '#F8FAFC', borderRadius: '6px', border: '1px solid #F1F5F9' }}>
+                    <Typography sx={{ fontSize: '0.7rem', color: 'text.secondary', textAlign: 'center', fontWeight: 550 }}>
+                      🌱 Your solar panels saved <strong>6.2 trees</strong> this month!
+                    </Typography>
+                  </Box>
+                </Card>
+              </motion.div>
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+              <motion.div variants={itemVariants}>
+                <Card 
+                  sx={{ 
+                    p: 3, 
+                    height: '380px', 
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    boxShadow: 'none'
+                  }}
+                >
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                    <Box>
+                      <Typography variant="h6" sx={{ fontWeight: 650, color: 'text.primary', letterSpacing: '-0.015em' }}>
+                        Recent Activity
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Recent payments processed
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  <Stack spacing={1} sx={{ flexGrow: 1, overflowY: 'auto', pr: 0.5, my: 1, maxHeight: '280px' }}>
+                    {recentPayments.slice(0, 4).map((item, idx) => (
+                      <Box 
+                        key={idx} 
+                        sx={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'space-between',
+                          py: 0.8,
+                          borderBottom: idx !== recentPayments.length - 1 ? '1px solid #F1F5F9' : 'none'
+                        }}
+                      >
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.2 }}>
+                          <Avatar 
+                            sx={{ 
+                              bgcolor: 'rgba(37, 99, 235, 0.05)', 
+                              color: 'primary.main', 
+                              fontSize: '0.7rem', 
+                              fontWeight: 600,
+                              width: 32,
+                              height: 32,
+                            }}
+                          >
+                            {item.initials}
+                          </Avatar>
+                          <Box>
+                            <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary', fontSize: '0.8rem' }}>
+                              {item.name}
+                            </Typography>
+                            <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.68rem' }}>
+                              {item.action} • {item.time}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Typography 
+                          variant="body2" 
+                          sx={{ 
+                            fontWeight: 600, 
+                            color: item.positive ? '#059669' : 'text.primary',
+                            fontSize: '0.8rem'
+                          }}
+                        >
+                          {item.amount}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Stack>
                 </Card>
               </motion.div>
             </Grid>
