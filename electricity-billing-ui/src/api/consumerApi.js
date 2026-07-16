@@ -1,24 +1,21 @@
-import axios from "axios";
-
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
-const API_URL = `${BASE_URL}/api/consumers`;
+import api from "./axiosConfig";
 
 export const getConsumers = () => {
-    return axios.get(API_URL);
+    return api.get("/api/consumers");
 };
 
 export const getPublicConsumers = () => {
-    return axios.get(`${BASE_URL}/api/auth/consumers`);
+    return api.get("/api/auth/consumers");
 };
 
 export const addConsumer = (consumer) => {
-    return axios.post(API_URL, consumer);
+    return api.post("/api/consumers", consumer);
 };
 
 export const updateConsumer = (id, consumer) => {
-    return axios.put(`${API_URL}/${id}`, consumer);
+    return api.put(`/api/consumers/${id}`, consumer);
 };
 
 export const deleteConsumer = (id) => {
-    return axios.delete(`${API_URL}/${id}`);
+    return api.delete(`/api/consumers/${id}`);
 };
