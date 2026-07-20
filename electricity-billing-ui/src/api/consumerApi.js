@@ -1,7 +1,7 @@
 import api from "./axiosConfig";
 
 export const getConsumers = () => {
-    return api.get("/api/consumers");
+    return api.get("/api/consumers?size=100");
 };
 
 export const getPublicConsumers = () => {

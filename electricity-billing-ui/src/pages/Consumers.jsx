@@ -39,7 +39,9 @@ const Consumers = () => {
 
       console.log("Response:", response.data);
 
-      const consumers = response.data.content || [];
+      const consumers = Array.isArray(response.data)
+        ? response.data
+        : (response.data.content || response.data || []);
 
       const data = consumers.map((consumer) => ({
   id: consumer.id,
