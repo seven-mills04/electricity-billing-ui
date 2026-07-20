@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { Zap } from "lucide-react";
 import { getPublicConsumers } from "../api/consumerApi";
+import api from "../api/axiosConfig";
 import axios from "axios";
 
 const Login = () => {
@@ -59,10 +60,9 @@ const Login = () => {
     e.preventDefault();
     setError("");
     try {
-      const hashedPassword = await hashPassword(adminPass);
-      const response = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/auth/login`, {
+      const response = await api.post("/api/auth/login", {
         username: adminUser,
-        password: hashedPassword
+        password: adminPass
       });
       const { token, role, consumerName } = response.data;
       localStorage.setItem("authToken", token);
@@ -94,10 +94,9 @@ const Login = () => {
     }
 
     try {
-      const hashedPassword = await hashPassword("password");
-      const response = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/auth/login`, {
+      const response = await api.post("/api/auth/login", {
         username: target.consumerNumber.toLowerCase(),
-        password: hashedPassword
+        password: "password"
       });
       const { token, role, consumerId, consumerName } = response.data;
       
@@ -107,10 +106,7 @@ const Login = () => {
       localStorage.setItem("consumerNumber", target.consumerNumber);
       localStorage.setItem("consumerName", consumerName);
       
-      const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
-      const consumerRes = await axios.get(`${BASE_URL}/api/consumers/${consumerId}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const consumerRes = await api.get(`/api/consumers/${consumerId}`);
       const connectionNumbers = (consumerRes.data.connections || []).map(c => c.connectionNumber);
       localStorage.setItem("consumerConnections", JSON.stringify(connectionNumbers));
       
