@@ -1,294 +1,250 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
-  Typography,
-  TextField,
   Button,
-  Grid,
+  Chip,
+  IconButton,
+  Tooltip,
   Snackbar,
   Alert,
+  Stack,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-
-import StatsCard from "../components/StatsCard";
-import DataTable from "../components/DataTable";
-import ActionButtons from "../components/ActionButtons";
-import ConfirmDialog from "../components/ConfirmDialog";
+import { Plus, Eye, Edit, Trash2, Gauge, Activity } from "lucide-react";
+import EnterpriseTable from "../components/EnterpriseTable";
 import MeterReadingDialog from "../components/MeterReadingDialog";
 import DetailsDialog from "../components/DetailsDialog";
-
-import {
-  getMeterReadings,
-  deleteMeterReading,
-} from "../api/meterReadingApi";
+import ConfirmDialog from "../components/ConfirmDialog";
+import { getMeterReadings, deleteMeterReading } from "../api/meterReadingApi";
 
 const MeterReadings = () => {
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [editingReading, setEditingReading] = useState(null);
 
-  const [selectedReading, setSelectedReading] = useState(null);
-
-  const [snackbar, setSnackbar] = useState({
-    open: false,
-    message: "",
-    severity: "success",
-  });
   const [viewOpen, setViewOpen] = useState(false);
   const [viewReading, setViewReading] = useState(null);
+
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
 
   useEffect(() => {
     fetchMeterReadings();
   }, []);
 
   const fetchMeterReadings = async () => {
+    setLoading(true);
     try {
       const response = await getMeterReadings();
+      const readings = Array.isArray(response.data) ? response.data : [];
 
-      const data = response.data.map((reading) => ({
-        id: reading.id,
-        connection: reading.connection,
-        connectionNumber:
-          reading.connection?.connectionNumber || "-",
-        readingDate: reading.readingDate,
-        previousReading: reading.previousReading,
-        currentReading: reading.currentReading,
-        unitsConsumed: reading.unitsConsumed,
-        remarks: reading.remarks,
+      const mapped = readings.map((mr) => ({
+        id: mr.id,
+        connectionNumber: mr.connection?.connectionNumber || "-",
+        readingDate: mr.readingDate,
+        previousReading: mr.previousReading,
+        currentReading: mr.currentReading,
+        unitsConsumed: mr.unitsConsumed,
+        remarks: mr.remarks,
+        rawReading: mr,
       }));
 
-      setRows(data);
-    } catch (error) {
-      console.error(error);
+      setRows(mapped);
+    } catch (err) {
+      console.error(err);
+      setSnackbar({ open: true, message: "Failed to fetch meter readings", severity: "error" });
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleDelete = async () => {
+  const handleOpenAdd = () => {
+    setEditingReading(null);
+    setDialogOpen(true);
+  };
+
+  const handleOpenEdit = (reading) => {
+    setEditingReading(reading.rawReading || reading);
+    setDialogOpen(true);
+  };
+
+  const handleOpenView = (reading) => {
+    setViewReading(reading.rawReading || reading);
+    setViewOpen(true);
+  };
+
+  const handleOpenDelete = (id) => {
+    setDeletingId(id);
+    setDeleteOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
     try {
-      await deleteMeterReading(selectedReading.id);
-
+      await deleteMeterReading(deletingId);
+      setSnackbar({ open: true, message: "Meter Reading Deleted Successfully", severity: "success" });
+      fetchMeterReadings();
+    } catch (err) {
+      console.error(err);
+      setSnackbar({ open: true, message: "Failed to delete meter reading", severity: "error" });
+    } finally {
       setDeleteOpen(false);
-      setSelectedReading(null);
-
-      await fetchMeterReadings();
-
-      setSnackbar({
-        open: true,
-        message: "Meter Reading deleted successfully",
-        severity: "success",
-      });
-    } catch (error) {
-      console.error(error);
     }
   };
 
-  const filteredRows = rows.filter((row) =>
-    row.connectionNumber
-      ?.toLowerCase()
-      .includes(search.toLowerCase())
+  const filteredRows = rows.filter(
+    (r) =>
+      r.connectionNumber.toLowerCase().includes(search.toLowerCase()) ||
+      r.readingDate.includes(search) ||
+      (r.remarks && r.remarks.toLowerCase().includes(search.toLowerCase()))
   );
 
   const columns = [
     {
       field: "connectionNumber",
-      headerName: "Connection",
-      flex: 1,
+      headerName: "Connection No.",
+      renderCell: (row) => (
+        <Chip
+          icon={<Gauge size={12} />}
+          label={row.connectionNumber}
+          size="small"
+          sx={{ bgcolor: "rgba(2, 132, 199, 0.1)", color: "#0284C7", fontWeight: 700 }}
+        />
+      ),
     },
-    {
-      field: "readingDate",
-      headerName: "Reading Date",
-      flex: 1,
-    },
+    { field: "readingDate", headerName: "Reading Date" },
     {
       field: "previousReading",
-      headerName: "Previous Reading",
-      flex: 1,
+      headerName: "Prev Reading (kWh)",
+      renderCell: (row) => (
+        <span style={{ color: "#64748B" }}>{row.previousReading} kWh</span>
+      ),
     },
     {
       field: "currentReading",
-      headerName: "Current Reading",
-      flex: 1,
+      headerName: "Current Reading (kWh)",
+      renderCell: (row) => (
+        <span style={{ fontWeight: 600, color: "#0F172A" }}>{row.currentReading} kWh</span>
+      ),
     },
     {
       field: "unitsConsumed",
       headerName: "Units Consumed",
-      flex: 1,
+      renderCell: (row) => (
+        <Chip
+          label={`${row.unitsConsumed} kWh`}
+          size="small"
+          sx={{ bgcolor: "rgba(16, 185, 129, 0.1)", color: "#059669", fontWeight: 800 }}
+        />
+      ),
     },
-    {
-      field: "remarks",
-      headerName: "Remarks",
-      flex: 1,
-    },
+    { field: "remarks", headerName: "Remarks" },
     {
       field: "actions",
       headerName: "Actions",
-      flex: 1,
-      sortable: false,
-      renderCell: (params) => (
-        <ActionButtons
-          onView={() => {
-            setViewReading(params.row);
-            setViewOpen(true);
-          }}
-          onEdit={() => {
-            setSelectedReading(params.row);
-            setDialogOpen(true);
-          }}
-          onDelete={() => {
-            setSelectedReading(params.row);
-            setDeleteOpen(true);
-          }}
-        />
+      align: "right",
+      renderCell: (row) => (
+        <Stack direction="row" spacing={1} justifyContent="flex-end">
+          <Tooltip title="View Reading Details">
+            <IconButton size="small" onClick={() => handleOpenView(row)} sx={{ color: "#0284C7" }}>
+              <Eye size={16} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Edit Reading">
+            <IconButton size="small" onClick={() => handleOpenEdit(row)} sx={{ color: "#F59E0B" }}>
+              <Edit size={16} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete Reading">
+            <IconButton size="small" onClick={() => handleOpenDelete(row.id)} sx={{ color: "#EF4444" }}>
+              <Trash2 size={16} />
+            </IconButton>
+          </Tooltip>
+        </Stack>
       ),
     },
   ];
 
   return (
-    <Box sx={{ p: 3, pt: 8 }}>
-      <Typography variant="h4" fontWeight="bold">
-        Meter Readings
-      </Typography>
-
-      <Typography color="text.secondary" mb={4}>
-        Manage electricity meter readings
-      </Typography>
-
-      <Grid container spacing={2} mb={3}>
-        <Grid item xs={12} md={4}>
-          <StatsCard
-            title="Total Readings"
-            value={rows.length}
-            color="#1976d2"
-          />
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <StatsCard
-            title="Total Units"
-            value={rows.reduce(
-              (sum, row) => sum + Number(row.unitsConsumed || 0),
-              0
-            )}
-            color="#2e7d32"
-          />
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <StatsCard
-            title="Connections"
-            value={
-              new Set(rows.map((r) => r.connectionNumber)).size
-            }
-            color="#ed6c02"
-          />
-        </Grid>
-      </Grid>
-
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        mb={3}
-      >
-        <TextField
-          size="small"
-          label="Search Connection"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => {
-            setSelectedReading(null);
-            setDialogOpen(true);
-          }}
-        >
-          Add Reading
-        </Button>
-      </Box>
-
-      <DataTable
-        rows={filteredRows}
+    <Box>
+      <EnterpriseTable
+        title="Meter Reading Ledger"
+        subtitle="Audit recorded monthly kWh consumption logs and delta calculations"
         columns={columns}
+        rows={filteredRows}
+        searchQuery={search}
+        onSearchChange={setSearch}
+        searchPlaceholder="Search connection number, reading date..."
+        page={page}
+        rowsPerPage={rowsPerPage}
+        onPageChange={(e, newPage) => setPage(newPage)}
+        onRowsPerPageChange={(e) => {
+          setRowsPerPage(parseInt(e.target.value, 10));
+          setPage(0);
+        }}
+        actions={
+          <Button
+            variant="contained"
+            startIcon={<Plus size={18} />}
+            onClick={handleOpenAdd}
+            sx={{
+              background: "linear-gradient(135deg, #0284C7 0%, #10B981 100%)",
+              boxShadow: "0 4px 14px rgba(2, 132, 199, 0.4)",
+            }}
+          >
+            Record Meter Reading
+          </Button>
+        }
       />
 
+      {/* Add / Edit Reading Dialog */}
       <MeterReadingDialog
         open={dialogOpen}
-        reading={selectedReading}
-        onClose={() => {
-          setDialogOpen(false);
-          setSelectedReading(null);
-          fetchMeterReadings();
-        }}
+        handleClose={() => setDialogOpen(false)}
+        meterReading={editingReading}
         onSuccess={fetchMeterReadings}
       />
 
-      <ConfirmDialog
-        open={deleteOpen}
-        title="Delete Meter Reading"
-        message="Are you sure you want to delete this reading?"
-        onClose={() => {
-          setDeleteOpen(false);
-          setSelectedReading(null);
-        }}
-        onConfirm={handleDelete}
-      />
-
+      {/* View Reading Details Dialog */}
       <DetailsDialog
         open={viewOpen}
-        onClose={() => setViewOpen(false)}
-        title="Meter Reading Statement"
-        subtitle={`Connection: ${viewReading?.connectionNumber || "-"}`}
-        sections={[
-          {
-            title: "Reading Specifics",
-            fields: [
-              { label: "Connection Number", value: viewReading?.connectionNumber, sm: 6 },
-              { label: "Meter Serial Number", value: viewReading?.connection?.meterNumber || "-", sm: 6 },
-              { label: "Reading Date", value: viewReading?.readingDate, sm: 6 },
-              { label: "Remarks / Status", value: viewReading?.remarks, sm: 6 }
-            ]
-          },
-          {
-            title: "Consumption Metrics",
-            fields: [
-              { label: "Previous Reading index", value: viewReading?.previousReading ? `${viewReading.previousReading} kWh` : "-", sm: 6 },
-              { label: "Current Reading index", value: viewReading?.currentReading ? `${viewReading.currentReading} kWh` : "-", sm: 6 },
-              { label: "Total Units Consumed", value: viewReading?.unitsConsumed ? `${viewReading.unitsConsumed} kWh` : "-", sm: 12 }
-            ]
-          },
-          {
-            title: "Registered Consumer",
-            fields: [
-              { 
-                label: "Consumer Name", 
-                value: viewReading?.connection?.consumer 
-                  ? `${viewReading.connection.consumer.firstName} ${viewReading.connection.consumer.lastName}` 
-                  : "-", 
-                sm: 6 
-              },
-              { label: "Consumer Number", value: viewReading?.connection?.consumer?.consumerNumber, sm: 6 }
-            ]
-          }
-        ]}
+        handleClose={() => setViewOpen(false)}
+        title="Meter Reading Audit Details"
+        data={
+          viewReading
+            ? {
+                "Connection Number": viewReading.connection?.connectionNumber || "N/A",
+                "Reading Date": viewReading.readingDate,
+                "Previous Reading": `${viewReading.previousReading} kWh`,
+                "Current Reading": `${viewReading.currentReading} kWh`,
+                "Total Units Consumed": `${viewReading.unitsConsumed} kWh`,
+                "Operator Remarks": viewReading.remarks || "None",
+              }
+            : null
+        }
+      />
+
+      {/* Confirm Delete Dialog */}
+      <ConfirmDialog
+        open={deleteOpen}
+        handleClose={() => setDeleteOpen(false)}
+        handleConfirm={handleConfirmDelete}
+        title="Delete Meter Reading Log?"
+        description="Are you sure you want to delete this meter reading? The associated invoice calculation will be removed."
       />
 
       <Snackbar
         open={snackbar.open}
-        autoHideDuration={2500}
-        onClose={() =>
-          setSnackbar((prev) => ({
-            ...prev,
-            open: false,
-          }))
-        }
+        autoHideDuration={4000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
       >
-        <Alert severity={snackbar.severity}>
-          {snackbar.message}
-        </Alert>
+        <Alert severity={snackbar.severity}>{snackbar.message}</Alert>
       </Snackbar>
     </Box>
   );

@@ -1,281 +1,243 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
-  Typography,
-  TextField,
   Button,
-  Grid,
+  Chip,
+  IconButton,
+  Tooltip,
   Snackbar,
   Alert,
-  Chip,
+  Stack,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-
-import StatsCard from "../components/StatsCard";
-import DataTable from "../components/DataTable";
-import ActionButtons from "../components/ActionButtons";
+import { Plus, Eye, Edit, Trash2, Users } from "lucide-react";
+import EnterpriseTable from "../components/EnterpriseTable";
 import ConsumerDialog from "../components/ConsumerDialog";
-import ConfirmDialog from "../components/ConfirmDialog";
 import DetailsDialog from "../components/DetailsDialog";
-
-import {getConsumers,deleteConsumer,} from "../api/consumerApi";
+import ConfirmDialog from "../components/ConfirmDialog";
+import { getConsumers, deleteConsumer } from "../api/consumerApi";
 
 const Consumers = () => {
-  const [search, setSearch] = useState("");
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [snackbar, setSnackbar] = useState(false);
   const [rows, setRows] = useState([]);
-  const [selectedConsumer, setSelectedConsumer] = useState(null);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editingConsumer, setEditingConsumer] = useState(null);
+
   const [viewOpen, setViewOpen] = useState(false);
   const [viewConsumer, setViewConsumer] = useState(null);
+
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
+
   useEffect(() => {
     fetchConsumers();
   }, []);
 
   const fetchConsumers = async () => {
+    setLoading(true);
     try {
       const response = await getConsumers();
-
-      console.log("Response:", response.data);
-
       const consumers = Array.isArray(response.data)
         ? response.data
-        : (response.data.content || response.data || []);
+        : response.data.content || [];
 
-      const data = consumers.map((consumer) => ({
-  id: consumer.id,
-  consumerNumber: consumer.consumerNumber,
-  firstName: consumer.firstName,
-  lastName: consumer.lastName,
-  email: consumer.email,
-  phone: consumer.phone,
+      const mapped = consumers.map((c) => ({
+        id: c.id,
+        consumerNumber: c.consumerNumber,
+        firstName: c.firstName,
+        lastName: c.lastName,
+        name: `${c.firstName} ${c.lastName}`,
+        email: c.email,
+        phone: c.phone,
+        hasActiveConn: c.connections?.some((conn) => conn.status === "ACTIVE"),
+        rawConsumer: c,
+      }));
 
-  name: `${consumer.firstName} ${consumer.lastName}`,
-  city: "-",
-  mobile: consumer.phone,
- status: consumer.connections?.some(
-  (connection) => connection.status === "ACTIVE"
-)
-  ? "Active"
-  : "Inactive",
-}));
-
-      setRows(data);
-    } catch (error) {
-      console.error("Error fetching consumers:", error);
+      setRows(mapped);
+    } catch (err) {
+      console.error(err);
+      setSnackbar({ open: true, message: "Failed to fetch consumers", severity: "error" });
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleDelete = async () => {
-  try {
-    if (!selectedConsumer) return;
+  const handleOpenAdd = () => {
+    setEditingConsumer(null);
+    setDialogOpen(true);
+  };
 
-    await deleteConsumer(selectedConsumer.id);
+  const handleOpenEdit = (consumer) => {
+    setEditingConsumer(consumer.rawConsumer || consumer);
+    setDialogOpen(true);
+  };
 
-    setDeleteOpen(false);
-    setSelectedConsumer(null);
+  const handleOpenView = (consumer) => {
+    setViewConsumer(consumer.rawConsumer || consumer);
+    setViewOpen(true);
+  };
 
-    fetchConsumers();
+  const handleOpenDelete = (id) => {
+    setDeletingId(id);
+    setDeleteOpen(true);
+  };
 
-    setSnackbar(true);
+  const handleConfirmDelete = async () => {
+    try {
+      await deleteConsumer(deletingId);
+      setSnackbar({ open: true, message: "Consumer Deleted Successfully", severity: "success" });
+      fetchConsumers();
+    } catch (err) {
+      console.error(err);
+      setSnackbar({ open: true, message: "Failed to delete consumer", severity: "error" });
+    } finally {
+      setDeleteOpen(false);
+    }
+  };
 
-  } catch (error) {
-    console.error(error);
-    alert("Failed to delete consumer");
-  }
-};
-
-  const filteredRows = rows.filter((row) =>
-    row.name.toLowerCase().includes(search.toLowerCase())
+  const filteredRows = rows.filter((r) =>
+    r.name.toLowerCase().includes(search.toLowerCase()) ||
+    r.consumerNumber.toLowerCase().includes(search.toLowerCase()) ||
+    r.phone.includes(search) ||
+    r.email.toLowerCase().includes(search.toLowerCase())
   );
 
   const columns = [
     {
       field: "consumerNumber",
-      headerName: "Consumer No",
-      flex: 1,
+      headerName: "Consumer No.",
+      renderCell: (row) => (
+        <Chip
+          label={row.consumerNumber}
+          size="small"
+          sx={{ bgcolor: "rgba(2, 132, 199, 0.1)", color: "#0284C7", fontWeight: 700 }}
+        />
+      ),
     },
-    {
-      field: "name",
-      headerName: "Name",
-      flex: 1,
-    },
-    {
-      field: "city",
-      headerName: "City",
-      flex: 1,
-    },
-    {
-      field: "mobile",
-      headerName: "Mobile",
-      flex: 1,
-    },
+    { field: "name", headerName: "Full Name" },
+    { field: "email", headerName: "Email Address" },
+    { field: "phone", headerName: "Phone Number" },
     {
       field: "status",
-      headerName: "Status",
-      flex: 1,
-      renderCell: (params) => (
+      headerName: "Grid Status",
+      renderCell: (row) => (
         <Chip
-          label={params.value}
-          color={params.value === "Active" ? "success" : "error"}
+          size="small"
+          label={row.hasActiveConn ? "Active Connection" : "Registered"}
+          sx={{
+            bgcolor: row.hasActiveConn ? "rgba(16, 185, 129, 0.1)" : "rgba(100, 116, 139, 0.1)",
+            color: row.hasActiveConn ? "#059669" : "#64748B",
+            fontWeight: 700,
+          }}
         />
       ),
     },
     {
       field: "actions",
       headerName: "Actions",
-      flex: 1.2,
-      sortable: false,
-      renderCell: (params) => (
-  <ActionButtons
-    onView={() => {
-      setViewConsumer(params.row);
-      setViewOpen(true);
-    }}
-    onEdit={() => {
-      setSelectedConsumer(params.row);
-      setDialogOpen(true);
-    }}
-    onDelete={() => {
-      setSelectedConsumer(params.row);
-      setDeleteOpen(true);
-    }}
-  />
+      align: "right",
+      renderCell: (row) => (
+        <Stack direction="row" spacing={1} justifyContent="flex-end">
+          <Tooltip title="View Details">
+            <IconButton size="small" onClick={() => handleOpenView(row)} sx={{ color: "#0284C7" }}>
+              <Eye size={16} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Edit Consumer">
+            <IconButton size="small" onClick={() => handleOpenEdit(row)} sx={{ color: "#F59E0B" }}>
+              <Edit size={16} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete Consumer">
+            <IconButton size="small" onClick={() => handleOpenDelete(row.id)} sx={{ color: "#EF4444" }}>
+              <Trash2 size={16} />
+            </IconButton>
+          </Tooltip>
+        </Stack>
       ),
     },
   ];
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" fontWeight="bold" mb={1}>
-        Consumers
-      </Typography>
-
-      <Typography color="text.secondary" mb={4}>
-        Manage all registered electricity consumers
-      </Typography>
-
-      <Grid container spacing={2} mb={4}>
-        <Grid item xs={12} md={3}>
-          <StatsCard
-            title="Total Consumers"
-            value={rows.length}
-            color="#1976d2"
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <StatsCard
-            title="Active"
-            value={rows.filter((r) => r.status === "Active").length}
-            color="#2e7d32"
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <StatsCard
-            title="Inactive"
-            value={rows.filter((r) => r.status !== "Active").length}
-            color="#d32f2f"
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <StatsCard
-            title="New This Month"
-            value="18"
-            color="#ed6c02"
-          />
-        </Grid>
-      </Grid>
-
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        mb={3}
-      >
-        <TextField
-          label="Search Consumer"
-          size="small"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => setDialogOpen(true)}
-        >
-          Add Consumer
-        </Button>
-      </Box>
-
-      <DataTable
-        rows={filteredRows}
+    <Box>
+      <EnterpriseTable
+        title="Consumer Directory"
+        subtitle="Manage registered retail electricity consumers and connection profiles"
         columns={columns}
+        rows={filteredRows}
+        searchQuery={search}
+        onSearchChange={setSearch}
+        searchPlaceholder="Search by name, consumer number, phone, email..."
+        page={page}
+        rowsPerPage={rowsPerPage}
+        onPageChange={(e, newPage) => setPage(newPage)}
+        onRowsPerPageChange={(e) => {
+          setRowsPerPage(parseInt(e.target.value, 10));
+          setPage(0);
+        }}
+        actions={
+          <Button
+            variant="contained"
+            startIcon={<Plus size={18} />}
+            onClick={handleOpenAdd}
+            sx={{
+              background: "linear-gradient(135deg, #0284C7 0%, #10B981 100%)",
+              boxShadow: "0 4px 14px rgba(2, 132, 199, 0.4)",
+            }}
+          >
+            Register New Consumer
+          </Button>
+        }
       />
-       
-       <ConsumerDialog
-  open={dialogOpen}
-  onClose={() => {
-    setDialogOpen(false);
-    setSelectedConsumer(null);
-  }}
-  onSuccess={fetchConsumers}
-  consumer={selectedConsumer}
-/>
-      
 
-      <ConfirmDialog
-  open={deleteOpen}
-  title="Delete Consumer"
-  message="Are you sure you want to delete this consumer?"
-  onClose={() => {
-    setDeleteOpen(false);
-    setSelectedConsumer(null);
-  }}
-  onConfirm={handleDelete}
-/>
+      {/* Add / Edit Dialog */}
+      <ConsumerDialog
+        open={dialogOpen}
+        handleClose={() => setDialogOpen(false)}
+        consumer={editingConsumer}
+        onSuccess={fetchConsumers}
+      />
 
+      {/* View Details Dialog */}
       <DetailsDialog
         open={viewOpen}
-        onClose={() => setViewOpen(false)}
-        title="Consumer Record Details"
-        subtitle={`Consumer ID: ${viewConsumer?.consumerNumber || "-"}`}
-        sections={[
-          {
-            title: "Identity & Profile",
-            fields: [
-              { label: "Consumer Number", value: viewConsumer?.consumerNumber, sm: 6 },
-              { label: "Full Name", value: viewConsumer?.name, sm: 6 }
-            ]
-          },
-          {
-            title: "Contact Details",
-            fields: [
-              { label: "Email Address", value: viewConsumer?.email, sm: 6 },
-              { label: "Mobile Number", value: viewConsumer?.mobile, sm: 6 }
-            ]
-          },
-          {
-            title: "Account Status",
-            fields: [
-              { label: "Account State", value: viewConsumer?.status, sm: 6 },
-              { label: "City Region", value: viewConsumer?.city, sm: 6 }
-            ]
-          }
-        ]}
+        handleClose={() => setViewOpen(false)}
+        title="Consumer Account Details"
+        data={
+          viewConsumer
+            ? {
+                "Consumer Number": viewConsumer.consumerNumber,
+                "First Name": viewConsumer.firstName,
+                "Last Name": viewConsumer.lastName,
+                "Email": viewConsumer.email,
+                "Phone": viewConsumer.phone,
+                "Total Connections": viewConsumer.connections?.length || 0,
+              }
+            : null
+        }
+      />
+
+      {/* Confirm Delete Dialog */}
+      <ConfirmDialog
+        open={deleteOpen}
+        handleClose={() => setDeleteOpen(false)}
+        handleConfirm={handleConfirmDelete}
+        title="Delete Consumer Profile?"
+        description="Are you sure you want to delete this consumer? This action will permanently delete associated connection records."
       />
 
       <Snackbar
-        open={snackbar}
-        autoHideDuration={2500}
-        onClose={() => setSnackbar(false)}
+        open={snackbar.open}
+        autoHideDuration={4000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
       >
-        <Alert severity="success">
-          Action completed successfully.
-        </Alert>
+        <Alert severity={snackbar.severity}>{snackbar.message}</Alert>
       </Snackbar>
     </Box>
   );

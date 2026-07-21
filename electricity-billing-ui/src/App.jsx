@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import MainLayout from "./layouts/MainLayout";
+import LandingPage from "./pages/LandingPage";
 import Dashboard from "./pages/Dashboard";
 import MeterReadings from "./pages/MeterReadings";
 import Connections from "./pages/Connections";
@@ -13,21 +14,24 @@ import Login from "./pages/Login";
 // Route protection component
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const role = localStorage.getItem("userRole");
-  
+
   if (!role) {
     return <Navigate to="/login" replace />;
   }
-  
+
   if (allowedRoles && !allowedRoles.includes(role)) {
     return <Navigate to="/dashboard" replace />;
   }
-  
+
   return children;
 };
 
 function App() {
   return (
     <Routes>
+      {/* Public Landing Page */}
+      <Route path="/" element={<LandingPage />} />
+
       {/* Public Login Route */}
       <Route path="/login" element={<Login />} />
 
@@ -39,9 +43,6 @@ function App() {
           </ProtectedRoute>
         }
       >
-        {/* Redirect "/" to dashboard */}
-        <Route index element={<Navigate to="/dashboard" replace />} />
-
         <Route path="/dashboard" element={<Dashboard />} />
 
         {/* Admin Only Routes */}
@@ -53,7 +54,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        
+
         <Route
           path="/connections"
           element={
@@ -62,7 +63,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        
+
         <Route
           path="/meter-readings"
           element={
@@ -77,7 +78,7 @@ function App() {
         <Route path="/payments" element={<Payments />} />
 
         {/* Catch all unknown URLs */}
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
   );

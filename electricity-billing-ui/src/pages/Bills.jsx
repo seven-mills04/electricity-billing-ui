@@ -1,213 +1,204 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
-  Typography,
-  TextField,
-  Grid,
+  Button,
+  Chip,
+  IconButton,
+  Tooltip,
   Snackbar,
   Alert,
-  Chip,
+  Stack,
+  Tabs,
+  Tab,
 } from "@mui/material";
-
-import StatsCard from "../components/StatsCard";
-import DataTable from "../components/DataTable";
-import { IconButton } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Eye, FileText, CheckCircle, Clock, ReceiptText } from "lucide-react";
+import EnterpriseTable from "../components/EnterpriseTable";
+import BillInvoiceModal from "../components/BillInvoiceModal";
 import { getBills } from "../api/billApi";
-import BillDialog from "../components/BillDialog";
+
 const Bills = () => {
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("ALL"); // ALL, PAID, UNPAID
+  const [loading, setLoading] = useState(false);
+
+  const [invoiceOpen, setInvoiceOpen] = useState(false);
   const [selectedBill, setSelectedBill] = useState(null);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [snackbar, setSnackbar] = useState({
-    open: false,
-    message: "",
-    severity: "error",
-  });
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
 
   useEffect(() => {
     fetchBills();
   }, []);
 
   const fetchBills = async () => {
+    setLoading(true);
     try {
       const response = await getBills();
-
-      console.log("Bills API:", response.data);
-
-      let data = response.data.map((bill) => ({
-        id: bill.id,
-        billNumber: bill.billNumber,
-        billDate: bill.billDate,
-        dueDate: bill.dueDate,
-        connectionNumber:
-          bill.meterReading?.connection?.connectionNumber || "-",
-        amount: bill.totalAmount,
-        status: bill.billStatus,
-        rawBill: bill,
-      }));
+      let bills = Array.isArray(response.data) ? response.data : [];
 
       const role = localStorage.getItem("userRole");
       if (role === "CONSUMER") {
         const connStr = localStorage.getItem("consumerConnections");
         const consumerConns = connStr ? JSON.parse(connStr) : [];
-        data = data.filter((bill) =>
-          consumerConns.includes(bill.connectionNumber)
+        bills = bills.filter((b) =>
+          consumerConns.includes(b.meterReading?.connection?.connectionNumber)
         );
       }
 
-      setRows(data);
-    } catch (error) {
-      console.error(error);
+      const mapped = bills.map((b) => ({
+        id: b.id,
+        billNumber: b.billNumber,
+        billingMonth: b.billingMonth,
+        billDate: b.billDate,
+        dueDate: b.dueDate,
+        connectionNumber: b.meterReading?.connection?.connectionNumber || "-",
+        unitsConsumed: b.unitsConsumed,
+        amount: b.totalAmount,
+        status: b.billStatus,
+        rawBill: b,
+      }));
 
-      setSnackbar({
-        open: true,
-        message: "Unable to fetch bills",
-        severity: "error",
-      });
+      setRows(mapped);
+    } catch (err) {
+      console.error(err);
+      setSnackbar({ open: true, message: "Unable to fetch bills", severity: "error" });
+    } finally {
+      setLoading(false);
     }
   };
 
-  const filteredRows = rows.filter((row) =>
-    row.billNumber
-      ?.toLowerCase()
-      .includes(search.toLowerCase())
-  );
+  const handleOpenInvoice = (bill) => {
+    setSelectedBill(bill.rawBill || bill);
+    setInvoiceOpen(true);
+  };
+
+  const filteredRows = rows.filter((r) => {
+    const matchesSearch =
+      r.billNumber.toLowerCase().includes(search.toLowerCase()) ||
+      r.connectionNumber.toLowerCase().includes(search.toLowerCase()) ||
+      r.billingMonth.toLowerCase().includes(search.toLowerCase());
+
+    if (statusFilter === "ALL") return matchesSearch;
+    return matchesSearch && r.status === statusFilter;
+  });
 
   const columns = [
     {
       field: "billNumber",
       headerName: "Bill Number",
-      flex: 1,
+      renderCell: (row) => (
+        <Chip
+          icon={<ReceiptText size={12} />}
+          label={row.billNumber}
+          size="small"
+          sx={{ bgcolor: "rgba(2, 132, 199, 0.1)", color: "#0284C7", fontWeight: 700 }}
+        />
+      ),
     },
+    { field: "connectionNumber", headerName: "Connection No." },
+    { field: "billingMonth", headerName: "Billing Period" },
     {
-      field: "connectionNumber",
-      headerName: "Connection",
-      flex: 1,
-    },
-    {
-      field: "billDate",
-      headerName: "Bill Date",
-      flex: 1,
-    },
-    {
-      field: "dueDate",
-      headerName: "Due Date",
-      flex: 1,
+      field: "unitsConsumed",
+      headerName: "Consumption",
+      renderCell: (row) => <span>{row.unitsConsumed} kWh</span>,
     },
     {
       field: "amount",
-      headerName: "Amount (₹)",
-      flex: 1,
+      headerName: "Total Amount Due",
+      renderCell: (row) => (
+        <span style={{ fontWeight: 800, color: "#0F172A" }}>
+          ₹{(row.amount || 0).toLocaleString()}
+        </span>
+      ),
     },
+    { field: "dueDate", headerName: "Due Date" },
     {
       field: "status",
-      headerName: "Status",
-      flex: 1,
-      renderCell: (params) => (
+      headerName: "Settlement Status",
+      renderCell: (row) => (
         <Chip
-          label={params.value}
-          color={
-            params.value === "PAID"
-              ? "success"
-              : params.value === "UNPAID"
-              ? "warning"
-              : "error"
-          }
+          icon={row.status === "PAID" ? <CheckCircle size={12} /> : <Clock size={12} />}
+          size="small"
+          label={row.status}
+          sx={{
+            bgcolor: row.status === "PAID" ? "rgba(16, 185, 129, 0.1)" : "rgba(245, 158, 11, 0.1)",
+            color: row.status === "PAID" ? "#059669" : "#D97706",
+            fontWeight: 700,
+          }}
         />
       ),
     },
     {
-  field: "actions",
-  headerName: "Actions",
-  flex: 0.7,
-  sortable: false,
-  renderCell: (params) => (
-    <IconButton
-      color="primary"
-      onClick={() => {
-        setSelectedBill(params.row);
-        setOpenDialog(true);
-      }}
-    >
-      <VisibilityIcon />
-    </IconButton>
-  ),
-}
+      field: "actions",
+      headerName: "Actions",
+      align: "right",
+      renderCell: (row) => (
+        <Stack direction="row" spacing={1} justifyContent="flex-end">
+          <Tooltip title="View & Print Official Utility Invoice">
+            <IconButton size="small" onClick={() => handleOpenInvoice(row)} sx={{ color: "#0284C7" }}>
+              <FileText size={18} />
+            </IconButton>
+          </Tooltip>
+        </Stack>
+      ),
+    },
   ];
 
   return (
-    <Box sx={{ p: 3, pt: 8 }}>
-      <Typography variant="h4" fontWeight="bold" mb={1}>
-        Bills
-      </Typography>
-
-      <Typography color="text.secondary" mb={4}>
-        Automatically generated electricity bills
-      </Typography>
-
-      <Grid container spacing={2} mb={4}>
-        <Grid item xs={12} md={4}>
-          <StatsCard
-            title="Total Bills"
-            value={rows.length}
-            color="#1976d2"
-          />
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <StatsCard
-            title="Paid"
-            value={
-              rows.filter((r) => r.status === "PAID").length
-            }
-            color="#2e7d32"
-          />
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <StatsCard
-            title="Unpaid"
-            value={
-              rows.filter((r) => r.status === "UNPAID").length
-            }
-            color="#d32f2f"
-          />
-        </Grid>
-      </Grid>
-
-      <TextField
-        label="Search Bill Number"
-        size="small"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        sx={{ mb: 3 }}
-      />
-
-      <DataTable
-        rows={filteredRows}
+    <Box>
+      <EnterpriseTable
+        title="Billing & Invoice Ledger"
+        subtitle="Manage compiled electricity utility invoices, tariff slab items, and settlement status"
         columns={columns}
+        rows={filteredRows}
+        searchQuery={search}
+        onSearchChange={setSearch}
+        searchPlaceholder="Search bill number, connection no, month..."
+        page={page}
+        rowsPerPage={rowsPerPage}
+        onPageChange={(e, newPage) => setPage(newPage)}
+        onRowsPerPageChange={(e) => {
+          setRowsPerPage(parseInt(e.target.value, 10));
+          setPage(0);
+        }}
+        actions={
+          <Tabs
+            value={statusFilter}
+            onChange={(e, val) => setStatusFilter(val)}
+            sx={{
+              bgcolor: "#F8FAFC",
+              p: 0.5,
+              borderRadius: "10px",
+              minHeight: 36,
+              "& .MuiTab-root": { minHeight: 32, px: 2, fontSize: "0.75rem", fontWeight: 700 },
+              "& .Mui-selected": { bgcolor: "#FFFFFF", borderRadius: "8px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)" },
+              "& .MuiTabs-indicator": { display: "none" },
+            }}
+          >
+            <Tab value="ALL" label="All Bills" />
+            <Tab value="UNPAID" label="Unpaid / Due" />
+            <Tab value="PAID" label="Settled / Paid" />
+          </Tabs>
+        }
       />
 
-       <BillDialog
-        open={openDialog}
-         onClose={() => setOpenDialog(false)}
-         bill={selectedBill}
-       />
+      {/* Official Invoice Preview Dialog */}
+      <BillInvoiceModal
+        open={invoiceOpen}
+        onClose={() => setInvoiceOpen(false)}
+        bill={selectedBill}
+      />
+
       <Snackbar
         open={snackbar.open}
-        autoHideDuration={3000}
-        onClose={() =>
-          setSnackbar((prev) => ({
-            ...prev,
-            open: false,
-          }))
-        }
+        autoHideDuration={4000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
       >
-        <Alert severity={snackbar.severity}>
-          {snackbar.message}
-        </Alert>
+        <Alert severity={snackbar.severity}>{snackbar.message}</Alert>
       </Snackbar>
     </Box>
   );
