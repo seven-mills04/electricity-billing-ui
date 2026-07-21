@@ -16,6 +16,7 @@ import {
   IconButton,
   Chip,
   Paper,
+  CircularProgress,
 } from "@mui/material";
 import {
   Zap,
@@ -27,7 +28,6 @@ import {
   ShieldCheck,
   Building2,
   Users,
-  Activity,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import api from "../api/axiosConfig";
@@ -45,11 +45,24 @@ const Login = () => {
   const [selectedConsumerId, setSelectedConsumerId] = useState("");
 
   const [loading, setLoading] = useState(false);
+  const [wakingUp, setWakingUp] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
     fetchPublicConsumers();
   }, []);
+
+  useEffect(() => {
+    let timer;
+    if (loading) {
+      timer = setTimeout(() => {
+        setWakingUp(true);
+      }, 3000);
+    } else {
+      setWakingUp(false);
+    }
+    return () => clearTimeout(timer);
+  }, [loading]);
 
   const fetchPublicConsumers = async () => {
     try {
@@ -133,6 +146,7 @@ const Login = () => {
       );
     } finally {
       setLoading(false);
+      setWakingUp(false);
     }
   };
 
@@ -301,6 +315,24 @@ const Login = () => {
                 </Typography>
               </Box>
 
+              {/* Render Cold-Start Waking Up Notice */}
+              {wakingUp && (
+                <Alert
+                  severity="info"
+                  icon={<CircularProgress size={16} color="info" />}
+                  sx={{
+                    mb: 3,
+                    borderRadius: "10px",
+                    bgcolor: "rgba(2, 132, 199, 0.15)",
+                    color: "#38BDF8",
+                    border: "1px solid rgba(56, 189, 248, 0.3)",
+                    fontSize: "0.8rem",
+                  }}
+                >
+                  Waking up free Render backend server... This cold start takes ~30–45s. Please hold on!
+                </Alert>
+              )}
+
               {error && (
                 <Alert severity="error" sx={{ mb: 3, borderRadius: "10px", bgcolor: "rgba(239, 68, 68, 0.15)", color: "#FCA5A5", border: "1px solid rgba(239, 68, 68, 0.3)" }}>
                   {error}
@@ -384,7 +416,7 @@ const Login = () => {
                     fullWidth
                     size="large"
                     disabled={loading}
-                    endIcon={<ArrowRight size={18} />}
+                    endIcon={loading ? <CircularProgress size={16} color="inherit" /> : <ArrowRight size={18} />}
                     sx={{
                       py: 1.5,
                       mt: 1,
@@ -394,7 +426,13 @@ const Login = () => {
                       "&:hover": { boxShadow: "0 6px 20px rgba(2, 132, 199, 0.6)" },
                     }}
                   >
-                    {loading ? "Authenticating..." : tabValue === 0 ? "Sign In to Admin Dashboard" : "Sign In to Consumer Portal"}
+                    {loading
+                      ? wakingUp
+                        ? "Waking up server..."
+                        : "Authenticating..."
+                      : tabValue === 0
+                      ? "Sign In to Admin Dashboard"
+                      : "Sign In to Consumer Portal"}
                   </Button>
 
                   {/* Back to Home Link */}
