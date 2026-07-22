@@ -65,9 +65,17 @@ const Hero = () => {
       </Box>
 
       <Container maxWidth="xl" sx={{ position: "relative", zIndex: 1 }}>
-        <Grid container spacing={6} alignItems="center">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 6,
+          }}
+        >
           {/* Left Text Content */}
-          <Grid item xs={12} md={6}>
+          <Box sx={{ flex: 1, width: "100%", maxWidth: { xs: "100%", md: "48%" } }}>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -162,10 +170,10 @@ const Hero = () => {
                 </Button>
               </Stack>
             </motion.div>
-          </Grid>
+          </Box>
 
           {/* Right Vector Illustration */}
-          <Grid item xs={12} md={6}>
+          <Box sx={{ flex: 1, width: "100%", maxWidth: { xs: "100%", md: "48%" }, display: "flex", justifyContent: "center" }}>
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -360,8 +368,8 @@ const Hero = () => {
                 </svg>
               </Box>
             </motion.div>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Container>
     </Box>
   );

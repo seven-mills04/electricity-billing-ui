@@ -183,8 +183,8 @@ const Login = () => {
       sx={{
         minHeight: "100vh",
         display: "flex",
-        bgcolor: "#0F172A",
-        color: "#FFFFFF",
+        bgcolor: "#FFFFFF",
+        color: "#1E293B",
       }}
     >
       {/* Left Branding & Live Stats Column (Hidden on mobile) */}
@@ -196,46 +196,53 @@ const Login = () => {
           justifyContent: "space-between",
           p: 6,
           position: "relative",
-          background: "radial-gradient(circle at 0% 0%, #0284C7 0%, #0F172A 70%)",
-          borderRight: "1px solid rgba(255, 255, 255, 0.08)",
+          bgcolor: "#F7F9FC",
+          borderRight: "1px solid #E2E8F0",
         }}
       >
         {/* Header Branding */}
         <Stack direction="row" spacing={1.5} alignItems="center">
           <Box
             sx={{
-              background: "linear-gradient(135deg, #0284C7 0%, #10B981 100%)",
+              background: "#0056A6",
               color: "#FFFFFF",
               p: 1,
               borderRadius: "10px",
-              boxShadow: "0 0 20px rgba(2, 132, 199, 0.4)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <Zap size={24} fill="currentColor" />
           </Box>
-          <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: "-0.02em" }}>
-            GRIDPULSE <span style={{ color: "#38BDF8" }}>UTILITIES</span>
-          </Typography>
+          <Box>
+            <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: "-0.03em", color: "#0056A6", lineHeight: 1.1 }}>
+              APEX POWER
+            </Typography>
+            <Typography variant="caption" sx={{ color: "#00A99D", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.1em", display: "block", textTransform: "uppercase" }}>
+              Corporation Ltd.
+            </Typography>
+          </Box>
         </Stack>
 
         {/* Center Content */}
         <Box sx={{ my: "auto", maxWidth: "520px" }}>
           <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
             <Chip
-              icon={<ShieldCheck size={14} color="#34D399" />}
-              label="256-BIT ENCRYPTED UTILITY PORTAL"
-              sx={{ bgcolor: "rgba(16, 185, 129, 0.15)", color: "#34D399", fontWeight: 700, mb: 3 }}
+              icon={<ShieldCheck size={14} color="#00A99D" />}
+              label="SECURE UTILITY PORTAL"
+              sx={{ bgcolor: "rgba(0, 169, 157, 0.08)", color: "#00A99D", fontWeight: 700, mb: 3 }}
             />
-            <Typography variant="h2" sx={{ fontWeight: 800, mb: 2, lineHeight: 1.15 }}>
-              National Electricity Management Platform
+            <Typography variant="h2" sx={{ fontWeight: 800, mb: 2, lineHeight: 1.15, color: "#0056A6" }}>
+              Official Consumer & Billing Portal
             </Typography>
-            <Typography variant="body1" sx={{ color: "#94A3B8", fontSize: "1.05rem", mb: 4, lineHeight: 1.6 }}>
-              Secure access for grid billing operators and retail electricity consumers. Access real-time billing ledgers, tariff predictions, and automated payment settlements.
+            <Typography variant="body1" sx={{ color: "#475569", fontSize: "1.05rem", mb: 4, lineHeight: 1.6 }}>
+              Welcome to the secure billing portal for Apex Power Corporation Ltd. Access your account to manage grid connections, view energy invoices, self-report meter readings, and make secure online payments.
             </Typography>
 
             {/* Quick Demo Pre-fill Pill Bar */}
-            <Paper sx={{ p: 2.5, borderRadius: "16px", bgcolor: "rgba(30, 41, 59, 0.6)", backdropFilter: "blur(12px)", border: "1px solid rgba(255, 255, 255, 0.1)" }}>
-              <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 700, textTransform: "uppercase", display: "block", mb: 1.5 }}>
+            <Paper sx={{ p: 2.5, borderRadius: "16px", bgcolor: "#FFFFFF", border: "1px solid #E2E8F0", boxShadow: "0 4px 12px rgba(0,0,0,0.02)" }}>
+              <Typography variant="caption" sx={{ color: "#475569", fontWeight: 700, textTransform: "uppercase", display: "block", mb: 1.5 }}>
                 ⚡ One-Click Demo Access
               </Typography>
               <Stack direction="row" spacing={1.5}>
@@ -244,7 +251,7 @@ const Login = () => {
                   variant="outlined"
                   onClick={() => fillQuickDemo("ADMIN")}
                   startIcon={<Building2 size={14} />}
-                  sx={{ color: "#38BDF8", borderColor: "rgba(56, 189, 248, 0.4)", bgcolor: "rgba(56, 189, 248, 0.08)" }}
+                  sx={{ color: "#0056A6", borderColor: "#0056A6", fontWeight: 600, "&:hover": { bgcolor: "rgba(0, 86, 166, 0.04)", borderColor: "#003c74" } }}
                 >
                   Fill Admin Demo
                 </Button>
@@ -254,7 +261,7 @@ const Login = () => {
                   variant="outlined"
                   onClick={() => fillQuickDemo("CONSUMER")}
                   startIcon={<Users size={14} />}
-                  sx={{ color: "#34D399", borderColor: "rgba(52, 211, 153, 0.4)", bgcolor: "rgba(52, 211, 153, 0.08)" }}
+                  sx={{ color: "#00A99D", borderColor: "#00A99D", fontWeight: 600, "&:hover": { bgcolor: "rgba(0, 169, 157, 0.04)", borderColor: "#00766d" } }}
                 >
                   Fill Consumer Demo
                 </Button>
@@ -265,7 +272,7 @@ const Login = () => {
 
         {/* Footer info */}
         <Typography variant="caption" sx={{ color: "#64748B" }}>
-          © {new Date().getFullYear()} GridPulse Utilities Inc. Standard Energy Operations.
+          © {new Date().getFullYear()} Apex Power Corporation Ltd. All rights reserved.
         </Typography>
       </Box>
 
@@ -277,11 +284,11 @@ const Login = () => {
           alignItems: "center",
           justifyContent: "center",
           p: { xs: 3, sm: 5 },
-          bgcolor: "#0F172A",
+          bgcolor: "#FFFFFF",
         }}
       >
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} style={{ width: "100%", maxWidth: "420px" }}>
-          <Card sx={{ bgcolor: "#1E293B", border: "1px solid rgba(255, 255, 255, 0.1)", borderRadius: "20px", overflow: "hidden" }}>
+          <Card sx={{ bgcolor: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: "20px", boxShadow: "0 8px 30px rgba(0, 0, 0, 0.05)", overflow: "hidden" }}>
             {/* Tabs for Admin / Consumer */}
             <Tabs
               value={tabValue}
@@ -301,11 +308,11 @@ const Login = () => {
               }}
               variant="fullWidth"
               sx={{
-                bgcolor: "rgba(15, 23, 42, 0.6)",
-                borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
-                "& .MuiTab-root": { color: "#94A3B8", fontWeight: 600, py: 2 },
-                "& .Mui-selected": { color: "#38BDF8" },
-                "& .MuiTabs-indicator": { bgcolor: "#38BDF8", height: 3 },
+                bgcolor: "#F8FAFC",
+                borderBottom: "1px solid #E2E8F0",
+                "& .MuiTab-root": { color: "#64748B", fontWeight: 600, py: 2 },
+                "& .Mui-selected": { color: "#0056A6" },
+                "& .MuiTabs-indicator": { bgcolor: "#0056A6", height: 3 },
               }}
             >
               <Tab icon={<Building2 size={16} />} iconPosition="start" label="Admin Operator" />
@@ -314,10 +321,10 @@ const Login = () => {
 
             <CardContent sx={{ p: 4 }}>
               <Box sx={{ textCenter: "center", mb: 3 }}>
-                <Typography variant="h4" sx={{ color: "#FFFFFF", mb: 0.5 }}>
+                <Typography variant="h4" sx={{ color: "#1E293B", mb: 0.5, fontWeight: 800 }}>
                   {tabValue === 0 ? "Grid Admin Sign In" : "Consumer Access"}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "#94A3B8" }}>
+                <Typography variant="body2" sx={{ color: "#475569" }}>
                   {tabValue === 0
                     ? "Enter administrative operator credentials to manage grid billing."
                     : "Select your consumer account or enter account credentials."}
@@ -332,9 +339,9 @@ const Login = () => {
                   sx={{
                     mb: 3,
                     borderRadius: "10px",
-                    bgcolor: "rgba(2, 132, 199, 0.15)",
-                    color: "#38BDF8",
-                    border: "1px solid rgba(56, 189, 248, 0.3)",
+                    bgcolor: "rgba(0, 86, 166, 0.05)",
+                    color: "#0056A6",
+                    border: "1px solid rgba(0, 86, 166, 0.15)",
                     fontSize: "0.8rem",
                   }}
                 >
@@ -343,7 +350,7 @@ const Login = () => {
               )}
 
               {error && (
-                <Alert severity="error" sx={{ mb: 3, borderRadius: "10px", bgcolor: "rgba(239, 68, 68, 0.15)", color: "#FCA5A5", border: "1px solid rgba(239, 68, 68, 0.3)" }}>
+                <Alert severity="error" sx={{ mb: 3, borderRadius: "10px", bgcolor: "rgba(239, 68, 68, 0.05)", color: "#EF4444", border: "1px solid rgba(239, 68, 68, 0.15)" }}>
                   {error}
                 </Alert>
               )}
@@ -359,8 +366,8 @@ const Login = () => {
                       value={selectedConsumerId}
                       onChange={handleConsumerSelect}
                       sx={{
-                        "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "#0F172A" },
-                        "& .MuiInputLabel-root": { color: "#94A3B8" },
+                        "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
+                        "& .MuiInputLabel-root": { color: "#64748B" },
                       }}
                     >
                       {consumers.map((c) => (
@@ -381,13 +388,13 @@ const Login = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <User size={18} color="#94A3B8" />
+                          <User size={18} color="#64748B" />
                         </InputAdornment>
                       ),
                     }}
                     sx={{
-                      "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "#0F172A" },
-                      "& .MuiInputLabel-root": { color: "#94A3B8" },
+                      "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
+                      "& .MuiInputLabel-root": { color: "#64748B" },
                     }}
                   />
 
@@ -402,20 +409,20 @@ const Login = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <Lock size={18} color="#94A3B8" />
+                          <Lock size={18} color="#64748B" />
                         </InputAdornment>
                       ),
                       endAdornment: (
                         <InputAdornment position="end">
-                          <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" sx={{ color: "#94A3B8" }}>
+                          <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" sx={{ color: "#64748B" }}>
                             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                           </IconButton>
                         </InputAdornment>
                       ),
                     }}
                     sx={{
-                      "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "#0F172A" },
-                      "& .MuiInputLabel-root": { color: "#94A3B8" },
+                      "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
+                      "& .MuiInputLabel-root": { color: "#64748B" },
                     }}
                   />
 
@@ -430,9 +437,13 @@ const Login = () => {
                       py: 1.5,
                       mt: 1,
                       fontSize: "0.95rem",
-                      background: "linear-gradient(135deg, #0284C7 0%, #10B981 100%)",
-                      boxShadow: "0 4px 14px rgba(2, 132, 199, 0.4)",
-                      "&:hover": { boxShadow: "0 6px 20px rgba(2, 132, 199, 0.6)" },
+                      bgcolor: tabValue === 0 ? "#0056A6" : "#00A99D",
+                      color: "#FFFFFF",
+                      boxShadow: "0 4px 12px rgba(0, 86, 166, 0.15)",
+                      "&:hover": {
+                        bgcolor: tabValue === 0 ? "#003c74" : "#00766d",
+                        boxShadow: "0 6px 16px rgba(0, 86, 166, 0.25)",
+                      },
                     }}
                   >
                     {loading
@@ -447,7 +458,7 @@ const Login = () => {
                   {/* Back to Home Link */}
                   <Button
                     onClick={() => navigate("/")}
-                    sx={{ color: "#94A3B8", fontSize: "0.85rem", textTransform: "none", "&:hover": { color: "#FFFFFF" } }}
+                    sx={{ color: "#64748B", fontSize: "0.85rem", textTransform: "none", "&:hover": { color: "#0056A6" } }}
                   >
                     ← Back to Public Website
                   </Button>

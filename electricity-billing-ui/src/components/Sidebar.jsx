@@ -95,24 +95,23 @@ const Sidebar = ({ onClose }) => {
         <Stack direction="row" spacing={1.5} alignItems="center">
           <Box
             sx={{
-              background: "linear-gradient(135deg, #0284C7 0%, #10B981 100%)",
+              background: "#0056A6",
               color: "#FFFFFF",
               p: 1,
               borderRadius: "10px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              boxShadow: "0 0 16px rgba(2, 132, 199, 0.4)",
             }}
           >
             <Zap size={20} fill="currentColor" />
           </Box>
           <Box>
-            <Typography variant="h6" sx={{ fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.02em", fontSize: "1.05rem" }}>
-              GRIDPULSE <span style={{ color: "#38BDF8" }}>UTILITY</span>
+            <Typography variant="h6" sx={{ fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.03em", fontSize: "1.05rem", lineHeight: 1.1 }}>
+              APEX POWER
             </Typography>
-            <Typography variant="caption" sx={{ color: "#64748B", fontSize: "0.68rem", display: "block" }}>
-              National Electricity Operations
+            <Typography variant="caption" sx={{ color: "#00A99D", fontSize: "0.68rem", display: "block", fontWeight: 700, textTransform: "uppercase" }}>
+              Corporation Ltd.
             </Typography>
           </Box>
         </Stack>

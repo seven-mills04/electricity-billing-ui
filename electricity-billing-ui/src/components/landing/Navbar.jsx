@@ -130,7 +130,7 @@ const Navbar = () => {
               "&:hover": { bgcolor: "#00766d" },
             }}
           >
-            Employee Login
+            Admin Login
           </Button>
         </Stack>
       </Box>
@@ -275,7 +275,7 @@ const Navbar = () => {
                     },
                   }}
                 >
-                  Employee Login
+                  Admin Login
                 </Button>
               </Stack>
 
