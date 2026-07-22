@@ -28,6 +28,7 @@ import {
   ShieldCheck,
   Building2,
   Users,
+  Plus,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import api from "../api/axiosConfig";
