@@ -10,38 +10,38 @@ const theme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#0284C7", // Electric Sky Blue
-      light: "#38BDF8",
-      dark: "#0369A1",
+      main: "#0056A6", // Corporate Utility Blue (Adani, Tata Power, BSES style)
+      light: "#3378b8",
+      dark: "#003c74",
       contrastText: "#FFFFFF",
     },
     secondary: {
-      main: "#10B981", // Energy Emerald Green
-      light: "#34D399",
-      dark: "#059669",
+      main: "#00A99D", // Clean Utility Teal / Energy Green
+      light: "#33baa1",
+      dark: "#00766d",
       contrastText: "#FFFFFF",
     },
     accent: {
-      main: "#F59E0B", // Amber Warning / Wattage
+      main: "#F4B400", // Soft Amber / Yellow
       cyan: "#06B6D4",
       purple: "#8B5CF6",
     },
     background: {
-      default: "#F8FAFC",
+      default: "#FFFFFF", // Clean premium background
       paper: "#FFFFFF",
-      dark: "#0F172A",
+      dark: "#002a52", // Rich deep corporate blue for footer/dark UI elements
     },
     text: {
-      primary: "#0F172A",
+      primary: "#1E293B", // Readable dark slate
       secondary: "#475569",
       disabled: "#94A3B8",
     },
     divider: "#E2E8F0",
     status: {
-      success: "#10B981",
-      warning: "#F59E0B",
+      success: "#00A99D",
+      warning: "#F4B400",
       error: "#EF4444",
-      info: "#3B82F6",
+      info: "#0056A6",
     },
   },
   typography: {
@@ -125,21 +125,30 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: "10px",
-          padding: "8px 18px",
+          borderRadius: "12px", // 12-18px range
+          padding: "10px 22px",
           fontSize: "0.875rem",
+          fontWeight: 600,
           boxShadow: "none",
           transition: "all 0.2s ease-in-out",
           "&:hover": {
-            boxShadow: "0 6px 16px rgba(2, 132, 199, 0.2)",
-            transform: "translateY(-1px)",
+            boxShadow: "0 4px 12px rgba(0, 86, 166, 0.15)",
+            transform: "translateY(-1.5px)",
           },
         },
         containedPrimary: {
-          background: "linear-gradient(135deg, #0284C7 0%, #0369A1 100%)",
+          background: "#0056A6",
+          color: "#FFFFFF",
+          "&:hover": {
+            background: "#003c74",
+          },
         },
         containedSecondary: {
-          background: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
+          background: "#00A99D",
+          color: "#FFFFFF",
+          "&:hover": {
+            background: "#00766d",
+          },
         },
       },
     },
@@ -196,12 +205,12 @@ const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          borderRadius: "10px",
+          borderRadius: "12px",
           "& fieldset": {
             borderColor: "#E2E8F0",
           },
           "&:hover fieldset": {
-            borderColor: "#0284C7",
+            borderColor: "#0056A6",
           },
         },
       },

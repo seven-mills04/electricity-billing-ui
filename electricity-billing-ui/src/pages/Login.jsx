@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Box,
   Card,
@@ -35,7 +35,16 @@ import { getPublicConsumers } from "../api/consumerApi";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [tabValue, setTabValue] = useState(0); // 0 = Admin, 1 = Consumer
+  const location = useLocation();
+  const [tabValue, setTabValue] = useState(
+    location.state?.tab !== undefined ? location.state.tab : 0
+  ); // 0 = Admin, 1 = Consumer
+
+  useEffect(() => {
+    if (location.state?.tab !== undefined) {
+      setTabValue(location.state.tab);
+    }
+  }, [location.state]);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
