@@ -38,7 +38,7 @@ const Login = () => {
   const location = useLocation();
   const [tabValue, setTabValue] = useState(
     location.state?.tab !== undefined ? location.state.tab : 0
-  ); // 0 = Admin, 1 = Consumer
+  ); // 0 = Admin, 1 = Consumer, 2 = Register
 
   useEffect(() => {
     if (location.state?.tab !== undefined) {
@@ -56,6 +56,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [wakingUp, setWakingUp] = useState(false);
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     fetchPublicConsumers();
@@ -99,6 +100,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     setError("");
+    setSuccessMessage("");
 
     try {
       if (tabValue === 0) {
@@ -114,7 +116,7 @@ const Login = () => {
         localStorage.setItem("consumerName", consumerName || "Admin User");
 
         navigate("/dashboard");
-      } else {
+      } else if (tabValue === 1) {
         // Consumer Login
         const response = await api.post("/api/auth/login", {
           username: username.trim(),
@@ -145,13 +147,31 @@ const Login = () => {
         }
 
         navigate("/dashboard");
+      } else {
+        // Register Consumer Account
+        if (!selectedConsumerId) {
+          setError("Please select a Consumer Profile connection to link your web portal account.");
+          setLoading(false);
+          return;
+        }
+
+        await api.post("/api/auth/register", {
+          username: username.trim(),
+          password: password,
+          role: "ROLE_CONSUMER",
+          consumerId: selectedConsumerId,
+        });
+
+        setSuccessMessage("Portal account registered successfully! You can now log in using the chosen credentials.");
+        setTabValue(1); // Redirect to Consumer Login tab
+        setPassword(""); // Clear password for security
       }
     } catch (err) {
       console.error(err);
       setError(
         err.response?.data?.message ||
         err.response?.data ||
-        "Invalid login credentials. Please verify and try again."
+        "Authentication failed. Please verify your connection & credentials."
       );
     } finally {
       setLoading(false);
@@ -161,9 +181,8 @@ const Login = () => {
 
   const fillQuickDemo = (role) => {
     if (role === "ADMIN") {
-      setTabValue(0);
-      setUsername("admin");
-      setPassword("admin");
+      // Admin password seeding disabled for security as requested
+      setError("Demo access pre-fill is disabled for Administrator accounts. Please enter admin credentials manually.");
     } else {
       setTabValue(1);
       if (consumers.length > 0) {
@@ -243,19 +262,9 @@ const Login = () => {
             {/* Quick Demo Pre-fill Pill Bar */}
             <Paper sx={{ p: 2.5, borderRadius: "16px", bgcolor: "#FFFFFF", border: "1px solid #E2E8F0", boxShadow: "0 4px 12px rgba(0,0,0,0.02)" }}>
               <Typography variant="caption" sx={{ color: "#475569", fontWeight: 700, textTransform: "uppercase", display: "block", mb: 1.5 }}>
-                ⚡ One-Click Demo Access
+                ⚡ Portal Demo Access
               </Typography>
               <Stack direction="row" spacing={1.5}>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  onClick={() => fillQuickDemo("ADMIN")}
-                  startIcon={<Building2 size={14} />}
-                  sx={{ color: "#0056A6", borderColor: "#0056A6", fontWeight: 600, "&:hover": { bgcolor: "rgba(0, 86, 166, 0.04)", borderColor: "#003c74" } }}
-                >
-                  Fill Admin Demo
-                </Button>
-
                 <Button
                   size="small"
                   variant="outlined"
@@ -289,20 +298,24 @@ const Login = () => {
       >
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} style={{ width: "100%", maxWidth: "420px" }}>
           <Card sx={{ bgcolor: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: "20px", boxShadow: "0 8px 30px rgba(0, 0, 0, 0.05)", overflow: "hidden" }}>
-            {/* Tabs for Admin / Consumer */}
+            {/* Tabs for Admin / Consumer / Register */}
             <Tabs
               value={tabValue}
               onChange={(e, val) => {
                 setTabValue(val);
                 setError("");
-                if (val === 0) {
-                  setUsername("admin");
-                  setPassword("admin");
-                } else {
+                setSuccessMessage("");
+                setUsername("");
+                setPassword("");
+                if (val === 1) { // Consumer Sign In
                   if (consumers.length > 0) {
                     setSelectedConsumerId(consumers[0].id);
                     setUsername(consumers[0].consumerNumber ? consumers[0].consumerNumber.toLowerCase() : "");
                     setPassword("password");
+                  }
+                } else if (val === 2) { // Register
+                  if (consumers.length > 0) {
+                    setSelectedConsumerId(consumers[0].id);
                   }
                 }
               }}
@@ -310,24 +323,27 @@ const Login = () => {
               sx={{
                 bgcolor: "#F8FAFC",
                 borderBottom: "1px solid #E2E8F0",
-                "& .MuiTab-root": { color: "#64748B", fontWeight: 600, py: 2 },
+                "& .MuiTab-root": { color: "#64748B", fontWeight: 600, py: 2, fontSize: "0.85rem" },
                 "& .Mui-selected": { color: "#0056A6" },
                 "& .MuiTabs-indicator": { bgcolor: "#0056A6", height: 3 },
               }}
             >
-              <Tab icon={<Building2 size={16} />} iconPosition="start" label="Admin Operator" />
-              <Tab icon={<Users size={16} />} iconPosition="start" label="Consumer Portal" />
+              <Tab icon={<Building2 size={16} />} iconPosition="start" label="Admin" />
+              <Tab icon={<Users size={16} />} iconPosition="start" label="Consumer" />
+              <Tab icon={<Plus size={16} />} iconPosition="start" label="Register" />
             </Tabs>
 
             <CardContent sx={{ p: 4 }}>
               <Box sx={{ textCenter: "center", mb: 3 }}>
                 <Typography variant="h4" sx={{ color: "#1E293B", mb: 0.5, fontWeight: 800 }}>
-                  {tabValue === 0 ? "Grid Admin Sign In" : "Consumer Access"}
+                  {tabValue === 0 ? "Grid Admin Sign In" : tabValue === 1 ? "Consumer Access" : "Portal Account Registration"}
                 </Typography>
                 <Typography variant="body2" sx={{ color: "#475569" }}>
                   {tabValue === 0
-                    ? "Enter administrative operator credentials to manage grid billing."
-                    : "Select your consumer account or enter account credentials."}
+                    ? "Enter administrative operator credentials manually."
+                    : tabValue === 1
+                    ? "Select your consumer account or enter account credentials."
+                    : "Establish a new secure web access account for your connection."}
                 </Typography>
               </Box>
 
@@ -349,6 +365,12 @@ const Login = () => {
                 </Alert>
               )}
 
+              {successMessage && (
+                <Alert severity="success" sx={{ mb: 3, borderRadius: "10px", bgcolor: "rgba(16, 185, 129, 0.05)", color: "#10B981", border: "1px solid rgba(16, 185, 129, 0.15)" }}>
+                  {successMessage}
+                </Alert>
+              )}
+
               {error && (
                 <Alert severity="error" sx={{ mb: 3, borderRadius: "10px", bgcolor: "rgba(239, 68, 68, 0.05)", color: "#EF4444", border: "1px solid rgba(239, 68, 68, 0.15)" }}>
                   {error}
@@ -357,12 +379,12 @@ const Login = () => {
 
               <form onSubmit={handleLogin}>
                 <Stack spacing={2.5}>
-                  {/* Consumer Select Dropdown in Consumer Tab */}
-                  {tabValue === 1 && (
+                  {/* Consumer Select Dropdown in Consumer Tab / Register Tab */}
+                  {(tabValue === 2 || (tabValue === 1 && selectedConsumerId)) && (
                     <TextField
                       select
                       fullWidth
-                      label="Select Registered Consumer Account"
+                      label={tabValue === 2 ? "Link to Consumer Connection Record" : "Select Registered Consumer Account"}
                       value={selectedConsumerId}
                       onChange={handleConsumerSelect}
                       sx={{
@@ -381,7 +403,7 @@ const Login = () => {
                   {/* Username Field */}
                   <TextField
                     fullWidth
-                    label="Username / Consumer No."
+                    label={tabValue === 2 ? "Choose Username" : "Username / Consumer No."}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
@@ -401,7 +423,7 @@ const Login = () => {
                   {/* Password Field */}
                   <TextField
                     fullWidth
-                    label="Password"
+                    label={tabValue === 2 ? "Choose Password" : "Password"}
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -437,11 +459,11 @@ const Login = () => {
                       py: 1.5,
                       mt: 1,
                       fontSize: "0.95rem",
-                      bgcolor: tabValue === 0 ? "#0056A6" : "#00A99D",
+                      bgcolor: tabValue === 0 ? "#0056A6" : (tabValue === 1 ? "#00A99D" : "#0056A6"),
                       color: "#FFFFFF",
                       boxShadow: "0 4px 12px rgba(0, 86, 166, 0.15)",
                       "&:hover": {
-                        bgcolor: tabValue === 0 ? "#003c74" : "#00766d",
+                        bgcolor: tabValue === 0 ? "#003c74" : (tabValue === 1 ? "#00766d" : "#003c74"),
                         boxShadow: "0 6px 16px rgba(0, 86, 166, 0.25)",
                       },
                     }}
@@ -449,10 +471,12 @@ const Login = () => {
                     {loading
                       ? wakingUp
                         ? "Waking up server..."
-                        : "Authenticating..."
+                        : tabValue === 2 ? "Registering account..." : "Authenticating..."
                       : tabValue === 0
                       ? "Sign In to Admin Dashboard"
-                      : "Sign In to Consumer Portal"}
+                      : tabValue === 1
+                      ? "Sign In to Consumer Portal"
+                      : "Create Web Access Account"}
                   </Button>
 
                   {/* Back to Home Link */}
