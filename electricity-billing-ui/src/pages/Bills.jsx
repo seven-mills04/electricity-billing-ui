@@ -10,11 +10,21 @@ import {
   Stack,
   Tabs,
   Tab,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Typography,
 } from "@mui/material";
-import { Eye, FileText, CheckCircle, Clock, ReceiptText } from "lucide-react";
+import { Eye, FileText, CheckCircle, Clock, ReceiptText, CreditCard } from "lucide-react";
 import EnterpriseTable from "../components/EnterpriseTable";
 import BillInvoiceModal from "../components/BillInvoiceModal";
 import { getBills } from "../api/billApi";
+import { payBill } from "../api/paymentApi";
 
 const Bills = () => {
   const [rows, setRows] = useState([]);
@@ -24,6 +34,11 @@ const Bills = () => {
 
   const [invoiceOpen, setInvoiceOpen] = useState(false);
   const [selectedBill, setSelectedBill] = useState(null);
+
+  const [paymentOpen, setPaymentOpen] = useState(false);
+  const [payingBill, setPayingBill] = useState(null);
+  const [paymentMode, setPaymentMode] = useState("UPI");
+  const [submittingPayment, setSubmittingPayment] = useState(false);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -74,6 +89,32 @@ const Bills = () => {
   const handleOpenInvoice = (bill) => {
     setSelectedBill(bill.rawBill || bill);
     setInvoiceOpen(true);
+  };
+
+  const handleOpenPayment = (bill) => {
+    setPayingBill(bill.rawBill || bill);
+    setPaymentMode("UPI");
+    setPaymentOpen(true);
+  };
+
+  const handleConfirmPayment = async () => {
+    if (!payingBill) return;
+    setSubmittingPayment(true);
+    try {
+      await payBill(payingBill.id, { paymentMode });
+      setSnackbar({ open: true, message: "Bill Settled Successfully!", severity: "success" });
+      setPaymentOpen(false);
+      fetchBills();
+    } catch (err) {
+      console.error(err);
+      setSnackbar({
+        open: true,
+        message: err.response?.data?.message || err.response?.data || "Failed to settle bill.",
+        severity: "error",
+      });
+    } finally {
+      setSubmittingPayment(false);
+    }
   };
 
   const filteredRows = rows.filter((r) => {
@@ -138,6 +179,13 @@ const Bills = () => {
       align: "right",
       renderCell: (row) => (
         <Stack direction="row" spacing={1} justifyContent="flex-end">
+          {row.status === "UNPAID" && (
+            <Tooltip title="Settle Bill (Make Payment)">
+              <IconButton size="small" onClick={() => handleOpenPayment(row)} sx={{ color: "#00A99D" }}>
+                <CreditCard size={18} />
+              </IconButton>
+            </Tooltip>
+          )}
           <Tooltip title="View & Print Official Utility Invoice">
             <IconButton size="small" onClick={() => handleOpenInvoice(row)} sx={{ color: "#0284C7" }}>
               <FileText size={18} />
@@ -192,6 +240,60 @@ const Bills = () => {
         onClose={() => setInvoiceOpen(false)}
         bill={selectedBill}
       />
+
+      {/* Settle Bill (Payment) Dialog */}
+      <Dialog open={paymentOpen} onClose={() => setPaymentOpen(false)} maxWidth="xs" fullWidth>
+        <DialogTitle sx={{ fontWeight: 800, color: "#0F172A" }}>Settle Outstanding Invoice</DialogTitle>
+        <DialogContent dividers sx={{ py: 3 }}>
+          {payingBill && (
+            <Stack spacing={2.5}>
+              <Box sx={{ p: 2, bgcolor: "#F8FAFC", borderRadius: "12px", border: "1px solid #E2E8F0" }}>
+                <Typography variant="caption" sx={{ color: "#64748B", fontWeight: 700, display: "block", mb: 0.5 }}>
+                  BILL NUMBER
+                </Typography>
+                <Typography variant="body1" sx={{ fontWeight: 800, color: "#0F172A", mb: 2 }}>
+                  {payingBill.billNumber}
+                </Typography>
+                
+                <Typography variant="caption" sx={{ color: "#64748B", fontWeight: 700, display: "block", mb: 0.5 }}>
+                  TOTAL OUTSTANDING AMOUNT
+                </Typography>
+                <Typography variant="h4" sx={{ fontWeight: 800, color: "#DC2626" }}>
+                  ₹{(payingBill.totalAmount || payingBill.amount || 0).toLocaleString()}
+                </Typography>
+              </Box>
+
+              <FormControl fullWidth>
+                <InputLabel id="payment-mode-label">Select Payment Mode</InputLabel>
+                <Select
+                  labelId="payment-mode-label"
+                  label="Select Payment Mode"
+                  value={paymentMode}
+                  onChange={(e) => setPaymentMode(e.target.value)}
+                >
+                  <MenuItem value="UPI">UPI (Google Pay, PhonePe, Paytm)</MenuItem>
+                  <MenuItem value="CARD">Credit / Debit Card</MenuItem>
+                  <MenuItem value="NET_BANKING">Net Banking</MenuItem>
+                  <MenuItem value="CASH">Cash Deposit at Counter</MenuItem>
+                </Select>
+              </FormControl>
+            </Stack>
+          )}
+        </DialogContent>
+        <DialogActions sx={{ p: 2.5 }}>
+          <Button onClick={() => setPaymentOpen(false)} color="inherit">
+            Cancel
+          </Button>
+          <Button
+            onClick={handleConfirmPayment}
+            variant="contained"
+            disabled={submittingPayment}
+            sx={{ bgcolor: "#00A99D", "&:hover": { bgcolor: "#00766d" } }}
+          >
+            {submittingPayment ? "Processing..." : "Authorize Settlement"}
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Snackbar
         open={snackbar.open}

@@ -17,6 +17,11 @@ import {
   Chip,
   Paper,
   CircularProgress,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  FormLabel,
+  FormControl,
 } from "@mui/material";
 import {
   Zap,
@@ -58,6 +63,15 @@ const Login = () => {
   const [wakingUp, setWakingUp] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  const [isNewConnection, setIsNewConnection] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [regEmail, setRegEmail] = useState("");
+  const [regPhone, setRegPhone] = useState("");
+  const [connectionType, setConnectionType] = useState("DOMESTIC");
+  const [sanctionedLoad, setSanctionedLoad] = useState("5.0");
+  const [phaseType, setPhaseType] = useState("SINGLE_PHASE");
 
   useEffect(() => {
     fetchPublicConsumers();
@@ -150,22 +164,64 @@ const Login = () => {
         navigate("/dashboard");
       } else {
         // Register Consumer Account
-        if (!selectedConsumerId) {
-          setError("Please select a Consumer Profile connection to link your web portal account.");
-          setLoading(false);
-          return;
+        let finalConsumerId = selectedConsumerId;
+
+        if (isNewConnection) {
+          if (!firstName.trim() || !lastName.trim() || !regEmail.trim() || !regPhone.trim()) {
+            setError("All applicant details (First/Last Name, Email, Phone) are required to apply for a new grid connection.");
+            setLoading(false);
+            return;
+          }
+
+          // Step 1: Create Consumer profile
+          const consumerRes = await api.post("/api/consumers", {
+            firstName: firstName.trim(),
+            lastName: lastName.trim(),
+            email: regEmail.trim(),
+            phone: regPhone.trim(),
+          });
+          finalConsumerId = consumerRes.data.id;
+
+          // Step 2: Apply and create Connection Profile
+          const randConn = "CON" + Math.floor(1000 + Math.random() * 9000);
+          const randMeter = "MET" + Math.floor(20000 + Math.random() * 80000);
+          await api.post("/api/connections", {
+            connectionNumber: randConn,
+            meterNumber: randMeter,
+            connectionType: connectionType,
+            status: "ACTIVE",
+            sanctionedLoad: parseFloat(sanctionedLoad) || 5.0,
+            phaseType: phaseType,
+            consumerId: finalConsumerId,
+          });
+        } else {
+          if (!finalConsumerId) {
+            setError("Please select a Consumer Profile connection to link your web portal account.");
+            setLoading(false);
+            return;
+          }
         }
 
+        // Step 3: Register user account linked to the connection consumer profile
         await api.post("/api/auth/register", {
           username: username.trim(),
           password: password,
           role: "ROLE_CONSUMER",
-          consumerId: selectedConsumerId,
+          consumerId: finalConsumerId,
         });
 
-        setSuccessMessage("Portal account registered successfully! You can now log in using the chosen credentials.");
+        // Refresh dropdown consumer list
+        await fetchPublicConsumers();
+
+        setSuccessMessage("Portal account registered and grid connection established successfully! You can now sign in using your chosen credentials.");
         setTabValue(1); // Redirect to Consumer Login tab
-        setPassword(""); // Clear password for security
+        setPassword(""); // Clear password
+        // Reset connection application fields
+        setFirstName("");
+        setLastName("");
+        setRegEmail("");
+        setRegPhone("");
+        setIsNewConnection(false);
       }
     } catch (err) {
       console.error(err);
@@ -380,8 +436,29 @@ const Login = () => {
 
               <form onSubmit={handleLogin}>
                 <Stack spacing={2.5}>
-                  {/* Consumer Select Dropdown in Consumer Tab / Register Tab */}
-                  {(tabValue === 2 || (tabValue === 1 && selectedConsumerId)) && (
+                  {/* Connection Choice for Registration Tab */}
+                  {tabValue === 2 && (
+                    <FormControl component="fieldset">
+                      <FormLabel component="legend" sx={{ fontSize: "0.8rem", color: "#64748B", fontWeight: 700, mb: 0.5 }}>
+                        GRID CONNECTION ACCESS
+                      </FormLabel>
+                      <RadioGroup
+                        row
+                        value={isNewConnection ? "new" : "existing"}
+                        onChange={(e) => {
+                          setIsNewConnection(e.target.value === "new");
+                          setError("");
+                          setSuccessMessage("");
+                        }}
+                      >
+                        <FormControlLabel value="existing" control={<Radio size="small" />} label="Link Existing Connection" sx={{ "& .MuiFormControlLabel-label": { fontSize: "0.85rem", fontWeight: 600 } }} />
+                        <FormControlLabel value="new" control={<Radio size="small" />} label="Apply New Connection" sx={{ "& .MuiFormControlLabel-label": { fontSize: "0.85rem", fontWeight: 600 } }} />
+                      </RadioGroup>
+                    </FormControl>
+                  )}
+
+                  {/* Selected Consumer Dropdown for Link Existing (Register tab) or Consumer Sign In */}
+                  {((tabValue === 2 && !isNewConnection) || (tabValue === 1 && selectedConsumerId)) && (
                     <TextField
                       select
                       fullWidth
@@ -399,6 +476,107 @@ const Login = () => {
                         </MenuItem>
                       ))}
                     </TextField>
+                  )}
+
+                  {/* New Grid Connection Application Fields */}
+                  {tabValue === 2 && isNewConnection && (
+                    <>
+                      <Stack direction="row" spacing={2}>
+                        <TextField
+                          fullWidth
+                          label="First Name"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          required
+                          sx={{
+                            "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
+                            "& .MuiInputLabel-root": { color: "#64748B" },
+                          }}
+                        />
+                        <TextField
+                          fullWidth
+                          label="Last Name"
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          required
+                          sx={{
+                            "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
+                            "& .MuiInputLabel-root": { color: "#64748B" },
+                          }}
+                        />
+                      </Stack>
+
+                      <TextField
+                        fullWidth
+                        label="Email Address"
+                        type="email"
+                        value={regEmail}
+                        onChange={(e) => setRegEmail(e.target.value)}
+                        required
+                        sx={{
+                          "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
+                          "& .MuiInputLabel-root": { color: "#64748B" },
+                        }}
+                      />
+
+                      <TextField
+                        fullWidth
+                        label="Phone Number"
+                        value={regPhone}
+                        onChange={(e) => setRegPhone(e.target.value)}
+                        required
+                        inputProps={{ maxLength: 10 }}
+                        sx={{
+                          "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
+                          "& .MuiInputLabel-root": { color: "#64748B" },
+                        }}
+                      />
+
+                      <TextField
+                        select
+                        fullWidth
+                        label="Connection Tariff Category"
+                        value={connectionType}
+                        onChange={(e) => setConnectionType(e.target.value)}
+                        sx={{
+                          "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
+                          "& .MuiInputLabel-root": { color: "#64748B" },
+                        }}
+                      >
+                        <MenuItem value="DOMESTIC">DOMESTIC (Residential)</MenuItem>
+                        <MenuItem value="COMMERCIAL">COMMERCIAL (Business)</MenuItem>
+                        <MenuItem value="INDUSTRIAL">INDUSTRIAL (Manufacturing)</MenuItem>
+                      </TextField>
+
+                      <Stack direction="row" spacing={2}>
+                        <TextField
+                          fullWidth
+                          label="Sanctioned Load (kW)"
+                          type="number"
+                          value={sanctionedLoad}
+                          onChange={(e) => setSanctionedLoad(e.target.value)}
+                          required
+                          sx={{
+                            "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
+                            "& .MuiInputLabel-root": { color: "#64748B" },
+                          }}
+                        />
+                        <TextField
+                          select
+                          fullWidth
+                          label="Phase Type"
+                          value={phaseType}
+                          onChange={(e) => setPhaseType(e.target.value)}
+                          sx={{
+                            "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
+                            "& .MuiInputLabel-root": { color: "#64748B" },
+                          }}
+                        >
+                          <MenuItem value="SINGLE_PHASE">SINGLE PHASE</MenuItem>
+                          <MenuItem value="THREE_PHASE">THREE PHASE</MenuItem>
+                        </TextField>
+                      </Stack>
+                    </>
                   )}
 
                   {/* Username Field */}
