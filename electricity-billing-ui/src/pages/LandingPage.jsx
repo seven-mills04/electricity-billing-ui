@@ -14,6 +14,7 @@ import HowItWorks from "../components/landing/HowItWorks";
 import Announcements from "../components/landing/Announcements";
 import FAQ from "../components/landing/FAQ";
 import Footer from "../components/landing/Footer";
+import SystemTicker from "../components/landing/SystemTicker";
 
 const LandingPage = () => {
   // Static Genuine Utility Statistics data
@@ -46,6 +47,9 @@ const LandingPage = () => {
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "#FFFFFF", color: "#1E293B", overflowX: "hidden" }}>
+      {/* 0. Real-time System Status Ticker */}
+      <SystemTicker />
+
       {/* 1. Header Navbar */}
       <Navbar />
 
@@ -72,8 +76,10 @@ const LandingPage = () => {
         id="statistics"
         sx={{
           py: 12,
-          bgcolor: "#FFFFFF",
+          bgcolor: "#F7F9FC",
           borderY: "1px solid #E2E8F0",
+          position: "relative",
+          backgroundImage: "radial-gradient(circle at 100% 100%, rgba(0, 169, 157, 0.02) 0%, transparent 60%), radial-gradient(circle at 0% 0%, rgba(0, 86, 166, 0.02) 0%, transparent 60%)",
         }}
       >
         <Container maxWidth="xl">
@@ -124,18 +130,23 @@ const LandingPage = () => {
                   <Box
                     sx={{
                       p: 4,
-                      borderRadius: "16px",
-                      bgcolor: "#F7F9FC",
+                      borderRadius: "18px",
+                      bgcolor: "#FFFFFF",
                       border: "1px solid #E2E8F0",
+                      borderTop: `4px solid ${index % 2 === 0 ? "#0056A6" : "#00A99D"}`,
                       height: "100%",
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
                       textAlign: "center",
-                      transition: "transform 0.25s ease, box-shadow 0.25s ease",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.02)",
+                      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                      position: "relative",
+                      overflow: "hidden",
                       "&:hover": {
-                        transform: "translateY(-4px)",
-                        boxShadow: "0 8px 24px rgba(0, 86, 166, 0.04)",
+                        transform: "translateY(-8px)",
+                        boxShadow: "0 12px 30px rgba(0, 86, 166, 0.08)",
+                        borderColor: index % 2 === 0 ? "#0056A6" : "#00A99D",
                       },
                     }}
                   >

@@ -12,13 +12,31 @@ import {
   Divider
 } from "@mui/material";
 
-const DetailsDialog = ({ open, onClose, title, subtitle, sections }) => {
-  if (!sections) return null;
+const DetailsDialog = ({ open, onClose, handleClose, title, subtitle, sections, data }) => {
+  const activeClose = onClose || handleClose;
+
+  // Dynamically map flat data to sections if sections is not supplied
+  let activeSections = sections;
+  if (!activeSections && data) {
+    activeSections = [
+      {
+        title: "",
+        fields: Object.entries(data).map(([key, value]) => ({
+          label: key,
+          value: value,
+          xs: 12,
+          sm: 6
+        }))
+      }
+    ];
+  }
+
+  if (!activeSections) return null;
 
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={activeClose}
       fullWidth
       maxWidth="sm"
       PaperProps={{
@@ -42,7 +60,7 @@ const DetailsDialog = ({ open, onClose, title, subtitle, sections }) => {
 
       <DialogContent dividers sx={{ px: 4, py: 3, borderColor: "#E2E8F0" }}>
         <Stack spacing={3}>
-          {sections.map((section, sIdx) => (
+          {activeSections.map((section, sIdx) => (
             <Box key={sIdx}>
               {section.title && (
                 <Typography
@@ -71,14 +89,14 @@ const DetailsDialog = ({ open, onClose, title, subtitle, sections }) => {
                   </Grid>
                 ))}
               </Grid>
-              {sIdx !== sections.length - 1 && <Divider sx={{ mt: 3 }} />}
+              {sIdx !== activeSections.length - 1 && <Divider sx={{ mt: 3 }} />}
             </Box>
           ))}
         </Stack>
       </DialogContent>
 
       <DialogActions sx={{ px: 4, py: 2, bgcolor: "#F8FAFC", borderTop: "1px solid #E2E8F0" }}>
-        <Button variant="outlined" color="secondary" onClick={onClose} sx={{ px: 3 }}>
+        <Button variant="outlined" color="secondary" onClick={activeClose} sx={{ px: 3 }}>
           Close
         </Button>
       </DialogActions>
