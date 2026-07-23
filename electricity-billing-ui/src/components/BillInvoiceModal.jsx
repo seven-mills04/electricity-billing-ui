@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -14,9 +14,12 @@ import {
   Paper,
 } from "@mui/material";
 import { Zap, Printer, CheckCircle, Clock, FileText } from "lucide-react";
+import api from "../api/axiosConfig";
 
 const BillInvoiceModal = ({ open, onClose, bill }) => {
   if (!bill) return null;
+
+  const [fetchedConsumer, setFetchedConsumer] = useState(null);
 
   const handlePrint = () => {
     window.print();
@@ -25,7 +28,24 @@ const BillInvoiceModal = ({ open, onClose, bill }) => {
   const isPaid = bill.billStatus === "PAID";
   const rawMeter = bill.meterReading || {};
   const rawConnection = rawMeter.connection || {};
-  const rawConsumer = rawConnection.consumer || {};
+  const rawConsumer = fetchedConsumer || rawConnection.consumer || {};
+
+  useEffect(() => {
+    if (open && rawConnection.consumerId) {
+      setFetchedConsumer(null);
+      api.get(`/api/consumers/${rawConnection.consumerId}`)
+        .then((res) => {
+          if (res.data) {
+            setFetchedConsumer(res.data);
+          }
+        })
+        .catch((err) => {
+          console.error("Failed to fetch consumer details for invoice modal", err);
+        });
+    } else {
+      setFetchedConsumer(null);
+    }
+  }, [open, rawConnection.consumerId]);
 
   return (
     <Dialog
@@ -33,6 +53,7 @@ const BillInvoiceModal = ({ open, onClose, bill }) => {
       onClose={onClose}
       maxWidth="md"
       fullWidth
+      scroll="body"
       PaperProps={{
         id: "printable-bill-invoice",
       }}
