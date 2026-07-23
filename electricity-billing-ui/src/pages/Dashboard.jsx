@@ -243,7 +243,7 @@ const Dashboard = () => {
 
             <Box sx={{ height: 320, width: "100%" }}>
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 15, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#0284C7" stopOpacity={0.4} />
@@ -283,7 +283,7 @@ const Dashboard = () => {
               {predictions.length > 0 ? (
                 predictions.map((pred, idx) => (
                   <Box key={idx} sx={{ p: 2, borderRadius: "14px", bgcolor: "#F8FAFC", border: "1px solid #E2E8F0" }}>
-                    <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 0.5 }}>
+                    <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 0.5, width: "100%" }}>
                       <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#0F172A" }}>
                         {pred.month} Forecast
                       </Typography>
@@ -291,7 +291,7 @@ const Dashboard = () => {
                         {pred.predictedKwh} kWh
                       </Typography>
                     </Stack>
-                    <Stack direction="row" justifyContent="space-between">
+                    <Stack direction="row" justifyContent="space-between" sx={{ width: "100%" }}>
                       <Typography variant="caption" sx={{ color: "#64748B" }}>
                         Lower: {pred.lowerBoundKwh} kWh
                       </Typography>
