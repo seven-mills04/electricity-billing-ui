@@ -53,7 +53,7 @@ const BillInvoiceModal = ({ open, onClose, bill }) => {
       onClose={onClose}
       maxWidth="md"
       fullWidth
-      scroll="body"
+      scroll="paper"
       PaperProps={{
         id: "printable-bill-invoice",
       }}
