@@ -283,19 +283,21 @@ const Dashboard = () => {
               {predictions.length > 0 ? (
                 predictions.map((pred, idx) => (
                   <Box key={idx} sx={{ p: 2, borderRadius: "14px", bgcolor: "#F8FAFC", border: "1px solid #E2E8F0" }}>
-                    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", mb: 0.5, width: "100%" }}>
+                    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: 2, mb: 0.5, width: "100%" }}>
                       <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#0F172A" }}>
                         {pred.month} Forecast
                       </Typography>
-                      <Typography variant="h6" sx={{ fontWeight: 800, color: "#0284C7" }}>
+                      <Box sx={{ flexGrow: 1 }} />
+                      <Typography variant="h6" sx={{ fontWeight: 800, color: "#0284C7", whiteSpace: "nowrap" }}>
                         {pred.predictedKwh} kWh
                       </Typography>
                     </Box>
-                    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
-                      <Typography variant="caption" sx={{ color: "#64748B" }}>
+                    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", gap: 2, width: "100%" }}>
+                      <Typography variant="caption" sx={{ color: "#64748B", whiteSpace: "nowrap" }}>
                         Lower: {pred.lowerBoundKwh} kWh
                       </Typography>
-                      <Typography variant="caption" sx={{ color: "#64748B" }}>
+                      <Box sx={{ flexGrow: 1 }} />
+                      <Typography variant="caption" sx={{ color: "#64748B", whiteSpace: "nowrap" }}>
                         Upper: {pred.upperBoundKwh} kWh
                       </Typography>
                     </Box>
