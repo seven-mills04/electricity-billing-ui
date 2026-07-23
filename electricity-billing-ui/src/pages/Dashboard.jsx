@@ -283,22 +283,22 @@ const Dashboard = () => {
               {predictions.length > 0 ? (
                 predictions.map((pred, idx) => (
                   <Box key={idx} sx={{ p: 2, borderRadius: "14px", bgcolor: "#F8FAFC", border: "1px solid #E2E8F0" }}>
-                    <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 0.5, width: "100%" }}>
+                    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", mb: 0.5, width: "100%" }}>
                       <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#0F172A" }}>
                         {pred.month} Forecast
                       </Typography>
                       <Typography variant="h6" sx={{ fontWeight: 800, color: "#0284C7" }}>
                         {pred.predictedKwh} kWh
                       </Typography>
-                    </Stack>
-                    <Stack direction="row" justifyContent="space-between" sx={{ width: "100%" }}>
+                    </Box>
+                    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
                       <Typography variant="caption" sx={{ color: "#64748B" }}>
                         Lower: {pred.lowerBoundKwh} kWh
                       </Typography>
                       <Typography variant="caption" sx={{ color: "#64748B" }}>
                         Upper: {pred.upperBoundKwh} kWh
                       </Typography>
-                    </Stack>
+                    </Box>
                   </Box>
                 ))
               ) : (
