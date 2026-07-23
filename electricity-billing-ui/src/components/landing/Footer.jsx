@@ -51,15 +51,15 @@ const Footer = () => {
                 </Box>
                 <Box>
                   <Typography variant="h6" sx={{ fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.02em" }}>
-                    APEX POWER
+                    KNK POWER
                   </Typography>
                   <Typography variant="caption" sx={{ color: "#00A99D", fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase" }}>
-                    Corporation Limited
+                    Corporation LTD.
                   </Typography>
                 </Box>
               </Stack>
               <Typography variant="body2" sx={{ color: "#94A3B8", lineHeight: 1.6, maxWidth: 320 }}>
-                Apex Power Corporation is a certified state-licensed power distribution utility serving over 4.8 million consumers. Powering growth, residential reliability, and national grid safety.
+                KNK Power Corporation LTD. is a certified state-licensed power distribution utility serving over 4.8 million consumers. Powering growth, residential reliability, and national grid safety.
               </Typography>
               <Typography variant="caption" sx={{ color: "#64748B", display: "block" }}>
                 CIN: U40109DL2026PLC098241
@@ -126,7 +126,7 @@ const Footer = () => {
               <Stack spacing={1.5}>
                 <Stack direction="row" spacing={1.5} alignItems="center" sx={{ color: "#94A3B8" }}>
                   <Mail size={16} />
-                  <Typography variant="body2">customercare@apexpower.co.in</Typography>
+                  <Typography variant="body2">customercare@knkpower.co.in</Typography>
                 </Stack>
                 <Stack direction="row" spacing={1.5} alignItems="center" sx={{ color: "#94A3B8" }}>
                   <Phone size={16} />
@@ -135,7 +135,7 @@ const Footer = () => {
                 <Stack direction="row" spacing={1.5} alignItems="flex-start" sx={{ color: "#94A3B8" }}>
                   <MapPin size={16} sx={{ mt: 0.5 }} />
                   <Typography variant="body2" sx={{ maxWidth: 280 }}>
-                    Apex Power HQ, Energy Bhawan, 12 Institutional Area, Metro City, 110003
+                    KNK Power HQ, Energy Bhawan, 12 Institutional Area, Metro City, 110003
                   </Typography>
                 </Stack>
               </Stack>
@@ -149,7 +149,7 @@ const Footer = () => {
         <Grid container spacing={3} alignItems="center" justifyContent="space-between">
           <Grid item xs={12} md={6}>
             <Typography variant="body2" sx={{ color: "#64748B" }}>
-              © {new Date().getFullYear()} Apex Power Corporation Limited. All rights reserved. Registered under regulatory authorities.
+              © {new Date().getFullYear()} KNK Power Corporation LTD. All rights reserved. Registered under regulatory authorities.
             </Typography>
           </Grid>
           <Grid item xs={12} md={6} textAlign={{ xs: "left", md: "right" }}>

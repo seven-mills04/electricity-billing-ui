@@ -108,7 +108,7 @@ const Sidebar = ({ onClose }) => {
           </Box>
           <Box>
             <Typography variant="h6" sx={{ fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.03em", fontSize: "1.05rem", lineHeight: 1.1 }}>
-              APEX POWER
+              KNK POWER
             </Typography>
             <Typography variant="caption" sx={{ color: "#00A99D", fontSize: "0.68rem", display: "block", fontWeight: 700, textTransform: "uppercase" }}>
               Corporation Ltd.

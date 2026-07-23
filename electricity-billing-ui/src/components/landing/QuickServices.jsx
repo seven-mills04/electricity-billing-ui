@@ -47,7 +47,7 @@ const QuickServices = () => {
   const mockBills = {
     con1001: {
       name: "Rajesh Kumar",
-      billNo: "APEX-2026-0711",
+      billNo: "KNK-2026-0711",
       month: "July 2026",
       due: "2026-08-05",
       units: 245,
@@ -55,7 +55,7 @@ const QuickServices = () => {
     },
     con1002: {
       name: "Sneha Patel",
-      billNo: "APEX-2026-0712",
+      billNo: "KNK-2026-0712",
       month: "July 2026",
       due: "2026-08-05",
       units: 180,
@@ -63,7 +63,7 @@ const QuickServices = () => {
     },
     con1003: {
       name: "Amit Sharma",
-      billNo: "APEX-2026-0713",
+      billNo: "KNK-2026-0713",
       month: "July 2026",
       due: "2026-08-05",
       units: 420,
@@ -107,7 +107,7 @@ const QuickServices = () => {
         // Generate a random dynamic bill if consumer number is entered but not in mock lists
         setBillDetails({
           name: `Consumer (${consumerNo.toUpperCase()})`,
-          billNo: `APEX-2026-OP${Math.floor(1000 + Math.random() * 9000)}`,
+          billNo: `KNK-2026-OP${Math.floor(1000 + Math.random() * 9000)}`,
           month: "July 2026",
           due: "2026-08-05",
           units: 280,

@@ -293,7 +293,7 @@ const Login = () => {
           </Box>
           <Box>
             <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: "-0.03em", color: "#0056A6", lineHeight: 1.1 }}>
-              APEX POWER
+              KNK POWER
             </Typography>
             <Typography variant="caption" sx={{ color: "#00A99D", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.1em", display: "block", textTransform: "uppercase" }}>
               Corporation Ltd.
@@ -313,7 +313,7 @@ const Login = () => {
               Official Consumer & Billing Portal
             </Typography>
             <Typography variant="body1" sx={{ color: "#475569", fontSize: "1.05rem", mb: 4, lineHeight: 1.6 }}>
-              Welcome to the secure billing portal for Apex Power Corporation Ltd. Access your account to manage grid connections, view energy invoices, self-report meter readings, and make secure online payments.
+              Welcome to the secure billing portal for KNK Power Corporation LTD. Access your account to manage grid connections, view energy invoices, self-report meter readings, and make secure online payments.
             </Typography>
 
             {/* Quick Demo Pre-fill Pill Bar */}
@@ -338,7 +338,7 @@ const Login = () => {
 
         {/* Footer info */}
         <Typography variant="caption" sx={{ color: "#64748B" }}>
-          © {new Date().getFullYear()} Apex Power Corporation Ltd. All rights reserved.
+          © {new Date().getFullYear()} KNK Power Corporation LTD. All rights reserved.
         </Typography>
       </Box>
 

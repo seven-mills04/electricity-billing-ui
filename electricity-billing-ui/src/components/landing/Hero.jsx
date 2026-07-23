@@ -322,7 +322,7 @@ const Hero = () => {
                     
                     {/* App Header */}
                     <rect x="5" y="16" width="85" height="24" fill="#0056A6" rx="4" />
-                    <text x="47" y="31" fill="#FFFFFF" fontSize="8" fontWeight="bold" textAnchor="middle" fontFamily="sans-serif">APEX PAY</text>
+                    <text x="47" y="31" fill="#FFFFFF" fontSize="8" fontWeight="bold" textAnchor="middle" fontFamily="sans-serif">KNK PAY</text>
                     
                     {/* Checkmark Circle (Success) */}
                     <circle cx="47" cy="72" r="18" fill="#00A99D" />

@@ -81,7 +81,7 @@ const Navbar = () => {
         <Stack direction="row" spacing={1} alignItems="center">
           <Zap size={22} color="#0056A6" fill="#0056A6" />
           <Typography variant="h6" sx={{ fontWeight: 800, color: "#0056A6", letterSpacing: "-0.02em" }}>
-            APEX POWER
+            KNK POWER
           </Typography>
         </Stack>
         <IconButton onClick={handleDrawerToggle} sx={{ color: "#475569" }}>
@@ -174,7 +174,7 @@ const Navbar = () => {
                       lineHeight: 1.1,
                     }}
                   >
-                    APEX POWER
+                    KNK POWER
                   </Typography>
                   <Typography
                     variant="caption"

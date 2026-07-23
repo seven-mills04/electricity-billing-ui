@@ -162,7 +162,7 @@ const ConsumerPreview = () => {
                 fontFamily: "monospace",
               }}
             >
-              https://portal.apexpower.co.in/dashboard
+              https://portal.knkpower.co.in/dashboard
             </Box>
           </Box>
 
