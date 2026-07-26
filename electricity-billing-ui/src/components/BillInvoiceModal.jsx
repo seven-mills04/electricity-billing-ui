@@ -141,16 +141,30 @@ const BillInvoiceModal = ({ open, onClose, bill }) => {
       `}</style>
 
       <DialogTitle sx={{ p: 3, bgcolor: "rgba(13, 27, 42, 0.95)", color: "#FFFFFF", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
-          <Stack direction="row" spacing={1.5} alignItems="center">
-            <Box sx={{ p: 1, borderRadius: "8px", bgcolor: "#06B6D4", color: "#0F172A" }}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="space-between"
+          alignItems={{ xs: "flex-start", sm: "center" }}
+          spacing={2}
+          sx={{ flexWrap: "wrap", width: "100%" }}
+        >
+          <Stack direction="row" spacing={1.5} alignItems="center" sx={{ minWidth: 0, flex: 1, mr: { sm: 2 } }}>
+            <Box sx={{ p: 1, borderRadius: "8px", bgcolor: "#06B6D4", color: "#0F172A", flexShrink: 0 }}>
               <Zap size={20} fill="currentColor" />
             </Box>
-            <Box>
-              <Typography variant="h6" sx={{ fontWeight: 800 }}>
+            <Box sx={{ minWidth: 0 }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: 800,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
                 OFFICIAL UTILITY INVOICE
               </Typography>
-              <Typography variant="caption" sx={{ color: "#94A3B8" }}>
+              <Typography variant="caption" sx={{ color: "#94A3B8", display: "block" }}>
                 Bill No: {bill.billNumber || "N/A"}
               </Typography>
             </Box>
@@ -165,6 +179,7 @@ const BillInvoiceModal = ({ open, onClose, bill }) => {
               fontWeight: 700,
               fontSize: "0.75rem",
               border: `1px solid ${isPaid ? "rgba(34, 197, 94, 0.3)" : "rgba(245, 158, 11, 0.3)"}`,
+              flexShrink: 0,
             }}
           />
         </Stack>
