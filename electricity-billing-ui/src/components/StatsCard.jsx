@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { motion } from 'framer-motion';
 
-// CountUp animator component that handles currency, commas, and suffixes
+
 const AnimatedValue = ({ value }) => {
   const [displayValue, setDisplayValue] = useState('0');
 
@@ -96,7 +96,7 @@ const StatsCard = ({ title, value, icon: Icon, color = '#2563EB', trend }) => {
         }}
       >
         <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-          {/* Top Row: Title & Icon */}
+          
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
             <Typography 
               variant="subtitle2" 
@@ -125,7 +125,7 @@ const StatsCard = ({ title, value, icon: Icon, color = '#2563EB', trend }) => {
             )}
           </Box>
 
-          {/* Middle: Value */}
+          
           <Typography 
             variant="h4" 
             sx={{ 
@@ -140,7 +140,7 @@ const StatsCard = ({ title, value, icon: Icon, color = '#2563EB', trend }) => {
             <AnimatedValue value={value} />
           </Typography>
 
-          {/* Bottom Row: Trend badge */}
+          
           {trend !== undefined && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Box 

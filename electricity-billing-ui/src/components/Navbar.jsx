@@ -45,7 +45,7 @@ const Navbar = ({ onMobileToggle, title }) => {
 
   const handleNotifClick = (e) => {
     setAnchorEl(e.currentTarget);
-    // Mark all as read when opened
+    
     setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
   };
 
@@ -82,7 +82,7 @@ const Navbar = ({ onMobileToggle, title }) => {
             {title || "Overview"}
           </Typography>
 
-          {/* Grid Live Status Pill */}
+          
           <Box
             sx={{
               display: { xs: "none", md: "flex" },
@@ -112,7 +112,7 @@ const Navbar = ({ onMobileToggle, title }) => {
         </Stack>
 
         <Stack direction="row" spacing={2} alignItems="center">
-          {/* Consumer Account Badge */}
+          
           {userRole === "CONSUMER" && (
             <Box
               sx={{
@@ -130,7 +130,7 @@ const Navbar = ({ onMobileToggle, title }) => {
             </Box>
           )}
 
-          {/* Notifications button */}
+          
           <IconButton
             onClick={handleNotifClick}
             sx={{
@@ -144,7 +144,7 @@ const Navbar = ({ onMobileToggle, title }) => {
             </Badge>
           </IconButton>
 
-          {/* Notifications Popover */}
+          
           <Popover
             open={notifOpen}
             anchorEl={anchorEl}
@@ -198,7 +198,7 @@ const Navbar = ({ onMobileToggle, title }) => {
                       }}
                     >
                       <Stack direction="row" spacing={1.5} alignItems="flex-start" sx={{ width: "100%" }}>
-                        {/* Dot indicator for unread */}
+                        
                         <Box sx={{ display: "flex", alignItems: "center", pt: 0.5 }}>
                           <Box 
                             sx={{ 
@@ -237,7 +237,7 @@ const Navbar = ({ onMobileToggle, title }) => {
 
           <Divider orientation="vertical" flexItem sx={{ borderColor: "#E2E8F0" }} />
 
-          {/* Profile User Info */}
+          
           <Stack direction="row" spacing={1.5} alignItems="center">
             <Box sx={{ textAlign: "right", display: { xs: "none", sm: "block" } }}>
               <Typography fontWeight={700} variant="body2" sx={{ color: "#0F172A" }}>

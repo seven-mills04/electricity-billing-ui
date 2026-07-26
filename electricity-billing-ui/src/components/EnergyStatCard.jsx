@@ -29,7 +29,7 @@ const EnergyStatCard = ({
           },
         }}
       >
-        {/* Top Accent bar */}
+        
         <Box
           sx={{
             height: "4px",

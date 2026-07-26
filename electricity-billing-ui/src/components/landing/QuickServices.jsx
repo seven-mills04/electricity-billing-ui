@@ -14,7 +14,6 @@ import {
   DialogActions,
   Button,
   TextField,
-  MenuItem,
   CircularProgress,
   Alert,
 } from "@mui/material";
@@ -27,7 +26,6 @@ import {
   AlertTriangle,
   Download,
   PhoneCall,
-  Zap,
   CheckCircle2,
 } from "lucide-react";
 import { motion } from "framer-motion";
@@ -35,7 +33,6 @@ import { motion } from "framer-motion";
 const QuickServices = () => {
   const navigate = useNavigate();
 
-  // Dialog States
   const [payDialogOpen, setPayDialogOpen] = useState(false);
   const [consumerNo, setConsumerNo] = useState("");
   const [loading, setLoading] = useState(false);
@@ -43,7 +40,6 @@ const QuickServices = () => {
   const [error, setError] = useState("");
   const [paySuccess, setPaySuccess] = useState(false);
 
-  // Mock bills database for interactive quick pay demo
   const mockBills = {
     con1001: {
       name: "Rajesh Kumar",
@@ -84,7 +80,6 @@ const QuickServices = () => {
         element.scrollIntoView({ behavior: "smooth" });
       }
     } else {
-      // All other services require authentication
       navigate("/login", { state: { tab: 1 } });
     }
   };
@@ -104,7 +99,6 @@ const QuickServices = () => {
       if (bill) {
         setBillDetails(bill);
       } else {
-        // Generate a random dynamic bill if consumer number is entered but not in mock lists
         setBillDetails({
           name: `Consumer (${consumerNo.toUpperCase()})`,
           billNo: `KNK-2026-OP${Math.floor(1000 + Math.random() * 9000)}`,
@@ -129,50 +123,50 @@ const QuickServices = () => {
     {
       title: "Pay Electricity Bill",
       desc: "Instantly clear your outstanding dues using UPI, cards, or net banking.",
-      icon: <CreditCard size={28} color="#0056A6" />,
-      bg: "rgba(0, 86, 166, 0.05)",
+      icon: <CreditCard size={26} color="#06B6D4" />,
+      bg: "rgba(6, 182, 212, 0.1)",
     },
     {
       title: "View Bill History",
       desc: "Access and review statements from previous billing cycles.",
-      icon: <History size={28} color="#00A99D" />,
-      bg: "rgba(0, 169, 157, 0.05)",
+      icon: <History size={26} color="#34D399" />,
+      bg: "rgba(52, 211, 153, 0.1)",
     },
     {
       title: "Apply for New Connection",
       desc: "Submit documents and register for a new residential or commercial meter.",
-      icon: <PlusCircle size={28} color="#F4B400" />,
-      bg: "rgba(244, 180, 0, 0.05)",
+      icon: <PlusCircle size={26} color="#F59E0B" />,
+      bg: "rgba(245, 158, 11, 0.1)",
     },
     {
       title: "Submit Meter Reading",
       desc: "Self-report your current monthly meter readings for accurate billing.",
-      icon: <FileEdit size={28} color="#0056A6" />,
-      bg: "rgba(0, 86, 166, 0.05)",
+      icon: <FileEdit size={26} color="#60A5FA" />,
+      bg: "rgba(96, 165, 250, 0.1)",
     },
     {
       title: "Track Consumption",
       desc: "Analyze usage patterns and check active electrical load metrics.",
-      icon: <TrendingUp size={28} color="#00A99D" />,
-      bg: "rgba(0, 169, 157, 0.05)",
+      icon: <TrendingUp size={26} color="#A78BFA" />,
+      bg: "rgba(167, 139, 250, 0.1)",
     },
     {
       title: "Register Complaint",
       desc: "Report power outages, billing errors, or technical grid issues.",
-      icon: <AlertTriangle size={28} color="#F4B400" />,
-      bg: "rgba(244, 180, 0, 0.05)",
+      icon: <AlertTriangle size={26} color="#F43F5E" />,
+      bg: "rgba(244, 63, 94, 0.1)",
     },
     {
       title: "Download Receipt",
       desc: "Download soft copies of your previous payment receipts.",
-      icon: <Download size={28} color="#0056A6" />,
-      bg: "rgba(0, 86, 166, 0.05)",
+      icon: <Download size={26} color="#38BDF8" />,
+      bg: "rgba(56, 189, 248, 0.1)",
     },
     {
       title: "Customer Support",
       desc: "Connect with our 24/7 helpline or chat support teams.",
-      icon: <PhoneCall size={28} color="#00A99D" />,
-      bg: "rgba(0, 169, 157, 0.05)",
+      icon: <PhoneCall size={26} color="#2DD4BF" />,
+      bg: "rgba(45, 212, 191, 0.1)",
     },
   ];
 
@@ -181,16 +175,15 @@ const QuickServices = () => {
       id="services"
       sx={{
         py: { xs: 10, md: 14 },
-        bgcolor: "#F7F9FC",
+        bgcolor: "transparent",
       }}
     >
       <Container maxWidth="xl">
-        {/* Section Header */}
         <Stack alignItems="center" textAlign="center" spacing={2} sx={{ mb: 8 }}>
           <Typography
             variant="h6"
             sx={{
-              color: "#00A99D",
+              color: "#06B6D4",
               fontWeight: 700,
               letterSpacing: "0.1em",
               textTransform: "uppercase",
@@ -201,7 +194,7 @@ const QuickServices = () => {
           <Typography
             variant="h2"
             sx={{
-              color: "#0056A6",
+              color: "#FFFFFF",
               fontWeight: 800,
               fontSize: { xs: "2rem", md: "2.5rem" },
             }}
@@ -211,7 +204,7 @@ const QuickServices = () => {
           <Typography
             variant="body1"
             sx={{
-              color: "#475569",
+              color: "#94A3B8",
               maxWidth: "600px",
             }}
           >
@@ -219,7 +212,6 @@ const QuickServices = () => {
           </Typography>
         </Stack>
 
-        {/* Services Grid */}
         <Grid container spacing={3.5}>
           {services.map((service, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
@@ -230,16 +222,18 @@ const QuickServices = () => {
                 <Card
                   onClick={() => handleCardClick(service.title)}
                   sx={{
-                    bgcolor: "#FFFFFF",
+                    bgcolor: "rgba(15, 23, 42, 0.35)",
                     height: "100%",
                     cursor: "pointer",
-                    border: "1px solid #E2E8F0",
-                    borderRadius: "16px",
-                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.02)",
-                    transition: "box-shadow 0.25s ease, border-color 0.25s ease",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    borderRadius: "18px",
+                    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.15)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                    transition: "all 0.25s ease",
                     "&:hover": {
-                      borderColor: "#0056A6",
-                      boxShadow: "0 8px 24px rgba(0, 86, 166, 0.08)",
+                      borderColor: "#06B6D4",
+                      boxShadow: "0 8px 30px rgba(6, 182, 212, 0.15)",
                     },
                   }}
                 >
@@ -262,7 +256,7 @@ const QuickServices = () => {
                       variant="h5"
                       sx={{
                         fontWeight: 700,
-                        color: "#1E293B",
+                        color: "#E2E8F0",
                         mb: 1.5,
                         fontSize: "1.15rem",
                       }}
@@ -272,7 +266,7 @@ const QuickServices = () => {
                     <Typography
                       variant="body2"
                       sx={{
-                        color: "#475569",
+                        color: "#94A3B8",
                         lineHeight: 1.55,
                       }}
                     >
@@ -286,23 +280,29 @@ const QuickServices = () => {
         </Grid>
       </Container>
 
-      {/* Quick Pay Dialog */}
       <Dialog
         open={payDialogOpen}
         onClose={() => setPayDialogOpen(false)}
         fullWidth
         maxWidth="sm"
         PaperProps={{
-          sx: { borderRadius: "16px", p: 1 },
+          sx: {
+            borderRadius: "20px",
+            p: 1,
+            bgcolor: "rgba(15, 23, 42, 0.95)",
+            border: "1px solid rgba(255, 255, 255, 0.08)",
+            backdropFilter: "blur(16px)",
+            color: "#F8FAFC",
+          },
         }}
       >
-        <DialogTitle sx={{ fontWeight: 800, color: "#0056A6", pb: 1 }}>
+        <DialogTitle sx={{ fontWeight: 800, color: "#FFFFFF", pb: 1 }}>
           Quick Electricity Bill Payment
         </DialogTitle>
         <DialogContent>
           {!paySuccess ? (
             <Stack spacing={3} sx={{ mt: 1 }}>
-              <Typography variant="body2" sx={{ color: "#475569" }}>
+              <Typography variant="body2" sx={{ color: "#94A3B8" }}>
                 Enter your Consumer Number to view outstanding dues. For demo, try <strong>con1001</strong>, <strong>con1002</strong>, or <strong>con1003</strong>.
               </Typography>
 
@@ -317,20 +317,35 @@ const QuickServices = () => {
                   error={!!error}
                   disabled={loading || !!billDetails}
                   size="small"
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      color: "#FFFFFF",
+                      "& fieldset": { borderColor: "rgba(255, 255, 255, 0.15)" },
+                      "&:hover fieldset": { borderColor: "#06B6D4" },
+                    },
+                    "& .MuiInputLabel-root": { color: "#94A3B8" },
+                  }}
                 />
                 {!billDetails && (
                   <Button
                     variant="contained"
                     onClick={handleLookup}
                     disabled={loading}
-                    sx={{ bgcolor: "#0056A6", px: 3, minWidth: 100 }}
+                    sx={{
+                      bgcolor: "#06B6D4",
+                      color: "#020617",
+                      px: 3,
+                      minWidth: 100,
+                      fontWeight: 700,
+                      "&:hover": { bgcolor: "#22D3EE" },
+                    }}
                   >
                     {loading ? <CircularProgress size={20} color="inherit" /> : "Verify"}
                   </Button>
                 )}
               </Stack>
 
-              {error && <Alert severity="error">{error}</Alert>}
+              {error && <Alert severity="error" sx={{ bgcolor: "rgba(244, 63, 94, 0.1)", color: "#FB7185", border: "1px solid rgba(244, 63, 94, 0.2)" }}>{error}</Alert>}
 
               {billDetails && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
@@ -338,37 +353,37 @@ const QuickServices = () => {
                     sx={{
                       p: 3,
                       borderRadius: "12px",
-                      bgcolor: "#F7F9FC",
-                      border: "1px solid #E2E8F0",
+                      bgcolor: "rgba(255, 255, 255, 0.03)",
+                      border: "1px solid rgba(255, 255, 255, 0.06)",
                     }}
                   >
-                    <Typography variant="subtitle1" sx={{ fontWeight: 700, color: "#1E293B", mb: 2 }}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 700, color: "#E2E8F0", mb: 2 }}>
                       Bill Found
                     </Typography>
                     <Grid container spacing={2}>
                       <Grid item xs={6}>
-                        <Typography variant="caption" color="textSecondary">Consumer Name</Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 600 }}>{billDetails.name}</Typography>
+                        <Typography variant="caption" sx={{ color: "#64748B" }}>Consumer Name</Typography>
+                        <Typography variant="body2" sx={{ fontWeight: 600, color: "#FFFFFF" }}>{billDetails.name}</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        <Typography variant="caption" color="textSecondary">Bill Reference</Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 600 }}>{billDetails.billNo}</Typography>
+                        <Typography variant="caption" sx={{ color: "#64748B" }}>Bill Reference</Typography>
+                        <Typography variant="body2" sx={{ fontWeight: 600, color: "#FFFFFF" }}>{billDetails.billNo}</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        <Typography variant="caption" color="textSecondary">Billing Month</Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 600 }}>{billDetails.month}</Typography>
+                        <Typography variant="caption" sx={{ color: "#64748B" }}>Billing Month</Typography>
+                        <Typography variant="body2" sx={{ fontWeight: 600, color: "#FFFFFF" }}>{billDetails.month}</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        <Typography variant="caption" color="textSecondary">Due Date</Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 600 }} color="error">{billDetails.due}</Typography>
+                        <Typography variant="caption" sx={{ color: "#64748B" }}>Due Date</Typography>
+                        <Typography variant="body2" sx={{ fontWeight: 600, color: "#FB7185" }}>{billDetails.due}</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        <Typography variant="caption" color="textSecondary">Units Consumed</Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 600 }}>{billDetails.units} kWh</Typography>
+                        <Typography variant="caption" sx={{ color: "#64748B" }}>Units Consumed</Typography>
+                        <Typography variant="body2" sx={{ fontWeight: 600, color: "#FFFFFF" }}>{billDetails.units} kWh</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        <Typography variant="caption" color="textSecondary">Net Amount Payable</Typography>
-                        <Typography variant="h5" sx={{ fontWeight: 800, color: "#00A99D" }}>₹{billDetails.amount}</Typography>
+                        <Typography variant="caption" sx={{ color: "#64748B" }}>Net Amount Payable</Typography>
+                        <Typography variant="h5" sx={{ fontWeight: 800, color: "#34D399" }}>₹{billDetails.amount}</Typography>
                       </Grid>
                     </Grid>
                   </Box>
@@ -381,20 +396,20 @@ const QuickServices = () => {
             </Stack>
           ) : (
             <Stack alignItems="center" spacing={2.5} sx={{ py: 3, textAlign: "center" }}>
-              <Box sx={{ color: "#00A99D" }}>
+              <Box sx={{ color: "#34D399" }}>
                 <CheckCircle2 size={64} />
               </Box>
-              <Typography variant="h4" sx={{ fontWeight: 800, color: "#1E293B" }}>
+              <Typography variant="h4" sx={{ fontWeight: 800, color: "#FFFFFF" }}>
                 Payment Successful!
               </Typography>
-              <Typography variant="body2" sx={{ color: "#475569", maxWidth: "340px" }}>
+              <Typography variant="body2" sx={{ color: "#94A3B8", maxWidth: "340px" }}>
                 Your payment for bill <strong>{billDetails?.billNo}</strong> has been processed successfully. An SMS and email receipt has been dispatched.
               </Typography>
             </Stack>
           )}
         </DialogContent>
         <DialogActions sx={{ p: 3, pt: 1 }}>
-          <Button onClick={() => setPayDialogOpen(false)} sx={{ color: "#475569" }}>
+          <Button onClick={() => setPayDialogOpen(false)} sx={{ color: "#94A3B8" }}>
             {paySuccess ? "Close" : "Cancel"}
           </Button>
           {billDetails && !paySuccess && (
@@ -402,7 +417,12 @@ const QuickServices = () => {
               variant="contained"
               onClick={handlePaymentSubmit}
               disabled={loading}
-              sx={{ bgcolor: "#00A99D", "&:hover": { bgcolor: "#00766d" } }}
+              sx={{
+                bgcolor: "#34D399",
+                color: "#020617",
+                fontWeight: 700,
+                "&:hover": { bgcolor: "#6EE7B7" },
+              }}
             >
               {loading ? <CircularProgress size={20} color="inherit" /> : `Pay ₹${billDetails.amount}`}
             </Button>

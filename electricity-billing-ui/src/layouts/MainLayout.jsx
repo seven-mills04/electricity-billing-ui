@@ -23,12 +23,12 @@ const MainLayout = () => {
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "background.default" }}>
-      {/* Top Navbar */}
+      
       <Navbar onMobileToggle={() => setMobileOpen(!mobileOpen)} title={getPageTitle()} />
 
-      {/* Sidebar Navigation */}
+      
       <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
-        {/* Mobile Temporary Drawer */}
+        
         <Drawer
           variant="temporary"
           open={mobileOpen}
@@ -42,7 +42,7 @@ const MainLayout = () => {
           <Sidebar onClose={() => setMobileOpen(false)} />
         </Drawer>
 
-        {/* Desktop Permanent Drawer */}
+        
         <Drawer
           variant="permanent"
           open
@@ -59,7 +59,7 @@ const MainLayout = () => {
         </Drawer>
       </Box>
 
-      {/* Main Page Body Content */}
+      
       <Box
         component="main"
         sx={{

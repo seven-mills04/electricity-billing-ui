@@ -210,7 +210,7 @@ const BillInvoiceModal = ({ open, onClose, bill }) => {
           </Grid>
         </Paper>
 
-        {/* Meter Readings Table */}
+        
         <Typography variant="h6" sx={{ fontWeight: 700, mb: 1.5, color: "#0F172A" }}>
           Consumption Breakdown
         </Typography>
@@ -236,7 +236,7 @@ const BillInvoiceModal = ({ open, onClose, bill }) => {
           </Box>
         </Paper>
 
-        {/* Tariff Calculation Items */}
+        
         <Typography variant="h6" sx={{ fontWeight: 700, mb: 1.5, color: "#0F172A" }}>
           Itemized Tariff Calculation
         </Typography>

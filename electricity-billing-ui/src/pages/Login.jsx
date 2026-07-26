@@ -44,7 +44,7 @@ const Login = () => {
   const location = useLocation();
   const [tabValue, setTabValue] = useState(
     location.state?.tab !== undefined ? location.state.tab : 0
-  ); // 0 = Admin, 1 = Consumer, 2 = Register
+  ); 
 
   useEffect(() => {
     if (location.state?.tab !== undefined) {
@@ -119,7 +119,7 @@ const Login = () => {
 
     try {
       if (tabValue === 0) {
-        // Admin Login
+        
         const response = await api.post("/api/auth/login", {
           username: username.trim(),
           password,
@@ -132,7 +132,7 @@ const Login = () => {
 
         navigate("/dashboard");
       } else if (tabValue === 1) {
-        // Consumer Login
+        
         const response = await api.post("/api/auth/login", {
           username: username.trim(),
           password,
@@ -163,7 +163,7 @@ const Login = () => {
 
         navigate("/dashboard");
       } else {
-        // Register Consumer Account
+        
         let finalConsumerId = selectedConsumerId;
 
         if (isNewConnection) {
@@ -173,7 +173,7 @@ const Login = () => {
             return;
           }
 
-          // Step 1: Create Consumer profile
+          
           const consumerRes = await api.post("/api/consumers", {
             firstName: firstName.trim(),
             lastName: lastName.trim(),
@@ -182,7 +182,7 @@ const Login = () => {
           });
           finalConsumerId = consumerRes.data.id;
 
-          // Step 2: Apply and create Connection Profile
+          
           const randConn = "CON" + Math.floor(1000 + Math.random() * 9000);
           const randMeter = "MET" + Math.floor(20000 + Math.random() * 80000);
           await api.post("/api/connections", {
@@ -202,7 +202,7 @@ const Login = () => {
           }
         }
 
-        // Step 3: Register user account linked to the connection consumer profile
+        
         await api.post("/api/auth/register", {
           username: username.trim(),
           password: password,
@@ -210,13 +210,13 @@ const Login = () => {
           consumerId: finalConsumerId,
         });
 
-        // Refresh dropdown consumer list
+        
         await fetchPublicConsumers();
 
         setSuccessMessage("Portal account registered and grid connection established successfully! You can now sign in using your chosen credentials.");
-        setTabValue(1); // Redirect to Consumer Login tab
-        setPassword(""); // Clear password
-        // Reset connection application fields
+        setTabValue(1); 
+        setPassword(""); 
+        
         setFirstName("");
         setLastName("");
         setRegEmail("");
@@ -238,7 +238,7 @@ const Login = () => {
 
   const fillQuickDemo = (role) => {
     if (role === "ADMIN") {
-      // Admin password seeding disabled for security as requested
+      
       setError("Demo access pre-fill is disabled for Administrator accounts. Please enter admin credentials manually.");
     } else {
       setTabValue(1);
@@ -263,7 +263,7 @@ const Login = () => {
         color: "#1E293B",
       }}
     >
-      {/* Left Branding & Live Stats Column (Hidden on mobile) */}
+      
       <Box
         sx={{
           flex: 1,
@@ -276,7 +276,7 @@ const Login = () => {
           borderRight: "1px solid #E2E8F0",
         }}
       >
-        {/* Header Branding */}
+        
         <Stack direction="row" spacing={1.5} alignItems="center">
           <Box
             sx={{
@@ -301,7 +301,7 @@ const Login = () => {
           </Box>
         </Stack>
 
-        {/* Center Content */}
+        
         <Box sx={{ my: "auto", maxWidth: "520px" }}>
           <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
             <Chip
@@ -316,7 +316,7 @@ const Login = () => {
               Welcome to the secure billing portal for KNK Power Corporation LTD. Access your account to manage grid connections, view energy invoices, self-report meter readings, and make secure online payments.
             </Typography>
 
-            {/* Quick Demo Pre-fill Pill Bar */}
+            
             <Paper sx={{ p: 2.5, borderRadius: "16px", bgcolor: "#FFFFFF", border: "1px solid #E2E8F0", boxShadow: "0 4px 12px rgba(0,0,0,0.02)" }}>
               <Typography variant="caption" sx={{ color: "#475569", fontWeight: 700, textTransform: "uppercase", display: "block", mb: 1.5 }}>
                 ⚡ Portal Demo Access
@@ -336,13 +336,13 @@ const Login = () => {
           </motion.div>
         </Box>
 
-        {/* Footer info */}
+        
         <Typography variant="caption" sx={{ color: "#64748B" }}>
           © {new Date().getFullYear()} KNK Power Corporation LTD. All rights reserved.
         </Typography>
       </Box>
 
-      {/* Right Login Form Column */}
+      
       <Box
         sx={{
           width: { xs: "100%", md: "520px" },
@@ -355,7 +355,7 @@ const Login = () => {
       >
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} style={{ width: "100%", maxWidth: "420px" }}>
           <Card sx={{ bgcolor: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: "20px", boxShadow: "0 8px 30px rgba(0, 0, 0, 0.05)", overflow: "hidden" }}>
-            {/* Tabs for Admin / Consumer / Register */}
+            
             <Tabs
               value={tabValue}
               onChange={(e, val) => {
@@ -364,13 +364,13 @@ const Login = () => {
                 setSuccessMessage("");
                 setUsername("");
                 setPassword("");
-                if (val === 1) { // Consumer Sign In
+                if (val === 1) { 
                   if (consumers.length > 0) {
                     setSelectedConsumerId(consumers[0].id);
                     setUsername(consumers[0].consumerNumber ? consumers[0].consumerNumber.toLowerCase() : "");
                     setPassword("password");
                   }
-                } else if (val === 2) { // Register
+                } else if (val === 2) { 
                   if (consumers.length > 0) {
                     setSelectedConsumerId(consumers[0].id);
                   }
@@ -404,7 +404,7 @@ const Login = () => {
                 </Typography>
               </Box>
 
-              {/* Render Cold-Start Waking Up Notice */}
+              
               {wakingUp && (
                 <Alert
                   severity="info"
@@ -436,7 +436,7 @@ const Login = () => {
 
               <form onSubmit={handleLogin}>
                 <Stack spacing={2.5}>
-                  {/* Connection Choice for Registration Tab */}
+                  
                   {tabValue === 2 && (
                     <FormControl component="fieldset">
                       <FormLabel component="legend" sx={{ fontSize: "0.8rem", color: "#64748B", fontWeight: 700, mb: 0.5 }}>
@@ -457,7 +457,7 @@ const Login = () => {
                     </FormControl>
                   )}
 
-                  {/* Selected Consumer Dropdown for Link Existing (Register tab) or Consumer Sign In */}
+                  
                   {((tabValue === 2 && !isNewConnection) || (tabValue === 1 && selectedConsumerId)) && (
                     <TextField
                       select
@@ -478,7 +478,7 @@ const Login = () => {
                     </TextField>
                   )}
 
-                  {/* New Grid Connection Application Fields */}
+                  
                   {tabValue === 2 && isNewConnection && (
                     <>
                       <Stack direction="row" spacing={2}>
@@ -579,7 +579,7 @@ const Login = () => {
                     </>
                   )}
 
-                  {/* Username Field */}
+                  
                   <TextField
                     fullWidth
                     label={tabValue === 2 ? "Choose Username" : "Username / Consumer No."}
@@ -599,7 +599,7 @@ const Login = () => {
                     }}
                   />
 
-                  {/* Password Field */}
+                  
                   <TextField
                     fullWidth
                     label={tabValue === 2 ? "Choose Password" : "Password"}
@@ -627,7 +627,7 @@ const Login = () => {
                     }}
                   />
 
-                  {/* Submit Button */}
+                  
                   <Button
                     type="submit"
                     fullWidth
@@ -658,7 +658,7 @@ const Login = () => {
                       : "Create Web Access Account"}
                   </Button>
 
-                  {/* Back to Home Link */}
+                  
                   <Button
                     onClick={() => navigate("/")}
                     sx={{ color: "#64748B", fontSize: "0.85rem", textTransform: "none", "&:hover": { color: "#0056A6" } }}

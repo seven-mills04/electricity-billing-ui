@@ -62,7 +62,7 @@ const PaymentDialog = ({ open, onClose, payment }) => {
       <DialogContent dividers sx={{ px: 4, py: 3, borderColor: "#E2E8F0" }}>
         <Stack spacing={3}>
           
-          {/* Amount Paid Big Callout */}
+          
           <Box
             sx={{
               display: "flex",
@@ -86,7 +86,7 @@ const PaymentDialog = ({ open, onClose, payment }) => {
             </Typography>
           </Box>
 
-          {/* Transaction Metadata Grid */}
+          
           <Box>
             <Typography
               variant="caption"
@@ -139,7 +139,7 @@ const PaymentDialog = ({ open, onClose, payment }) => {
 
           <Divider sx={{ my: 1 }} />
 
-          {/* Consumer Specifications */}
+          
           <Box>
             <Typography
               variant="caption"

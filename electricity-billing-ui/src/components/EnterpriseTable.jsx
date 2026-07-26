@@ -45,7 +45,7 @@ const EnterpriseTable = ({
         overflow: "hidden",
       }}
     >
-      {/* Header bar with title and search */}
+      
       <Box sx={{ p: 2.5, borderBottom: "1px solid #E2E8F0", bgcolor: "#FFFFFF" }}>
         <Stack direction={{ xs: "column", sm: "row" }} justifyContent="space-between" alignItems={{ xs: "stretch", sm: "center" }} spacing={2}>
           <Box>
@@ -89,7 +89,7 @@ const EnterpriseTable = ({
         </Stack>
       </Box>
 
-      {/* Table Content */}
+      
       <TableContainer sx={{ maxHeight: "640px" }}>
         <Table stickyHeader>
           <TableHead>
@@ -144,7 +144,7 @@ const EnterpriseTable = ({
         </Table>
       </TableContainer>
 
-      {/* Pagination Footer */}
+      
       {onPageChange && (
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 50]}

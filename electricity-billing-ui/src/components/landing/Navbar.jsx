@@ -26,11 +26,12 @@ function ElevationScroll(props) {
   });
 
   return React.cloneElement(children, {
-    elevation: trigger ? 4 : 0,
+    elevation: 0,
     sx: {
-      bgcolor: trigger ? "rgba(255, 255, 255, 0.95)" : "#FFFFFF",
-      backdropFilter: trigger ? "blur(12px)" : "none",
-      borderBottom: trigger ? "none" : "1px solid #E2E8F0",
+      bgcolor: trigger ? "rgba(15, 23, 42, 0.75)" : "rgba(15, 23, 42, 0.3)",
+      backdropFilter: "blur(12px)",
+      WebkitBackdropFilter: "blur(12px)",
+      borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
       transition: "all 0.3s ease-in-out",
     },
   });
@@ -48,7 +49,7 @@ const Navbar = () => {
     setMobileOpen(false);
     const element = document.getElementById(id);
     if (element) {
-      const offset = 80; // height of navbar
+      const offset = 80; 
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = element.getBoundingClientRect().top;
       const elementPosition = elementRect - bodyRect;
@@ -76,15 +77,15 @@ const Navbar = () => {
   };
 
   const drawer = (
-    <Box sx={{ p: 2 }}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Zap size={22} color="#0056A6" fill="#0056A6" />
-          <Typography variant="h6" sx={{ fontWeight: 800, color: "#0056A6", letterSpacing: "-0.02em" }}>
+    <Box sx={{ p: 3, height: "100%", bgcolor: "rgba(15, 23, 42, 0.95)", color: "#F8FAFC" }}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 4 }}>
+        <Stack direction="row" spacing={1.2} alignItems="center">
+          <Zap size={22} color="#06B6D4" fill="#06B6D4" />
+          <Typography variant="h6" sx={{ fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.02em" }}>
             KNK POWER
           </Typography>
         </Stack>
-        <IconButton onClick={handleDrawerToggle} sx={{ color: "#475569" }}>
+        <IconButton onClick={handleDrawerToggle} sx={{ color: "#FFFFFF" }}>
           <X size={20} />
         </IconButton>
       </Stack>
@@ -94,9 +95,10 @@ const Navbar = () => {
             <ListItemButton
               onClick={() => scrollToSection(item.id)}
               sx={{
-                borderRadius: "8px",
+                borderRadius: "10px",
                 my: 0.5,
-                "&:hover": { bgcolor: "#F0F4F8", color: "#0056A6" },
+                color: "#94A3B8",
+                "&:hover": { bgcolor: "rgba(255, 255, 255, 0.05)", color: "#06B6D4" },
               }}
             >
               <ListItemText
@@ -107,16 +109,16 @@ const Navbar = () => {
           </ListItem>
         ))}
       </List>
-      <Box sx={{ mt: 3, px: 2 }}>
+      <Box sx={{ mt: 4 }}>
         <Stack spacing={2}>
           <Button
             fullWidth
             variant="outlined"
             onClick={() => handleLoginClick(1)}
             sx={{
-              borderColor: "#0056A6",
-              color: "#0056A6",
-              "&:hover": { borderColor: "#003c74", bgcolor: "rgba(0, 86, 166, 0.04)" },
+              borderColor: "rgba(255, 255, 255, 0.15)",
+              color: "#FFFFFF",
+              "&:hover": { borderColor: "#06B6D4", bgcolor: "rgba(6, 182, 212, 0.05)" },
             }}
           >
             Consumer Login
@@ -126,8 +128,10 @@ const Navbar = () => {
             variant="contained"
             onClick={() => handleLoginClick(0)}
             sx={{
-              bgcolor: "#00A99D",
-              "&:hover": { bgcolor: "#00766d" },
+              bgcolor: "rgba(139, 92, 246, 0.2)",
+              border: "1px solid rgba(139, 92, 246, 0.4)",
+              color: "#C084FC",
+              "&:hover": { bgcolor: "rgba(139, 92, 246, 0.4)", color: "#E9D5FF" },
             }}
           >
             Admin Login
@@ -140,10 +144,10 @@ const Navbar = () => {
   return (
     <>
       <ElevationScroll>
-        <AppBar position="sticky" sx={{ color: "#1E293B", boxShadow: "none" }}>
+        <AppBar position="sticky" sx={{ color: "#F8FAFC", boxShadow: "none", bgcolor: "transparent" }}>
           <Container maxWidth="xl">
             <Toolbar sx={{ justifyContent: "space-between", height: 80, px: { xs: 1, sm: 2 } }}>
-              {/* Logo */}
+              
               <Stack
                 direction="row"
                 spacing={1.2}
@@ -153,13 +157,14 @@ const Navbar = () => {
               >
                 <Box
                   sx={{
-                    bgcolor: "#0056A6",
-                    color: "#FFFFFF",
+                    bgcolor: "rgba(6, 182, 212, 0.15)",
+                    color: "#06B6D4",
                     p: 1,
                     borderRadius: "10px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
+                    border: "1px solid rgba(6, 182, 212, 0.3)",
                   }}
                 >
                   <Zap size={22} fill="currentColor" />
@@ -170,7 +175,7 @@ const Navbar = () => {
                     sx={{
                       fontWeight: 800,
                       letterSpacing: "-0.03em",
-                      color: "#0056A6",
+                      color: "#FFFFFF",
                       lineHeight: 1.1,
                     }}
                   >
@@ -179,7 +184,7 @@ const Navbar = () => {
                   <Typography
                     variant="caption"
                     sx={{
-                      color: "#00A99D",
+                      color: "#06B6D4",
                       fontSize: "0.68rem",
                       fontWeight: 700,
                       letterSpacing: "0.1em",
@@ -192,7 +197,6 @@ const Navbar = () => {
                 </Box>
               </Stack>
 
-              {/* Navigation Items (Desktop) */}
               <Stack
                 direction="row"
                 spacing={3}
@@ -207,7 +211,7 @@ const Navbar = () => {
                       scrollToSection(item.id);
                     }}
                     sx={{
-                      color: "#475569",
+                      color: "#94A3B8",
                       cursor: "pointer",
                       textDecoration: "none",
                       fontWeight: 600,
@@ -221,11 +225,11 @@ const Navbar = () => {
                         height: "2px",
                         bottom: "-4px",
                         left: "0%",
-                        backgroundColor: "#0056A6",
+                        backgroundColor: "#06B6D4",
                         transition: "all 0.25s ease-in-out",
                       },
                       "&:hover": {
-                        color: "#0056A6",
+                        color: "#FFFFFF",
                         "&::after": { width: "100%" },
                       },
                     }}
@@ -235,7 +239,6 @@ const Navbar = () => {
                 ))}
               </Stack>
 
-              {/* Action Buttons (Desktop) */}
               <Stack
                 direction="row"
                 spacing={1.5}
@@ -245,16 +248,16 @@ const Navbar = () => {
                   variant="outlined"
                   onClick={() => handleLoginClick(1)}
                   sx={{
-                    borderColor: "#0056A6",
-                    color: "#0056A6",
+                    borderColor: "rgba(255, 255, 255, 0.15)",
+                    color: "#FFFFFF",
                     borderWidth: "1.5px",
                     fontWeight: 600,
                     borderRadius: "10px",
                     px: 2.5,
                     "&:hover": {
-                      borderColor: "#003c74",
+                      borderColor: "#06B6D4",
                       borderWidth: "1.5px",
-                      bgcolor: "rgba(0, 86, 166, 0.04)",
+                      bgcolor: "rgba(6, 182, 212, 0.05)",
                     },
                   }}
                 >
@@ -265,13 +268,16 @@ const Navbar = () => {
                   variant="contained"
                   onClick={() => handleLoginClick(0)}
                   sx={{
-                    bgcolor: "#00A99D",
-                    color: "#FFFFFF",
+                    bgcolor: "rgba(139, 92, 246, 0.2)",
+                    border: "1px solid rgba(139, 92, 246, 0.4)",
+                    color: "#C084FC",
                     fontWeight: 600,
                     borderRadius: "10px",
                     px: 2.5,
+                    boxShadow: "none",
                     "&:hover": {
-                      bgcolor: "#00766d",
+                      bgcolor: "rgba(139, 92, 246, 0.4)",
+                      color: "#E9D5FF",
                     },
                   }}
                 >
@@ -279,13 +285,12 @@ const Navbar = () => {
                 </Button>
               </Stack>
 
-              {/* Mobile Drawer Trigger */}
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
                 edge="start"
                 onClick={handleDrawerToggle}
-                sx={{ display: { md: "none" }, color: "#1E293B" }}
+                sx={{ display: { md: "none" }, color: "#FFFFFF" }}
               >
                 <Menu size={24} />
               </IconButton>
@@ -294,13 +299,12 @@ const Navbar = () => {
         </AppBar>
       </ElevationScroll>
 
-      {/* Mobile Navigation Drawer */}
       <Drawer
         anchor="right"
         open={mobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{ keepMounted: true }}
-        PaperProps={{ sx: { width: 280, bgcolor: "#FFFFFF" } }}
+        PaperProps={{ sx: { width: 280, bgcolor: "rgba(15, 23, 42, 0.95)", borderLeft: "1px solid rgba(255, 255, 255, 0.08)", backdropFilter: "blur(16px)" } }}
       >
         {drawer}
       </Drawer>

@@ -1,9 +1,8 @@
 import React from "react";
-import { Box, Container, Grid, Typography, Stack, Divider } from "@mui/material";
+import { Box, Container, Grid, Typography, Stack } from "@mui/material";
 import { Users, FileText, CheckCircle, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 
-// Import landing components
 import Navbar from "../components/landing/Navbar";
 import Hero from "../components/landing/Hero";
 import QuickServices from "../components/landing/QuickServices";
@@ -15,80 +14,71 @@ import Announcements from "../components/landing/Announcements";
 import FAQ from "../components/landing/FAQ";
 import Footer from "../components/landing/Footer";
 import SystemTicker from "../components/landing/SystemTicker";
+import BackgroundEffects from "../components/landing/BackgroundEffects";
 
 const LandingPage = () => {
-  // Static Genuine Utility Statistics data
   const stats = [
     {
       label: "Consumers Served",
       value: "4.8 Million+",
       desc: "Providing active grid connections to domestic, industrial, and commercial sectors.",
-      icon: <Users size={28} color="#0056A6" />,
+      icon: <Users size={28} color="#38BDF8" />,
     },
     {
       label: "Bills Generated",
       value: "55M Annually",
       desc: "Reliable automated monthly invoice processing with zero billing discrepancies.",
-      icon: <FileText size={28} color="#00A99D" />,
+      icon: <FileText size={28} color="#34D399" />,
     },
     {
       label: "Payments Processed",
       value: "₹12,450 Cr",
       desc: "Secure online transaction settlement processed through state banking gateways.",
-      icon: <CheckCircle size={28} color="#F4B400" />,
+      icon: <CheckCircle size={28} color="#FB7185" />,
     },
     {
       label: "Service Availability",
       value: "99.98%",
       desc: "Grid uptime and continuous power distribution monitored 24x7 by command centers.",
-      icon: <ShieldCheck size={28} color="#0056A6" />,
+      icon: <ShieldCheck size={28} color="#A78BFA" />,
     },
   ];
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "#FFFFFF", color: "#1E293B", overflowX: "hidden" }}>
-      {/* 0. Real-time System Status Ticker */}
+    <Box sx={{ minHeight: "100vh", bgcolor: "transparent", color: "#F8FAFC", overflowX: "hidden", position: "relative" }}>
+      <BackgroundEffects />
+      
       <SystemTicker />
 
-      {/* 1. Header Navbar */}
       <Navbar />
 
-      {/* 2. Hero Section */}
       <Hero />
 
-      {/* 3. Quick Services Section */}
       <QuickServices />
 
-      {/* 4. Why Choose Us Section */}
       <WhyChooseUs />
 
-      {/* 5. Consumer Dashboard Preview Section */}
       <ConsumerPreview />
 
-      {/* 6. Service Highlights Section */}
       <Highlights />
 
-      {/* 7. How It Works Section */}
       <HowItWorks />
 
-      {/* 8. Genuine Utility Statistics Section */}
       <Box
         id="statistics"
         sx={{
           py: 12,
-          bgcolor: "#F7F9FC",
-          borderY: "1px solid #E2E8F0",
           position: "relative",
-          backgroundImage: "radial-gradient(circle at 100% 100%, rgba(0, 169, 157, 0.02) 0%, transparent 60%), radial-gradient(circle at 0% 0%, rgba(0, 86, 166, 0.02) 0%, transparent 60%)",
+          borderTop: "1px solid rgba(255, 255, 255, 0.06)",
+          borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
         <Container maxWidth="xl">
-          {/* Section Header */}
           <Stack alignItems="center" textAlign="center" spacing={2} sx={{ mb: 8 }}>
             <Typography
               variant="h6"
               sx={{
-                color: "#00A99D",
+                color: "#06B6D4",
                 fontWeight: 700,
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",
@@ -99,7 +89,7 @@ const LandingPage = () => {
             <Typography
               variant="h2"
               sx={{
-                color: "#0056A6",
+                color: "#FFFFFF",
                 fontWeight: 800,
                 fontSize: { xs: "2rem", md: "2.5rem" },
               }}
@@ -109,7 +99,7 @@ const LandingPage = () => {
             <Typography
               variant="body1"
               sx={{
-                color: "#475569",
+                color: "#94A3B8",
                 maxWidth: "600px",
               }}
             >
@@ -117,7 +107,6 @@ const LandingPage = () => {
             </Typography>
           </Stack>
 
-          {/* Stats Grid */}
           <Grid container spacing={4}>
             {stats.map((stat, index) => (
               <Grid item xs={12} sm={6} md={3} key={index}>
@@ -131,22 +120,24 @@ const LandingPage = () => {
                     sx={{
                       p: 4,
                       borderRadius: "18px",
-                      bgcolor: "#FFFFFF",
-                      border: "1px solid #E2E8F0",
-                      borderTop: `4px solid ${index % 2 === 0 ? "#0056A6" : "#00A99D"}`,
+                      bgcolor: "rgba(15, 23, 42, 0.35)",
+                      backdropFilter: "blur(12px)",
+                      WebkitBackdropFilter: "blur(12px)",
+                      border: "1px solid rgba(255, 255, 255, 0.08)",
+                      borderTop: `3px solid ${index % 2 === 0 ? "#38BDF8" : "#34D399"}`,
                       height: "100%",
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
                       textAlign: "center",
-                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.02)",
+                      boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
                       transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                       position: "relative",
                       overflow: "hidden",
                       "&:hover": {
                         transform: "translateY(-8px)",
-                        boxShadow: "0 12px 30px rgba(0, 86, 166, 0.08)",
-                        borderColor: index % 2 === 0 ? "#0056A6" : "#00A99D",
+                        boxShadow: `0 12px 30px ${index % 2 === 0 ? "rgba(56, 189, 248, 0.15)" : "rgba(52, 211, 153, 0.15)"}`,
+                        borderColor: index % 2 === 0 ? "#38BDF8" : "#34D399",
                       },
                     }}
                   >
@@ -155,7 +146,7 @@ const LandingPage = () => {
                         width: 54,
                         height: 54,
                         borderRadius: "12px",
-                        bgcolor: "rgba(0, 86, 166, 0.04)",
+                        bgcolor: index % 2 === 0 ? "rgba(56, 189, 248, 0.08)" : "rgba(52, 211, 153, 0.08)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -169,7 +160,7 @@ const LandingPage = () => {
                       sx={{
                         fontWeight: 800,
                         fontSize: { xs: "2rem", md: "2.35rem" },
-                        color: "#0056A6",
+                        color: "#FFFFFF",
                         letterSpacing: "-0.02em",
                         mb: 1.5,
                       }}
@@ -180,7 +171,7 @@ const LandingPage = () => {
                       variant="h5"
                       sx={{
                         fontWeight: 700,
-                        color: "#1E293B",
+                        color: "#E2E8F0",
                         mb: 1.5,
                         fontSize: "1.05rem",
                       }}
@@ -190,7 +181,7 @@ const LandingPage = () => {
                     <Typography
                       variant="body2"
                       sx={{
-                        color: "#64748B",
+                        color: "#94A3B8",
                         lineHeight: 1.5,
                       }}
                     >
@@ -204,13 +195,10 @@ const LandingPage = () => {
         </Container>
       </Box>
 
-      {/* 9. Announcements Section */}
       <Announcements />
 
-      {/* 10. FAQ Section */}
       <FAQ />
 
-      {/* 11. Corporate Footer */}
       <Footer />
     </Box>
   );

@@ -196,7 +196,7 @@ const Consumers = () => {
         }
       />
 
-      {/* Add / Edit Dialog */}
+      
       <ConsumerDialog
         open={dialogOpen}
         handleClose={() => setDialogOpen(false)}
@@ -204,7 +204,7 @@ const Consumers = () => {
         onSuccess={fetchConsumers}
       />
 
-      {/* View Details Dialog */}
+      
       <DetailsDialog
         open={viewOpen}
         handleClose={() => setViewOpen(false)}
@@ -223,7 +223,7 @@ const Consumers = () => {
         }
       />
 
-      {/* Confirm Delete Dialog */}
+      
       <ConfirmDialog
         open={deleteOpen}
         handleClose={() => setDeleteOpen(false)}

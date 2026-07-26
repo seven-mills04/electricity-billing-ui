@@ -7,7 +7,7 @@ const SystemTicker = () => {
   const [demand, setDemand] = useState(4824);
   const [frequency, setFrequency] = useState(50.02);
 
-  // Simulate real-time grid fluctuations
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setDemand((prev) => prev + Math.floor(Math.random() * 9) - 4);
@@ -22,10 +22,12 @@ const SystemTicker = () => {
   return (
     <Box
       sx={{
-        bgcolor: "#001E3D",
+        bgcolor: "rgba(15, 23, 42, 0.4)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
         color: "#E2E8F0",
         py: 1,
-        borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+        borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
         overflow: "hidden",
         fontSize: "0.75rem",
         fontWeight: 500,
@@ -40,7 +42,7 @@ const SystemTicker = () => {
           alignItems="center"
           spacing={1.5}
         >
-          {/* Left: Real-time grid parameters */}
+          
           <Stack direction="row" spacing={3} alignItems="center" flexWrap="wrap" justifyContent="center">
             <Stack direction="row" spacing={1} alignItems="center">
               <Box
@@ -64,7 +66,7 @@ const SystemTicker = () => {
             </Stack>
 
             <Stack direction="row" spacing={0.8} alignItems="center">
-              <Activity size={14} style={{ color: "#00A99D" }} />
+              <Activity size={14} style={{ color: "#06B6D4" }} />
               <Typography variant="caption" sx={{ color: "#94A3B8" }}>
                 Grid Frequency:{" "}
                 <span style={{ color: "#FFFFFF", fontWeight: 700 }}>
@@ -74,7 +76,7 @@ const SystemTicker = () => {
             </Stack>
 
             <Stack direction="row" spacing={0.8} alignItems="center">
-              <Cpu size={14} style={{ color: "#F4B400" }} />
+              <Cpu size={14} style={{ color: "#A78BFA" }} />
               <Typography variant="caption" sx={{ color: "#94A3B8" }}>
                 System Demand:{" "}
                 <span style={{ color: "#FFFFFF", fontWeight: 700 }}>
@@ -84,18 +86,18 @@ const SystemTicker = () => {
             </Stack>
 
             <Stack direction="row" spacing={0.8} alignItems="center">
-              <Sun size={14} style={{ color: "#00A99D" }} />
+              <Sun size={14} style={{ color: "#34D399" }} />
               <Typography variant="caption" sx={{ color: "#94A3B8" }}>
                 Solar/Wind Mix:{" "}
-                <span style={{ color: "#00A99D", fontWeight: 700 }}>34.8%</span>
+                <span style={{ color: "#34D399", fontWeight: 700 }}>34.8%</span>
               </Typography>
             </Stack>
           </Stack>
 
-          {/* Right: Helpline & Core Bulletins */}
+          
           <Stack direction="row" spacing={3} alignItems="center">
             <Stack direction="row" spacing={0.8} alignItems="center">
-              <ShieldAlert size={14} style={{ color: "#EF4444" }} />
+              <ShieldAlert size={14} style={{ color: "#F43F5E" }} />
               <Typography variant="caption" sx={{ color: "#F8FAFC", fontWeight: 600 }}>
                 Safety First: Report power line faults immediately.
               </Typography>
@@ -106,12 +108,13 @@ const SystemTicker = () => {
               label="Emergency Helpline: 19122"
               size="small"
               sx={{
-                bgcolor: "#0056A6",
-                color: "#FFFFFF",
+                bgcolor: "rgba(6, 182, 212, 0.2)",
+                border: "1px solid rgba(6, 182, 212, 0.3)",
+                color: "#06B6D4",
                 fontWeight: 700,
                 fontSize: "0.68rem",
                 height: 20,
-                "& .MuiChip-icon": { color: "#FFFFFF" },
+                "& .MuiChip-icon": { color: "#06B6D4" },
               }}
             />
           </Stack>

@@ -12,25 +12,25 @@ const HowItWorks = () => {
       step: "01",
       title: "Register Account",
       desc: "Sign up on the portal using your unique Consumer Number. Setup your login credentials.",
-      icon: <UserPlus size={26} color="#0056A6" />,
+      icon: <UserPlus size={24} color="#06B6D4" />,
     },
     {
       step: "02",
       title: "View Bills",
       desc: "Log in to check your active meter readings, energy statements, and total dues.",
-      icon: <Eye size={26} color="#00A99D" />,
+      icon: <Eye size={24} color="#34D399" />,
     },
     {
       step: "03",
       title: "Pay Online",
       desc: "Settle your electricity bills instantly using secure UPI, card, or banking options.",
-      icon: <CreditCard size={26} color="#F4B400" />,
+      icon: <CreditCard size={24} color="#F59E0B" />,
     },
     {
       step: "04",
       title: "Download Receipt",
       desc: "Download and save the digitally generated transaction receipts for your records.",
-      icon: <Download size={26} color="#0056A6" />,
+      icon: <Download size={24} color="#60A5FA" />,
     },
   ];
 
@@ -39,16 +39,16 @@ const HowItWorks = () => {
       id="how-it-works"
       sx={{
         py: { xs: 10, md: 14 },
-        bgcolor: "#F7F9FC",
+        bgcolor: "transparent",
+        borderTop: "1px solid rgba(255, 255, 255, 0.06)",
       }}
     >
       <Container maxWidth="xl">
-        {/* Section Header */}
         <Stack alignItems="center" textAlign="center" spacing={2} sx={{ mb: 10 }}>
           <Typography
             variant="h6"
             sx={{
-              color: "#00A99D",
+              color: "#06B6D4",
               fontWeight: 700,
               letterSpacing: "0.1em",
               textTransform: "uppercase",
@@ -59,7 +59,7 @@ const HowItWorks = () => {
           <Typography
             variant="h2"
             sx={{
-              color: "#0056A6",
+              color: "#FFFFFF",
               fontWeight: 800,
               fontSize: { xs: "2rem", md: "2.5rem" },
             }}
@@ -69,7 +69,7 @@ const HowItWorks = () => {
           <Typography
             variant="body1"
             sx={{
-              color: "#475569",
+              color: "#94A3B8",
               maxWidth: "600px",
             }}
           >
@@ -77,11 +77,9 @@ const HowItWorks = () => {
           </Typography>
         </Stack>
 
-        {/* Steps Layout */}
         <Grid container spacing={4} justifyContent="center" alignItems="stretch">
           {steps.map((step, index) => (
             <React.Fragment key={index}>
-              {/* Step Card */}
               <Grid item xs={12} sm={6} md={2.5}>
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -95,16 +93,17 @@ const HowItWorks = () => {
                     alignItems="center"
                     textAlign="center"
                     sx={{
-                      bgcolor: "#FFFFFF",
+                      bgcolor: "rgba(15, 23, 42, 0.35)",
+                      backdropFilter: "blur(12px)",
+                      WebkitBackdropFilter: "blur(12px)",
                       p: 4,
-                      borderRadius: "16px",
-                      border: "1px solid #E2E8F0",
-                      boxShadow: "0 4px 10px rgba(0, 0, 0, 0.01)",
+                      borderRadius: "18px",
+                      border: "1px solid rgba(255, 255, 255, 0.08)",
+                      boxShadow: "0 4px 30px rgba(0, 0, 0, 0.15)",
                       height: "100%",
                       position: "relative",
                     }}
                   >
-                    {/* Step Number Badge */}
                     <Box
                       sx={{
                         position: "absolute",
@@ -112,8 +111,8 @@ const HowItWorks = () => {
                         left: 15,
                         fontSize: "0.75rem",
                         fontWeight: 800,
-                        color: "#94A3B8",
-                        bgcolor: "#F1F5F9",
+                        color: "#06B6D4",
+                        bgcolor: "rgba(6, 182, 212, 0.1)",
                         px: 1.2,
                         py: 0.4,
                         borderRadius: "20px",
@@ -122,18 +121,17 @@ const HowItWorks = () => {
                       Step {step.step}
                     </Box>
 
-                    {/* Step Icon Circle */}
                     <Box
                       sx={{
                         width: 64,
                         height: 64,
                         borderRadius: "50%",
-                        border: "2px solid #E2E8F0",
+                        border: "1px solid rgba(255, 255, 255, 0.08)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        bgcolor: "#FFFFFF",
-                        boxShadow: "0 4px 8px rgba(0, 86, 166, 0.03)",
+                        bgcolor: "rgba(15, 23, 42, 0.5)",
+                        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
                         mt: 2,
                       }}
                     >
@@ -144,7 +142,7 @@ const HowItWorks = () => {
                       variant="h5"
                       sx={{
                         fontWeight: 700,
-                        color: "#1E293B",
+                        color: "#E2E8F0",
                         fontSize: "1.1rem",
                       }}
                     >
@@ -154,7 +152,7 @@ const HowItWorks = () => {
                     <Typography
                       variant="body2"
                       sx={{
-                        color: "#64748B",
+                        color: "#94A3B8",
                         lineHeight: 1.55,
                         fontSize: "0.85rem",
                       }}
@@ -165,7 +163,6 @@ const HowItWorks = () => {
                 </motion.div>
               </Grid>
 
-              {/* Connecting Arrow */}
               {index < 3 && (
                 <Grid
                   item
@@ -179,9 +176,9 @@ const HowItWorks = () => {
                   }}
                 >
                   {isMobile ? (
-                    <ArrowDown size={24} color="#94A3B8" />
+                    <ArrowDown size={24} color="#06B6D4" style={{ opacity: 0.6 }} />
                   ) : (
-                    <ArrowRight size={24} color="#94A3B8" />
+                    <ArrowRight size={24} color="#06B6D4" style={{ opacity: 0.6 }} />
                   )}
                 </Grid>
               )}

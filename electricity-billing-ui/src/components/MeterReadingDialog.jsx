@@ -86,7 +86,7 @@ const MeterReadingDialog = ({
 const handleSave = async () => {
   try {
 
-    // Check required fields
+    
     if (
       !form.connectionId ||
       !form.readingDate ||
@@ -97,7 +97,7 @@ const handleSave = async () => {
       return;
     }
 
-    // Validate readings
+    
     if (Number(form.currentReading) <= Number(form.previousReading)) {
       alert("Current Reading must be greater than Previous Reading");
       return;

@@ -11,7 +11,7 @@ import Consumers from "./pages/Consumers";
 import Payments from "./pages/Payments";
 import Login from "./pages/Login";
 
-// Route protection component
+
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const role = localStorage.getItem("userRole");
 
@@ -29,13 +29,13 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 function App() {
   return (
     <Routes>
-      {/* Public Landing Page */}
+      
       <Route path="/" element={<LandingPage />} />
 
-      {/* Public Login Route */}
+      
       <Route path="/login" element={<Login />} />
 
-      {/* Protected Main Application Layout */}
+      
       <Route
         element={
           <ProtectedRoute>
@@ -45,7 +45,7 @@ function App() {
       >
         <Route path="/dashboard" element={<Dashboard />} />
 
-        {/* Admin Only Routes */}
+        
         <Route
           path="/consumers"
           element={
@@ -73,11 +73,11 @@ function App() {
           }
         />
 
-        {/* Shared (Admin & Consumer) Routes */}
+        
         <Route path="/bills" element={<Bills />} />
         <Route path="/payments" element={<Payments />} />
 
-        {/* Catch all unknown URLs */}
+        
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

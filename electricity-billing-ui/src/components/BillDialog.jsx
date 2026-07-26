@@ -35,7 +35,7 @@ const BillDialog = ({ open, onClose, bill }) => {
     const textDark = "#0F172A";
     const textMuted = "#64748B";
 
-    // Header / Brand
+    
     doc.setFont("Helvetica", "bold");
     doc.setFontSize(20);
     doc.setTextColor(primaryBlue);
@@ -45,7 +45,7 @@ const BillDialog = ({ open, onClose, bill }) => {
     doc.setTextColor(textMuted);
     doc.text("Official Invoice Statement", 14, 25);
 
-    // Invoice Meta (right-aligned)
+    
     doc.setFont("Helvetica", "bold");
     doc.setFontSize(12);
     doc.setTextColor(textDark);
@@ -60,7 +60,7 @@ const BillDialog = ({ open, onClose, bill }) => {
 
     doc.line(14, 38, 196, 38);
 
-    // Consumer Details
+    
     doc.setFont("Helvetica", "bold");
     doc.setFontSize(11);
     doc.setTextColor(textDark);
@@ -74,7 +74,7 @@ const BillDialog = ({ open, onClose, bill }) => {
     doc.text(`Email: ${consumer.email || "-"}`, 14, 62);
     doc.text(`Phone: ${consumer.phone || "-"}`, 14, 67);
 
-    // Connection details (right side)
+    
     doc.setFont("Helvetica", "bold");
     doc.setTextColor(textDark);
     doc.text("Connection Details:", 110, 46);
@@ -88,7 +88,7 @@ const BillDialog = ({ open, onClose, bill }) => {
 
     doc.line(14, 72, 196, 72);
 
-    // Charge Breakdown Table
+    
     doc.setFont("Helvetica", "bold");
     doc.setFontSize(11);
     doc.setTextColor(primaryBlue);
@@ -99,7 +99,7 @@ const BillDialog = ({ open, onClose, bill }) => {
     doc.setFont("Helvetica", "normal");
     doc.setTextColor(textDark);
     
-    // Rows
+    
     doc.text("Fixed Monthly Charge", 15, 92);
     doc.text(`Rs. ${Number(raw.fixedCharge || 0).toFixed(2)}`, 150, 92);
     
@@ -111,24 +111,24 @@ const BillDialog = ({ open, onClose, bill }) => {
 
     doc.line(14, 114, 196, 114);
 
-    // Total Due
+    
     doc.setFont("Helvetica", "bold");
     doc.setFontSize(12);
     doc.text("Total Amount Due:", 15, 122);
     doc.text(`Rs. ${Number(bill.amount || raw.totalAmount || 0).toFixed(2)}`, 150, 122);
 
-    // Status Watermark stamp
+    
     const status = String(bill.status || raw.billStatus || "UNPAID").toUpperCase();
     doc.setFontSize(14);
     if (status === "PAID") {
-      doc.setTextColor(5, 150, 105); // Green #059669
+      doc.setTextColor(5, 150, 105); 
       doc.text("STATUS: PAID STATEMENT", 15, 138);
     } else {
-      doc.setTextColor(220, 38, 38); // Red #DC2626
+      doc.setTextColor(220, 38, 38); 
       doc.text("STATUS: OUTSTANDING / UNPAID", 15, 138);
     }
 
-    // Save
+    
     doc.save(`Invoice_${bill.billNumber}.pdf`);
   };
 
@@ -164,7 +164,7 @@ const BillDialog = ({ open, onClose, bill }) => {
       </DialogTitle>
 
       <DialogContent dividers sx={{ px: 4, py: 3, borderColor: "#E2E8F0" }}>
-        {/* Brand Block */}
+        
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
           <Box>
             <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "primary.main", letterSpacing: "0.05em" }}>
@@ -185,7 +185,7 @@ const BillDialog = ({ open, onClose, bill }) => {
         </Box>
 
         <Grid container spacing={3} sx={{ mb: 4 }}>
-          {/* Bill details */}
+          
           <Grid item xs={12} sm={6}>
             <Typography variant="caption" sx={{ color: "text.secondary", textTransform: "uppercase", fontWeight: 600, display: "block", mb: 1 }}>
               Billed To
@@ -206,7 +206,7 @@ const BillDialog = ({ open, onClose, bill }) => {
             </Box>
           </Grid>
 
-          {/* Connection Details */}
+          
           <Grid item xs={12} sm={6}>
             <Typography variant="caption" sx={{ color: "text.secondary", textTransform: "uppercase", fontWeight: 600, display: "block", mb: 1 }}>
               Connection Specifications
@@ -228,7 +228,7 @@ const BillDialog = ({ open, onClose, bill }) => {
           </Grid>
         </Grid>
 
-        {/* Financial Breakdown Table */}
+        
         <Typography variant="caption" sx={{ color: "text.secondary", textTransform: "uppercase", fontWeight: 600, display: "block", mb: 1 }}>
           Statement Summary
         </Typography>
@@ -259,7 +259,7 @@ const BillDialog = ({ open, onClose, bill }) => {
 
         <Divider sx={{ my: 2 }} />
 
-        {/* Due amount summary box */}
+        
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", bgcolor: "rgba(37, 99, 235, 0.02)", p: 2, borderRadius: "8px", border: "1px dashed rgba(37, 99, 235, 0.15)" }}>
           <Box>
             <Typography variant="body2" sx={{ fontWeight: 650, color: "#0F172A" }}>

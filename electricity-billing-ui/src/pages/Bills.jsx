@@ -29,7 +29,7 @@ import { payBill } from "../api/paymentApi";
 const Bills = () => {
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("ALL"); // ALL, PAID, UNPAID
+  const [statusFilter, setStatusFilter] = useState("ALL"); 
   const [loading, setLoading] = useState(false);
 
   const [invoiceOpen, setInvoiceOpen] = useState(false);
@@ -234,14 +234,14 @@ const Bills = () => {
         }
       />
 
-      {/* Official Invoice Preview Dialog */}
+      
       <BillInvoiceModal
         open={invoiceOpen}
         onClose={() => setInvoiceOpen(false)}
         bill={selectedBill}
       />
 
-      {/* Settle Bill (Payment) Dialog */}
+      
       <Dialog open={paymentOpen} onClose={() => setPaymentOpen(false)} maxWidth="xs" fullWidth>
         <DialogTitle sx={{ fontWeight: 800, color: "#0F172A" }}>Settle Outstanding Invoice</DialogTitle>
         <DialogContent dividers sx={{ py: 3 }}>

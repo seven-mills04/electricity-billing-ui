@@ -15,7 +15,7 @@ import {
 const DetailsDialog = ({ open, onClose, handleClose, title, subtitle, sections, data }) => {
   const activeClose = onClose || handleClose;
 
-  // Dynamically map flat data to sections if sections is not supplied
+  
   let activeSections = sections;
   if (!activeSections && data) {
     activeSections = [

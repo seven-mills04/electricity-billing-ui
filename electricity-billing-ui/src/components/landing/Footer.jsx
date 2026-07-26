@@ -25,23 +25,24 @@ const Footer = () => {
     <Box
       id="footer"
       sx={{
-        bgcolor: "#002a52", // Rich deep corporate blue from theme update
+        bgcolor: "#030712", 
         color: "#E2E8F0",
         pt: 10,
         pb: 5,
-        borderTop: "4px solid #00A99D",
+        borderTop: "1px solid rgba(6, 182, 212, 0.2)",
       }}
     >
       <Container maxWidth="xl">
         <Grid container spacing={6}>
-          {/* Column 1: Company Logo & Details */}
+          {/* Brand Column */}
           <Grid item xs={12} md={4}>
             <Stack spacing={3}>
               <Stack direction="row" spacing={1.5} alignItems="center">
                 <Box
                   sx={{
-                    bgcolor: "#FFFFFF",
-                    color: "#0056A6",
+                    bgcolor: "rgba(6, 182, 212, 0.1)",
+                    color: "#06B6D4",
+                    border: "1px solid rgba(6, 182, 212, 0.3)",
                     p: 0.8,
                     borderRadius: "8px",
                     display: "flex",
@@ -53,7 +54,7 @@ const Footer = () => {
                   <Typography variant="h6" sx={{ fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.02em" }}>
                     KNK POWER
                   </Typography>
-                  <Typography variant="caption" sx={{ color: "#00A99D", fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase" }}>
+                  <Typography variant="caption" sx={{ color: "#06B6D4", fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase" }}>
                     Corporation LTD.
                   </Typography>
                 </Box>
@@ -67,35 +68,35 @@ const Footer = () => {
             </Stack>
           </Grid>
 
-          {/* Column 2: Consumer Services */}
+          {/* Column 2 */}
           <Grid item xs={6} md={2}>
             <Typography variant="subtitle1" sx={{ color: "#FFFFFF", fontWeight: 700, mb: 3 }}>
               Consumer Services
             </Typography>
             <Stack spacing={1.8}>
-              <Link href="#" onClick={handleScrollToSection("services")} sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", "&:hover": { color: "#00A99D" } }}>Quick Bill Pay</Link>
-              <Link href="/login" sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", "&:hover": { color: "#00A99D" } }}>View Bill History</Link>
-              <Link href="/login" sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", "&:hover": { color: "#00A99D" } }}>Apply for Connection</Link>
-              <Link href="/login" sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", "&:hover": { color: "#00A99D" } }}>Submit Meter Reading</Link>
-              <Link href="/login" sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", "&:hover": { color: "#00A99D" } }}>Register Complaint</Link>
+              <Link href="#" onClick={handleScrollToSection("services")} sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>Quick Bill Pay</Link>
+              <Link href="/login" sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>View Bill History</Link>
+              <Link href="/login" sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>Apply for Connection</Link>
+              <Link href="/login" sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>Submit Meter Reading</Link>
+              <Link href="/login" sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>Register Complaint</Link>
             </Stack>
           </Grid>
 
-          {/* Column 3: Quick Links */}
+          {/* Column 3 */}
           <Grid item xs={6} md={2}>
             <Typography variant="subtitle1" sx={{ color: "#FFFFFF", fontWeight: 700, mb: 3 }}>
               Quick Links
             </Typography>
             <Stack spacing={1.8}>
-              <Link href="#" onClick={handleScrollToSection("home")} sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", "&:hover": { color: "#00A99D" } }}>Home Page</Link>
-              <Link href="#" onClick={handleScrollToSection("highlights")} sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", "&:hover": { color: "#00A99D" } }}>Tariff slab Structure</Link>
-              <Link href="#" onClick={handleScrollToSection("announcements")} sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", "&:hover": { color: "#00A99D" } }}>Latest Notices</Link>
-              <Link href="#" onClick={handleScrollToSection("faq")} sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", "&:hover": { color: "#00A99D" } }}>FAQs / Help</Link>
-              <Link href="/login" sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", "&:hover": { color: "#00A99D" } }}>Portal Login</Link>
+              <Link href="#" onClick={handleScrollToSection("home")} sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>Home Page</Link>
+              <Link href="#" onClick={handleScrollToSection("highlights")} sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>Tariff Slab Structure</Link>
+              <Link href="#" onClick={handleScrollToSection("announcements")} sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>Latest Notices</Link>
+              <Link href="#" onClick={handleScrollToSection("faq")} sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>FAQs / Help</Link>
+              <Link href="/login" sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>Portal Login</Link>
             </Stack>
           </Grid>
 
-          {/* Column 4: Contact & Helpline */}
+          {/* Column 4 */}
           <Grid item xs={12} md={4}>
             <Typography variant="subtitle1" sx={{ color: "#FFFFFF", fontWeight: 700, mb: 3 }}>
               Customer Care & Contact
@@ -104,17 +105,17 @@ const Footer = () => {
               <Box
                 sx={{
                   p: 2,
-                  bgcolor: "rgba(244, 180, 0, 0.08)",
-                  border: "1px dashed rgba(244, 180, 0, 0.4)",
+                  bgcolor: "rgba(245, 158, 11, 0.05)",
+                  border: "1px dashed rgba(245, 158, 11, 0.3)",
                   borderRadius: "10px",
                   display: "flex",
                   alignItems: "center",
                   gap: 2,
                 }}
               >
-                <ShieldAlert size={24} color="#F4B400" />
+                <ShieldAlert size={24} color="#F59E0B" />
                 <Box>
-                  <Typography variant="caption" sx={{ color: "#F4B400", fontWeight: 700, display: "block", textTransform: "uppercase" }}>
+                  <Typography variant="caption" sx={{ color: "#F59E0B", fontWeight: 700, display: "block", textTransform: "uppercase" }}>
                     Emergency Helpline (24x7)
                   </Typography>
                   <Typography variant="body2" sx={{ fontWeight: 800, color: "#FFFFFF" }}>
@@ -143,9 +144,9 @@ const Footer = () => {
           </Grid>
         </Grid>
 
-        <Divider sx={{ my: 6, borderColor: "rgba(255, 255, 255, 0.08)" }} />
+        <Divider sx={{ my: 6, borderColor: "rgba(255, 255, 255, 0.06)" }} />
 
-        {/* Bottom Bar: Social, Copyright & Policies */}
+        {/* Bottom copyright & socials */}
         <Grid container spacing={3} alignItems="center" justifyContent="space-between">
           <Grid item xs={12} md={6}>
             <Typography variant="body2" sx={{ color: "#64748B" }}>
@@ -154,16 +155,16 @@ const Footer = () => {
           </Grid>
           <Grid item xs={12} md={6} textAlign={{ xs: "left", md: "right" }}>
             <Stack direction="row" spacing={1} justifyContent={{ xs: "flex-start", md: "flex-end" }} sx={{ mb: 2 }}>
-              <IconButton size="small" sx={{ color: "#94A3B8", "&:hover": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.05)" } }}>
+              <IconButton size="small" sx={{ color: "#94A3B8", "&:hover": { color: "#06B6D4", bgcolor: "rgba(6, 182, 212, 0.05)" } }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
               </IconButton>
-              <IconButton size="small" sx={{ color: "#94A3B8", "&:hover": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.05)" } }}>
+              <IconButton size="small" sx={{ color: "#94A3B8", "&:hover": { color: "#06B6D4", bgcolor: "rgba(6, 182, 212, 0.05)" } }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
               </IconButton>
-              <IconButton size="small" sx={{ color: "#94A3B8", "&:hover": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.05)" } }}>
+              <IconButton size="small" sx={{ color: "#94A3B8", "&:hover": { color: "#06B6D4", bgcolor: "rgba(6, 182, 212, 0.05)" } }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
               </IconButton>
-              <IconButton size="small" sx={{ color: "#94A3B8", "&:hover": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.05)" } }}>
+              <IconButton size="small" sx={{ color: "#94A3B8", "&:hover": { color: "#06B6D4", bgcolor: "rgba(6, 182, 212, 0.05)" } }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98"/></svg>
               </IconButton>
             </Stack>

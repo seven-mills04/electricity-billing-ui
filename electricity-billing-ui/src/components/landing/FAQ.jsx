@@ -43,16 +43,16 @@ const FAQ = () => {
       id="faq"
       sx={{
         py: { xs: 10, md: 14 },
-        bgcolor: "#F7F9FC",
+        bgcolor: "transparent",
+        borderTop: "1px solid rgba(255, 255, 255, 0.06)",
       }}
     >
       <Container maxWidth="md">
-        {/* Section Header */}
         <Stack alignItems="center" textAlign="center" spacing={2} sx={{ mb: 8 }}>
           <Typography
             variant="h6"
             sx={{
-              color: "#00A99D",
+              color: "#06B6D4",
               fontWeight: 700,
               letterSpacing: "0.1em",
               textTransform: "uppercase",
@@ -63,7 +63,7 @@ const FAQ = () => {
           <Typography
             variant="h2"
             sx={{
-              color: "#0056A6",
+              color: "#FFFFFF",
               fontWeight: 800,
               fontSize: { xs: "2rem", md: "2.5rem" },
             }}
@@ -73,7 +73,7 @@ const FAQ = () => {
           <Typography
             variant="body1"
             sx={{
-              color: "#475569",
+              color: "#94A3B8",
               maxWidth: "500px",
             }}
           >
@@ -81,7 +81,6 @@ const FAQ = () => {
           </Typography>
         </Stack>
 
-        {/* FAQs Accordions */}
         <Stack spacing={2.5}>
           {faqs.map((faq, index) => (
             <motion.div
@@ -97,18 +96,21 @@ const FAQ = () => {
                 elevation={0}
                 sx={{
                   borderRadius: "14px !important",
-                  border: "1px solid #E2E8F0",
-                  bgcolor: "#FFFFFF",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  bgcolor: "rgba(15, 23, 42, 0.35)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  color: "#E2E8F0",
                   transition: "border-color 0.2s ease, box-shadow 0.2s ease",
                   "&::before": { display: "none" },
                   "&:hover": {
-                    borderColor: "#0056A6",
+                    borderColor: "#06B6D4",
                   },
-                  boxShadow: expanded === faq.id ? "0 4px 12px rgba(0, 86, 166, 0.04)" : "none",
+                  boxShadow: expanded === faq.id ? "0 4px 30px rgba(6, 182, 212, 0.1)" : "none",
                 }}
               >
                 <AccordionSummary
-                  expandIcon={<ChevronDown size={18} color="#0056A6" />}
+                  expandIcon={<ChevronDown size={18} color="#06B6D4" />}
                   sx={{
                     px: 3,
                     py: 1,
@@ -118,13 +120,13 @@ const FAQ = () => {
                     },
                   }}
                 >
-                  <Box sx={{ color: "#0056A6", display: "flex" }}>
+                  <Box sx={{ color: "#06B6D4", display: "flex" }}>
                     <HelpCircle size={20} />
                   </Box>
                   <Typography
                     sx={{
                       fontWeight: 700,
-                      color: expanded === faq.id ? "#0056A6" : "#1E293B",
+                      color: expanded === faq.id ? "#06B6D4" : "#E2E8F0",
                       fontSize: "1.05rem",
                       transition: "color 0.2s ease",
                     }}
@@ -135,7 +137,7 @@ const FAQ = () => {
                 <AccordionDetails sx={{ px: 3, pb: 3.5, pl: 7.5 }}>
                   <Typography
                     sx={{
-                      color: "#475569",
+                      color: "#94A3B8",
                       lineHeight: 1.6,
                       fontSize: "0.925rem",
                     }}

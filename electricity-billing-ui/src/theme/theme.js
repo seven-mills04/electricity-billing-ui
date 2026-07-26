@@ -10,29 +10,29 @@ const theme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#0056A6", // Corporate Utility Blue (Adani, Tata Power, BSES style)
+      main: "#0056A6", 
       light: "#3378b8",
       dark: "#003c74",
       contrastText: "#FFFFFF",
     },
     secondary: {
-      main: "#00A99D", // Clean Utility Teal / Energy Green
+      main: "#00A99D", 
       light: "#33baa1",
       dark: "#00766d",
       contrastText: "#FFFFFF",
     },
     accent: {
-      main: "#F4B400", // Soft Amber / Yellow
+      main: "#F4B400", 
       cyan: "#06B6D4",
       purple: "#8B5CF6",
     },
     background: {
-      default: "#FFFFFF", // Clean premium background
+      default: "#FFFFFF", 
       paper: "#FFFFFF",
-      dark: "#002a52", // Rich deep corporate blue for footer/dark UI elements
+      dark: "#002a52", 
     },
     text: {
-      primary: "#1E293B", // Readable dark slate
+      primary: "#1E293B", 
       secondary: "#475569",
       disabled: "#94A3B8",
     },
@@ -125,7 +125,7 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: "12px", // 12-18px range
+          borderRadius: "12px", 
           padding: "10px 22px",
           fontSize: "0.875rem",
           fontWeight: 600,

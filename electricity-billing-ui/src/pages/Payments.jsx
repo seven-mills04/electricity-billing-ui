@@ -223,7 +223,7 @@ const Payments = () => {
         }
       />
 
-      {/* Pay Bill Dialog */}
+      
       <Dialog open={payDialogOpen} onClose={() => setPayDialogOpen(false)} maxWidth="sm" fullWidth>
         <form onSubmit={handlePaySubmit}>
           <DialogTitle sx={{ p: 3, bgcolor: "#0F172A", color: "#FFFFFF", fontWeight: 700 }}>
@@ -282,7 +282,7 @@ const Payments = () => {
         </form>
       </Dialog>
 
-      {/* View Settlement Receipt Dialog */}
+      
       <DetailsDialog
         open={viewOpen}
         handleClose={() => setViewOpen(false)}

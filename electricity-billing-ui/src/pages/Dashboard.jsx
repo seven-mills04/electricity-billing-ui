@@ -96,7 +96,7 @@ const Dashboard = () => {
     }
   };
 
-  // Sample Revenue vs Collection Trend Chart Data
+  
   const chartData = [
     { month: "Jan", revenue: 42000, collection: 38000 },
     { month: "Feb", revenue: 48000, collection: 45000 },
@@ -114,7 +114,7 @@ const Dashboard = () => {
 
   return (
     <Box sx={{ pb: 6 }}>
-      {/* Executive Welcome Banner */}
+      
       <Paper
         elevation={0}
         sx={{
@@ -170,10 +170,10 @@ const Dashboard = () => {
         </Stack>
       </Paper>
 
-      {/* Progress Bar when loading */}
+      
       {loading && <LinearProgress sx={{ mb: 3, borderRadius: 2 }} />}
 
-      {/* 4 Primary KPI Stat Cards */}
+      
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={6} md={3}>
           <EnergyStatCard
@@ -224,9 +224,9 @@ const Dashboard = () => {
         </Grid>
       </Grid>
 
-      {/* Interactive Charts Section */}
+      
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        {/* Revenue vs Collections Chart */}
+        
         <Grid item xs={12} md={8}>
           <Paper elevation={0} sx={{ p: 3, borderRadius: "20px", border: "1px solid #E2E8F0", bgcolor: "#FFFFFF" }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
@@ -266,7 +266,7 @@ const Dashboard = () => {
           </Paper>
         </Grid>
 
-        {/* AI Predictions & Consumption Forecast */}
+        
         <Grid item xs={12} md={4}>
           <Paper elevation={0} sx={{ p: 3, borderRadius: "20px", border: "1px solid #E2E8F0", bgcolor: "#FFFFFF", height: "100%" }}>
             <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
@@ -324,9 +324,9 @@ const Dashboard = () => {
         </Grid>
       </Grid>
 
-      {/* Recent Ledger Summary Tables */}
+      
       <Grid container spacing={3}>
-        {/* Recent Bills */}
+        
         <Grid item xs={12} md={6}>
           <Paper elevation={0} sx={{ p: 3, borderRadius: "20px", border: "1px solid #E2E8F0", bgcolor: "#FFFFFF" }}>
             <Typography variant="h5" sx={{ fontWeight: 700, color: "#0F172A", mb: 2 }}>
@@ -355,7 +355,7 @@ const Dashboard = () => {
           </Paper>
         </Grid>
 
-        {/* Recent Payments */}
+        
         <Grid item xs={12} md={6}>
           <Paper elevation={0} sx={{ p: 3, borderRadius: "20px", border: "1px solid #E2E8F0", bgcolor: "#FFFFFF" }}>
             <Typography variant="h5" sx={{ fontWeight: 700, color: "#0F172A", mb: 2 }}>

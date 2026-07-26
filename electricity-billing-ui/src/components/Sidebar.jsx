@@ -90,7 +90,7 @@ const Sidebar = ({ onClose }) => {
         borderRight: "1px solid rgba(255, 255, 255, 0.08)",
       }}
     >
-      {/* Brand Header */}
+      
       <Toolbar sx={{ my: 1.5, px: 3 }}>
         <Stack direction="row" spacing={1.5} alignItems="center">
           <Box
@@ -119,7 +119,7 @@ const Sidebar = ({ onClose }) => {
 
       <Divider sx={{ borderColor: "rgba(255, 255, 255, 0.08)", mb: 2 }} />
 
-      {/* Role Badge Pill */}
+      
       <Box sx={{ px: 3, mb: 2 }}>
         <Chip
           size="small"
@@ -135,7 +135,7 @@ const Sidebar = ({ onClose }) => {
         />
       </Box>
 
-      {/* Navigation List */}
+      
       <List sx={{ px: 2, flexGrow: 1 }}>
         {menuItems.map((item) => {
           const isActive = location.pathname.startsWith(item.path);
@@ -190,7 +190,7 @@ const Sidebar = ({ onClose }) => {
         })}
       </List>
 
-      {/* Footer / Logout */}
+      
       <Box sx={{ p: 2.5, borderTop: "1px solid rgba(255, 255, 255, 0.08)" }}>
         <ListItemButton
           onClick={handleSignOut}

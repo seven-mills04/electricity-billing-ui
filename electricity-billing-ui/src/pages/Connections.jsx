@@ -237,7 +237,7 @@ const Connections = () => {
         }
       />
 
-      {/* Add / Edit Connection Dialog */}
+      
       <ConnectionDialog
         open={dialogOpen}
         onClose={() => setDialogOpen(false)}
@@ -245,7 +245,7 @@ const Connections = () => {
         onSuccess={fetchConnections}
       />
 
-      {/* View Details Dialog */}
+      
       <DetailsDialog
         open={viewOpen}
         handleClose={() => setViewOpen(false)}
@@ -264,7 +264,7 @@ const Connections = () => {
         }
       />
 
-      {/* Confirm Delete Dialog */}
+      
       <ConfirmDialog
         open={deleteOpen}
         handleClose={() => setDeleteOpen(false)}

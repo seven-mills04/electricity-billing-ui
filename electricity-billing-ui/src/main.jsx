@@ -9,7 +9,7 @@ import theme from './styles/theme';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <ThemeProvider theme={theme}>
-      {/* CssBaseline takes care of the background color and fonts automatically */}
+      
       <CssBaseline />
       <App />
     </ThemeProvider>
