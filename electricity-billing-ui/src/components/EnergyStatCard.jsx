@@ -43,20 +43,33 @@ const EnergyStatCard = ({
         />
 
         <CardContent sx={{ p: 2.5 }}>
-          <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 2 }}>
-            <Box>
-              <Typography variant="subtitle2" sx={{ color: "#94A3B8", fontWeight: 600, textTransform: "uppercase", fontSize: "0.72rem", letterSpacing: "0.04em" }}>
-                {title}
-              </Typography>
-              <Typography variant="h3" sx={{ fontWeight: 800, color: "#FFFFFF", mt: 0.5 }}>
-                {value}
-              </Typography>
-            </Box>
+          {/* Header row: Title on the left, Icon container on the right */}
+          <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1.5 }}>
+            <Typography
+              variant="subtitle2"
+              sx={{
+                color: "#94A3B8",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                fontSize: "0.72rem",
+                letterSpacing: "0.04em",
+                pr: 2,
+                minWidth: 0,
+                flex: 1,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {title}
+            </Typography>
 
             {Icon && (
               <Box
                 sx={{
-                  p: 1.25,
+                  width: "40px",
+                  height: "40px",
+                  flexShrink: 0,
                   borderRadius: "12px",
                   bgcolor: `${color}15`,
                   color: color,
@@ -66,11 +79,19 @@ const EnergyStatCard = ({
                   justifyContent: "center",
                 }}
               >
-                <Icon size={22} />
+                <Icon size={20} />
               </Box>
             )}
           </Stack>
 
+          {/* Metric Section: positioned below header */}
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="h3" sx={{ fontWeight: 800, color: "#FFFFFF" }}>
+              {value}
+            </Typography>
+          </Box>
+
+          {/* Footer Section: Subtitle and trend badge */}
           <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
             {subtitle && (
               <Typography variant="caption" sx={{ color: "#64748B", fontWeight: 500 }}>
@@ -89,6 +110,7 @@ const EnergyStatCard = ({
                   fontWeight: 700,
                   fontSize: "0.7rem",
                   height: "22px",
+                  flexShrink: 0,
                 }}
               />
             )}

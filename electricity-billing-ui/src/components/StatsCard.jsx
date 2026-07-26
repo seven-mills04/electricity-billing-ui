@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Typography, Box } from '@mui/material';
+import { Card, CardContent, Typography, Box, Stack } from '@mui/material';
 import { motion } from 'framer-motion';
 
 
@@ -96,9 +96,9 @@ const StatsCard = ({ title, value, icon: Icon, color = '#2563EB', trend }) => {
           }
         }}
       >
-        <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-          
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+        <CardContent sx={{ p: 2.5, '&:last-child': { pb: 2.5 } }}>
+          {/* Header row: Title on the left, Icon container on the right */}
+          <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1.5 }}>
             <Typography 
               variant="subtitle2" 
               sx={{ 
@@ -107,6 +107,12 @@ const StatsCard = ({ title, value, icon: Icon, color = '#2563EB', trend }) => {
                 fontSize: '0.75rem',
                 letterSpacing: '0.04em',
                 textTransform: 'uppercase',
+                pr: 2,
+                minWidth: 0,
+                flex: 1,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
             >
               {title}
@@ -115,16 +121,22 @@ const StatsCard = ({ title, value, icon: Icon, color = '#2563EB', trend }) => {
             {Icon && (
               <Box 
                 sx={{ 
-                  color: '#94A3B8',
-                  display: 'flex',
-                  alignItems: 'center',
-                  opacity: 0.7
+                  width: "40px",
+                  height: "40px",
+                  flexShrink: 0,
+                  borderRadius: "12px",
+                  bgcolor: `${color}15`,
+                  color: color,
+                  border: `1px solid ${color}30`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                <Icon size={18} />
+                <Icon size={20} />
               </Box>
             )}
-          </Box>
+          </Stack>
 
           
           <Typography 
