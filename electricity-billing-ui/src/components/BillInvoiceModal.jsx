@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { Zap, Printer, CheckCircle, Clock, FileText } from "lucide-react";
 import api from "../api/axiosConfig";
+import GradientButton from "./common/GradientButton";
 
 const BillInvoiceModal = ({ open, onClose, bill }) => {
   if (!bill) return null;
