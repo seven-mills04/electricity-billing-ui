@@ -85,9 +85,11 @@ const Sidebar = ({ onClose }) => {
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        bgcolor: "#0F172A",
+        bgcolor: "rgba(13, 27, 42, 0.65)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
         color: "#FFFFFF",
-        borderRight: "1px solid rgba(255, 255, 255, 0.08)",
+        borderRight: "1px solid rgba(255, 255, 255, 0.06)",
       }}
     >
       
@@ -95,8 +97,9 @@ const Sidebar = ({ onClose }) => {
         <Stack direction="row" spacing={1.5} alignItems="center">
           <Box
             sx={{
-              background: "#0056A6",
-              color: "#FFFFFF",
+              background: "rgba(6, 182, 212, 0.1)",
+              color: "#06B6D4",
+              border: "1px solid rgba(6, 182, 212, 0.3)",
               p: 1,
               borderRadius: "10px",
               display: "flex",
@@ -110,14 +113,14 @@ const Sidebar = ({ onClose }) => {
             <Typography variant="h6" sx={{ fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.03em", fontSize: "1.05rem", lineHeight: 1.1 }}>
               KNK POWER
             </Typography>
-            <Typography variant="caption" sx={{ color: "#00A99D", fontSize: "0.68rem", display: "block", fontWeight: 700, textTransform: "uppercase" }}>
+            <Typography variant="caption" sx={{ color: "#06B6D4", fontSize: "0.68rem", display: "block", fontWeight: 700, textTransform: "uppercase" }}>
               Corporation Ltd.
             </Typography>
           </Box>
         </Stack>
       </Toolbar>
 
-      <Divider sx={{ borderColor: "rgba(255, 255, 255, 0.08)", mb: 2 }} />
+      <Divider sx={{ borderColor: "rgba(255, 255, 255, 0.06)", mb: 2 }} />
 
       
       <Box sx={{ px: 3, mb: 2 }}>
@@ -126,11 +129,11 @@ const Sidebar = ({ onClose }) => {
           label={userRole === "ADMIN" ? "Scope: Senior Grid Operator" : "Scope: Consumer Self-Service"}
           sx={{
             width: "100%",
-            bgcolor: userRole === "ADMIN" ? "rgba(2, 132, 199, 0.15)" : "rgba(16, 185, 129, 0.15)",
-            color: userRole === "ADMIN" ? "#38BDF8" : "#34D399",
+            bgcolor: userRole === "ADMIN" ? "rgba(37, 99, 235, 0.15)" : "rgba(34, 197, 94, 0.15)",
+            color: userRole === "ADMIN" ? "#60A5FA" : "#22C55E",
             fontWeight: 700,
             fontSize: "0.72rem",
-            border: `1px solid ${userRole === "ADMIN" ? "rgba(56, 189, 248, 0.3)" : "rgba(52, 211, 153, 0.3)"}`,
+            border: `1px solid ${userRole === "ADMIN" ? "rgba(96, 165, 250, 0.25)" : "rgba(34, 197, 94, 0.25)"}`,
           }}
         />
       </Box>
@@ -154,14 +157,14 @@ const Sidebar = ({ onClose }) => {
                     if (onClose) onClose();
                   }}
                   sx={{
-                    borderRadius: "10px",
+                    borderRadius: "12px",
                     py: 1.2,
                     px: 2,
-                    bgcolor: isActive ? "rgba(2, 132, 199, 0.15)" : "transparent",
-                    color: isActive ? "#38BDF8" : "#94A3B8",
-                    borderLeft: isActive ? "3px solid #38BDF8" : "3px solid transparent",
+                    bgcolor: isActive ? "rgba(6, 182, 212, 0.1)" : "transparent",
+                    color: isActive ? "#06B6D4" : "#94A3B8",
+                    borderLeft: isActive ? "3px solid #06B6D4" : "3px solid transparent",
                     "&:hover": {
-                      bgcolor: isActive ? "rgba(2, 132, 199, 0.25)" : "rgba(255, 255, 255, 0.04)",
+                      bgcolor: isActive ? "rgba(6, 182, 212, 0.15)" : "rgba(255, 255, 255, 0.03)",
                       color: "#FFFFFF",
                     },
                     transition: "all 0.2s ease",
@@ -169,7 +172,7 @@ const Sidebar = ({ onClose }) => {
                 >
                   <ListItemIcon
                     sx={{
-                      color: isActive ? "#38BDF8" : "#64748B",
+                      color: isActive ? "#06B6D4" : "#64748B",
                       minWidth: 38,
                     }}
                   >
@@ -191,7 +194,7 @@ const Sidebar = ({ onClose }) => {
       </List>
 
       
-      <Box sx={{ p: 2.5, borderTop: "1px solid rgba(255, 255, 255, 0.08)" }}>
+      <Box sx={{ p: 2.5, borderTop: "1px solid rgba(255, 255, 255, 0.06)" }}>
         <ListItemButton
           onClick={handleSignOut}
           sx={{
@@ -199,7 +202,7 @@ const Sidebar = ({ onClose }) => {
             color: "#EF4444",
             py: 1,
             px: 2,
-            "&:hover": { bgcolor: "rgba(239, 68, 68, 0.1)" },
+            "&:hover": { bgcolor: "rgba(239, 68, 68, 0.08)" },
           }}
         >
           <ListItemIcon sx={{ color: "#EF4444", minWidth: 38 }}>

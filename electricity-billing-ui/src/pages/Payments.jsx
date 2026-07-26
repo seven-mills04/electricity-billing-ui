@@ -21,6 +21,9 @@ import {
 import { Plus, CreditCard, CheckCircle, Receipt, DollarSign, Wallet } from "lucide-react";
 import EnterpriseTable from "../components/EnterpriseTable";
 import DetailsDialog from "../components/DetailsDialog";
+import PageContainer from "../components/common/PageContainer";
+import StatusBadge from "../components/common/StatusBadge";
+import GradientButton from "../components/common/GradientButton";
 import { getPayments, payBill } from "../api/paymentApi";
 import { getBills } from "../api/billApi";
 
@@ -148,7 +151,7 @@ const Payments = () => {
           icon={<CreditCard size={12} />}
           label={row.transactionId}
           size="small"
-          sx={{ bgcolor: "rgba(2, 132, 199, 0.1)", color: "#0284C7", fontWeight: 700 }}
+          sx={{ bgcolor: "rgba(6, 182, 212, 0.1)", color: "#06B6D4", border: "1px solid rgba(6, 182, 212, 0.25)", fontWeight: 700 }}
         />
       ),
     },
@@ -162,7 +165,7 @@ const Payments = () => {
         <Chip
           size="small"
           label={row.paymentMode}
-          sx={{ bgcolor: "#F1F5F9", color: "#475569", fontWeight: 600 }}
+          sx={{ bgcolor: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255, 255, 255, 0.08)", color: "#94A3B8", fontWeight: 600 }}
         />
       ),
     },
@@ -170,7 +173,7 @@ const Payments = () => {
       field: "amountPaid",
       headerName: "Amount Settled",
       renderCell: (row) => (
-        <span style={{ fontWeight: 800, color: "#10B981" }}>
+        <span style={{ fontWeight: 800, color: "#22C55E" }}>
           +₹{(row.amountPaid || 0).toLocaleString()}
         </span>
       ),
@@ -182,7 +185,7 @@ const Payments = () => {
       renderCell: (row) => (
         <Stack direction="row" spacing={1} justifyContent="flex-end">
           <Tooltip title="View Settlement Receipt">
-            <IconButton size="small" onClick={() => handleOpenView(row)} sx={{ color: "#0284C7" }}>
+            <IconButton size="small" onClick={() => handleOpenView(row)} sx={{ color: "#06B6D4", "&:hover": { bgcolor: "rgba(6, 182, 212, 0.08)" } }}>
               <Receipt size={18} />
             </IconButton>
           </Tooltip>
@@ -192,7 +195,7 @@ const Payments = () => {
   ];
 
   return (
-    <Box>
+    <PageContainer>
       <EnterpriseTable
         title="Financial Settlements & Payments"
         subtitle="Audit transaction receipts, multi-channel payment modes, and instant bill reconciliations"
@@ -209,28 +212,25 @@ const Payments = () => {
           setPage(0);
         }}
         actions={
-          <Button
+          <GradientButton
             variant="contained"
+            colorType="accent"
             startIcon={<Plus size={18} />}
             onClick={() => setPayDialogOpen(true)}
-            sx={{
-              background: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
-              boxShadow: "0 4px 14px rgba(16, 185, 129, 0.4)",
-            }}
           >
             Process Bill Payment
-          </Button>
+          </GradientButton>
         }
       />
 
       
       <Dialog open={payDialogOpen} onClose={() => setPayDialogOpen(false)} maxWidth="sm" fullWidth>
         <form onSubmit={handlePaySubmit}>
-          <DialogTitle sx={{ p: 3, bgcolor: "#0F172A", color: "#FFFFFF", fontWeight: 700 }}>
+          <DialogTitle sx={{ p: 3, color: "#FFFFFF", fontWeight: 700, borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>
             Process Instant Electricity Settlement
           </DialogTitle>
 
-          <DialogContent sx={{ p: 3 }}>
+          <DialogContent sx={{ p: 3, mt: 1 }}>
             <Stack spacing={3} sx={{ mt: 1 }}>
               <TextField
                 select
@@ -239,6 +239,10 @@ const Payments = () => {
                 value={selectedBillId}
                 onChange={(e) => setSelectedBillId(e.target.value)}
                 required
+                sx={{
+                  "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
+                  "& .MuiInputLabel-root": { color: "#94A3B8" },
+                }}
               >
                 {unpaidBills.length === 0 ? (
                   <MenuItem disabled value="">No Unpaid Bills Found</MenuItem>
@@ -258,6 +262,10 @@ const Payments = () => {
                 value={paymentMode}
                 onChange={(e) => setPaymentMode(e.target.value)}
                 required
+                sx={{
+                  "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
+                  "& .MuiInputLabel-root": { color: "#94A3B8" },
+                }}
               >
                 <MenuItem value="UPI">UPI / Digital Wallet</MenuItem>
                 <MenuItem value="CREDIT_CARD">Credit Card</MenuItem>
@@ -268,16 +276,16 @@ const Payments = () => {
             </Stack>
           </DialogContent>
 
-          <DialogActions sx={{ p: 2.5, bgcolor: "#F8FAFC" }}>
-            <Button onClick={() => setPayDialogOpen(false)}>Cancel</Button>
-            <Button
+          <DialogActions sx={{ p: 2.5, borderTop: "1px solid rgba(255, 255, 255, 0.08)" }}>
+            <Button onClick={() => setPayDialogOpen(false)} sx={{ color: "#94A3B8" }}>Cancel</Button>
+            <GradientButton
               type="submit"
               variant="contained"
+              colorType="accent"
               disabled={!selectedBillId}
-              sx={{ background: "linear-gradient(135deg, #10B981 0%, #059669 100%)" }}
             >
               Confirm & Settle Payment
-            </Button>
+            </GradientButton>
           </DialogActions>
         </form>
       </Dialog>
@@ -308,7 +316,7 @@ const Payments = () => {
       >
         <Alert severity={snackbar.severity}>{snackbar.message}</Alert>
       </Snackbar>
-    </Box>
+    </PageContainer>
   );
 };
 

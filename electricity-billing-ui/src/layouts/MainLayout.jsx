@@ -4,6 +4,7 @@ import { Box, Drawer } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
+import BackgroundEffects from "../components/landing/BackgroundEffects";
 
 const drawerWidth = 260;
 
@@ -22,13 +23,13 @@ const MainLayout = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "background.default" }}>
+    <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "#071426", color: "#F8FAFC", overflow: "hidden", position: "relative" }}>
+      {/* Background Orbs Grid Effects */}
+      <BackgroundEffects />
       
       <Navbar onMobileToggle={() => setMobileOpen(!mobileOpen)} title={getPageTitle()} />
 
-      
-      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
-        
+      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 }, zIndex: 5 }}>
         <Drawer
           variant="temporary"
           open={mobileOpen}
@@ -36,13 +37,16 @@ const MainLayout = () => {
           ModalProps={{ keepMounted: true }}
           sx={{
             display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": { width: drawerWidth, border: "none" },
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              border: "none",
+              bgcolor: "transparent",
+            },
           }}
         >
           <Sidebar onClose={() => setMobileOpen(false)} />
         </Drawer>
 
-        
         <Drawer
           variant="permanent"
           open
@@ -52,6 +56,7 @@ const MainLayout = () => {
               width: drawerWidth,
               border: "none",
               boxSizing: "border-box",
+              bgcolor: "transparent",
             },
           }}
         >
@@ -59,7 +64,6 @@ const MainLayout = () => {
         </Drawer>
       </Box>
 
-      
       <Box
         component="main"
         sx={{
@@ -67,8 +71,10 @@ const MainLayout = () => {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           mt: 8,
           p: { xs: 2.5, sm: 4, md: 4.5 },
-          bgcolor: "#F8FAFC",
+          bgcolor: "transparent",
           minHeight: "calc(100vh - 64px)",
+          position: "relative",
+          zIndex: 2,
         }}
       >
         <AnimatePresence mode="wait">

@@ -18,13 +18,14 @@ const EnergyStatCard = ({
         elevation={0}
         sx={{
           borderRadius: "16px",
-          border: "1px solid #E2E8F0",
-          bgcolor: "#FFFFFF",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
+          bgcolor: "rgba(15, 23, 42, 0.35)",
+          backdropFilter: "blur(12px)",
           p: 0.5,
           position: "relative",
           overflow: "hidden",
           "&:hover": {
-            boxShadow: "0 12px 24px -4px rgba(15, 23, 42, 0.08)",
+            boxShadow: `0 12px 30px ${color}15`,
             borderColor: color,
           },
         }}
@@ -44,10 +45,10 @@ const EnergyStatCard = ({
         <CardContent sx={{ p: 2.5 }}>
           <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 2 }}>
             <Box>
-              <Typography variant="subtitle2" sx={{ color: "text.secondary", fontWeight: 600, textTransform: "uppercase", fontSize: "0.72rem", letterSpacing: "0.04em" }}>
+              <Typography variant="subtitle2" sx={{ color: "#94A3B8", fontWeight: 600, textTransform: "uppercase", fontSize: "0.72rem", letterSpacing: "0.04em" }}>
                 {title}
               </Typography>
-              <Typography variant="h3" sx={{ fontWeight: 800, color: "#0F172A", mt: 0.5 }}>
+              <Typography variant="h3" sx={{ fontWeight: 800, color: "#FFFFFF", mt: 0.5 }}>
                 {value}
               </Typography>
             </Box>
@@ -57,8 +58,9 @@ const EnergyStatCard = ({
                 sx={{
                   p: 1.25,
                   borderRadius: "12px",
-                  bgcolor: `${color}12`,
+                  bgcolor: `${color}15`,
                   color: color,
+                  border: `1px solid ${color}30`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",

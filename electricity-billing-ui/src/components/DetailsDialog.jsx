@@ -41,24 +41,26 @@ const DetailsDialog = ({ open, onClose, handleClose, title, subtitle, sections, 
       maxWidth="sm"
       PaperProps={{
         sx: {
-          borderRadius: "12px",
-          border: "1px solid #E2E8F0",
-          boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.05)"
+          borderRadius: "20px",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
+          bgcolor: "rgba(13, 27, 42, 0.95)",
+          backdropFilter: "blur(16px)",
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.6)",
         }
       }}
     >
       <DialogTitle sx={{ px: 4, pt: 3.5, pb: 1.5 }}>
-        <Typography variant="h6" sx={{ fontWeight: 700, color: "#0F172A" }}>
+        <Typography variant="h6" sx={{ fontWeight: 700, color: "#FFFFFF" }}>
           {title}
         </Typography>
         {subtitle && (
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant="caption" sx={{ color: "#94A3B8" }}>
             {subtitle}
           </Typography>
         )}
       </DialogTitle>
 
-      <DialogContent dividers sx={{ px: 4, py: 3, borderColor: "#E2E8F0" }}>
+      <DialogContent dividers sx={{ px: 4, py: 3, borderColor: "rgba(255, 255, 255, 0.08)" }}>
         <Stack spacing={3}>
           {activeSections.map((section, sIdx) => (
             <Box key={sIdx}>
@@ -66,7 +68,7 @@ const DetailsDialog = ({ open, onClose, handleClose, title, subtitle, sections, 
                 <Typography
                   variant="caption"
                   sx={{
-                    color: "primary.main",
+                    color: "#06B6D4",
                     textTransform: "uppercase",
                     fontWeight: 700,
                     display: "block",
@@ -80,23 +82,23 @@ const DetailsDialog = ({ open, onClose, handleClose, title, subtitle, sections, 
               <Grid container spacing={2}>
                 {section.fields.map((field, fIdx) => (
                   <Grid item xs={field.xs || 12} sm={field.sm || 6} key={fIdx}>
-                    <Typography variant="caption" color="text.secondary" sx={{ display: "block", fontWeight: 500 }}>
+                    <Typography variant="caption" sx={{ display: "block", fontWeight: 500, color: "#94A3B8" }}>
                       {field.label}
                     </Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 650, color: "#0F172A", mt: 0.5 }}>
+                    <Typography variant="body2" sx={{ fontWeight: 650, color: "#FFFFFF", mt: 0.5 }}>
                       {field.value ?? "-"}
                     </Typography>
                   </Grid>
                 ))}
               </Grid>
-              {sIdx !== activeSections.length - 1 && <Divider sx={{ mt: 3 }} />}
+              {sIdx !== activeSections.length - 1 && <Divider sx={{ mt: 3, borderColor: "rgba(255, 255, 255, 0.06)" }} />}
             </Box>
           ))}
         </Stack>
       </DialogContent>
 
-      <DialogActions sx={{ px: 4, py: 2, bgcolor: "#F8FAFC", borderTop: "1px solid #E2E8F0" }}>
-        <Button variant="outlined" color="secondary" onClick={activeClose} sx={{ px: 3 }}>
+      <DialogActions sx={{ px: 4, py: 2, borderTop: "1px solid rgba(255, 255, 255, 0.08)" }}>
+        <Button variant="outlined" color="primary" onClick={activeClose} sx={{ px: 3 }}>
           Close
         </Button>
       </DialogActions>

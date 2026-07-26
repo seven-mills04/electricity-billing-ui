@@ -23,6 +23,9 @@ import {
 import { Eye, FileText, CheckCircle, Clock, ReceiptText, CreditCard } from "lucide-react";
 import EnterpriseTable from "../components/EnterpriseTable";
 import BillInvoiceModal from "../components/BillInvoiceModal";
+import PageContainer from "../components/common/PageContainer";
+import StatusBadge from "../components/common/StatusBadge";
+import GradientButton from "../components/common/GradientButton";
 import { getBills } from "../api/billApi";
 import { payBill } from "../api/paymentApi";
 
@@ -136,7 +139,7 @@ const Bills = () => {
           icon={<ReceiptText size={12} />}
           label={row.billNumber}
           size="small"
-          sx={{ bgcolor: "rgba(2, 132, 199, 0.1)", color: "#0284C7", fontWeight: 700 }}
+          sx={{ bgcolor: "rgba(6, 182, 212, 0.1)", color: "#06B6D4", border: "1px solid rgba(6, 182, 212, 0.25)", fontWeight: 700 }}
         />
       ),
     },
@@ -151,7 +154,7 @@ const Bills = () => {
       field: "amount",
       headerName: "Total Amount Due",
       renderCell: (row) => (
-        <span style={{ fontWeight: 800, color: "#0F172A" }}>
+        <span style={{ fontWeight: 800, color: "#FFFFFF" }}>
           ₹{(row.amount || 0).toLocaleString()}
         </span>
       ),
@@ -161,16 +164,7 @@ const Bills = () => {
       field: "status",
       headerName: "Settlement Status",
       renderCell: (row) => (
-        <Chip
-          icon={row.status === "PAID" ? <CheckCircle size={12} /> : <Clock size={12} />}
-          size="small"
-          label={row.status}
-          sx={{
-            bgcolor: row.status === "PAID" ? "rgba(16, 185, 129, 0.1)" : "rgba(245, 158, 11, 0.1)",
-            color: row.status === "PAID" ? "#059669" : "#D97706",
-            fontWeight: 700,
-          }}
-        />
+        <StatusBadge label={row.status} />
       ),
     },
     {
@@ -181,13 +175,13 @@ const Bills = () => {
         <Stack direction="row" spacing={1} justifyContent="flex-end">
           {row.status === "UNPAID" && (
             <Tooltip title="Settle Bill (Make Payment)">
-              <IconButton size="small" onClick={() => handleOpenPayment(row)} sx={{ color: "#00A99D" }}>
+              <IconButton size="small" onClick={() => handleOpenPayment(row)} sx={{ color: "#06B6D4", "&:hover": { bgcolor: "rgba(6, 182, 212, 0.08)" } }}>
                 <CreditCard size={18} />
               </IconButton>
             </Tooltip>
           )}
           <Tooltip title="View & Print Official Utility Invoice">
-            <IconButton size="small" onClick={() => handleOpenInvoice(row)} sx={{ color: "#0284C7" }}>
+            <IconButton size="small" onClick={() => handleOpenInvoice(row)} sx={{ color: "#2563EB", "&:hover": { bgcolor: "rgba(37, 99, 235, 0.08)" } }}>
               <FileText size={18} />
             </IconButton>
           </Tooltip>
@@ -197,7 +191,7 @@ const Bills = () => {
   ];
 
   return (
-    <Box>
+    <PageContainer>
       <EnterpriseTable
         title="Billing & Invoice Ledger"
         subtitle="Manage compiled electricity utility invoices, tariff slab items, and settlement status"
@@ -218,12 +212,13 @@ const Bills = () => {
             value={statusFilter}
             onChange={(e, val) => setStatusFilter(val)}
             sx={{
-              bgcolor: "#F8FAFC",
+              bgcolor: "rgba(15, 23, 42, 0.25)",
+              border: "1px solid rgba(255, 255, 255, 0.06)",
               p: 0.5,
               borderRadius: "10px",
               minHeight: 36,
-              "& .MuiTab-root": { minHeight: 32, px: 2, fontSize: "0.75rem", fontWeight: 700 },
-              "& .Mui-selected": { bgcolor: "#FFFFFF", borderRadius: "8px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)" },
+              "& .MuiTab-root": { minHeight: 32, px: 2, fontSize: "0.75rem", fontWeight: 700, color: "#94A3B8" },
+              "& .Mui-selected": { bgcolor: "#06B6D4", color: "#0F172A !important", borderRadius: "8px", boxShadow: "0 4px 15px rgba(6, 182, 212, 0.2)" },
               "& .MuiTabs-indicator": { display: "none" },
             }}
           >
@@ -243,27 +238,30 @@ const Bills = () => {
 
       
       <Dialog open={paymentOpen} onClose={() => setPaymentOpen(false)} maxWidth="xs" fullWidth>
-        <DialogTitle sx={{ fontWeight: 800, color: "#0F172A" }}>Settle Outstanding Invoice</DialogTitle>
-        <DialogContent dividers sx={{ py: 3 }}>
+        <DialogTitle sx={{ fontWeight: 800, color: "#FFFFFF" }}>Settle Outstanding Invoice</DialogTitle>
+        <DialogContent dividers sx={{ py: 3, borderColor: "rgba(255, 255, 255, 0.08)" }}>
           {payingBill && (
             <Stack spacing={2.5}>
-              <Box sx={{ p: 2, bgcolor: "#F8FAFC", borderRadius: "12px", border: "1px solid #E2E8F0" }}>
-                <Typography variant="caption" sx={{ color: "#64748B", fontWeight: 700, display: "block", mb: 0.5 }}>
+              <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.02)", borderRadius: "12px", border: "1px solid rgba(255, 255, 255, 0.06)" }}>
+                <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 700, display: "block", mb: 0.5 }}>
                   BILL NUMBER
                 </Typography>
-                <Typography variant="body1" sx={{ fontWeight: 800, color: "#0F172A", mb: 2 }}>
+                <Typography variant="body1" sx={{ fontWeight: 800, color: "#FFFFFF", mb: 2 }}>
                   {payingBill.billNumber}
                 </Typography>
                 
-                <Typography variant="caption" sx={{ color: "#64748B", fontWeight: 700, display: "block", mb: 0.5 }}>
+                <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 700, display: "block", mb: 0.5 }}>
                   TOTAL OUTSTANDING AMOUNT
                 </Typography>
-                <Typography variant="h4" sx={{ fontWeight: 800, color: "#DC2626" }}>
+                <Typography variant="h4" sx={{ fontWeight: 800, color: "#EF4444" }}>
                   ₹{(payingBill.totalAmount || payingBill.amount || 0).toLocaleString()}
                 </Typography>
               </Box>
 
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{
+                "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
+                "& .MuiInputLabel-root": { color: "#94A3B8" },
+              }}>
                 <InputLabel id="payment-mode-label">Select Payment Mode</InputLabel>
                 <Select
                   labelId="payment-mode-label"
@@ -281,17 +279,17 @@ const Bills = () => {
           )}
         </DialogContent>
         <DialogActions sx={{ p: 2.5 }}>
-          <Button onClick={() => setPaymentOpen(false)} color="inherit">
+          <Button onClick={() => setPaymentOpen(false)} sx={{ color: "#94A3B8" }}>
             Cancel
           </Button>
-          <Button
+          <GradientButton
             onClick={handleConfirmPayment}
             variant="contained"
+            colorType="accent"
             disabled={submittingPayment}
-            sx={{ bgcolor: "#00A99D", "&:hover": { bgcolor: "#00766d" } }}
           >
             {submittingPayment ? "Processing..." : "Authorize Settlement"}
-          </Button>
+          </GradientButton>
         </DialogActions>
       </Dialog>
 
@@ -302,7 +300,7 @@ const Bills = () => {
       >
         <Alert severity={snackbar.severity}>{snackbar.message}</Alert>
       </Snackbar>
-    </Box>
+    </PageContainer>
   );
 };
 

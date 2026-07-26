@@ -43,6 +43,10 @@ import {
 import { motion } from "framer-motion";
 
 import EnergyStatCard from "../components/EnergyStatCard";
+import GlassCard from "../components/common/GlassCard";
+import ChartCard from "../components/common/ChartCard";
+import SectionHeader from "../components/common/SectionHeader";
+import StatusBadge from "../components/common/StatusBadge";
 import { getDashboard, getPredictions } from "../api/dashboardApi";
 import { getBills } from "../api/billApi";
 import { getPayments } from "../api/paymentApi";
@@ -121,28 +125,30 @@ const Dashboard = () => {
           p: { xs: 3, md: 4 },
           mb: 4,
           borderRadius: "24px",
-          background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)",
+          background: "linear-gradient(135deg, rgba(13, 27, 42, 0.45) 0%, rgba(7, 20, 38, 0.55) 100%)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
           color: "#FFFFFF",
           position: "relative",
           overflow: "hidden",
-          border: "1px solid rgba(255, 255, 255, 0.1)",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
         }}
       >
         <Stack direction={{ xs: "column", md: "row" }} justifyContent="space-between" alignItems={{ xs: "flex-start", md: "center" }} spacing={3}>
           <Box>
-            <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+            <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
               <Chip
-                icon={<Sparkles size={14} color="#38BDF8" />}
+                icon={<Sparkles size={14} color="#06B6D4" />}
                 label={userRole === "ADMIN" ? "ENTERPRISE GRID CONTROL" : "CONSUMER PORTAL"}
                 size="small"
-                sx={{ bgcolor: "rgba(56, 189, 248, 0.15)", color: "#38BDF8", fontWeight: 700, fontSize: "0.72rem" }}
+                sx={{ bgcolor: "rgba(6, 182, 212, 0.12)", color: "#06B6D4", border: "1px solid rgba(6, 182, 212, 0.2)", fontWeight: 700, fontSize: "0.72rem" }}
               />
               <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 500 }}>
                 {new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric", year: "numeric" })}
               </Typography>
             </Stack>
 
-            <Typography variant="h3" sx={{ fontWeight: 800, color: "#FFFFFF", mb: 1 }}>
+            <Typography variant="h3" sx={{ fontWeight: 800, color: "#FFFFFF", mb: 1, letterSpacing: "-0.02em" }}>
               Welcome back, {consumerName} 👋
             </Typography>
 
@@ -158,9 +164,10 @@ const Dashboard = () => {
               <IconButton
                 onClick={fetchDashboardData}
                 sx={{
-                  bgcolor: "rgba(255, 255, 255, 0.08)",
+                  bgcolor: "rgba(255, 255, 255, 0.04)",
                   color: "#FFFFFF",
-                  "&:hover": { bgcolor: "rgba(255, 255, 255, 0.15)" },
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  "&:hover": { bgcolor: "rgba(255, 255, 255, 0.12)", borderColor: "rgba(255, 255, 255, 0.2)" },
                 }}
               >
                 <RefreshCw size={18} />
@@ -171,7 +178,7 @@ const Dashboard = () => {
       </Paper>
 
       
-      {loading && <LinearProgress sx={{ mb: 3, borderRadius: 2 }} />}
+      {loading && <LinearProgress sx={{ mb: 3, borderRadius: 2, bgcolor: "rgba(255,255,255,0.05)", "& .MuiLinearProgress-bar": { background: "linear-gradient(90deg, #2563EB, #06B6D4)" } }} />}
 
       
       <Grid container spacing={3} sx={{ mb: 4 }}>
@@ -181,7 +188,7 @@ const Dashboard = () => {
             value={stats.totalConsumers ? stats.totalConsumers.toLocaleString() : "0"}
             subtitle="Active User Accounts"
             icon={Users}
-            color="#0284C7"
+            color="#2563EB"
             trend="up"
             trendLabel="+12% MoM"
           />
@@ -193,7 +200,7 @@ const Dashboard = () => {
             value={stats.totalConnections ? stats.totalConnections.toLocaleString() : "0"}
             subtitle="Smart Meter Nodes"
             icon={Plug2}
-            color="#10B981"
+            color="#06B6D4"
             trend="up"
             trendLabel="Operational"
           />
@@ -205,7 +212,7 @@ const Dashboard = () => {
             value={`₹${(stats.monthlyRevenue || 0).toLocaleString()}`}
             subtitle="Total Collections This Month"
             icon={CreditCard}
-            color="#8B5CF6"
+            color="#7C3AED"
             trend="up"
             trendLabel="+8.4%"
           />
@@ -228,67 +235,57 @@ const Dashboard = () => {
       <Grid container spacing={3} sx={{ mb: 4 }}>
         
         <Grid item xs={12} md={8}>
-          <Paper elevation={0} sx={{ p: 3, borderRadius: "20px", border: "1px solid #E2E8F0", bgcolor: "#FFFFFF" }}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
-              <Box>
-                <Typography variant="h5" sx={{ fontWeight: 700, color: "#0F172A" }}>
-                  Monthly Billing vs Settlement Collection
-                </Typography>
-                <Typography variant="caption" sx={{ color: "#64748B" }}>
-                  Financial revenue performance over the last 6 billing cycles
-                </Typography>
-              </Box>
-              <Chip label="2026 AUDITED" size="small" sx={{ bgcolor: "#F1F5F9", color: "#475569", fontWeight: 700 }} />
-            </Stack>
-
-            <Box sx={{ height: 320, width: "100%" }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 15, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#0284C7" stopOpacity={0.4} />
-                      <stop offset="95%" stopColor="#0284C7" stopOpacity={0} />
-                    </linearGradient>
-                    <linearGradient id="colorCol" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#10B981" stopOpacity={0.4} />
-                      <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
-                  <XAxis dataKey="month" stroke="#94A3B8" fontSize={12} tickLine={false} />
-                  <YAxis stroke="#94A3B8" fontSize={12} tickLine={false} />
-                  <RechartsTooltip contentStyle={{ backgroundColor: "#0F172A", border: "none", borderRadius: "12px", color: "#FFF" }} />
-                  <Area type="monotone" dataKey="revenue" name="Billed Revenue (₹)" stroke="#0284C7" strokeWidth={3} fillOpacity={1} fill="url(#colorRev)" />
-                  <Area type="monotone" dataKey="collection" name="Amount Settled (₹)" stroke="#10B981" strokeWidth={3} fillOpacity={1} fill="url(#colorCol)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </Box>
-          </Paper>
+          <ChartCard
+            title="Monthly Billing vs Settlement Collection"
+            subtitle="Financial revenue performance over the last 6 billing cycles"
+            action={<Chip label="2026 AUDITED" size="small" sx={{ bgcolor: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255,255,255,0.08)", color: "#94A3B8", fontWeight: 700 }} />}
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 15, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#2563EB" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient id="colorCol" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#06B6D4" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="#06B6D4" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+                <XAxis dataKey="month" stroke="#64748B" fontSize={12} tickLine={false} />
+                <YAxis stroke="#64748B" fontSize={12} tickLine={false} />
+                <RechartsTooltip contentStyle={{ backgroundColor: "#0D1B2A", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "12px", color: "#FFF" }} />
+                <Area type="monotone" dataKey="revenue" name="Billed Revenue (₹)" stroke="#2563EB" strokeWidth={3} fillOpacity={1} fill="url(#colorRev)" />
+                <Area type="monotone" dataKey="collection" name="Amount Settled (₹)" stroke="#06B6D4" strokeWidth={3} fillOpacity={1} fill="url(#colorCol)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </ChartCard>
         </Grid>
 
         
         <Grid item xs={12} md={4}>
-          <Paper elevation={0} sx={{ p: 3, borderRadius: "20px", border: "1px solid #E2E8F0", bgcolor: "#FFFFFF", height: "100%" }}>
+          <GlassCard sx={{ p: 3, height: "100%" }}>
             <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
-              <TrendingUp color="#0284C7" size={20} />
-              <Typography variant="h5" sx={{ fontWeight: 700, color: "#0F172A" }}>
+              <TrendingUp color="#06B6D4" size={20} />
+              <Typography variant="h5" sx={{ fontWeight: 700, color: "#FFFFFF" }}>
                 AI Load Forecast
               </Typography>
             </Stack>
-            <Typography variant="caption" sx={{ color: "#64748B", display: "block", mb: 3 }}>
+            <Typography variant="caption" sx={{ color: "#94A3B8", display: "block", mb: 3 }}>
               Upcoming 3-month predictive energy consumption model
             </Typography>
 
             <Stack spacing={2}>
               {predictions.length > 0 ? (
                 predictions.map((pred, idx) => (
-                  <Box key={idx} sx={{ p: 2, borderRadius: "14px", bgcolor: "#F8FAFC", border: "1px solid #E2E8F0" }}>
+                  <Box key={idx} sx={{ p: 2, borderRadius: "14px", bgcolor: "rgba(255, 255, 255, 0.02)", border: "1px solid rgba(255, 255, 255, 0.04)", "&:hover": { bgcolor: "rgba(255, 255, 255, 0.04)" }, transition: "all 0.2s" }}>
                     <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: 2, mb: 0.5, width: "100%" }}>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#0F172A" }}>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#FFFFFF" }}>
                         {pred.month} Forecast
                       </Typography>
                       <Box sx={{ flexGrow: 1 }} />
-                      <Typography variant="h6" sx={{ fontWeight: 800, color: "#0284C7", whiteSpace: "nowrap" }}>
+                      <Typography variant="h6" sx={{ fontWeight: 800, color: "#06B6D4", whiteSpace: "nowrap" }}>
                         {pred.predictedKwh} kWh
                       </Typography>
                     </Box>
@@ -304,7 +301,7 @@ const Dashboard = () => {
                   </Box>
                 ))
               ) : (
-                <Box sx={{ p: 3, textAlign: "center", bgcolor: "#F8FAFC", borderRadius: "14px" }}>
+                <Box sx={{ p: 3, textAlign: "center", bgcolor: "rgba(255, 255, 255, 0.02)", borderRadius: "14px" }}>
                   <Typography variant="body2" sx={{ color: "#64748B" }}>
                     Generating statistical forecast predictions...
                   </Typography>
@@ -312,15 +309,15 @@ const Dashboard = () => {
               )}
             </Stack>
 
-            <Box sx={{ mt: 3, p: 2, borderRadius: "12px", bgcolor: "rgba(2, 132, 199, 0.05)", border: "1px solid rgba(2, 132, 199, 0.2)" }}>
-              <Typography variant="caption" sx={{ color: "#0284C7", fontWeight: 700, display: "block" }}>
+            <Box sx={{ mt: 3, p: 2, borderRadius: "12px", bgcolor: "rgba(6, 182, 212, 0.05)", border: "1px solid rgba(6, 182, 212, 0.15)" }}>
+              <Typography variant="caption" sx={{ color: "#06B6D4", fontWeight: 700, display: "block" }}>
                 💡 MODEL CONFIDENCE: 96.4%
               </Typography>
-              <Typography variant="caption" sx={{ color: "#475569" }}>
+              <Typography variant="caption" sx={{ color: "#94A3B8" }}>
                 Calculated using linear regression over historical meter reading logs.
               </Typography>
             </Box>
-          </Paper>
+          </GlassCard>
         </Grid>
       </Grid>
 
@@ -328,60 +325,60 @@ const Dashboard = () => {
       <Grid container spacing={3}>
         
         <Grid item xs={12} md={6}>
-          <Paper elevation={0} sx={{ p: 3, borderRadius: "20px", border: "1px solid #E2E8F0", bgcolor: "#FFFFFF" }}>
-            <Typography variant="h5" sx={{ fontWeight: 700, color: "#0F172A", mb: 2 }}>
+          <GlassCard sx={{ p: 3 }}>
+            <Typography variant="h5" sx={{ fontWeight: 700, color: "#FFFFFF", mb: 2.5 }}>
               Recent Generated Bills
             </Typography>
             <Stack spacing={1.5}>
               {recentBills.map((b) => (
-                <Stack key={b.id} direction="row" justifyContent="space-between" alignItems="center" sx={{ p: 2, borderRadius: "12px", border: "1px solid #F1F5F9", "&:hover": { bgcolor: "#F8FAFC" } }}>
+                <Stack key={b.id} direction="row" justifyContent="space-between" alignItems="center" sx={{ p: 2, borderRadius: "12px", border: "1px solid rgba(255, 255, 255, 0.04)", bgcolor: "rgba(255,255,255,0.02)", "&:hover": { bgcolor: "rgba(255,255,255,0.04)" }, transition: "all 0.2s" }}>
                   <Box>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#0F172A" }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#FFFFFF" }}>
                       Bill #{b.billNumber}
                     </Typography>
-                    <Typography variant="caption" sx={{ color: "#64748B" }}>
+                    <Typography variant="caption" sx={{ color: "#94A3B8" }}>
                       Month: {b.billingMonth} | {b.unitsConsumed} kWh
                     </Typography>
                   </Box>
-                  <Stack textAlign="right">
-                    <Typography variant="subtitle1" sx={{ fontWeight: 800, color: "#0F172A" }}>
+                  <Stack textAlign="right" alignItems="flex-end" spacing={0.5}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 800, color: "#FFFFFF" }}>
                       ₹{(b.totalAmount || 0).toLocaleString()}
                     </Typography>
-                    <Chip size="small" label={b.billStatus} sx={{ bgcolor: b.billStatus === "PAID" ? "rgba(16,185,129,0.1)" : "rgba(245,158,11,0.1)", color: b.billStatus === "PAID" ? "#059669" : "#D97706", fontWeight: 700, fontSize: "0.68rem" }} />
+                    <StatusBadge label={b.billStatus} />
                   </Stack>
                 </Stack>
               ))}
             </Stack>
-          </Paper>
+          </GlassCard>
         </Grid>
 
         
         <Grid item xs={12} md={6}>
-          <Paper elevation={0} sx={{ p: 3, borderRadius: "20px", border: "1px solid #E2E8F0", bgcolor: "#FFFFFF" }}>
-            <Typography variant="h5" sx={{ fontWeight: 700, color: "#0F172A", mb: 2 }}>
+          <GlassCard sx={{ p: 3 }}>
+            <Typography variant="h5" sx={{ fontWeight: 700, color: "#FFFFFF", mb: 2.5 }}>
               Recent Payment Settlements
             </Typography>
             <Stack spacing={1.5}>
               {recentPayments.map((p) => (
-                <Stack key={p.id} direction="row" justifyContent="space-between" alignItems="center" sx={{ p: 2, borderRadius: "12px", border: "1px solid #F1F5F9", "&:hover": { bgcolor: "#F8FAFC" } }}>
+                <Stack key={p.id} direction="row" justifyContent="space-between" alignItems="center" sx={{ p: 2, borderRadius: "12px", border: "1px solid rgba(255, 255, 255, 0.04)", bgcolor: "rgba(255,255,255,0.02)", "&:hover": { bgcolor: "rgba(255,255,255,0.04)" }, transition: "all 0.2s" }}>
                   <Box>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#0F172A" }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#FFFFFF" }}>
                       Txn #{p.transactionId}
                     </Typography>
-                    <Typography variant="caption" sx={{ color: "#64748B" }}>
+                    <Typography variant="caption" sx={{ color: "#94A3B8" }}>
                       Date: {p.paymentDate} | Mode: {p.paymentMode}
                     </Typography>
                   </Box>
                   <Box textAlign="right">
-                    <Typography variant="subtitle1" sx={{ fontWeight: 800, color: "#10B981" }}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 800, color: "#22C55E", mb: 0.5 }}>
                       +₹{(p.amountPaid || 0).toLocaleString()}
                     </Typography>
-                    <Chip size="small" label="SETTLED" sx={{ bgcolor: "rgba(16,185,129,0.1)", color: "#059669", fontWeight: 700, fontSize: "0.68rem" }} />
+                    <StatusBadge label="SETTLED" />
                   </Box>
                 </Stack>
               ))}
             </Stack>
-          </Paper>
+          </GlassCard>
         </Grid>
       </Grid>
     </Box>

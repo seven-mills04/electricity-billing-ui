@@ -14,6 +14,9 @@ import EnterpriseTable from "../components/EnterpriseTable";
 import ConsumerDialog from "../components/ConsumerDialog";
 import DetailsDialog from "../components/DetailsDialog";
 import ConfirmDialog from "../components/ConfirmDialog";
+import PageContainer from "../components/common/PageContainer";
+import StatusBadge from "../components/common/StatusBadge";
+import GradientButton from "../components/common/GradientButton";
 import { getConsumers, deleteConsumer } from "../api/consumerApi";
 
 const Consumers = () => {
@@ -116,7 +119,7 @@ const Consumers = () => {
         <Chip
           label={row.consumerNumber}
           size="small"
-          sx={{ bgcolor: "rgba(2, 132, 199, 0.1)", color: "#0284C7", fontWeight: 700 }}
+          sx={{ bgcolor: "rgba(6, 182, 212, 0.1)", color: "#06B6D4", border: "1px solid rgba(6, 182, 212, 0.2)", fontWeight: 700 }}
         />
       ),
     },
@@ -127,14 +130,9 @@ const Consumers = () => {
       field: "status",
       headerName: "Grid Status",
       renderCell: (row) => (
-        <Chip
-          size="small"
-          label={row.hasActiveConn ? "Active Connection" : "Registered"}
-          sx={{
-            bgcolor: row.hasActiveConn ? "rgba(16, 185, 129, 0.1)" : "rgba(100, 116, 139, 0.1)",
-            color: row.hasActiveConn ? "#059669" : "#64748B",
-            fontWeight: 700,
-          }}
+        <StatusBadge 
+          label={row.hasActiveConn ? "Active Connection" : "Registered"} 
+          statusType={row.hasActiveConn ? "success" : "default"}
         />
       ),
     },
@@ -145,17 +143,17 @@ const Consumers = () => {
       renderCell: (row) => (
         <Stack direction="row" spacing={1} justifyContent="flex-end">
           <Tooltip title="View Details">
-            <IconButton size="small" onClick={() => handleOpenView(row)} sx={{ color: "#0284C7" }}>
+            <IconButton size="small" onClick={() => handleOpenView(row)} sx={{ color: "#06B6D4", "&:hover": { bgcolor: "rgba(6, 182, 212, 0.08)" } }}>
               <Eye size={16} />
             </IconButton>
           </Tooltip>
           <Tooltip title="Edit Consumer">
-            <IconButton size="small" onClick={() => handleOpenEdit(row)} sx={{ color: "#F59E0B" }}>
+            <IconButton size="small" onClick={() => handleOpenEdit(row)} sx={{ color: "#F59E0B", "&:hover": { bgcolor: "rgba(245, 158, 11, 0.08)" } }}>
               <Edit size={16} />
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete Consumer">
-            <IconButton size="small" onClick={() => handleOpenDelete(row.id)} sx={{ color: "#EF4444" }}>
+            <IconButton size="small" onClick={() => handleOpenDelete(row.id)} sx={{ color: "#EF4444", "&:hover": { bgcolor: "rgba(239, 68, 68, 0.08)" } }}>
               <Trash2 size={16} />
             </IconButton>
           </Tooltip>
@@ -165,7 +163,7 @@ const Consumers = () => {
   ];
 
   return (
-    <Box>
+    <PageContainer>
       <EnterpriseTable
         title="Consumer Directory"
         subtitle="Manage registered retail electricity consumers and connection profiles"
@@ -182,17 +180,14 @@ const Consumers = () => {
           setPage(0);
         }}
         actions={
-          <Button
+          <GradientButton
             variant="contained"
+            colorType="accent"
             startIcon={<Plus size={18} />}
             onClick={handleOpenAdd}
-            sx={{
-              background: "linear-gradient(135deg, #0284C7 0%, #10B981 100%)",
-              boxShadow: "0 4px 14px rgba(2, 132, 199, 0.4)",
-            }}
           >
             Register New Consumer
-          </Button>
+          </GradientButton>
         }
       />
 
@@ -239,7 +234,7 @@ const Consumers = () => {
       >
         <Alert severity={snackbar.severity}>{snackbar.message}</Alert>
       </Snackbar>
-    </Box>
+    </PageContainer>
   );
 };
 

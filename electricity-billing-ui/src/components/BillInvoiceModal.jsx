@@ -139,10 +139,10 @@ const BillInvoiceModal = ({ open, onClose, bill }) => {
         }
       `}</style>
 
-      <DialogTitle sx={{ p: 3, bgcolor: "#0F172A", color: "#FFFFFF" }}>
+      <DialogTitle sx={{ p: 3, bgcolor: "rgba(13, 27, 42, 0.95)", color: "#FFFFFF", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>
         <Stack direction="row" justifyContent="space-between" alignItems="center">
           <Stack direction="row" spacing={1.5} alignItems="center">
-            <Box sx={{ p: 1, borderRadius: "8px", bgcolor: "#0284C7", color: "#FFFFFF" }}>
+            <Box sx={{ p: 1, borderRadius: "8px", bgcolor: "#06B6D4", color: "#0F172A" }}>
               <Zap size={20} fill="currentColor" />
             </Box>
             <Box>
@@ -159,51 +159,51 @@ const BillInvoiceModal = ({ open, onClose, bill }) => {
             icon={isPaid ? <CheckCircle size={14} /> : <Clock size={14} />}
             label={isPaid ? "SETTLED / PAID" : "PAYMENT DUE"}
             sx={{
-              bgcolor: isPaid ? "rgba(16, 185, 129, 0.2)" : "rgba(245, 158, 11, 0.2)",
-              color: isPaid ? "#34D399" : "#FBBF24",
+              bgcolor: isPaid ? "rgba(34, 197, 94, 0.15)" : "rgba(245, 158, 11, 0.15)",
+              color: isPaid ? "#22C55E" : "#F59E0B",
               fontWeight: 700,
               fontSize: "0.75rem",
-              border: `1px solid ${isPaid ? "#34D399" : "#FBBF24"}`,
+              border: `1px solid ${isPaid ? "rgba(34, 197, 94, 0.3)" : "rgba(245, 158, 11, 0.3)"}`,
             }}
           />
         </Stack>
       </DialogTitle>
 
-      <DialogContent sx={{ p: 4, bgcolor: "#FFFFFF" }}>
-        <Paper elevation={0} sx={{ p: 3, border: "1px solid #E2E8F0", borderRadius: "16px", mb: 3 }}>
+      <DialogContent sx={{ p: 4, bgcolor: "rgba(13, 27, 42, 0.95)", color: "#FFFFFF" }}>
+        <Paper elevation={0} sx={{ p: 3, bgcolor: "rgba(255, 255, 255, 0.02)", border: "1px solid rgba(255, 255, 255, 0.08)", borderRadius: "16px", mb: 3 }}>
           <Grid container spacing={3} className="print-row" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: '100%' }}>
             <Grid item xs={12} sm={6} className="print-col-6" style={{ width: '50%', flexBasis: '50%' }}>
-              <Typography variant="subtitle2" sx={{ color: "#64748B", textTransform: "uppercase", fontSize: "0.7rem", fontWeight: 700 }}>
+              <Typography variant="subtitle2" sx={{ color: "#94A3B8", textTransform: "uppercase", fontSize: "0.7rem", fontWeight: 700 }}>
                 Consumer Details
               </Typography>
-              <Typography variant="h6" sx={{ fontWeight: 700, mt: 0.5, color: "#0F172A" }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, mt: 0.5, color: "#FFFFFF" }}>
                 {rawConsumer.firstName ? `${rawConsumer.firstName} ${rawConsumer.lastName}` : "Consumer Record"}
               </Typography>
-              <Typography variant="body2" sx={{ color: "#475569" }}>
+              <Typography variant="body2" sx={{ color: "#94A3B8" }}>
                 Consumer No: {rawConsumer.consumerNumber || "N/A"}
               </Typography>
-              <Typography variant="body2" sx={{ color: "#475569" }}>
+              <Typography variant="body2" sx={{ color: "#94A3B8" }}>
                 Phone: {rawConsumer.phone || "N/A"}
               </Typography>
-              <Typography variant="body2" sx={{ color: "#475569" }}>
+              <Typography variant="body2" sx={{ color: "#94A3B8" }}>
                 Email: {rawConsumer.email || "N/A"}
               </Typography>
             </Grid>
 
             <Grid item xs={12} sm={6} className="print-col-6" style={{ width: '50%', flexBasis: '50%' }}>
-              <Typography variant="subtitle2" sx={{ color: "#64748B", textTransform: "uppercase", fontSize: "0.7rem", fontWeight: 700 }}>
+              <Typography variant="subtitle2" sx={{ color: "#94A3B8", textTransform: "uppercase", fontSize: "0.7rem", fontWeight: 700 }}>
                 Connection & Meter Details
               </Typography>
-              <Typography variant="body2" sx={{ fontWeight: 600, color: "#0F172A", mt: 0.5 }}>
+              <Typography variant="body2" sx={{ fontWeight: 600, color: "#FFFFFF", mt: 0.5 }}>
                 Connection No: {rawConnection.connectionNumber || "N/A"}
               </Typography>
-              <Typography variant="body2" sx={{ color: "#475569" }}>
+              <Typography variant="body2" sx={{ color: "#94A3B8" }}>
                 Meter No: {rawConnection.meterNumber || "N/A"}
               </Typography>
-              <Typography variant="body2" sx={{ color: "#475569" }}>
+              <Typography variant="body2" sx={{ color: "#94A3B8" }}>
                 Category: {rawConnection.connectionType || "DOMESTIC"} ({rawConnection.phaseType || "SINGLE_PHASE"})
               </Typography>
-              <Typography variant="body2" sx={{ color: "#475569" }}>
+              <Typography variant="body2" sx={{ color: "#94A3B8" }}>
                 Sanctioned Load: {rawConnection.sanctionedLoad || 5.0} kW
               </Typography>
             </Grid>
@@ -211,13 +211,13 @@ const BillInvoiceModal = ({ open, onClose, bill }) => {
         </Paper>
 
         
-        <Typography variant="h6" sx={{ fontWeight: 700, mb: 1.5, color: "#0F172A" }}>
+        <Typography variant="h6" sx={{ fontWeight: 700, mb: 1.5, color: "#FFFFFF" }}>
           Consumption Breakdown
         </Typography>
 
-        <Paper elevation={0} sx={{ border: "1px solid #E2E8F0", borderRadius: "12px", overflow: "hidden", mb: 3 }}>
-          <Box sx={{ p: 2, bgcolor: "#F8FAFC", borderBottom: "1px solid #E2E8F0" }}>
-            <Grid container fontWeight={700} fontSize="0.8rem" color="#475569" className="print-row" style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+        <Paper elevation={0} sx={{ border: "1px solid rgba(255, 255, 255, 0.08)", bgcolor: "rgba(255, 255, 255, 0.01)", borderRadius: "12px", overflow: "hidden", mb: 3 }}>
+          <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.02)", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>
+            <Grid container fontWeight={700} fontSize="0.8rem" color="#94A3B8" className="print-row" style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
               <Grid item xs={3} className="print-col-3" style={{ width: '25%', flexBasis: '25%' }}>Billing Month</Grid>
               <Grid item xs={3} textAlign="right" className="print-col-3" style={{ width: '25%', flexBasis: '25%', textAlign: 'right' }}>Prev Reading</Grid>
               <Grid item xs={3} textAlign="right" className="print-col-3" style={{ width: '25%', flexBasis: '25%', textAlign: 'right' }}>Curr Reading</Grid>
@@ -225,11 +225,11 @@ const BillInvoiceModal = ({ open, onClose, bill }) => {
             </Grid>
           </Box>
           <Box sx={{ p: 2 }}>
-            <Grid container fontSize="0.875rem" color="#0F172A" className="print-row" style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+            <Grid container fontSize="0.875rem" color="#FFFFFF" className="print-row" style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
               <Grid item xs={3} fontWeight={600} className="print-col-3" style={{ width: '25%', flexBasis: '25%' }}>{bill.billingMonth || "Current"}</Grid>
               <Grid item xs={3} textAlign="right" className="print-col-3" style={{ width: '25%', flexBasis: '25%', textAlign: 'right' }}>{rawMeter.previousReading ?? "-"} kWh</Grid>
               <Grid item xs={3} textAlign="right" className="print-col-3" style={{ width: '25%', flexBasis: '25%', textAlign: 'right' }}>{rawMeter.currentReading ?? "-"} kWh</Grid>
-              <Grid item xs={3} textAlign="right" fontWeight={700} color="#0284C7" className="print-col-3" style={{ width: '25%', flexBasis: '25%', textAlign: 'right' }}>
+              <Grid item xs={3} textAlign="right" fontWeight={700} color="#06B6D4" className="print-col-3" style={{ width: '25%', flexBasis: '25%', textAlign: 'right' }}>
                 {bill.unitsConsumed ?? 0} kWh
               </Grid>
             </Grid>
@@ -237,57 +237,57 @@ const BillInvoiceModal = ({ open, onClose, bill }) => {
         </Paper>
 
         
-        <Typography variant="h6" sx={{ fontWeight: 700, mb: 1.5, color: "#0F172A" }}>
+        <Typography variant="h6" sx={{ fontWeight: 700, mb: 1.5, color: "#FFFFFF" }}>
           Itemized Tariff Calculation
         </Typography>
 
         <Stack spacing={1.5} sx={{ mb: 3 }}>
           <Stack direction="row" justifyContent="space-between" className="print-between" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-            <Typography variant="body2" sx={{ color: "#475569" }}>Energy Charges (Slab Rated)</Typography>
+            <Typography variant="body2" sx={{ color: "#94A3B8" }}>Energy Charges (Slab Rated)</Typography>
             <Typography variant="body2" sx={{ fontWeight: 600 }}>₹{(bill.energyCharge ?? 0).toLocaleString()}</Typography>
           </Stack>
 
           <Stack direction="row" justifyContent="space-between" className="print-between" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-            <Typography variant="body2" sx={{ color: "#475569" }}>Fixed Demand Charge ({rawConnection.sanctionedLoad || 5} kW Load)</Typography>
+            <Typography variant="body2" sx={{ color: "#94A3B8" }}>Fixed Demand Charge ({rawConnection.sanctionedLoad || 5} kW Load)</Typography>
             <Typography variant="body2" sx={{ fontWeight: 600 }}>₹{(bill.fixedCharge ?? 0).toLocaleString()}</Typography>
           </Stack>
 
           <Stack direction="row" justifyContent="space-between" className="print-between" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-            <Typography variant="body2" sx={{ color: "#475569" }}>State Electricity Duty (5%)</Typography>
+            <Typography variant="body2" sx={{ color: "#94A3B8" }}>State Electricity Duty (5%)</Typography>
             <Typography variant="body2" sx={{ fontWeight: 600 }}>₹{(bill.electricityDuty ?? 0).toLocaleString()}</Typography>
           </Stack>
 
-          <Divider sx={{ my: 1 }} />
+          <Divider sx={{ my: 1, borderColor: "rgba(255, 255, 255, 0.08)" }} />
 
           <Stack direction="row" justifyContent="space-between" alignItems="center" className="print-between" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-            <Typography variant="h6" sx={{ fontWeight: 800, color: "#0F172A" }}>Net Amount Payable</Typography>
-            <Typography variant="h4" sx={{ fontWeight: 800, color: "#10B981" }}>
+            <Typography variant="h6" sx={{ fontWeight: 800, color: "#FFFFFF" }}>Net Amount Payable</Typography>
+            <Typography variant="h4" sx={{ fontWeight: 800, color: "#22C55E" }}>
               ₹{(bill.totalAmount ?? 0).toLocaleString()}
             </Typography>
           </Stack>
         </Stack>
 
-        <Box sx={{ p: 2, bgcolor: "#F8FAFC", borderRadius: "12px", border: "1px solid #E2E8F0" }}>
+        <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.02)", borderRadius: "12px", border: "1px solid rgba(255, 255, 255, 0.06)" }}>
           <Grid container spacing={2} className="print-row" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: '100%' }}>
             <Grid item xs={6} className="print-col-6" style={{ width: '50%', flexBasis: '50%' }}>
-              <Typography variant="caption" sx={{ color: "#64748B" }}>Bill Issue Date</Typography>
+              <Typography variant="caption" sx={{ color: "#94A3B8" }}>Bill Issue Date</Typography>
               <Typography variant="body2" sx={{ fontWeight: 600 }}>{bill.billDate || "N/A"}</Typography>
             </Grid>
             <Grid item xs={6} className="print-col-6" style={{ width: '50%', flexBasis: '50%' }}>
-              <Typography variant="caption" sx={{ color: "#64748B" }}>Payment Due Date</Typography>
+              <Typography variant="caption" sx={{ color: "#94A3B8" }}>Payment Due Date</Typography>
               <Typography variant="body2" sx={{ fontWeight: 600, color: "#EF4444" }}>{bill.dueDate || "N/A"}</Typography>
             </Grid>
           </Grid>
         </Box>
       </DialogContent>
 
-      <DialogActions className="no-print" sx={{ p: 2.5, bgcolor: "#F8FAFC", borderTop: "1px solid #E2E8F0" }}>
-        <Button onClick={onClose} variant="outlined" sx={{ color: "#64748B", borderColor: "#CBD5E1" }}>
+      <DialogActions className="no-print" sx={{ p: 2.5, bgcolor: "rgba(13, 27, 42, 0.95)", borderTop: "1px solid rgba(255, 255, 255, 0.08)" }}>
+        <Button onClick={onClose} variant="outlined" sx={{ color: "#94A3B8", borderColor: "rgba(255, 255, 255, 0.12)" }}>
           Close
         </Button>
-        <Button onClick={handlePrint} variant="contained" startIcon={<Printer size={16} />}>
+        <GradientButton onClick={handlePrint} variant="contained" colorType="accent" startIcon={<Printer size={16} />}>
           Print Utility Invoice
-        </Button>
+        </GradientButton>
       </DialogActions>
     </Dialog>
   );

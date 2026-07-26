@@ -38,6 +38,7 @@ import {
 import { motion } from "framer-motion";
 import api from "../api/axiosConfig";
 import { getPublicConsumers } from "../api/consumerApi";
+import BackgroundEffects from "../components/landing/BackgroundEffects";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -259,10 +260,14 @@ const Login = () => {
       sx={{
         minHeight: "100vh",
         display: "flex",
-        bgcolor: "#FFFFFF",
-        color: "#1E293B",
+        bgcolor: "#071426",
+        color: "#F8FAFC",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
+      {/* Background Particles Canvas */}
+      <BackgroundEffects />
       
       <Box
         sx={{
@@ -272,17 +277,19 @@ const Login = () => {
           justifyContent: "space-between",
           p: 6,
           position: "relative",
-          bgcolor: "#F7F9FC",
-          borderRight: "1px solid #E2E8F0",
+          bgcolor: "transparent",
+          borderRight: "1px solid rgba(255, 255, 255, 0.06)",
+          zIndex: 5,
         }}
       >
         
         <Stack direction="row" spacing={1.5} alignItems="center">
           <Box
             sx={{
-              background: "#0056A6",
-              color: "#FFFFFF",
-              p: 1,
+              background: "rgba(6, 182, 212, 0.1)",
+              color: "#06B6D4",
+              border: "1px solid rgba(6, 182, 212, 0.3)",
+              p: 1.25,
               borderRadius: "10px",
               display: "flex",
               alignItems: "center",
@@ -292,10 +299,10 @@ const Login = () => {
             <Zap size={24} fill="currentColor" />
           </Box>
           <Box>
-            <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: "-0.03em", color: "#0056A6", lineHeight: 1.1 }}>
+            <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: "-0.03em", color: "#FFFFFF", lineHeight: 1.1 }}>
               KNK POWER
             </Typography>
-            <Typography variant="caption" sx={{ color: "#00A99D", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.1em", display: "block", textTransform: "uppercase" }}>
+            <Typography variant="caption" sx={{ color: "#06B6D4", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.1em", display: "block", textTransform: "uppercase" }}>
               Corporation Ltd.
             </Typography>
           </Box>
@@ -305,20 +312,20 @@ const Login = () => {
         <Box sx={{ my: "auto", maxWidth: "520px" }}>
           <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
             <Chip
-              icon={<ShieldCheck size={14} color="#00A99D" />}
+              icon={<ShieldCheck size={14} color="#06B6D4" />}
               label="SECURE UTILITY PORTAL"
-              sx={{ bgcolor: "rgba(0, 169, 157, 0.08)", color: "#00A99D", fontWeight: 700, mb: 3 }}
+              sx={{ bgcolor: "rgba(6, 182, 212, 0.08)", color: "#06B6D4", border: "1px solid rgba(6, 182, 212, 0.25)", fontWeight: 700, mb: 3 }}
             />
-            <Typography variant="h2" sx={{ fontWeight: 800, mb: 2, lineHeight: 1.15, color: "#0056A6" }}>
+            <Typography variant="h2" sx={{ fontWeight: 800, mb: 2, lineHeight: 1.15, color: "#FFFFFF" }}>
               Official Consumer & Billing Portal
             </Typography>
-            <Typography variant="body1" sx={{ color: "#475569", fontSize: "1.05rem", mb: 4, lineHeight: 1.6 }}>
+            <Typography variant="body1" sx={{ color: "#94A3B8", fontSize: "1.05rem", mb: 4, lineHeight: 1.6 }}>
               Welcome to the secure billing portal for KNK Power Corporation LTD. Access your account to manage grid connections, view energy invoices, self-report meter readings, and make secure online payments.
             </Typography>
 
             
-            <Paper sx={{ p: 2.5, borderRadius: "16px", bgcolor: "#FFFFFF", border: "1px solid #E2E8F0", boxShadow: "0 4px 12px rgba(0,0,0,0.02)" }}>
-              <Typography variant="caption" sx={{ color: "#475569", fontWeight: 700, textTransform: "uppercase", display: "block", mb: 1.5 }}>
+            <Paper sx={{ p: 2.5, borderRadius: "16px", bgcolor: "rgba(15, 23, 42, 0.35)", backdropFilter: "blur(8px)", border: "1px solid rgba(255, 255, 255, 0.08)", boxShadow: "0 4px 30px rgba(0,0,0,0.15)" }}>
+              <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 700, textTransform: "uppercase", display: "block", mb: 1.5 }}>
                 ⚡ Portal Demo Access
               </Typography>
               <Stack direction="row" spacing={1.5}>
@@ -327,7 +334,7 @@ const Login = () => {
                   variant="outlined"
                   onClick={() => fillQuickDemo("CONSUMER")}
                   startIcon={<Users size={14} />}
-                  sx={{ color: "#00A99D", borderColor: "#00A99D", fontWeight: 600, "&:hover": { bgcolor: "rgba(0, 169, 157, 0.04)", borderColor: "#00766d" } }}
+                  sx={{ color: "#06B6D4", borderColor: "rgba(6, 182, 212, 0.3)", fontWeight: 600, "&:hover": { bgcolor: "rgba(6, 182, 212, 0.05)", borderColor: "#06B6D4" } }}
                 >
                   Fill Consumer Demo
                 </Button>
@@ -350,11 +357,12 @@ const Login = () => {
           alignItems: "center",
           justifyContent: "center",
           p: { xs: 3, sm: 5 },
-          bgcolor: "#FFFFFF",
+          bgcolor: "transparent",
+          zIndex: 5,
         }}
       >
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} style={{ width: "100%", maxWidth: "420px" }}>
-          <Card sx={{ bgcolor: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: "20px", boxShadow: "0 8px 30px rgba(0, 0, 0, 0.05)", overflow: "hidden" }}>
+          <Card sx={{ bgcolor: "rgba(13, 27, 42, 0.55)", border: "1px solid rgba(255, 255, 255, 0.08)", borderRadius: "20px", boxShadow: "0 20px 50px rgba(0, 0, 0, 0.35)", overflow: "hidden", backdropFilter: "blur(16px)" }}>
             
             <Tabs
               value={tabValue}
@@ -378,11 +386,11 @@ const Login = () => {
               }}
               variant="fullWidth"
               sx={{
-                bgcolor: "#F8FAFC",
-                borderBottom: "1px solid #E2E8F0",
-                "& .MuiTab-root": { color: "#64748B", fontWeight: 600, py: 2, fontSize: "0.85rem" },
-                "& .Mui-selected": { color: "#0056A6" },
-                "& .MuiTabs-indicator": { bgcolor: "#0056A6", height: 3 },
+                bgcolor: "rgba(15, 23, 42, 0.25)",
+                borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
+                "& .MuiTab-root": { color: "#94A3B8", fontWeight: 600, py: 2, fontSize: "0.85rem" },
+                "& .Mui-selected": { color: "#06B6D4" },
+                "& .MuiTabs-indicator": { bgcolor: "#06B6D4", height: 3 },
               }}
             >
               <Tab icon={<Building2 size={16} />} iconPosition="start" label="Admin" />
@@ -392,10 +400,10 @@ const Login = () => {
 
             <CardContent sx={{ p: 4 }}>
               <Box sx={{ textCenter: "center", mb: 3 }}>
-                <Typography variant="h4" sx={{ color: "#1E293B", mb: 0.5, fontWeight: 800 }}>
+                <Typography variant="h4" sx={{ color: "#FFFFFF", mb: 0.5, fontWeight: 800 }}>
                   {tabValue === 0 ? "Grid Admin Sign In" : tabValue === 1 ? "Consumer Access" : "Portal Account Registration"}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "#475569" }}>
+                <Typography variant="body2" sx={{ color: "#94A3B8" }}>
                   {tabValue === 0
                     ? "Enter administrative operator credentials manually."
                     : tabValue === 1
@@ -412,9 +420,9 @@ const Login = () => {
                   sx={{
                     mb: 3,
                     borderRadius: "10px",
-                    bgcolor: "rgba(0, 86, 166, 0.05)",
-                    color: "#0056A6",
-                    border: "1px solid rgba(0, 86, 166, 0.15)",
+                    bgcolor: "rgba(37, 99, 235, 0.08)",
+                    color: "#60A5FA",
+                    border: "1px solid rgba(37, 99, 235, 0.2)",
                     fontSize: "0.8rem",
                   }}
                 >
@@ -423,13 +431,13 @@ const Login = () => {
               )}
 
               {successMessage && (
-                <Alert severity="success" sx={{ mb: 3, borderRadius: "10px", bgcolor: "rgba(16, 185, 129, 0.05)", color: "#10B981", border: "1px solid rgba(16, 185, 129, 0.15)" }}>
+                <Alert severity="success" sx={{ mb: 3, borderRadius: "10px", bgcolor: "rgba(34, 197, 94, 0.08)", color: "#22C55E", border: "1px solid rgba(34, 197, 94, 0.2)" }}>
                   {successMessage}
                 </Alert>
               )}
 
               {error && (
-                <Alert severity="error" sx={{ mb: 3, borderRadius: "10px", bgcolor: "rgba(239, 68, 68, 0.05)", color: "#EF4444", border: "1px solid rgba(239, 68, 68, 0.15)" }}>
+                <Alert severity="error" sx={{ mb: 3, borderRadius: "10px", bgcolor: "rgba(239, 68, 68, 0.08)", color: "#EF4444", border: "1px solid rgba(239, 68, 68, 0.2)" }}>
                   {error}
                 </Alert>
               )}
@@ -466,8 +474,8 @@ const Login = () => {
                       value={selectedConsumerId}
                       onChange={handleConsumerSelect}
                       sx={{
-                        "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
-                        "& .MuiInputLabel-root": { color: "#64748B" },
+                        "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
+                        "& .MuiInputLabel-root": { color: "#94A3B8" },
                       }}
                     >
                       {consumers.map((c) => (
@@ -489,8 +497,8 @@ const Login = () => {
                           onChange={(e) => setFirstName(e.target.value)}
                           required
                           sx={{
-                            "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
-                            "& .MuiInputLabel-root": { color: "#64748B" },
+                            "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
+                            "& .MuiInputLabel-root": { color: "#94A3B8" },
                           }}
                         />
                         <TextField
@@ -500,8 +508,8 @@ const Login = () => {
                           onChange={(e) => setLastName(e.target.value)}
                           required
                           sx={{
-                            "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
-                            "& .MuiInputLabel-root": { color: "#64748B" },
+                            "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
+                            "& .MuiInputLabel-root": { color: "#94A3B8" },
                           }}
                         />
                       </Stack>
@@ -514,8 +522,8 @@ const Login = () => {
                         onChange={(e) => setRegEmail(e.target.value)}
                         required
                         sx={{
-                          "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
-                          "& .MuiInputLabel-root": { color: "#64748B" },
+                          "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
+                          "& .MuiInputLabel-root": { color: "#94A3B8" },
                         }}
                       />
 
@@ -527,8 +535,8 @@ const Login = () => {
                         required
                         inputProps={{ maxLength: 10 }}
                         sx={{
-                          "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
-                          "& .MuiInputLabel-root": { color: "#64748B" },
+                          "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
+                          "& .MuiInputLabel-root": { color: "#94A3B8" },
                         }}
                       />
 
@@ -539,8 +547,8 @@ const Login = () => {
                         value={connectionType}
                         onChange={(e) => setConnectionType(e.target.value)}
                         sx={{
-                          "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
-                          "& .MuiInputLabel-root": { color: "#64748B" },
+                          "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
+                          "& .MuiInputLabel-root": { color: "#94A3B8" },
                         }}
                       >
                         <MenuItem value="DOMESTIC">DOMESTIC (Residential)</MenuItem>
@@ -557,8 +565,8 @@ const Login = () => {
                           onChange={(e) => setSanctionedLoad(e.target.value)}
                           required
                           sx={{
-                            "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
-                            "& .MuiInputLabel-root": { color: "#64748B" },
+                            "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
+                            "& .MuiInputLabel-root": { color: "#94A3B8" },
                           }}
                         />
                         <TextField
@@ -568,8 +576,8 @@ const Login = () => {
                           value={phaseType}
                           onChange={(e) => setPhaseType(e.target.value)}
                           sx={{
-                            "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
-                            "& .MuiInputLabel-root": { color: "#64748B" },
+                            "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
+                            "& .MuiInputLabel-root": { color: "#94A3B8" },
                           }}
                         >
                           <MenuItem value="SINGLE_PHASE">SINGLE PHASE</MenuItem>
@@ -594,8 +602,8 @@ const Login = () => {
                       ),
                     }}
                     sx={{
-                      "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
-                      "& .MuiInputLabel-root": { color: "#64748B" },
+                      "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
+                      "& .MuiInputLabel-root": { color: "#94A3B8" },
                     }}
                   />
 
@@ -622,8 +630,8 @@ const Login = () => {
                       ),
                     }}
                     sx={{
-                      "& .MuiOutlinedInput-root": { color: "#1E293B", bgcolor: "#FFFFFF" },
-                      "& .MuiInputLabel-root": { color: "#64748B" },
+                      "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
+                      "& .MuiInputLabel-root": { color: "#94A3B8" },
                     }}
                   />
 
@@ -638,12 +646,21 @@ const Login = () => {
                       py: 1.5,
                       mt: 1,
                       fontSize: "0.95rem",
-                      bgcolor: tabValue === 0 ? "#0056A6" : (tabValue === 1 ? "#00A99D" : "#0056A6"),
-                      color: "#FFFFFF",
-                      boxShadow: "0 4px 12px rgba(0, 86, 166, 0.15)",
+                      background: tabValue === 0 
+                        ? "linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)" 
+                        : tabValue === 1 
+                        ? "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)" 
+                        : "linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)",
+                      color: tabValue === 1 ? "#0F172A" : "#FFFFFF",
+                      fontWeight: 700,
+                      boxShadow: "0 4px 15px rgba(0, 0, 0, 0.25)",
                       "&:hover": {
-                        bgcolor: tabValue === 0 ? "#003c74" : (tabValue === 1 ? "#00766d" : "#003c74"),
-                        boxShadow: "0 6px 16px rgba(0, 86, 166, 0.25)",
+                        background: tabValue === 0 
+                          ? "linear-gradient(135deg, #1D4ED8 0%, #172554 100%)" 
+                          : tabValue === 1 
+                          ? "linear-gradient(135deg, #0891B2 0%, #06B6D4 100%)" 
+                          : "linear-gradient(135deg, #6D28D9 0%, #4C1D95 100%)",
+                        boxShadow: "0 6px 20px rgba(6, 182, 212, 0.2)",
                       },
                     }}
                   >
@@ -661,7 +678,7 @@ const Login = () => {
                   
                   <Button
                     onClick={() => navigate("/")}
-                    sx={{ color: "#64748B", fontSize: "0.85rem", textTransform: "none", "&:hover": { color: "#0056A6" } }}
+                    sx={{ color: "#94A3B8", fontSize: "0.85rem", textTransform: "none", "&:hover": { color: "#06B6D4" } }}
                   >
                     ← Back to Public Website
                   </Button>

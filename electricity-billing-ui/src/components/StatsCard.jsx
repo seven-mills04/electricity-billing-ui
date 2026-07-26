@@ -83,15 +83,16 @@ const StatsCard = ({ title, value, icon: Icon, color = '#2563EB', trend }) => {
           flexDirection: 'column',
           justifyContent: 'space-between',
           p: 1,
-          bgcolor: '#ffffff',
-          border: '1px solid #E2E8F0',
-          borderRadius: '8px',
+          bgcolor: 'rgba(15, 23, 42, 0.35)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: '12px',
           boxShadow: 'none',
           backgroundImage: 'none',
           transition: 'all 0.15s ease-in-out',
           '&:hover': {
-            bgcolor: '#FAFBFD',
-            borderColor: '#CBD5E1',
+            bgcolor: 'rgba(255, 255, 255, 0.02)',
+            borderColor: 'rgba(6, 182, 212, 0.3)',
           }
         }}
       >
@@ -101,7 +102,7 @@ const StatsCard = ({ title, value, icon: Icon, color = '#2563EB', trend }) => {
             <Typography 
               variant="subtitle2" 
               sx={{ 
-                color: 'text.secondary', 
+                color: '#94A3B8', 
                 fontWeight: 600,
                 fontSize: '0.75rem',
                 letterSpacing: '0.04em',
@@ -114,7 +115,7 @@ const StatsCard = ({ title, value, icon: Icon, color = '#2563EB', trend }) => {
             {Icon && (
               <Box 
                 sx={{ 
-                  color: 'text.secondary',
+                  color: '#94A3B8',
                   display: 'flex',
                   alignItems: 'center',
                   opacity: 0.7
@@ -131,7 +132,7 @@ const StatsCard = ({ title, value, icon: Icon, color = '#2563EB', trend }) => {
             sx={{ 
               fontWeight: 700, 
               letterSpacing: '-0.025em', 
-              color: '#0F172A',
+              color: '#FFFFFF',
               mb: 1.5,
               display: 'flex',
               alignItems: 'center'
@@ -149,7 +150,7 @@ const StatsCard = ({ title, value, icon: Icon, color = '#2563EB', trend }) => {
                   alignItems: 'center',
                   fontWeight: 600,
                   fontSize: '0.75rem',
-                  color: isPositive ? '#059669' : '#DC2626',
+                  color: isPositive ? '#22C55E' : '#EF4444',
                 }}
               >
                 {isPositive ? '↑' : '↓'} {Math.abs(trend)}%
@@ -157,7 +158,7 @@ const StatsCard = ({ title, value, icon: Icon, color = '#2563EB', trend }) => {
               <Typography 
                 variant="caption" 
                 sx={{ 
-                  color: 'text.secondary', 
+                  color: '#64748B', 
                   fontSize: '0.75rem',
                   fontWeight: 500
                 }}

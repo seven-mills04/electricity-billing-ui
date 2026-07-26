@@ -14,6 +14,9 @@ import EnterpriseTable from "../components/EnterpriseTable";
 import MeterReadingDialog from "../components/MeterReadingDialog";
 import DetailsDialog from "../components/DetailsDialog";
 import ConfirmDialog from "../components/ConfirmDialog";
+import PageContainer from "../components/common/PageContainer";
+import StatusBadge from "../components/common/StatusBadge";
+import GradientButton from "../components/common/GradientButton";
 import { getMeterReadings, deleteMeterReading } from "../api/meterReadingApi";
 
 const MeterReadings = () => {
@@ -114,7 +117,7 @@ const MeterReadings = () => {
           icon={<Gauge size={12} />}
           label={row.connectionNumber}
           size="small"
-          sx={{ bgcolor: "rgba(2, 132, 199, 0.1)", color: "#0284C7", fontWeight: 700 }}
+          sx={{ bgcolor: "rgba(6, 182, 212, 0.1)", color: "#06B6D4", border: "1px solid rgba(6, 182, 212, 0.25)", fontWeight: 700 }}
         />
       ),
     },
@@ -130,7 +133,7 @@ const MeterReadings = () => {
       field: "currentReading",
       headerName: "Current Reading (kWh)",
       renderCell: (row) => (
-        <span style={{ fontWeight: 600, color: "#0F172A" }}>{row.currentReading} kWh</span>
+        <span style={{ fontWeight: 600, color: "#FFFFFF" }}>{row.currentReading} kWh</span>
       ),
     },
     {
@@ -140,7 +143,7 @@ const MeterReadings = () => {
         <Chip
           label={`${row.unitsConsumed} kWh`}
           size="small"
-          sx={{ bgcolor: "rgba(16, 185, 129, 0.1)", color: "#059669", fontWeight: 800 }}
+          sx={{ bgcolor: "rgba(34, 197, 94, 0.1)", color: "#22C55E", border: "1px solid rgba(34, 197, 94, 0.25)", fontWeight: 800 }}
         />
       ),
     },
@@ -152,17 +155,17 @@ const MeterReadings = () => {
       renderCell: (row) => (
         <Stack direction="row" spacing={1} justifyContent="flex-end">
           <Tooltip title="View Reading Details">
-            <IconButton size="small" onClick={() => handleOpenView(row)} sx={{ color: "#0284C7" }}>
+            <IconButton size="small" onClick={() => handleOpenView(row)} sx={{ color: "#06B6D4", "&:hover": { bgcolor: "rgba(6, 182, 212, 0.08)" } }}>
               <Eye size={16} />
             </IconButton>
           </Tooltip>
           <Tooltip title="Edit Reading">
-            <IconButton size="small" onClick={() => handleOpenEdit(row)} sx={{ color: "#F59E0B" }}>
+            <IconButton size="small" onClick={() => handleOpenEdit(row)} sx={{ color: "#F59E0B", "&:hover": { bgcolor: "rgba(245, 158, 11, 0.08)" } }}>
               <Edit size={16} />
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete Reading">
-            <IconButton size="small" onClick={() => handleOpenDelete(row.id)} sx={{ color: "#EF4444" }}>
+            <IconButton size="small" onClick={() => handleOpenDelete(row.id)} sx={{ color: "#EF4444", "&:hover": { bgcolor: "rgba(239, 68, 68, 0.08)" } }}>
               <Trash2 size={16} />
             </IconButton>
           </Tooltip>
@@ -172,7 +175,7 @@ const MeterReadings = () => {
   ];
 
   return (
-    <Box>
+    <PageContainer>
       <EnterpriseTable
         title="Meter Reading Ledger"
         subtitle="Audit recorded monthly kWh consumption logs and delta calculations"
@@ -189,17 +192,14 @@ const MeterReadings = () => {
           setPage(0);
         }}
         actions={
-          <Button
+          <GradientButton
             variant="contained"
+            colorType="accent"
             startIcon={<Plus size={18} />}
             onClick={handleOpenAdd}
-            sx={{
-              background: "linear-gradient(135deg, #0284C7 0%, #10B981 100%)",
-              boxShadow: "0 4px 14px rgba(2, 132, 199, 0.4)",
-            }}
           >
             Record Meter Reading
-          </Button>
+          </GradientButton>
         }
       />
 
@@ -246,7 +246,7 @@ const MeterReadings = () => {
       >
         <Alert severity={snackbar.severity}>{snackbar.message}</Alert>
       </Snackbar>
-    </Box>
+    </PageContainer>
   );
 };
 

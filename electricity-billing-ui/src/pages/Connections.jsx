@@ -14,6 +14,9 @@ import EnterpriseTable from "../components/EnterpriseTable";
 import ConnectionDialog from "../components/ConnectionDialog";
 import DetailsDialog from "../components/DetailsDialog";
 import ConfirmDialog from "../components/ConfirmDialog";
+import PageContainer from "../components/common/PageContainer";
+import StatusBadge from "../components/common/StatusBadge";
+import GradientButton from "../components/common/GradientButton";
 import { getConnections, deleteConnection } from "../api/connectionApi";
 
 const Connections = () => {
@@ -114,7 +117,7 @@ const Connections = () => {
           icon={<Plug2 size={12} />}
           label={row.connectionNumber}
           size="small"
-          sx={{ bgcolor: "rgba(2, 132, 199, 0.1)", color: "#0284C7", fontWeight: 700 }}
+          sx={{ bgcolor: "rgba(6, 182, 212, 0.1)", color: "#06B6D4", border: "1px solid rgba(6, 182, 212, 0.25)", fontWeight: 700 }}
         />
       ),
     },
@@ -125,7 +128,7 @@ const Connections = () => {
         <Chip
           label={row.meterNumber}
           size="small"
-          sx={{ bgcolor: "#F1F5F9", color: "#475569", fontWeight: 600 }}
+          sx={{ bgcolor: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255,255,255,0.08)", color: "#94A3B8", fontWeight: 600 }}
         />
       ),
     },
@@ -141,14 +144,21 @@ const Connections = () => {
               row.connectionType === "INDUSTRIAL"
                 ? "rgba(245, 158, 11, 0.1)"
                 : row.connectionType === "COMMERCIAL"
-                ? "rgba(139, 92, 246, 0.1)"
-                : "rgba(16, 185, 129, 0.1)",
+                ? "rgba(124, 58, 237, 0.1)"
+                : "rgba(34, 197, 94, 0.1)",
             color:
               row.connectionType === "INDUSTRIAL"
-                ? "#D97706"
+                ? "#F59E0B"
                 : row.connectionType === "COMMERCIAL"
-                ? "#7C3AED"
-                : "#059669",
+                ? "#A78BFA"
+                : "#22C55E",
+            border: `1px solid ${
+              row.connectionType === "INDUSTRIAL"
+                ? "rgba(245, 158, 11, 0.25)"
+                : row.connectionType === "COMMERCIAL"
+                ? "rgba(124, 58, 237, 0.25)"
+                : "rgba(34, 197, 94, 0.25)"
+            }`,
             fontWeight: 700,
           }}
         />
@@ -158,7 +168,7 @@ const Connections = () => {
       field: "sanctionedLoad",
       headerName: "Sanctioned Load",
       renderCell: (row) => (
-        <span style={{ fontWeight: 700, color: "#0F172A" }}>
+        <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
           {row.sanctionedLoad} kW
         </span>
       ),
@@ -168,15 +178,7 @@ const Connections = () => {
       field: "status",
       headerName: "Grid Status",
       renderCell: (row) => (
-        <Chip
-          size="small"
-          label={row.status}
-          sx={{
-            bgcolor: row.status === "ACTIVE" ? "rgba(16, 185, 129, 0.1)" : "rgba(239, 68, 68, 0.1)",
-            color: row.status === "ACTIVE" ? "#059669" : "#DC2626",
-            fontWeight: 700,
-          }}
-        />
+        <StatusBadge label={row.status} statusType={row.status === "ACTIVE" ? "success" : "error"} />
       ),
     },
     {
@@ -186,17 +188,17 @@ const Connections = () => {
       renderCell: (row) => (
         <Stack direction="row" spacing={1} justifyContent="flex-end">
           <Tooltip title="View Connection Details">
-            <IconButton size="small" onClick={() => handleOpenView(row)} sx={{ color: "#0284C7" }}>
+            <IconButton size="small" onClick={() => handleOpenView(row)} sx={{ color: "#06B6D4", "&:hover": { bgcolor: "rgba(6, 182, 212, 0.08)" } }}>
               <Eye size={16} />
             </IconButton>
           </Tooltip>
           <Tooltip title="Edit Connection">
-            <IconButton size="small" onClick={() => handleOpenEdit(row)} sx={{ color: "#F59E0B" }}>
+            <IconButton size="small" onClick={() => handleOpenEdit(row)} sx={{ color: "#F59E0B", "&:hover": { bgcolor: "rgba(245, 158, 11, 0.08)" } }}>
               <Edit size={16} />
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete Connection">
-            <IconButton size="small" onClick={() => handleOpenDelete(row.id)} sx={{ color: "#EF4444" }}>
+            <IconButton size="small" onClick={() => handleOpenDelete(row.id)} sx={{ color: "#EF4444", "&:hover": { bgcolor: "rgba(239, 68, 68, 0.08)" } }}>
               <Trash2 size={16} />
             </IconButton>
           </Tooltip>
@@ -206,7 +208,7 @@ const Connections = () => {
   ];
 
   return (
-    <Box>
+    <PageContainer>
       <EnterpriseTable
         title="Grid Connections Management"
         subtitle="Monitor grid service connections, meter serial numbers, and load demand limits"
@@ -223,17 +225,14 @@ const Connections = () => {
           setPage(0);
         }}
         actions={
-          <Button
+          <GradientButton
             variant="contained"
+            colorType="accent"
             startIcon={<Plus size={18} />}
             onClick={handleOpenAdd}
-            sx={{
-              background: "linear-gradient(135deg, #0284C7 0%, #10B981 100%)",
-              boxShadow: "0 4px 14px rgba(2, 132, 199, 0.4)",
-            }}
           >
             Add New Connection
-          </Button>
+          </GradientButton>
         }
       />
 
@@ -280,7 +279,7 @@ const Connections = () => {
       >
         <Alert severity={snackbar.severity}>{snackbar.message}</Alert>
       </Snackbar>
-    </Box>
+    </PageContainer>
   );
 };
 

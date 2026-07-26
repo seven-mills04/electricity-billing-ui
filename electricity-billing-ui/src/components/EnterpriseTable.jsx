@@ -40,22 +40,24 @@ const EnterpriseTable = ({
       elevation={0}
       sx={{
         borderRadius: "16px",
-        border: "1px solid #E2E8F0",
-        bgcolor: "#FFFFFF",
+        border: "1px solid rgba(255, 255, 255, 0.08)",
+        bgcolor: "rgba(15, 23, 42, 0.35)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
         overflow: "hidden",
       }}
     >
       
-      <Box sx={{ p: 2.5, borderBottom: "1px solid #E2E8F0", bgcolor: "#FFFFFF" }}>
+      <Box sx={{ p: 2.5, borderBottom: "1px solid rgba(255, 255, 255, 0.06)", bgcolor: "transparent" }}>
         <Stack direction={{ xs: "column", sm: "row" }} justifyContent="space-between" alignItems={{ xs: "stretch", sm: "center" }} spacing={2}>
           <Box>
             {title && (
-              <Typography variant="h5" sx={{ fontWeight: 700, color: "#0F172A" }}>
+              <Typography variant="h5" sx={{ fontWeight: 700, color: "#FFFFFF" }}>
                 {title}
               </Typography>
             )}
             {subtitle && (
-              <Typography variant="caption" sx={{ color: "#64748B", fontWeight: 500 }}>
+              <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 500 }}>
                 {subtitle}
               </Typography>
             )}
@@ -71,15 +73,16 @@ const EnterpriseTable = ({
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Search size={16} color="#64748B" />
+                      <Search size={16} color="#94A3B8" />
                     </InputAdornment>
                   ),
                 }}
                 sx={{
                   width: { xs: "100%", sm: "260px" },
                   "& .MuiOutlinedInput-root": {
-                    bgcolor: "#F8FAFC",
+                    bgcolor: "rgba(255, 255, 255, 0.02)",
                     borderRadius: "10px",
+                    color: "#FFFFFF",
                   },
                 }}
               />
@@ -99,7 +102,7 @@ const EnterpriseTable = ({
                   key={col.field || col.headerName}
                   align={col.align || "left"}
                   style={{ width: col.width }}
-                  sx={{ bgcolor: "#F8FAFC" }}
+                  sx={{ bgcolor: "rgba(13, 27, 42, 0.95)", borderBottom: "2px solid rgba(255, 255, 255, 0.08)", color: "#94A3B8" }}
                 >
                   {col.headerName}
                 </TableCell>
@@ -112,11 +115,11 @@ const EnterpriseTable = ({
               <TableRow>
                 <TableCell colSpan={columns.length} align="center" sx={{ py: 6 }}>
                   <Stack spacing={1} alignItems="center">
-                    <Inbox size={36} color="#94A3B8" />
-                    <Typography variant="body2" sx={{ color: "#64748B", fontWeight: 600 }}>
+                    <Inbox size={36} color="#64748B" />
+                    <Typography variant="body2" sx={{ color: "#94A3B8", fontWeight: 600 }}>
                       No Records Found
                     </Typography>
-                    <Typography variant="caption" sx={{ color: "#94A3B8" }}>
+                    <Typography variant="caption" sx={{ color: "#64748B" }}>
                       Try adjusting your search query or filter parameters.
                     </Typography>
                   </Stack>
@@ -128,12 +131,12 @@ const EnterpriseTable = ({
                   hover
                   key={row.id || idx}
                   sx={{
-                    "&:hover": { bgcolor: "rgba(2, 132, 199, 0.03)" },
+                    "&:hover": { bgcolor: "rgba(6, 182, 212, 0.06) !important" },
                     transition: "bgcolor 0.15s ease",
                   }}
                 >
                   {columns.map((col) => (
-                    <TableCell key={col.field} align={col.align || "left"}>
+                    <TableCell key={col.field} align={col.align || "left"} sx={{ borderBottom: "1px solid rgba(255, 255, 255, 0.04)" }}>
                       {col.renderCell ? col.renderCell(row) : row[col.field]}
                     </TableCell>
                   ))}
@@ -154,7 +157,7 @@ const EnterpriseTable = ({
           page={page}
           onPageChange={onPageChange}
           onRowsPerPageChange={onRowsPerPageChange}
-          sx={{ borderTop: "1px solid #E2E8F0", bgcolor: "#FFFFFF" }}
+          sx={{ borderTop: "1px solid rgba(255, 255, 255, 0.06)", bgcolor: "transparent", color: "#94A3B8" }}
         />
       )}
     </Paper>
