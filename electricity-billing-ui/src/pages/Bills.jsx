@@ -27,6 +27,7 @@ import PageContainer from "../components/common/PageContainer";
 import StatusBadge from "../components/common/StatusBadge";
 import GradientButton from "../components/common/GradientButton";
 import { getBills } from "../api/billApi";
+import { getConsumerBills } from "../api/consumerApi";
 import { payBill } from "../api/paymentApi";
 
 const Bills = () => {
@@ -55,17 +56,9 @@ const Bills = () => {
   const fetchBills = async () => {
     setLoading(true);
     try {
-      const response = await getBills();
-      let bills = Array.isArray(response.data) ? response.data : [];
-
       const role = localStorage.getItem("userRole");
-      if (role === "CONSUMER") {
-        const connStr = localStorage.getItem("consumerConnections");
-        const consumerConns = connStr ? JSON.parse(connStr) : [];
-        bills = bills.filter((b) =>
-          consumerConns.includes(b.meterReading?.connection?.connectionNumber)
-        );
-      }
+      const response = role === "CONSUMER" ? await getConsumerBills() : await getBills();
+      let bills = Array.isArray(response.data) ? response.data : [];
 
       const mapped = bills.map((b) => ({
         id: b.id,

@@ -26,6 +26,7 @@ import StatusBadge from "../components/common/StatusBadge";
 import GradientButton from "../components/common/GradientButton";
 import { getPayments, payBill } from "../api/paymentApi";
 import { getBills } from "../api/billApi";
+import { getConsumerPayments, getConsumerBills } from "../api/consumerApi";
 
 const Payments = () => {
   const [rows, setRows] = useState([]);
@@ -53,17 +54,9 @@ const Payments = () => {
   const fetchPayments = async () => {
     setLoading(true);
     try {
-      const response = await getPayments();
-      let payments = Array.isArray(response.data) ? response.data : [];
-
       const role = localStorage.getItem("userRole");
-      if (role === "CONSUMER") {
-        const connStr = localStorage.getItem("consumerConnections");
-        const consumerConns = connStr ? JSON.parse(connStr) : [];
-        payments = payments.filter((p) =>
-          consumerConns.includes(p.bill?.meterReading?.connection?.connectionNumber)
-        );
-      }
+      const response = role === "CONSUMER" ? await getConsumerPayments() : await getPayments();
+      let payments = Array.isArray(response.data) ? response.data : [];
 
       const mapped = payments.map((p) => ({
         id: p.id,
@@ -87,18 +80,10 @@ const Payments = () => {
 
   const fetchUnpaidBills = async () => {
     try {
-      const response = await getBills();
-      let bills = Array.isArray(response.data) ? response.data : [];
-      let unpaid = bills.filter((b) => b.billStatus === "UNPAID");
-
       const role = localStorage.getItem("userRole");
-      if (role === "CONSUMER") {
-        const connStr = localStorage.getItem("consumerConnections");
-        const consumerConns = connStr ? JSON.parse(connStr) : [];
-        unpaid = unpaid.filter((b) =>
-          consumerConns.includes(b.meterReading?.connection?.connectionNumber)
-        );
-      }
+      const response = role === "CONSUMER" ? await getConsumerBills() : await getBills();
+      const bills = Array.isArray(response.data) ? response.data : [];
+      let unpaid = bills.filter((b) => b.billStatus === "UNPAID");
 
       setUnpaidBills(unpaid);
     } catch (err) {

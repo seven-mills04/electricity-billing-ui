@@ -149,7 +149,7 @@ const Login = () => {
         if (consumerId) {
           localStorage.setItem("consumerId", consumerId);
           try {
-            const consumerRes = await api.get(`/api/consumers/${consumerId}`);
+            const consumerRes = await api.get("/api/consumer/profile");
             const consumerData = consumerRes.data;
 
             if (consumerData) {

@@ -19,3 +19,9 @@ export const updateConsumer = (id, consumer) => {
 export const deleteConsumer = (id) => {
     return api.delete(`/api/consumers/${id}`);
 };
+
+export const getConsumerProfile = () => api.get("/api/consumer/profile");
+export const getConsumerDashboard = () => api.get("/api/consumer/dashboard");
+export const getConsumerBills = () => api.get("/api/consumer/bills");
+export const getConsumerPayments = () => api.get("/api/consumer/payments");
+export const getConsumerMeterReadings = () => api.get("/api/consumer/meter-readings");

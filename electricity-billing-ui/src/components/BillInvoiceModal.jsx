@@ -32,7 +32,8 @@ const BillInvoiceModal = ({ open, onClose, bill }) => {
   const rawConsumer = fetchedConsumer || rawConnection.consumer || {};
 
   useEffect(() => {
-    if (open && rawConnection.consumerId) {
+    const role = localStorage.getItem("userRole");
+    if (open && rawConnection.consumerId && role !== "CONSUMER") {
       setFetchedConsumer(null);
       api.get(`/api/consumers/${rawConnection.consumerId}`)
         .then((res) => {
