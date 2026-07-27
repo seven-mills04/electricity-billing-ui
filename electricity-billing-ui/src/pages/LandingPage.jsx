@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Container, Grid, Typography, Stack } from "@mui/material";
 import { Users, FileText, CheckCircle, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
@@ -15,8 +15,16 @@ import FAQ from "../components/landing/FAQ";
 import Footer from "../components/landing/Footer";
 import SystemTicker from "../components/landing/SystemTicker";
 import BackgroundEffects from "../components/landing/BackgroundEffects";
+import audioService from "../services/audioService";
 
 const LandingPage = () => {
+  useEffect(() => {
+    const cleanup = audioService.playWelcome();
+    return () => {
+      if (cleanup) cleanup();
+    };
+  }, []);
+
   const stats = [
     {
       label: "Consumers Served",

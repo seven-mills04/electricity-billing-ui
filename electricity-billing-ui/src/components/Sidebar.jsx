@@ -25,6 +25,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import audioService from "../services/audioService";
 
 const Sidebar = ({ onClose }) => {
   const navigate = useNavigate();
@@ -75,7 +76,12 @@ const Sidebar = ({ onClose }) => {
   const menuItems = allMenuItems.filter((item) => item.roles.includes(userRole));
 
   const handleSignOut = () => {
+    const isMuted = localStorage.getItem("audio_muted");
     localStorage.clear();
+    if (isMuted !== null) {
+      localStorage.setItem("audio_muted", isMuted);
+    }
+    audioService.play("logout.mp3");
     navigate("/login");
   };
 

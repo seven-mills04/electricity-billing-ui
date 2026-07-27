@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   AppBar,
@@ -16,7 +16,8 @@ import {
   Container,
   useScrollTrigger,
 } from "@mui/material";
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X, Zap, Volume2, VolumeX } from "lucide-react";
+import audioService from "../../services/audioService";
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -40,6 +41,18 @@ function ElevationScroll(props) {
 const Navbar = () => {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [muted, setMuted] = useState(audioService.isMuted());
+
+  useEffect(() => {
+    const unsubscribe = audioService.subscribe((mutedState) => {
+      setMuted(mutedState);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const toggleMute = () => {
+    audioService.setMuted(!muted);
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen((prev) => !prev);
@@ -239,61 +252,79 @@ const Navbar = () => {
                 ))}
               </Stack>
 
-              <Stack
-                direction="row"
-                spacing={1.5}
-                sx={{ display: { xs: "none", md: "flex" } }}
-              >
-                <Button
-                  variant="outlined"
-                  onClick={() => handleLoginClick(1)}
+              <Stack direction="row" spacing={1.5} alignItems="center">
+                <IconButton
+                  onClick={toggleMute}
+                  aria-label={muted ? "Unmute Voice Assistant" : "Mute Voice Assistant"}
                   sx={{
-                    borderColor: "rgba(255, 255, 255, 0.15)",
-                    color: "#FFFFFF",
-                    borderWidth: "1.5px",
-                    fontWeight: 600,
-                    borderRadius: "10px",
-                    px: 2.5,
+                    color: muted ? "#EF4444" : "#94A3B8",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
                     "&:hover": {
-                      borderColor: "#06B6D4",
+                      color: muted ? "#F87171" : "#06B6D4",
+                      borderColor: muted ? "#F87171" : "#06B6D4",
+                      bgcolor: muted ? "rgba(239, 68, 68, 0.04)" : "rgba(6, 182, 212, 0.04)",
+                    },
+                  }}
+                >
+                  {muted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+                </IconButton>
+
+                <Stack
+                  direction="row"
+                  spacing={1.5}
+                  sx={{ display: { xs: "none", md: "flex" } }}
+                >
+                  <Button
+                    variant="outlined"
+                    onClick={() => handleLoginClick(1)}
+                    sx={{
+                      borderColor: "rgba(255, 255, 255, 0.15)",
+                      color: "#FFFFFF",
                       borderWidth: "1.5px",
-                      bgcolor: "rgba(6, 182, 212, 0.05)",
-                    },
-                  }}
-                >
-                  Consumer Login
-                </Button>
+                      fontWeight: 600,
+                      borderRadius: "10px",
+                      px: 2.5,
+                      "&:hover": {
+                        borderColor: "#06B6D4",
+                        borderWidth: "1.5px",
+                        bgcolor: "rgba(6, 182, 212, 0.05)",
+                      },
+                    }}
+                  >
+                    Consumer Login
+                  </Button>
 
-                <Button
-                  variant="contained"
-                  onClick={() => handleLoginClick(0)}
-                  sx={{
-                    bgcolor: "rgba(139, 92, 246, 0.2)",
-                    border: "1px solid rgba(139, 92, 246, 0.4)",
-                    color: "#C084FC",
-                    fontWeight: 600,
-                    borderRadius: "10px",
-                    px: 2.5,
-                    boxShadow: "none",
-                    "&:hover": {
-                      bgcolor: "rgba(139, 92, 246, 0.4)",
-                      color: "#E9D5FF",
-                    },
-                  }}
+                  <Button
+                    variant="contained"
+                    onClick={() => handleLoginClick(0)}
+                    sx={{
+                      bgcolor: "rgba(139, 92, 246, 0.2)",
+                      border: "1px solid rgba(139, 92, 246, 0.4)",
+                      color: "#C084FC",
+                      fontWeight: 600,
+                      borderRadius: "10px",
+                      px: 2.5,
+                      boxShadow: "none",
+                      "&:hover": {
+                        bgcolor: "rgba(139, 92, 246, 0.4)",
+                        color: "#E9D5FF",
+                      },
+                    }}
+                  >
+                    Admin Login
+                  </Button>
+                </Stack>
+
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  edge="start"
+                  onClick={handleDrawerToggle}
+                  sx={{ display: { md: "none" }, color: "#FFFFFF" }}
                 >
-                  Admin Login
-                </Button>
+                  <Menu size={24} />
+                </IconButton>
               </Stack>
-
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ display: { md: "none" }, color: "#FFFFFF" }}
-              >
-                <Menu size={24} />
-              </IconButton>
             </Toolbar>
           </Container>
         </AppBar>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -14,10 +14,23 @@ import {
   ListItemText,
   Divider,
 } from "@mui/material";
-import { Bell, Menu, Activity, ShieldCheck, User } from "lucide-react";
+import { Bell, Menu, Activity, ShieldCheck, User, Volume2, VolumeX } from "lucide-react";
+import audioService from "../services/audioService";
 
 const Navbar = ({ onMobileToggle, title }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [muted, setMuted] = useState(audioService.isMuted());
+
+  useEffect(() => {
+    const unsubscribe = audioService.subscribe((mutedState) => {
+      setMuted(mutedState);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const toggleMute = () => {
+    audioService.setMuted(!muted);
+  };
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -132,6 +145,22 @@ const Navbar = ({ onMobileToggle, title }) => {
           )}
 
           
+          <IconButton
+            onClick={toggleMute}
+            aria-label={muted ? "Unmute Voice Assistant" : "Mute Voice Assistant"}
+            sx={{
+              border: "1px solid rgba(255, 255, 255, 0.08)",
+              color: muted ? "#EF4444" : "#94A3B8",
+              "&:hover": {
+                color: muted ? "#F87171" : "#06B6D4",
+                borderColor: muted ? "#F87171" : "#06B6D4",
+                bgcolor: muted ? "rgba(239, 68, 68, 0.04)" : "rgba(6, 182, 212, 0.04)",
+              },
+            }}
+          >
+            {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+          </IconButton>
+
           <IconButton
             onClick={handleNotifClick}
             sx={{
