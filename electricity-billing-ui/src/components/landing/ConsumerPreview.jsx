@@ -139,13 +139,16 @@ const ConsumerPreview = () => {
               py: 1.5,
               display: "flex",
               alignItems: "center",
-              gap: 1,
+              gap: 1.5,
+              flexWrap: "wrap",
             }}
           >
-            {/* Dots */}
-            <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: "#C5382F" }} />
-            <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: "#F05A28" }} />
-            <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: "#087A5A" }} />
+            <Stack direction="row" spacing={0.8} alignItems="center">
+              {/* Dots */}
+              <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: "#C5382F" }} />
+              <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: "#F05A28" }} />
+              <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: "#087A5A" }} />
+            </Stack>
 
             {/* Mock URL bar */}
             <Box
@@ -153,17 +156,35 @@ const ConsumerPreview = () => {
                 bgcolor: "#FFFDF8",
                 border: "1px solid #C9C3B7",
                 borderRadius: "2px",
-                ml: 4,
+                ml: { xs: 0, sm: 2 },
                 px: 2,
                 py: 0.25,
-                width: "50%",
+                width: { xs: "100%", sm: "50%" },
                 maxWidth: 400,
                 fontSize: "0.72rem",
                 color: "#625F58",
                 fontFamily: "monospace",
+                order: { xs: 3, sm: 2 },
               }}
             >
               https://portal.knkpower.co.in/dashboard
+            </Box>
+
+            {/* Sample Account Badge */}
+            <Box sx={{ ml: { xs: 0, sm: "auto" }, order: { xs: 2, sm: 3 } }}>
+              <Chip
+                label="SAMPLE DEMO ACCOUNT"
+                size="small"
+                sx={{
+                  bgcolor: "rgba(7, 91, 181, 0.1)",
+                  color: "#075BB5",
+                  border: "1px solid rgba(7, 91, 181, 0.2)",
+                  fontWeight: 800,
+                  fontSize: "0.65rem",
+                  borderRadius: "2px",
+                  height: 20,
+                }}
+              />
             </Box>
           </Box>
 
@@ -174,11 +195,12 @@ const ConsumerPreview = () => {
               xs={12}
               sm={3.5}
               sx={{
-                borderRight: "1px solid #C9C3B7",
+                borderRight: { xs: "none", sm: "1px solid #C9C3B7" },
+                borderBottom: { xs: "1px solid #C9C3B7", sm: "none" },
                 bgcolor: "#F3F0E8", // warm paper sidebar background
               }}
             >
-              <Box sx={{ p: 2.5, display: "flex", alignItems: "center", gap: 1.5 }}>
+              <Box sx={{ p: 2.5, display: { xs: "none", sm: "flex" }, alignItems: "center", gap: 1.5 }}>
                 <Avatar
                   sx={{
                     bgcolor: "#075BB5",
@@ -203,13 +225,15 @@ const ConsumerPreview = () => {
                 </Box>
               </Box>
 
-              <Divider sx={{ borderColor: "#C9C3B7", mb: 1 }} />
+              <Divider sx={{ borderColor: "#C9C3B7", mb: 1, display: { xs: "none", sm: "block" } }} />
 
+              {/* Vertical tabs for desktop/tablet */}
               <Tabs
                 orientation="vertical"
                 value={activeTab}
                 onChange={handleTabChange}
                 sx={{
+                  display: { xs: "none", sm: "flex" },
                   "& .MuiTabs-indicator": { left: 0, right: "auto", width: 4, bgcolor: "#075BB5" },
                   "& .MuiTab-root": {
                     alignItems: "flex-start",
@@ -229,105 +253,333 @@ const ConsumerPreview = () => {
                 <Tab label="Payment Settlements" icon={<CreditCard size={16} />} iconPosition="start" />
                 <Tab label="Meter Reading Logs" icon={<Activity size={16} />} iconPosition="start" />
               </Tabs>
+
+              {/* Horizontal scrollable tabs for mobile */}
+              <Tabs
+                value={activeTab}
+                onChange={handleTabChange}
+                variant="scrollable"
+                scrollButtons="auto"
+                sx={{
+                  display: { xs: "flex", sm: "none" },
+                  bgcolor: "#E9E5DB",
+                  "& .MuiTabs-indicator": { height: 3, bgcolor: "#075BB5" },
+                  "& .MuiTab-root": {
+                    fontSize: "0.78rem",
+                    fontWeight: 800,
+                    textTransform: "none",
+                    color: "#625F58",
+                    minWidth: "auto",
+                    py: 1.5,
+                    px: 2,
+                    "&.Mui-selected": { color: "#075BB5" },
+                  },
+                }}
+              >
+                <Tab label="Bill Details" icon={<FileText size={14} />} iconPosition="start" />
+                <Tab label="Profile" icon={<User size={14} />} iconPosition="start" />
+                <Tab label="Payments" icon={<CreditCard size={14} />} iconPosition="start" />
+                <Tab label="Meter Logs" icon={<Activity size={14} />} iconPosition="start" />
+              </Tabs>
             </Grid>
 
             {/* Right Main Content Preview Area */}
-            <Grid item xs={12} sm={8.5} sx={{ p: 4, bgcolor: "#FFFDF8", minHeight: 380 }}>
+            <Grid item xs={12} sm={8.5} sx={{ p: { xs: 2.5, sm: 4 }, bgcolor: "#FFFDF8", minHeight: 380 }}>
               {/* Tab 0: Current Bill Details */}
               {activeTab === 0 && (
                 <Box>
-                  <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
-                    <Typography variant="h4" sx={{ fontWeight: 800, color: "#171717", fontSize: "1.25rem" }}>
-                      Outstanding Invoice Summary
-                    </Typography>
-                    <Chip
-                      label="UNPAID"
-                      size="small"
-                      sx={{
-                        bgcolor: "#FFFDF8",
-                        color: "#F05A28",
-                        border: "1.5px solid #F05A28", // Safety orange border
-                        fontWeight: 800,
-                        borderRadius: "2px",
-                      }}
-                    />
-                  </Stack>
-                  <Grid container spacing={3}>
+                  {/* Account Overview Header */}
+                  <Typography variant="h5" sx={{ fontWeight: 900, color: "#171717", fontSize: "0.75rem", letterSpacing: "0.08em", textTransform: "uppercase", mb: 1.5 }}>
+                    Account Overview
+                  </Typography>
+                  
+                  {/* Account Overview Grid */}
+                  <Grid container spacing={2} sx={{ mb: 4 }}>
+                    <Grid item xs={6} sm={3}>
+                      <Box sx={{ p: 2, bgcolor: "#F3F0E8", border: "1px solid #C9C3B7", borderRadius: "2px" }}>
+                        <Typography variant="caption" sx={{ color: "#625F58", display: "block", fontWeight: 700, textTransform: "uppercase", fontSize: "0.65rem" }}>
+                          Current Bill
+                        </Typography>
+                        <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717", fontSize: "0.95rem" }}>
+                          ₹1,800.75
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={6} sm={3}>
+                      <Box sx={{ p: 2, bgcolor: "#F3F0E8", border: "1px solid #C9C3B7", borderRadius: "2px" }}>
+                        <Typography variant="caption" sx={{ color: "#625F58", display: "block", fontWeight: 700, textTransform: "uppercase", fontSize: "0.65rem" }}>
+                          Usage
+                        </Typography>
+                        <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717", fontSize: "0.95rem" }}>
+                          320 kWh
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={6} sm={3}>
+                      <Box sx={{ p: 2, bgcolor: "#F3F0E8", border: "1px solid #C9C3B7", borderRadius: "2px" }}>
+                        <Typography variant="caption" sx={{ color: "#625F58", display: "block", fontWeight: 700, textTransform: "uppercase", fontSize: "0.65rem" }}>
+                          Due Date
+                        </Typography>
+                        <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717", fontSize: "0.95rem" }}>
+                          20 Jul 2026
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={6} sm={3}>
+                      <Box sx={{ p: 2, bgcolor: "#F3F0E8", border: "1px solid #C9C3B7", borderRadius: "2px", display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%", minHeight: "53px" }}>
+                        <Typography variant="caption" sx={{ color: "#625F58", display: "block", fontWeight: 700, textTransform: "uppercase", fontSize: "0.65rem", mb: 0.5 }}>
+                          Connection
+                        </Typography>
+                        <Box>
+                          <Chip
+                            label="ACTIVE"
+                            size="small"
+                            sx={{
+                              bgcolor: "rgba(8, 122, 90, 0.1)",
+                              color: "#087A5A",
+                              border: "1px solid rgba(8, 122, 90, 0.2)",
+                              fontWeight: 800,
+                              borderRadius: "2px",
+                              height: 18,
+                              fontSize: "0.62rem",
+                            }}
+                          />
+                        </Box>
+                      </Box>
+                    </Grid>
+                  </Grid>
+
+                  {/* Billing Details & Usage Grid */}
+                  <Grid container spacing={3} sx={{ mb: 4 }}>
                     <Grid item xs={12} md={7}>
+                      <Typography variant="h5" sx={{ fontWeight: 900, color: "#171717", fontSize: "0.75rem", letterSpacing: "0.08em", textTransform: "uppercase", mb: 1.5 }}>
+                        Current Bill
+                      </Typography>
                       <Card
                         variant="outlined"
                         sx={{
                           borderRadius: "2px",
-                          border: "1px dashed #075BB5",
-                          bgcolor: "#F3F0E8",
+                          border: "1px solid #C9C3B7",
+                          bgcolor: "#FFFDF8",
                           boxShadow: "none",
+                          mb: 2.5
                         }}
                       >
-                        <CardContent sx={{ p: 2.5 }}>
-                          <Grid container spacing={2}>
-                            <Grid item xs={6}>
-                              <Typography variant="caption" sx={{ color: "#625F58", display: "block" }}>Billing Month</Typography>
-                              <Typography variant="body2" sx={{ fontWeight: 700, color: "#171717" }}>{mockBill.billingMonth}</Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <Typography variant="caption" sx={{ color: "#625F58", display: "block" }}>Bill Reference</Typography>
-                              <Typography variant="body2" sx={{ fontWeight: 700, color: "#171717", fontFamily: "monospace" }}>{mockBill.billNo}</Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <Typography variant="caption" sx={{ color: "#625F58", display: "block" }}>Units Consumed</Typography>
-                              <Typography variant="body2" sx={{ fontWeight: 700, color: "#171717", fontFamily: "monospace" }}>{mockBill.unitsConsumed} kWh</Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <Typography variant="caption" sx={{ color: "#625F58", display: "block" }}>Payment Due Date</Typography>
-                              <Typography variant="body2" sx={{ fontWeight: 700, color: "#C5382F" }}>{mockBill.dueDate}</Typography>
-                            </Grid>
-                          </Grid>
+                        <CardContent sx={{ p: 2 }}>
+                          <Stack spacing={1.5}>
+                            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                              <Box>
+                                <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717", fontSize: "0.9rem" }}>
+                                  July 2026 statement
+                                </Typography>
+                                <Typography variant="caption" sx={{ color: "#625F58", display: "block", mt: 0.25 }}>
+                                  320 kWh consumed &bull; Payment due 20 July 2026
+                                </Typography>
+                              </Box>
+                              <Typography variant="body1" sx={{ fontWeight: 900, color: "#075BB5", fontSize: "1.15rem" }}>
+                                ₹1,800.75
+                              </Typography>
+                            </Box>
+                            <Divider sx={{ borderColor: "#C9C3B7" }} />
+                            <Button
+                              variant="contained"
+                              size="small"
+                              onClick={() => window.location.href = "/login"}
+                              sx={{
+                                bgcolor: "#075BB5",
+                                color: "#FFFDF8",
+                                borderRadius: "2px",
+                                fontWeight: 700,
+                                textTransform: "none",
+                                px: 2.5,
+                                py: 0.75,
+                                fontSize: "0.78rem",
+                                alignSelf: "flex-start",
+                                "&:hover": { bgcolor: "#064B95" },
+                              }}
+                            >
+                              Pay Bill
+                            </Button>
+                          </Stack>
                         </CardContent>
                       </Card>
+
+                      <Typography variant="h5" sx={{ fontWeight: 900, color: "#171717", fontSize: "0.75rem", letterSpacing: "0.08em", textTransform: "uppercase", mb: 1.5 }}>
+                        Service & Meter Profile
+                      </Typography>
+                      <Box sx={{ p: 2, border: "1px solid #C9C3B7", borderRadius: "2px", bgcolor: "#F3F0E8" }}>
+                        <Stack spacing={1.2}>
+                          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                            <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700, fontSize: "0.72rem" }}>Connection Status</Typography>
+                            <Typography variant="body2" sx={{ fontWeight: 800, color: "#087A5A", fontSize: "0.75rem" }}>ACTIVE</Typography>
+                          </Box>
+                          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                            <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700, fontSize: "0.72rem" }}>Meter Serial No.</Typography>
+                            <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717", fontFamily: "monospace", fontSize: "0.75rem" }}>SPX-8800-M1</Typography>
+                          </Box>
+                          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                            <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700, fontSize: "0.72rem" }}>Tariff Class</Typography>
+                            <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717", fontSize: "0.75rem" }}>Commercial</Typography>
+                          </Box>
+                          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                            <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700, fontSize: "0.72rem" }}>Service Sector</Typography>
+                            <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717", fontSize: "0.75rem" }}>Grid Sector 4</Typography>
+                          </Box>
+                        </Stack>
+                      </Box>
                     </Grid>
+
                     <Grid item xs={12} md={5}>
-                      <Box
-                        sx={{
-                          border: "1px solid #C9C3B7",
-                          borderRadius: "2px",
-                          height: "100%",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          bgcolor: "#E9E5DB",
-                          p: 3,
-                          textAlign: "center",
-                        }}
-                      >
-                        <Typography variant="caption" sx={{ color: "#625F58", display: "block", mb: 0.5 }}>
-                          Total Amount Due
-                        </Typography>
-                        <Typography
-                          variant="h3"
-                          sx={{ fontWeight: 800, color: "#075BB5", fontFamily: "monospace", mb: 1, fontSize: "1.85rem" }}
-                        >
-                          ₹{mockBill.totalAmount.toLocaleString()}
-                        </Typography>
-                        <Typography variant="caption" sx={{ color: "#625F58", display: "block", mb: 2, fontSize: "0.72rem" }}>
-                          Includes 5% State Duty & fixed service rates
-                        </Typography>
-                        <Button
-                          variant="contained"
-                          size="small"
-                          sx={{
-                            bgcolor: "#075BB5",
-                            color: "#FFFDF8",
-                            borderRadius: "2px",
-                            fontWeight: 700,
-                            py: 1,
-                            "&:hover": { bgcolor: "#064B95" },
-                          }}
-                        >
-                          Settle Bill Now
-                        </Button>
+                      <Typography variant="h5" sx={{ fontWeight: 900, color: "#171717", fontSize: "0.75rem", letterSpacing: "0.08em", textTransform: "uppercase", mb: 1.5 }}>
+                        Energy Usage
+                      </Typography>
+                      <Box sx={{ p: 2, border: "1px solid #C9C3B7", borderRadius: "2px", bgcolor: "#F3F0E8", height: "calc(100% - 30px)", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                        {/* SVG Bar Chart */}
+                        <Box sx={{ width: "100%", height: 160, position: "relative" }}>
+                          <svg viewBox="0 0 300 140" width="100%" height="100%">
+                            {/* Grid lines */}
+                            <line x1="30" y1="20" x2="290" y2="20" stroke="#C9C3B7" strokeDasharray="3,3" strokeWidth="0.5" />
+                            <line x1="30" y1="60" x2="290" y2="60" stroke="#C9C3B7" strokeDasharray="3,3" strokeWidth="0.5" />
+                            <line x1="30" y1="100" x2="290" y2="100" stroke="#C9C3B7" strokeDasharray="3,3" strokeWidth="0.5" />
+                            <line x1="30" y1="120" x2="290" y2="120" stroke="#171717" strokeWidth="1" />
+                            
+                            {/* Y-axis labels */}
+                            <text x="5" y="24" fill="#625F58" fontSize="8" fontWeight="700" fontFamily="sans-serif">300</text>
+                            <text x="5" y="64" fill="#625F58" fontSize="8" fontWeight="700" fontFamily="sans-serif">200</text>
+                            <text x="5" y="104" fill="#625F58" fontSize="8" fontWeight="700" fontFamily="sans-serif">100</text>
+                            <text x="15" y="123" fill="#625F58" fontSize="8" fontWeight="700" fontFamily="sans-serif">0</text>
+                            
+                            {/* Bars */}
+                            <rect x="45" y="36" width="22" height="84" fill="#075BB5" rx="1" />
+                            <rect x="85" y="24" width="22" height="96" fill="#075BB5" rx="1" />
+                            <rect x="125" y="8" width="22" height="112" fill="#075BB5" rx="1" />
+                            <rect x="165" y="4" width="22" height="116" fill="#075BB5" rx="1" />
+                            <rect x="205" y="12" width="22" height="108" fill="#075BB5" rx="1" />
+                            <rect x="245" y="2" width="22" height="118" fill="#F05A28" rx="1" />
+                            
+                            {/* X-axis labels */}
+                            <text x="56" y="132" fill="#171717" fontSize="8" fontWeight="700" textAnchor="middle">Feb</text>
+                            <text x="96" y="132" fill="#171717" fontSize="8" fontWeight="700" textAnchor="middle">Mar</text>
+                            <text x="136" y="132" fill="#171717" fontSize="8" fontWeight="700" textAnchor="middle">Apr</text>
+                            <text x="176" y="132" fill="#171717" fontSize="8" fontWeight="700" textAnchor="middle">May</text>
+                            <text x="216" y="132" fill="#171717" fontSize="8" fontWeight="700" textAnchor="middle">Jun</text>
+                            <text x="256" y="132" fill="#171717" fontSize="8" fontWeight="700" textAnchor="middle">Jul</text>
+                          </svg>
+                        </Box>
+                        
+                        <Box sx={{ mt: 1.5, pt: 1.5, borderTop: "1px dashed #C9C3B7", display: "flex", justifyContent: "space-between" }}>
+                          <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700, fontSize: "0.72rem" }}>Peak Load (July)</Typography>
+                          <Typography variant="body2" sx={{ color: "#171717", fontWeight: 800, fontSize: "0.75rem" }}>1.85 kW</Typography>
+                        </Box>
                       </Box>
                     </Grid>
                   </Grid>
+
+                  {/* Outstanding Invoice Summary Section */}
+                  <Box sx={{ mt: 4, pt: 4, borderTop: "1px solid #C9C3B7" }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        gap: 2,
+                        flexWrap: "wrap",
+                        mb: 3
+                      }}
+                    >
+                      <Typography variant="h4" sx={{ fontWeight: 800, color: "#171717", fontSize: "1.15rem" }}>
+                        Outstanding Invoice Summary
+                      </Typography>
+                      <Chip
+                        label="UNPAID"
+                        size="small"
+                        sx={{
+                          bgcolor: "#FFFDF8",
+                          color: "#F05A28",
+                          border: "1.5px solid #F05A28",
+                          fontWeight: 800,
+                          borderRadius: "2px",
+                        }}
+                      />
+                    </Box>
+                    
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} md={8}>
+                        <Card
+                          variant="outlined"
+                          sx={{
+                            borderRadius: "2px",
+                            border: "1px dashed #075BB5",
+                            bgcolor: "#F3F0E8",
+                            boxShadow: "none",
+                          }}
+                        >
+                          <CardContent sx={{ p: 2.5 }}>
+                            <Grid container spacing={2}>
+                              <Grid item xs={12} sm={6} md={3}>
+                                <Typography variant="caption" sx={{ color: "#625F58", display: "block", fontWeight: 700 }}>Billing Month</Typography>
+                                <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717" }}>{mockBill.billingMonth}</Typography>
+                              </Grid>
+                              <Grid item xs={12} sm={6} md={3}>
+                                <Typography variant="caption" sx={{ color: "#625F58", display: "block", fontWeight: 700 }}>Bill Reference</Typography>
+                                <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717", fontFamily: "monospace" }}>{mockBill.billNo}</Typography>
+                              </Grid>
+                              <Grid item xs={12} sm={6} md={3}>
+                                <Typography variant="caption" sx={{ color: "#625F58", display: "block", fontWeight: 700 }}>Units Consumed</Typography>
+                                <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717", fontFamily: "monospace" }}>{mockBill.unitsConsumed} kWh</Typography>
+                              </Grid>
+                              <Grid item xs={12} sm={6} md={3}>
+                                <Typography variant="caption" sx={{ color: "#625F58", display: "block", fontWeight: 700 }}>Payment Due Date</Typography>
+                                <Typography variant="body2" sx={{ fontWeight: 800, color: "#C5382F" }}>{mockBill.dueDate}</Typography>
+                              </Grid>
+                            </Grid>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                      
+                      <Grid item xs={12} md={4}>
+                        <Box
+                          sx={{
+                            border: "1px solid #C9C3B7",
+                            borderRadius: "2px",
+                            height: "100%",
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            bgcolor: "#E9E5DB",
+                            p: 2.5,
+                            textAlign: "center",
+                          }}
+                        >
+                          <Typography variant="caption" sx={{ color: "#625F58", display: "block", mb: 0.5, fontWeight: 700 }}>
+                            Total Amount Due
+                          </Typography>
+                          <Typography
+                            variant="h3"
+                            sx={{ fontWeight: 900, color: "#075BB5", fontFamily: "monospace", mb: 1.5, fontSize: "1.5rem" }}
+                          >
+                            ₹{mockBill.totalAmount.toLocaleString()}
+                          </Typography>
+                          <Button
+                            variant="contained"
+                            size="small"
+                            onClick={() => window.location.href = "/login"}
+                            sx={{
+                              bgcolor: "#075BB5",
+                              color: "#FFFDF8",
+                              borderRadius: "2px",
+                              fontWeight: 700,
+                              py: 1,
+                              textTransform: "none",
+                              "&:hover": { bgcolor: "#064B95" },
+                            }}
+                          >
+                            Settle Bill Now
+                          </Button>
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  </Box>
                 </Box>
               )}
 
@@ -523,6 +775,38 @@ const ConsumerPreview = () => {
             </Grid>
           </Grid>
         </Box>
+
+        {/* Landing Page CTA below the Mock Browser */}
+        <Stack alignItems="center" spacing={2.5} sx={{ mt: 6, textAlign: "center" }}>
+          <Typography variant="body1" sx={{ color: "#171717", fontWeight: 800, fontSize: "1.05rem" }}>
+            Manage your electricity account online.
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={() => window.location.href = "/login"}
+            sx={{
+              bgcolor: "#075BB5",
+              color: "#FFFDF8",
+              borderRadius: "2px",
+              fontWeight: 800,
+              px: 4.5,
+              py: 1.6,
+              textTransform: "uppercase",
+              fontSize: "0.85rem",
+              letterSpacing: "0.06em",
+              border: "2px solid #171717",
+              boxShadow: "none",
+              "&:hover": {
+                bgcolor: "#FFFDF8",
+                color: "#075BB5",
+                borderColor: "#075BB5",
+              },
+              transition: "all 150ms ease",
+            }}
+          >
+            Open Consumer Portal
+          </Button>
+        </Stack>
       </Container>
     </Box>
   );
