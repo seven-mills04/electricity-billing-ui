@@ -46,9 +46,14 @@ const Consumers = () => {
     setLoading(true);
     try {
       const response = await getConsumers();
-      const consumers = Array.isArray(response.data)
-        ? response.data
-        : response.data.content || [];
+      let consumers = [];
+      if (response && response.data) {
+        if (Array.isArray(response.data)) {
+          consumers = response.data;
+        } else if (Array.isArray(response.data.content)) {
+          consumers = response.data.content;
+        }
+      }
 
       const mapped = consumers.map((c) => ({
         id: c.id,
@@ -105,10 +110,10 @@ const Consumers = () => {
   };
 
   const filteredRows = rows.filter((r) =>
-    r.name.toLowerCase().includes(search.toLowerCase()) ||
-    r.consumerNumber.toLowerCase().includes(search.toLowerCase()) ||
-    r.phone.includes(search) ||
-    r.email.toLowerCase().includes(search.toLowerCase())
+    (r.name || "").toLowerCase().includes(search.toLowerCase()) ||
+    (r.consumerNumber || "").toLowerCase().includes(search.toLowerCase()) ||
+    (r.phone || "").includes(search) ||
+    (r.email || "").toLowerCase().includes(search.toLowerCase())
   );
 
   const columns = [

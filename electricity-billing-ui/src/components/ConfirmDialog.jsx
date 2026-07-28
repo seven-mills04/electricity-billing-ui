@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Dialog,
   DialogTitle,
@@ -13,26 +14,38 @@ const ConfirmDialog = ({
   message,
   onClose,
   onConfirm,
+  handleClose,
+  handleConfirm,
+  description,
 }) => {
-  return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>{title}</DialogTitle>
+  const activeClose = onClose || handleClose;
+  const activeConfirm = onConfirm || handleConfirm;
+  const activeMessage = message || description || "Are you sure you want to proceed?";
 
-      <DialogContent>
-        <Typography>{message}</Typography>
+  return (
+    <Dialog open={open} onClose={activeClose}>
+      <DialogTitle sx={{ fontWeight: 800, color: "#171717" }}>{title}</DialogTitle>
+
+      <DialogContent sx={{ py: 1 }}>
+        <Typography variant="body2" sx={{ color: "#625F58" }}>{activeMessage}</Typography>
       </DialogContent>
 
-      <DialogActions>
-        <Button onClick={onClose}>
+      <DialogActions sx={{ p: 2.5 }}>
+        <Button onClick={activeClose} sx={{ color: "#625F58" }}>
           Cancel
         </Button>
 
         <Button
           variant="contained"
           color="error"
-          onClick={onConfirm}
+          onClick={activeConfirm}
+          sx={{
+            bgcolor: "#C5382F",
+            color: "#FFFDF8",
+            "&:hover": { bgcolor: "#A82F27" },
+          }}
         >
-          Delete
+          Confirm
         </Button>
       </DialogActions>
     </Dialog>

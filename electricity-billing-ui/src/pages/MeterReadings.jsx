@@ -46,7 +46,14 @@ const MeterReadings = () => {
     setLoading(true);
     try {
       const response = await getMeterReadings();
-      const readings = Array.isArray(response.data) ? response.data : [];
+      let readings = [];
+      if (response && response.data) {
+        if (Array.isArray(response.data)) {
+          readings = response.data;
+        } else if (Array.isArray(response.data.content)) {
+          readings = response.data.content;
+        }
+      }
 
       const mapped = readings.map((mr) => ({
         id: mr.id,
@@ -103,9 +110,9 @@ const MeterReadings = () => {
 
   const filteredRows = rows.filter(
     (r) =>
-      r.connectionNumber.toLowerCase().includes(search.toLowerCase()) ||
-      r.readingDate.includes(search) ||
-      (r.remarks && r.remarks.toLowerCase().includes(search.toLowerCase()))
+      (r.connectionNumber || "").toLowerCase().includes(search.toLowerCase()) ||
+      (r.readingDate || "").includes(search) ||
+      (r.remarks || "").toLowerCase().includes(search.toLowerCase())
   );
 
   const columns = [

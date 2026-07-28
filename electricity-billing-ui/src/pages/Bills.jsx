@@ -58,7 +58,14 @@ const Bills = () => {
     try {
       const role = localStorage.getItem("userRole");
       const response = role === "CONSUMER" ? await getConsumerBills() : await getBills();
-      let bills = Array.isArray(response.data) ? response.data : [];
+      let bills = [];
+      if (response && response.data) {
+        if (Array.isArray(response.data)) {
+          bills = response.data;
+        } else if (Array.isArray(response.data.content)) {
+          bills = response.data.content;
+        }
+      }
 
       const mapped = bills.map((b) => ({
         id: b.id,
@@ -115,9 +122,9 @@ const Bills = () => {
 
   const filteredRows = rows.filter((r) => {
     const matchesSearch =
-      r.billNumber.toLowerCase().includes(search.toLowerCase()) ||
-      r.connectionNumber.toLowerCase().includes(search.toLowerCase()) ||
-      r.billingMonth.toLowerCase().includes(search.toLowerCase());
+      (r.billNumber || "").toLowerCase().includes(search.toLowerCase()) ||
+      (r.connectionNumber || "").toLowerCase().includes(search.toLowerCase()) ||
+      (r.billingMonth || "").toLowerCase().includes(search.toLowerCase());
 
     if (statusFilter === "ALL") return matchesSearch;
     return matchesSearch && r.status === statusFilter;

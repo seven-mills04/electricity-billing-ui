@@ -264,24 +264,30 @@ const Hero = () => {
 
                   <Box sx={{ borderBottom: "1px dashed #C9C3B7", my: 0.5 }} />
 
-                  <Stack direction="row" justifyContent="space-between">
+                  <Box
+                    sx={{
+                      display: "grid",
+                      gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                      gap: 2,
+                    }}
+                  >
                     <Box>
-                      <Typography variant="caption" sx={{ color: "#625F58", fontSize: "0.7rem" }}>
+                      <Typography variant="caption" sx={{ color: "#625F58", fontSize: "0.7rem", display: "block" }}>
                         Billing Period
                       </Typography>
                       <Typography variant="body2" sx={{ fontWeight: 700 }}>
                         July 2026
                       </Typography>
                     </Box>
-                    <Box sx={{ textAlign: "right" }}>
-                      <Typography variant="caption" sx={{ color: "#625F58", fontSize: "0.7rem" }}>
+                    <Box sx={{ textAlign: { xs: "left", sm: "right" } }}>
+                      <Typography variant="caption" sx={{ color: "#625F58", fontSize: "0.7rem", display: "block" }}>
                         Due Date
                       </Typography>
                       <Typography variant="body2" sx={{ fontWeight: 700, color: "#C5382F" }}>
                         2026-08-05
                       </Typography>
                     </Box>
-                  </Stack>
+                  </Box>
 
                   <Box sx={{ borderBottom: "1px dashed #C9C3B7", my: 0.5 }} />
 

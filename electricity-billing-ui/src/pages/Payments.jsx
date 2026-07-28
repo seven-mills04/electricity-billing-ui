@@ -56,7 +56,14 @@ const Payments = () => {
     try {
       const role = localStorage.getItem("userRole");
       const response = role === "CONSUMER" ? await getConsumerPayments() : await getPayments();
-      let payments = Array.isArray(response.data) ? response.data : [];
+      let payments = [];
+      if (response && response.data) {
+        if (Array.isArray(response.data)) {
+          payments = response.data;
+        } else if (Array.isArray(response.data.content)) {
+          payments = response.data.content;
+        }
+      }
 
       const mapped = payments.map((p) => ({
         id: p.id,
@@ -122,9 +129,9 @@ const Payments = () => {
 
   const filteredRows = rows.filter(
     (r) =>
-      r.transactionId.toLowerCase().includes(search.toLowerCase()) ||
-      r.billNumber.toLowerCase().includes(search.toLowerCase()) ||
-      r.connectionNumber.toLowerCase().includes(search.toLowerCase())
+      (r.transactionId || "").toLowerCase().includes(search.toLowerCase()) ||
+      (r.billNumber || "").toLowerCase().includes(search.toLowerCase()) ||
+      (r.connectionNumber || "").toLowerCase().includes(search.toLowerCase())
   );
 
   const columns = [

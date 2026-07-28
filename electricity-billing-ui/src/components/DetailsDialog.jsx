@@ -19,8 +19,9 @@ const DetailsDialog = ({
   title = "Details View",
   subtitle,
   sections,
+  handleClose,
 }) => {
-  const activeClose = onClose;
+  const activeClose = onClose || handleClose;
   let activeSections = sections;
 
   if (!activeSections && data) {

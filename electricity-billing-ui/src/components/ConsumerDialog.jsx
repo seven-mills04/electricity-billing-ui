@@ -19,6 +19,7 @@ const ConsumerDialog = ({
   onClose,
   onSuccess,
   consumer,
+  handleClose: propHandleClose,
 }) => {
   const [formData, setFormData] = useState({
     consumerNumber: "",
@@ -92,7 +93,8 @@ const ConsumerDialog = ({
       phone: "",
     });
 
-    onClose();
+    const activeClose = onClose || propHandleClose;
+    if (activeClose) activeClose();
   };
 
   return (

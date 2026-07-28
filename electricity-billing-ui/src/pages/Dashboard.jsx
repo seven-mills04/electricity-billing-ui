@@ -383,11 +383,8 @@ const Dashboard = () => {
                 </Typography>
                 <Stack spacing={1.5}>
                   {recentBills.map((b) => (
-                    <Stack
+                    <Box
                       key={b.id}
-                      direction="row"
-                      justifyContent="space-between"
-                      alignItems="center"
                       sx={{
                         p: 2,
                         borderRadius: "2px",
@@ -395,23 +392,33 @@ const Dashboard = () => {
                         bgcolor: "#FFFDF8",
                         transition: "all 120ms ease",
                         "&:hover": { bgcolor: "#F3F0E8" },
+                        display: "grid",
+                        gridTemplateColumns: { xs: "1fr", sm: "minmax(0, 1fr) auto" },
+                        gap: { xs: 1.5, sm: 2 },
+                        alignItems: "center",
                       }}
                     >
-                      <Box>
+                      <Box sx={{ minWidth: 0 }}>
                         <Typography variant="subtitle2" sx={{ fontWeight: 800, color: "#171717" }}>
                           Bill #{b.billNumber}
                         </Typography>
-                        <Typography variant="caption" sx={{ color: "#625F58", display: "block", mt: 0.2, fontWeight: 700 }}>
+                        <Typography variant="caption" sx={{ color: "#625F58", display: "block", mt: 0.2, fontWeight: 700, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                           Period: {b.billingMonth} | Consumed: {b.unitsConsumed} kWh
                         </Typography>
                       </Box>
-                      <Stack textAlign="right" alignItems="flex-end" spacing={0.5}>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 800, color: "#171717", fontFamily: "monospace" }}>
+                      <Stack
+                        direction={{ xs: "row", sm: "column" }}
+                        justifyContent={{ xs: "space-between", sm: "flex-end" }}
+                        alignItems={{ xs: "center", sm: "flex-end" }}
+                        spacing={{ xs: 1, sm: 0.5 }}
+                        sx={{ minWidth: { sm: "100px" } }}
+                      >
+                        <Typography variant="subtitle1" sx={{ fontWeight: 800, color: "#171717", fontFamily: "monospace", fontSize: "0.95rem" }}>
                           ₹{(b.totalAmount || 0).toLocaleString()}
                         </Typography>
                         <StatusBadge label={b.billStatus} />
                       </Stack>
-                    </Stack>
+                    </Box>
                   ))}
                 </Stack>
               </GlassCard>
@@ -424,11 +431,8 @@ const Dashboard = () => {
                 </Typography>
                 <Stack spacing={1.5}>
                   {recentPayments.map((p) => (
-                    <Stack
+                    <Box
                       key={p.id}
-                      direction="row"
-                      justifyContent="space-between"
-                      alignItems="center"
                       sx={{
                         p: 2,
                         borderRadius: "2px",
@@ -436,23 +440,33 @@ const Dashboard = () => {
                         bgcolor: "#FFFDF8",
                         transition: "all 120ms ease",
                         "&:hover": { bgcolor: "#F3F0E8" },
+                        display: "grid",
+                        gridTemplateColumns: { xs: "1fr", sm: "minmax(0, 1fr) auto" },
+                        gap: { xs: 1.5, sm: 2 },
+                        alignItems: "center",
                       }}
                     >
-                      <Box>
+                      <Box sx={{ minWidth: 0 }}>
                         <Typography variant="subtitle2" sx={{ fontWeight: 800, color: "#171717" }}>
                           Txn #{p.transactionId}
                         </Typography>
-                        <Typography variant="caption" sx={{ color: "#625F58", display: "block", mt: 0.2, fontWeight: 700 }}>
+                        <Typography variant="caption" sx={{ color: "#625F58", display: "block", mt: 0.2, fontWeight: 700, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                           Date: {p.paymentDate} | Method: {p.paymentMode}
                         </Typography>
                       </Box>
-                      <Stack textAlign="right" alignItems="flex-end" spacing={0.5}>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 800, color: "#087A5A", fontFamily: "monospace" }}>
+                      <Stack
+                        direction={{ xs: "row", sm: "column" }}
+                        justifyContent={{ xs: "space-between", sm: "flex-end" }}
+                        alignItems={{ xs: "center", sm: "flex-end" }}
+                        spacing={{ xs: 1, sm: 0.5 }}
+                        sx={{ minWidth: { sm: "100px" } }}
+                      >
+                        <Typography variant="subtitle1" sx={{ fontWeight: 800, color: "#087A5A", fontFamily: "monospace", fontSize: "0.95rem" }}>
                           +₹{(p.amountPaid || 0).toLocaleString()}
                         </Typography>
                         <StatusBadge label="SETTLED" />
                       </Stack>
-                    </Stack>
+                    </Box>
                   ))}
                 </Stack>
               </GlassCard>

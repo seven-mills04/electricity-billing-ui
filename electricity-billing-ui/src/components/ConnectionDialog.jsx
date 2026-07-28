@@ -23,7 +23,9 @@ const ConnectionDialog = ({
   onClose,
   onSuccess,
   connection,
+  handleClose: propHandleClose,
 }) => {
+  const activeClose = onClose || propHandleClose;
 
   const [form, setForm] = useState({
     connectionNumber: "",
@@ -89,7 +91,7 @@ const ConnectionDialog = ({
       onSuccess();
     }
 
-    onClose();
+    activeClose();
 
   } catch (error) {
     console.error(error);
@@ -105,7 +107,7 @@ const ConnectionDialog = ({
   return (
   <Dialog
     open={open}
-    onClose={onClose}
+    onClose={activeClose}
     fullWidth
     maxWidth="sm"
   >
@@ -186,7 +188,7 @@ const ConnectionDialog = ({
 
     <DialogActions>
 
-      <Button onClick={onClose}>
+      <Button onClick={activeClose}>
         Cancel
       </Button>
 

@@ -25,6 +25,7 @@ const MeterReadingDialog = ({
   onClose,
   onSuccess,
   reading,
+  handleClose: propHandleClose,
 }) => {
   const [connections, setConnections] = useState([]);
 
@@ -80,7 +81,8 @@ const MeterReadingDialog = ({
 
   const handleClose = () => {
     setForm(initialForm);
-    onClose();
+    const activeClose = onClose || propHandleClose;
+    if (activeClose) activeClose();
   };
 
 const handleSave = async () => {

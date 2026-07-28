@@ -46,7 +46,14 @@ const Connections = () => {
     setLoading(true);
     try {
       const response = await getConnections();
-      const connections = Array.isArray(response.data) ? response.data : [];
+      let connections = [];
+      if (response && response.data) {
+        if (Array.isArray(response.data)) {
+          connections = response.data;
+        } else if (Array.isArray(response.data.content)) {
+          connections = response.data.content;
+        }
+      }
 
       const mapped = connections.map((conn) => ({
         id: conn.id,
@@ -103,9 +110,9 @@ const Connections = () => {
 
   const filteredRows = rows.filter(
     (r) =>
-      r.connectionNumber.toLowerCase().includes(search.toLowerCase()) ||
-      r.meterNumber.toLowerCase().includes(search.toLowerCase()) ||
-      r.connectionType.toLowerCase().includes(search.toLowerCase())
+      (r.connectionNumber || "").toLowerCase().includes(search.toLowerCase()) ||
+      (r.meterNumber || "").toLowerCase().includes(search.toLowerCase()) ||
+      (r.connectionType || "").toLowerCase().includes(search.toLowerCase())
   );
 
   const columns = [

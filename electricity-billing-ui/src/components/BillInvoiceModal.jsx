@@ -23,8 +23,11 @@ const BillInvoiceModal = ({
   consumer,
   connection,
   meterReading,
+  handleClose: propHandleClose,
 }) => {
   if (!bill) return null;
+
+  const activeClose = onClose || propHandleClose;
 
   const isPaid = String(bill.billStatus).toUpperCase() === "PAID";
 
@@ -39,7 +42,7 @@ const BillInvoiceModal = ({
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={activeClose}
       fullWidth
       maxWidth="md"
       PaperProps={{
@@ -260,7 +263,7 @@ const BillInvoiceModal = ({
 
       <DialogActions className="no-print" sx={{ p: 2.5, bgcolor: "#FFFDF8", borderTop: "1px solid #C9C3B7" }}>
         <Button
-          onClick={onClose}
+          onClick={activeClose}
           variant="outlined"
           sx={{
             color: "#171717",
