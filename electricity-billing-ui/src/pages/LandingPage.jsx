@@ -30,30 +30,38 @@ const LandingPage = () => {
       label: "Consumers Served",
       value: "4.8 Million+",
       desc: "Providing active grid connections to domestic, industrial, and commercial sectors.",
-      icon: <Users size={28} color="#38BDF8" />,
+      icon: <Users size={24} color="#075BB5" />,
     },
     {
       label: "Bills Generated",
       value: "55M Annually",
       desc: "Reliable automated monthly invoice processing with zero billing discrepancies.",
-      icon: <FileText size={28} color="#34D399" />,
+      icon: <FileText size={24} color="#075BB5" />,
     },
     {
       label: "Payments Processed",
       value: "₹12,450 Cr",
       desc: "Secure online transaction settlement processed through state banking gateways.",
-      icon: <CheckCircle size={28} color="#FB7185" />,
+      icon: <CheckCircle size={24} color="#075BB5" />,
     },
     {
       label: "Service Availability",
       value: "99.98%",
       desc: "Grid uptime and continuous power distribution monitored 24x7 by command centers.",
-      icon: <ShieldCheck size={28} color="#A78BFA" />,
+      icon: <ShieldCheck size={24} color="#075BB5" />,
     },
   ];
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "transparent", color: "#F8FAFC", overflowX: "hidden", position: "relative" }}>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        bgcolor: "#F3F0E8", // Warm paper background
+        color: "#171717", // Ink black text
+        overflowX: "hidden",
+        position: "relative",
+      }}
+    >
       <BackgroundEffects />
       
       <SystemTicker />
@@ -72,93 +80,93 @@ const LandingPage = () => {
 
       <HowItWorks />
 
+      {/* ==================================================
+          STATISTICS SECTION
+          ================================================== */}
       <Box
         id="statistics"
         sx={{
-          py: 12,
-          position: "relative",
-          borderTop: "1px solid rgba(255, 255, 255, 0.06)",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
+          py: { xs: 8, md: 12 },
+          bgcolor: "#E9E5DB", // soft panel bg
+          borderBottom: "1px solid #C9C3B7",
         }}
       >
         <Container maxWidth="xl">
-          <Stack alignItems="center" textAlign="center" spacing={2} sx={{ mb: 8 }}>
+          <Stack alignItems="center" textAlign="center" spacing={1.5} sx={{ mb: 8 }}>
             <Typography
-              variant="h6"
+              variant="caption"
               sx={{
-                color: "#06B6D4",
-                fontWeight: 700,
-                letterSpacing: "0.12em",
+                color: "#075BB5",
+                fontWeight: 800,
+                letterSpacing: "0.08em",
                 textTransform: "uppercase",
               }}
             >
-              Performance
+              PERFORMANCE & AUDIT
             </Typography>
             <Typography
               variant="h2"
               sx={{
-                color: "#FFFFFF",
                 fontWeight: 800,
-                fontSize: { xs: "2rem", md: "2.5rem" },
+                fontSize: { xs: "1.85rem", md: "2.3rem" },
+                color: "#171717",
               }}
             >
               Genuine Utility Statistics
             </Typography>
             <Typography
-              variant="body1"
+              variant="body2"
               sx={{
-                color: "#94A3B8",
+                color: "#625F58",
                 maxWidth: "600px",
+                fontSize: "0.9rem",
               }}
             >
               Transparent operational data showing our service delivery scale and network stability across the region.
             </Typography>
           </Stack>
 
-          <Grid container spacing={4}>
+          <Grid container spacing={3.5}>
             {stats.map((stat, index) => (
               <Grid item xs={12} sm={6} md={3} key={index}>
                 <motion.div
-                  initial={{ opacity: 0, y: 15 }}
+                  initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
                 >
                   <Box
                     sx={{
                       p: 4,
-                      borderRadius: "18px",
-                      bgcolor: "rgba(15, 23, 42, 0.35)",
-                      backdropFilter: "blur(12px)",
-                      WebkitBackdropFilter: "blur(12px)",
-                      border: "1px solid rgba(255, 255, 255, 0.08)",
-                      borderTop: `3px solid ${index % 2 === 0 ? "#38BDF8" : "#34D399"}`,
+                      borderRadius: "2px",
+                      bgcolor: "#FFFDF8",
+                      border: "1px solid #C9C3B7",
+                      borderTop: `3.5px solid #075BB5`, // Utility blue accent top border
                       height: "100%",
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
                       textAlign: "center",
-                      boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
-                      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                      boxShadow: "none",
+                      transition: "all 120ms ease-in-out",
                       position: "relative",
-                      overflow: "hidden",
                       "&:hover": {
-                        transform: "translateY(-8px)",
-                        boxShadow: `0 12px 30px ${index % 2 === 0 ? "rgba(56, 189, 248, 0.15)" : "rgba(52, 211, 153, 0.15)"}`,
-                        borderColor: index % 2 === 0 ? "#38BDF8" : "#34D399",
+                        borderColor: "#171717",
+                        bgcolor: "#F3F0E8",
                       },
                     }}
                   >
                     <Box
                       sx={{
-                        width: 54,
-                        height: 54,
-                        borderRadius: "12px",
-                        bgcolor: index % 2 === 0 ? "rgba(56, 189, 248, 0.08)" : "rgba(52, 211, 153, 0.08)",
+                        width: 48,
+                        height: 48,
+                        borderRadius: "2px",
+                        bgcolor: "#E9E5DB",
+                        border: "1px solid #C9C3B7",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        mb: 3,
+                        mb: 2.5,
                       }}
                     >
                       {stat.icon}
@@ -167,10 +175,11 @@ const LandingPage = () => {
                       variant="h2"
                       sx={{
                         fontWeight: 800,
-                        fontSize: { xs: "2rem", md: "2.35rem" },
-                        color: "#FFFFFF",
+                        fontSize: { xs: "1.75rem", md: "2rem" },
+                        color: "#075BB5",
+                        fontFamily: "monospace",
                         letterSpacing: "-0.02em",
-                        mb: 1.5,
+                        mb: 1,
                       }}
                     >
                       {stat.value}
@@ -178,10 +187,10 @@ const LandingPage = () => {
                     <Typography
                       variant="h5"
                       sx={{
-                        fontWeight: 700,
-                        color: "#E2E8F0",
-                        mb: 1.5,
-                        fontSize: "1.05rem",
+                        fontWeight: 800,
+                        color: "#171717",
+                        mb: 1,
+                        fontSize: "0.95rem",
                       }}
                     >
                       {stat.label}
@@ -189,8 +198,9 @@ const LandingPage = () => {
                     <Typography
                       variant="body2"
                       sx={{
-                        color: "#94A3B8",
-                        lineHeight: 1.5,
+                        color: "#625F58",
+                        lineHeight: 1.45,
+                        fontSize: "0.825rem",
                       }}
                     >
                       {stat.desc}

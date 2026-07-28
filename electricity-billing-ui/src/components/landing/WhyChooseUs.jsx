@@ -3,171 +3,195 @@ import { Box, Container, Grid, Typography, Stack } from "@mui/material";
 import { motion } from "framer-motion";
 
 const WhyChooseUs = () => {
-  const reasons = [
-    {
-      title: "Reliable Electricity Supply",
-      desc: "Operating automated distribution networks with advanced grid monitoring to ensure uninterrupted power delivery and 99.98% operational uptime across millions of households.",
-      svg: (
-        <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: 120 }}>
-          <path d="M10 140 H190" stroke="rgba(255, 255, 255, 0.1)" strokeWidth="2" />
-          <path d="M10 140 Q 60 135 110 140 T 190 140" stroke="#06B6D4" strokeWidth="1.5" opacity="0.6" />
-          
-          <path d="M70 140 L90 40 H110 L130 140" stroke="#38BDF8" strokeWidth="2.5" fill="none" />
-          <line x1="80" y1="90" x2="120" y2="90" stroke="#38BDF8" strokeWidth="2" />
-          <line x1="85" y1="65" x2="115" y2="65" stroke="#38BDF8" strokeWidth="2" />
-          <line x1="90" y1="40" x2="110" y2="40" stroke="#38BDF8" strokeWidth="2" />
-          <line x1="70" y1="140" x2="110" y2="90" stroke="rgba(255, 255, 255, 0.2)" strokeWidth="1.2" />
-          <line x1="130" y1="140" x2="90" y2="90" stroke="rgba(255, 255, 255, 0.2)" strokeWidth="1.2" />
-          
-          <line x1="60" y1="65" x2="140" y2="65" stroke="#06B6D4" strokeWidth="2" />
-          
-          <circle cx="100" cy="20" r="10" fill="#F59E0B" opacity="0.3" />
-          <circle cx="100" cy="20" r="5" fill="#F59E0B" />
-          
-          <path d="M115 15 Q 120 10 125 15" stroke="#F59E0B" strokeWidth="1.5" strokeLinecap="round" />
-          <path d="M85 15 Q 80 10 75 15" stroke="#F59E0B" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
-      ),
-    },
-    {
-      title: "Secure Online Payments",
-      desc: "Fully encrypted payment gateway integrated with national banking channels. Safely settle utility bills using UPI, credit cards, or net banking with instant generation of digital receipts.",
-      svg: (
-        <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: 120 }}>
-          <rect x="30" y="30" width="120" height="80" rx="8" fill="rgba(15, 23, 42, 0.5)" stroke="#8B5CF6" strokeWidth="2" />
-          <rect x="30" y="45" width="120" height="15" fill="#8B5CF6" />
-          <rect x="42" y="75" width="25" height="15" fill="rgba(255, 255, 255, 0.08)" rx="2" />
-          <circle cx="130" cy="85" r="8" fill="#06B6D4" opacity="0.4" />
-          <circle cx="138" cy="85" r="8" fill="#F59E0B" opacity="0.4" />
-          
-          <g transform="translate(110, 75)">
-            <rect x="0" y="0" width="45" height="45" rx="22.5" fill="rgba(15, 23, 42, 0.8)" stroke="rgba(255, 255, 255, 0.1)" strokeWidth="1" />
-            <circle cx="22.5" cy="22.5" r="16" fill="#34D399" />
-            <path d="M16 22 L20 26 L29 17" stroke="#020617" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-          </g>
-        </svg>
-      ),
-    },
-    {
-      title: "Digital Consumer Services",
-      desc: "A unified self-service portal to submit meter readings, track energy trends, request load enhancements, register service issues, and monitor transaction ledgers at your convenience.",
-      svg: (
-        <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: 120 }}>
-          <rect x="25" y="20" width="120" height="80" rx="4" fill="rgba(15, 23, 42, 0.5)" stroke="rgba(255, 255, 255, 0.15)" strokeWidth="2" />
-          <rect x="30" y="25" width="110" height="70" fill="rgba(255, 255, 255, 0.03)" />
-          <polygon points="15,100 155,100 165,112 5,112" fill="rgba(15, 23, 42, 0.8)" stroke="rgba(255, 255, 255, 0.2)" strokeWidth="1.5" />
-          
-          <rect x="36" y="32" width="40" height="24" fill="#38BDF8" opacity="0.1" rx="2" />
-          <rect x="40" y="38" width="32" height="4" fill="#38BDF8" rx="1" />
-          <rect x="40" y="46" width="20" height="4" fill="#06B6D4" rx="1" />
-          
-          <rect x="84" y="32" width="50" height="54" fill="rgba(255, 255, 255, 0.05)" rx="2" />
-          <circle cx="109" cy="46" r="8" fill="#F59E0B" opacity="0.3" />
-          <line x1="90" y1="65" x2="128" y2="65" stroke="rgba(255,255,255,0.15)" strokeWidth="2" />
-          <line x1="90" y1="73" x2="115" y2="73" stroke="rgba(255,255,255,0.15)" strokeWidth="2" />
-
-          <g transform="translate(130, 50)">
-            <rect x="0" y="0" width="35" height="65" rx="6" fill="rgba(15, 23, 42, 0.9)" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
-            <rect x="3" y="6" width="29" height="48" fill="rgba(255,255,255,0.03)" rx="2" />
-            <circle cx="17.5" cy="58" r="2.5" fill="#FFFFFF" />
-            <path d="M7 45 L15 35 L22 40 L28 28" stroke="#34D399" strokeWidth="2" fill="none" strokeLinecap="round" />
-          </g>
-        </svg>
-      ),
-    },
-  ];
-
   return (
     <Box
       id="why-us"
       sx={{
-        py: { xs: 10, md: 14 },
+        py: { xs: 8, md: 12 },
         bgcolor: "transparent",
-        borderTop: "1px solid rgba(255, 255, 255, 0.06)",
+        borderBottom: "1px solid #C9C3B7",
       }}
     >
       <Container maxWidth="xl">
-        <Stack alignItems="center" textAlign="center" spacing={2} sx={{ mb: 10 }}>
-          <Typography
-            variant="h6"
-            sx={{
-              color: "#06B6D4",
-              fontWeight: 700,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-            }}
-          >
-            Why Choose Us
-          </Typography>
-          <Typography
-            variant="h2"
-            sx={{
-              color: "#FFFFFF",
-              fontWeight: 800,
-              fontSize: { xs: "2rem", md: "2.5rem" },
-            }}
-          >
-            Reliable Utilities Built For Communities
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              color: "#94A3B8",
-              maxWidth: "600px",
-            }}
-          >
-            Serving millions of consumers with modern smart grid infrastructure, secure transaction processing, and accessible digital portal systems.
-          </Typography>
-        </Stack>
+        <Grid container spacing={6} alignItems="flex-start">
+          {/* Left Side: Editorial introduction + Grid Route Diagram */}
+          <Grid item xs={12} md={7}>
+            <Stack spacing={3.5}>
+              <Box>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: "#F05A28", // Safety orange accent
+                    fontWeight: 800,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    display: "block",
+                    mb: 1.5,
+                  }}
+                >
+                  SYSTEM OPERATIONS
+                </Typography>
+                <Typography
+                  variant="h2"
+                  sx={{
+                    fontWeight: 800,
+                    fontSize: { xs: "1.85rem", md: "2.3rem" },
+                    lineHeight: 1.15,
+                    mb: 2.5,
+                  }}
+                >
+                  Built for dependable everyday service
+                </Typography>
+                <Typography variant="body1" sx={{ color: "#625F58", maxWidth: "600px", lineHeight: 1.6 }}>
+                  Our network operations monitor electrical grid loads, automated sub-station routing, and consumer service access coordinates. We maintain operational standards ensuring stable electricity delivery and secure account settlements.
+                </Typography>
+              </Box>
 
-        <Grid container spacing={5}>
-          {reasons.map((reason, index) => (
-            <Grid item xs={12} md={4} key={index}>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
+              {/* Technical Schematic SVG Diagram */}
+              <Box
+                sx={{
+                  border: "1px solid #C9C3B7",
+                  bgcolor: "#FFFDF8",
+                  p: 3,
+                  width: "100%",
+                  maxWidth: 620,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 1.5,
+                }}
               >
-                <Stack spacing={3} alignItems="center" textAlign="center">
-                  <Box
-                    sx={{
-                      width: "100%",
-                      maxWidth: 240,
-                      display: "flex",
-                      justifyContent: "center",
-                      mb: 1.5,
-                    }}
-                  >
-                    {reason.svg}
-                  </Box>
+                <Typography variant="caption" sx={{ fontFamily: "monospace", color: "#625F58", fontSize: "0.72rem" }}>
+                  GRID DISTRIBUTION ROUTE SCHEMATIC (SCH-R10)
+                </Typography>
 
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      fontWeight: 700,
-                      color: "#E2E8F0",
-                      fontSize: "1.35rem",
-                    }}
-                  >
-                    {reason.title}
+                <svg
+                  viewBox="0 0 400 120"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  style={{ width: "100%", height: "auto" }}
+                >
+                  {/* Grid Lines / Bus bars */}
+                  <line x1="20" y1="60" x2="380" y2="60" stroke="#C9C3B7" strokeWidth="1.5" strokeDasharray="3 3" />
+                  
+                  {/* Plant node */}
+                  <rect x="20" y="40" width="40" height="40" stroke="#171717" strokeWidth="1.5" fill="#FFFDF8" />
+                  <text x="40" y="64" fill="#171717" fontSize="7" fontWeight="bold" fontFamily="monospace" textAnchor="middle">GEN</text>
+                  
+                  {/* Connection lines */}
+                  <line x1="60" y1="60" x2="130" y2="60" stroke="#171717" strokeWidth="1.5" />
+                  
+                  {/* Substation transformer symbol */}
+                  <circle cx="145" cy="60" r="15" stroke="#171717" strokeWidth="1.5" fill="none" />
+                  <circle cx="165" cy="60" r="15" stroke="#075BB5" strokeWidth="1.5" fill="none" />
+                  <text x="155" y="100" fill="#625F58" fontSize="7" fontFamily="monospace" textAnchor="middle">132KV / 11KV SUB</text>
+
+                  <line x1="180" y1="60" x2="260" y2="60" stroke="#171717" strokeWidth="1.5" />
+                  
+                  {/* Circuit breaker node */}
+                  <rect x="260" y="48" width="24" height="24" stroke="#171717" strokeWidth="1.5" fill="#FFFDF8" />
+                  <line x1="264" y1="53" x2="280" y2="67" stroke="#C5382F" strokeWidth="2" />
+                  <text x="272" y="85" fill="#625F58" fontSize="7" fontFamily="monospace" textAnchor="middle">CB-04</text>
+
+                  <line x1="284" y1="60" x2="340" y2="60" stroke="#171717" strokeWidth="1.5" />
+
+                  {/* Consumer load node */}
+                  <rect x="340" y="40" width="40" height="40" stroke="#171717" strokeWidth="1.5" fill="#FFFDF8" />
+                  <text x="360" y="64" fill="#171717" fontSize="7" fontWeight="bold" fontFamily="monospace" textAnchor="middle">LOAD</text>
+
+                  {/* Measurement annotations */}
+                  <path d="M 95 60 L 95 40 L 110 40" stroke="#075BB5" strokeWidth="1" />
+                  <text x="115" y="43" fill="#075BB5" fontSize="6.5" fontWeight="bold" fontFamily="monospace">PT-01</text>
+                </svg>
+
+                <Stack direction="row" justifyContent="space-between" sx={{ borderTop: "1px dashed #C9C3B7", pt: 1 }}>
+                  <Typography variant="caption" sx={{ fontSize: "0.68rem", color: "#625F58", fontFamily: "monospace" }}>
+                    BUS VOLTAGE: 11.02 KV
                   </Typography>
-
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      color: "#94A3B8",
-                      lineHeight: 1.6,
-                      fontSize: "0.95rem",
-                      px: { xs: 1, md: 2 },
-                    }}
-                  >
-                    {reason.desc}
+                  <Typography variant="caption" sx={{ fontSize: "0.68rem", color: "#087A5A", fontFamily: "monospace", fontWeight: 700 }}>
+                    SYS PHASE: IN-SYNC
                   </Typography>
                 </Stack>
-              </motion.div>
-            </Grid>
-          ))}
+              </Box>
+            </Stack>
+          </Grid>
+
+          {/* Right Side: Plain typographic facts */}
+          <Grid item xs={12} md={5} sx={{ pt: { xs: 4, md: "64px !important" } }}>
+            <Stack spacing={5.5}>
+              {/* Stat 1 */}
+              <Box>
+                <Typography
+                  variant="h2"
+                  sx={{
+                    fontWeight: 800,
+                    fontSize: "3.2rem",
+                    color: "#087A5A", // Operational green for normal uptime
+                    fontFamily: "monospace",
+                    lineHeight: 1,
+                    mb: 1,
+                  }}
+                >
+                  99.98%
+                </Typography>
+                <Typography variant="h5" sx={{ fontWeight: 800, fontSize: "1.1rem", mb: 0.8, color: "#171717" }}>
+                  Operational Grid Uptime
+                </Typography>
+                <Typography variant="body2" sx={{ color: "#625F58", lineHeight: 1.5 }}>
+                  Grid uptime and distribution stability are monitored 24x7 by command centers to ensure uninterrupted power delivery to residential, commercial, and industrial consumers.
+                </Typography>
+              </Box>
+
+              <Box sx={{ borderBottom: "1px solid #C9C3B7", width: "100%" }} />
+
+              {/* Stat 2 */}
+              <Box>
+                <Typography
+                  variant="h2"
+                  sx={{
+                    fontWeight: 800,
+                    fontSize: "3.2rem",
+                    color: "#075BB5", // Utility blue for security transactions
+                    fontFamily: "monospace",
+                    lineHeight: 1,
+                    mb: 1,
+                  }}
+                >
+                  SECURE
+                </Typography>
+                <Typography variant="h5" sx={{ fontWeight: 800, fontSize: "1.1rem", mb: 0.8, color: "#171717" }}>
+                  Verified Digital Settlements
+                </Typography>
+                <Typography variant="body2" sx={{ color: "#625F58", lineHeight: 1.5 }}>
+                  Bill payment transactions are settled securely through authorized national banking channels, instant payment networks, and digital UPI service gateways.
+                </Typography>
+              </Box>
+
+              <Box sx={{ borderBottom: "1px solid #C9C3B7", width: "100%" }} />
+
+              {/* Stat 3 */}
+              <Box>
+                <Typography
+                  variant="h2"
+                  sx={{
+                    fontWeight: 800,
+                    fontSize: "3.2rem",
+                    color: "#171717",
+                    fontFamily: "monospace",
+                    lineHeight: 1,
+                    mb: 1,
+                  }}
+                >
+                  4.8M+
+                </Typography>
+                <Typography variant="h5" sx={{ fontWeight: 800, fontSize: "1.1rem", mb: 0.8, color: "#171717" }}>
+                  Registered Service Endpoints
+                </Typography>
+                <Typography variant="body2" sx={{ color: "#625F58", lineHeight: 1.5 }}>
+                  Providing active grid distribution services to residential, commercial, and manufacturing sectors with itemized tariff transparency.
+                </Typography>
+              </Box>
+            </Stack>
+          </Grid>
         </Grid>
       </Container>
     </Box>

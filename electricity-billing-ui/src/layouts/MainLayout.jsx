@@ -23,7 +23,7 @@ const MainLayout = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "#071426", color: "#F8FAFC", overflow: "hidden", position: "relative" }}>
+    <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "#F3F0E8", color: "#171717", overflow: "hidden", position: "relative" }}>
       {/* Background Orbs Grid Effects */}
       <BackgroundEffects />
       

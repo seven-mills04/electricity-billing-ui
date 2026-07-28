@@ -369,12 +369,12 @@ const Dashboard = () => {
                       <stop offset="95%" stopColor="#06B6D4" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                  <XAxis dataKey="month" stroke="#64748B" fontSize={12} tickLine={false} />
-                  <YAxis stroke="#64748B" fontSize={12} tickLine={false} />
-                  <RechartsTooltip contentStyle={{ backgroundColor: "#0D1B2A", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "12px", color: "#FFF" }} />
-                  <Area type="monotone" dataKey="revenue" name="Billed Revenue (₹)" stroke="#2563EB" strokeWidth={3} fillOpacity={1} fill="url(#colorRev)" />
-                  <Area type="monotone" dataKey="collection" name="Amount Settled (₹)" stroke="#06B6D4" strokeWidth={3} fillOpacity={1} fill="url(#colorCol)" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#C9C3B7" />
+                  <XAxis dataKey="month" stroke="#625F58" fontSize={12} tickLine={false} />
+                  <YAxis stroke="#625F58" fontSize={12} tickLine={false} />
+                  <RechartsTooltip contentStyle={{ backgroundColor: "#FFFDF8", border: "1px solid #C9C3B7", borderRadius: "2px", color: "#171717" }} />
+                  <Area type="monotone" dataKey="revenue" name="Billed Revenue (₹)" stroke="#075BB5" strokeWidth={3} fillOpacity={1} fill="url(#colorRev)" />
+                  <Area type="monotone" dataKey="collection" name="Amount Settled (₹)" stroke="#087A5A" strokeWidth={3} fillOpacity={1} fill="url(#colorCol)" />
                 </AreaChart>
               </ResponsiveContainer>
             </ChartCard>
@@ -382,21 +382,21 @@ const Dashboard = () => {
             <ChartCard
               title="Monthly Energy Consumption"
               subtitle="Historical power usage (kWh) over the last 6 months"
-              action={<Chip label="REAL-TIME DATA" size="small" sx={{ bgcolor: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255,255,255,0.08)", color: "#06B6D4", fontWeight: 700 }} />}
+              action={<Chip label="REAL-TIME DATA" size="small" sx={{ bgcolor: "#FFFDF8", border: "1px solid #075BB5", color: "#075BB5", fontWeight: 700 }} />}
             >
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={consumerChartData} margin={{ top: 10, right: 10, left: 15, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorUnits" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#06B6D4" stopOpacity={0.4} />
-                      <stop offset="95%" stopColor="#06B6D4" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#075BB5" stopOpacity={0.4} />
+                      <stop offset="95%" stopColor="#075BB5" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                  <XAxis dataKey="month" stroke="#64748B" fontSize={12} tickLine={false} />
-                  <YAxis stroke="#64748B" fontSize={12} tickLine={false} />
-                  <RechartsTooltip contentStyle={{ backgroundColor: "#0D1B2A", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "12px", color: "#FFF" }} />
-                  <Area type="monotone" dataKey="unitsConsumed" name="Consumption (kWh)" stroke="#06B6D4" strokeWidth={3} fillOpacity={1} fill="url(#colorUnits)" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#C9C3B7" />
+                  <XAxis dataKey="month" stroke="#625F58" fontSize={12} tickLine={false} />
+                  <YAxis stroke="#625F58" fontSize={12} tickLine={false} />
+                  <RechartsTooltip contentStyle={{ backgroundColor: "#FFFDF8", border: "1px solid #C9C3B7", borderRadius: "2px", color: "#171717" }} />
+                  <Area type="monotone" dataKey="unitsConsumed" name="Consumption (kWh)" stroke="#075BB5" strokeWidth={3} fillOpacity={1} fill="url(#colorUnits)" />
                 </AreaChart>
               </ResponsiveContainer>
             </ChartCard>

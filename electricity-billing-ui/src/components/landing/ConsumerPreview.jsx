@@ -24,9 +24,6 @@ import {
   CreditCard,
   FileText,
   Activity,
-  CheckCircle,
-  Clock,
-  Eye,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -55,7 +52,7 @@ const ConsumerPreview = () => {
     dueDate: "2026-07-20",
     unitsConsumed: 320,
     charges: {
-      energy: 1440.0, 
+      energy: 1440.0,
       fixed: 275.0,
       duty: 85.75,
       arrears: 0.0,
@@ -79,65 +76,64 @@ const ConsumerPreview = () => {
     <Box
       id="preview"
       sx={{
-        py: { xs: 10, md: 14 },
+        py: { xs: 8, md: 12 },
         bgcolor: "transparent",
-        borderTop: "1px solid rgba(255, 255, 255, 0.06)",
+        borderBottom: "1px solid #C9C3B7",
       }}
     >
       <Container maxWidth="xl">
-        
+        {/* Section Heading */}
         <Stack alignItems="center" textAlign="center" spacing={2} sx={{ mb: 8 }}>
           <Typography
-            variant="h6"
+            variant="caption"
             sx={{
-              color: "#06B6D4",
-              fontWeight: 700,
-              letterSpacing: "0.1em",
+              color: "#075BB5",
+              fontWeight: 800,
+              letterSpacing: "0.08em",
               textTransform: "uppercase",
             }}
           >
-            Digital Portal
+            PORTAL PREVIEW
           </Typography>
           <Typography
             variant="h2"
             sx={{
-              color: "#FFFFFF",
               fontWeight: 800,
-              fontSize: { xs: "2rem", md: "2.5rem" },
+              fontSize: { xs: "1.85rem", md: "2.3rem" },
+              color: "#171717",
             }}
           >
             Consumer Dashboard Preview
           </Typography>
           <Typography
-            variant="body1"
+            variant="body2"
             sx={{
-              color: "#94A3B8",
+              color: "#625F58",
               maxWidth: "600px",
+              fontSize: "0.9rem",
             }}
           >
-            Sneak peek into our secure self-service portal. Manage your profile, pay bills instantly, verify connection settings, and view consumption trends.
+            A preview of the self-service web portal interface. Review active statements, transaction logs, and billing meters online.
           </Typography>
         </Stack>
 
-        
-        <Card
+        {/* Browser Mock Interface Frame */}
+        <Box
           sx={{
             maxWidth: 1000,
             mx: "auto",
-            borderRadius: "20px",
-            border: "1px solid rgba(255, 255, 255, 0.08)",
-            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.4)",
-            bgcolor: "rgba(15, 23, 42, 0.45)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
+            borderRadius: "2px",
+            border: "2px solid #171717", // Strong ink border
+            bgcolor: "#FFFDF8",
             overflow: "hidden",
+            boxShadow: "none",
           }}
         >
-          
+          {/* Mock Browser Header Bar */}
           <Box
             sx={{
-              bgcolor: "rgba(30, 41, 59, 0.4)",
-              borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
+              bgcolor: "#E9E5DB", // soft panel bg
+              borderBottom: "1px solid #C9C3B7",
               px: 2.5,
               py: 1.5,
               display: "flex",
@@ -145,224 +141,341 @@ const ConsumerPreview = () => {
               gap: 1,
             }}
           >
-            <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#EF5350", opacity: 0.8 }} />
-            <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#FFCA28", opacity: 0.8 }} />
-            <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#66BB6A", opacity: 0.8 }} />
-            
-            
+            {/* Dots */}
+            <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: "#C5382F" }} />
+            <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: "#F05A28" }} />
+            <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: "#087A5A" }} />
+
+            {/* Mock URL bar */}
             <Box
               sx={{
-                bgcolor: "rgba(15, 23, 42, 0.5)",
-                borderRadius: "6px",
-                border: "1px solid rgba(255, 255, 255, 0.06)",
+                bgcolor: "#FFFDF8",
+                border: "1px solid #C9C3B7",
+                borderRadius: "2px",
                 ml: 4,
                 px: 2,
-                py: 0.5,
-                width: "40%",
+                py: 0.25,
+                width: "50%",
                 maxWidth: 400,
-                fontSize: "0.75rem",
-                color: "#94A3B8",
+                fontSize: "0.72rem",
+                color: "#625F58",
                 fontFamily: "monospace",
               }}
             >
-              https://portal.knkpower.com/dashboard
+              https://portal.knkpower.co.in/dashboard
             </Box>
           </Box>
 
           <Grid container>
-            
-            <Grid item xs={12} sm={3} sx={{ borderRight: "1px solid rgba(255, 255, 255, 0.06)", bgcolor: "rgba(15, 23, 42, 0.15)" }}>
-              <Box sx={{ p: 3, display: "flex", alignItems: "center", gap: 1.5 }}>
-                <Avatar sx={{
-                    bgcolor: "rgba(6, 182, 212, 0.15)",
-                    color: "#06B6D4",
-                    border: "1px solid rgba(6, 182, 212, 0.3)",
-                    width: 34,
-                    height: 34,
+            {/* Left Sidebar Menu */}
+            <Grid
+              item
+              xs={12}
+              sm={3.5}
+              sx={{
+                borderRight: "1px solid #C9C3B7",
+                bgcolor: "#F3F0E8", // warm paper sidebar background
+              }}
+            >
+              <Box sx={{ p: 2.5, display: "flex", alignItems: "center", gap: 1.5 }}>
+                <Avatar
+                  sx={{
+                    bgcolor: "#075BB5",
+                    color: "#FFFDF8",
+                    border: "1px solid #171717",
+                    width: 36,
+                    height: 36,
                     fontSize: "0.85rem",
                     fontWeight: 700,
-                  }}>AS</Avatar>
+                    borderRadius: "2px",
+                  }}
+                >
+                  AS
+                </Avatar>
                 <Box>
-                  <Typography variant="body2" sx={{ fontWeight: 700, color: "#FFFFFF" }}>Dr. Aditya Sen</Typography>
-                  <Typography variant="caption" sx={{ color: "#94A3B8" }}>CON984210</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717" }}>
+                    Dr. Aditya Sen
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: "#625F58", fontFamily: "monospace", fontWeight: 700 }}>
+                    CON-984210
+                  </Typography>
                 </Box>
               </Box>
-              
-              <Divider sx={{ borderColor: "rgba(255, 255, 255, 0.06)", mb: 2 }} />
+
+              <Divider sx={{ borderColor: "#C9C3B7", mb: 1 }} />
 
               <Tabs
                 orientation="vertical"
                 value={activeTab}
                 onChange={handleTabChange}
                 sx={{
-                  "& .MuiTabs-indicator": { left: 0, right: "auto", width: 4, bgcolor: "#06B6D4" },
+                  "& .MuiTabs-indicator": { left: 0, right: "auto", width: 4, bgcolor: "#075BB5" },
                   "& .MuiTab-root": {
                     alignItems: "flex-start",
                     textAlign: "left",
                     pl: 3,
-                    py: 2,
-                    fontSize: "0.875rem",
-                    fontWeight: 600,
+                    py: 1.8,
+                    fontSize: "0.85rem",
+                    fontWeight: 700,
                     textTransform: "none",
-                    color: "#94A3B8",
-                    "&.Mui-selected": { color: "#06B6D4" },
+                    color: "#625F58",
+                    "&.Mui-selected": { color: "#075BB5" },
                   },
                 }}
               >
-                <Tab label="Current Bill Details" icon={<FileText size={18} />} iconPosition="start" />
-                <Tab label="Consumer Profile" icon={<User size={18} />} iconPosition="start" />
-                <Tab label="Payment Settlements" icon={<CreditCard size={18} />} iconPosition="start" />
-                <Tab label="Meter Reading Logs" icon={<Activity size={18} />} iconPosition="start" />
+                <Tab label="Current Bill Details" icon={<FileText size={16} />} iconPosition="start" />
+                <Tab label="Consumer Profile" icon={<User size={16} />} iconPosition="start" />
+                <Tab label="Payment Settlements" icon={<CreditCard size={16} />} iconPosition="start" />
+                <Tab label="Meter Reading Logs" icon={<Activity size={16} />} iconPosition="start" />
               </Tabs>
             </Grid>
 
-            
-            <Grid item xs={12} sm={9} sx={{ p: 4, bgcolor: "transparent", minHeight: 380 }}>
+            {/* Right Main Content Preview Area */}
+            <Grid item xs={12} sm={8.5} sx={{ p: 4, bgcolor: "#FFFDF8", minHeight: 380 }}>
+              {/* Tab 0: Current Bill Details */}
               {activeTab === 0 && (
                 <Box>
                   <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
-                    <Typography variant="h5" sx={{ fontWeight: 700, color: "#FFFFFF" }}>Outstanding Invoice Summary</Typography>
-                    <Chip label="UNPAID" size="small" sx={{
-                        bgcolor: "rgba(245, 158, 11, 0.15)",
-                        color: "#F59E0B",
-                        border: "1px solid rgba(245, 158, 11, 0.3)",
-                        fontWeight: 700,
-                      }} />
+                    <Typography variant="h4" sx={{ fontWeight: 800, color: "#171717", fontSize: "1.25rem" }}>
+                      Outstanding Invoice Summary
+                    </Typography>
+                    <Chip
+                      label="UNPAID"
+                      size="small"
+                      sx={{
+                        bgcolor: "#FFFDF8",
+                        color: "#F05A28",
+                        border: "1.5px solid #F05A28", // Safety orange border
+                        fontWeight: 800,
+                        borderRadius: "2px",
+                      }}
+                    />
                   </Stack>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={7}>
-                      <Card variant="outlined" sx={{
-                          borderRadius: "12px",
-                          border: "1px dashed rgba(6, 182, 212, 0.3)",
-                          bgcolor: "rgba(6, 182, 212, 0.02)",
+                      <Card
+                        variant="outlined"
+                        sx={{
+                          borderRadius: "2px",
+                          border: "1px dashed #075BB5",
+                          bgcolor: "#F3F0E8",
                           boxShadow: "none",
-                        }}>
-                        <CardContent sx={{ p: 3 }}>
+                        }}
+                      >
+                        <CardContent sx={{ p: 2.5 }}>
                           <Grid container spacing={2}>
                             <Grid item xs={6}>
-                              <Typography variant="caption" sx={{ color: "#64748B" }}>Billing Month</Typography>
-                              <Typography variant="body1" sx={{ fontWeight: 600, color: "#FFFFFF" }}>{mockBill.billingMonth}</Typography>
+                              <Typography variant="caption" sx={{ color: "#625F58", display: "block" }}>Billing Month</Typography>
+                              <Typography variant="body2" sx={{ fontWeight: 700, color: "#171717" }}>{mockBill.billingMonth}</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                              <Typography variant="caption" sx={{ color: "#64748B" }}>Bill Reference</Typography>
-                              <Typography variant="body1" sx={{ fontWeight: 600, color: "#FFFFFF" }}>{mockBill.billNo}</Typography>
+                              <Typography variant="caption" sx={{ color: "#625F58", display: "block" }}>Bill Reference</Typography>
+                              <Typography variant="body2" sx={{ fontWeight: 700, color: "#171717", fontFamily: "monospace" }}>{mockBill.billNo}</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                              <Typography variant="caption" sx={{ color: "#64748B" }}>Units Consumed</Typography>
-                              <Typography variant="body1" sx={{ fontWeight: 600, color: "#FFFFFF" }}>{mockBill.unitsConsumed} kWh</Typography>
+                              <Typography variant="caption" sx={{ color: "#625F58", display: "block" }}>Units Consumed</Typography>
+                              <Typography variant="body2" sx={{ fontWeight: 700, color: "#171717", fontFamily: "monospace" }}>{mockBill.unitsConsumed} kWh</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                              <Typography variant="caption" sx={{ color: "#64748B" }}>Payment Due Date</Typography>
-                              <Typography variant="body1" sx={{ fontWeight: 600, color: "#FB7185" }}>{mockBill.dueDate}</Typography>
+                              <Typography variant="caption" sx={{ color: "#625F58", display: "block" }}>Payment Due Date</Typography>
+                              <Typography variant="body2" sx={{ fontWeight: 700, color: "#C5382F" }}>{mockBill.dueDate}</Typography>
                             </Grid>
                           </Grid>
                         </CardContent>
                       </Card>
                     </Grid>
                     <Grid item xs={12} md={5}>
-                      <Card variant="outlined" sx={{
-                          borderRadius: "12px",
+                      <Box
+                        sx={{
+                          border: "1px solid #C9C3B7",
+                          borderRadius: "2px",
                           height: "100%",
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "center",
-                          bgcolor: "rgba(255, 255, 255, 0.02)",
-                          border: "1px solid rgba(255, 255, 255, 0.06)",
-                          boxShadow: "none",
+                          bgcolor: "#E9E5DB",
                           p: 3,
-                        }}>
-                        <Typography variant="caption" sx={{ color: "#64748B", align: "center", display: "block" }}>Total Amount Due</Typography>
-                        <Typography variant="h3" sx={{ fontWeight: 800, color: "#FFFFFF", textAlign: "center", my: 1 }}>₹{mockBill.totalAmount.toLocaleString()}</Typography>
-                        <Typography variant="caption" align="center" sx={{ color: "#64748B", mb: 2 }}>Includes 5% Electricity Duty & Fixed Charges</Typography>
-                        <button
-                          style={{
-                            background: "#06B6D4",
-                            color: "#020617",
-                            border: "none",
-                            padding: "12px 0",
-                            borderRadius: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        <Typography variant="caption" sx={{ color: "#625F58", display: "block", mb: 0.5 }}>
+                          Total Amount Due
+                        </Typography>
+                        <Typography
+                          variant="h3"
+                          sx={{ fontWeight: 800, color: "#075BB5", fontFamily: "monospace", mb: 1, fontSize: "1.85rem" }}
+                        >
+                          ₹{mockBill.totalAmount.toLocaleString()}
+                        </Typography>
+                        <Typography variant="caption" sx={{ color: "#625F58", display: "block", mb: 2, fontSize: "0.72rem" }}>
+                          Includes 5% State Duty & fixed service rates
+                        </Typography>
+                        <Button
+                          variant="contained"
+                          size="small"
+                          sx={{
+                            bgcolor: "#075BB5",
+                            color: "#FFFDF8",
+                            borderRadius: "2px",
                             fontWeight: 700,
-                            cursor: "pointer",
-                            transition: "background 0.2s",
+                            py: 1,
+                            "&:hover": { bgcolor: "#064B95" },
                           }}
-                          onMouseOver={(e) => e.currentTarget.style.background = "#22D3EE"}
-                          onMouseOut={(e) => e.currentTarget.style.background = "#06B6D4"}
                         >
                           Settle Bill Now
-                        </button>
-                      </Card>
+                        </Button>
+                      </Box>
                     </Grid>
                   </Grid>
                 </Box>
               )}
 
+              {/* Tab 1: Consumer Profile */}
               {activeTab === 1 && (
                 <Box>
-                  <Typography variant="h5" sx={{ fontWeight: 700, color: "#FFFFFF", mb: 3 }}>Consumer Account Profile</Typography>
-                  <Grid container spacing={3.5}>
+                  <Typography variant="h4" sx={{ fontWeight: 800, color: "#171717", mb: 3, fontSize: "1.25rem" }}>
+                    Consumer Account Profile
+                  </Typography>
+                  <Grid container spacing={3}>
                     <Grid item xs={12} sm={6}>
-                      <Stack spacing={1}>
-                        <Typography variant="caption" sx={{ color: "#64748B" }}>Consumer Number</Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 600, py: 1.2, px: 2, bgcolor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "8px", color: "#FFFFFF" }}>{mockProfile.consumerNo}</Typography>
+                      <Stack spacing={0.5}>
+                        <Typography variant="caption" sx={{ color: "#625F58" }}>Consumer Number</Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontWeight: 700,
+                            py: 1,
+                            px: 1.5,
+                            bgcolor: "#F3F0E8",
+                            border: "1px solid #C9C3B7",
+                            borderRadius: "2px",
+                            color: "#171717",
+                            fontFamily: "monospace",
+                          }}
+                        >
+                          {mockProfile.consumerNo}
+                        </Typography>
                       </Stack>
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <Stack spacing={1}>
-                        <Typography variant="caption" sx={{ color: "#64748B" }}>Tariff Slab Category</Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 600, py: 1.2, px: 2, bgcolor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "8px", color: "#FFFFFF" }}>{mockProfile.category}</Typography>
+                      <Stack spacing={0.5}>
+                        <Typography variant="caption" sx={{ color: "#625F58" }}>Tariff Slab Category</Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontWeight: 700,
+                            py: 1,
+                            px: 1.5,
+                            bgcolor: "#F3F0E8",
+                            border: "1px solid #C9C3B7",
+                            borderRadius: "2px",
+                            color: "#171717",
+                          }}
+                        >
+                          {mockProfile.category}
+                        </Typography>
                       </Stack>
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <Stack spacing={1}>
-                        <Typography variant="caption" sx={{ color: "#64748B" }}>Sanctioned Grid Load</Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 600, py: 1.2, px: 2, bgcolor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "8px", color: "#FFFFFF" }}>{mockProfile.sanctionedLoad}</Typography>
+                      <Stack spacing={0.5}>
+                        <Typography variant="caption" sx={{ color: "#625F58" }}>Sanctioned Grid Load</Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontWeight: 700,
+                            py: 1,
+                            px: 1.5,
+                            bgcolor: "#F3F0E8",
+                            border: "1px solid #C9C3B7",
+                            borderRadius: "2px",
+                            color: "#171717",
+                            fontFamily: "monospace",
+                          }}
+                        >
+                          {mockProfile.sanctionedLoad}
+                        </Typography>
                       </Stack>
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <Stack spacing={1}>
-                        <Typography variant="caption" sx={{ color: "#64748B" }}>Smart Meter ID</Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 600, py: 1.2, px: 2, bgcolor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "8px", color: "#FFFFFF" }}>{mockProfile.meterNo}</Typography>
+                      <Stack spacing={0.5}>
+                        <Typography variant="caption" sx={{ color: "#625F58" }}>Smart Meter ID</Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontWeight: 700,
+                            py: 1,
+                            px: 1.5,
+                            bgcolor: "#F3F0E8",
+                            border: "1px solid #C9C3B7",
+                            borderRadius: "2px",
+                            color: "#171717",
+                            fontFamily: "monospace",
+                          }}
+                        >
+                          {mockProfile.meterNo}
+                        </Typography>
                       </Stack>
                     </Grid>
                     <Grid item xs={12}>
-                      <Stack spacing={1}>
-                        <Typography variant="caption" sx={{ color: "#64748B" }}>Registered Billing Address</Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 600, py: 1.2, px: 2, bgcolor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "8px", color: "#FFFFFF" }}>{mockProfile.billingAddress}</Typography>
+                      <Stack spacing={0.5}>
+                        <Typography variant="caption" sx={{ color: "#625F58" }}>Registered Billing Address</Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontWeight: 700,
+                            py: 1,
+                            px: 1.5,
+                            bgcolor: "#F3F0E8",
+                            border: "1px solid #C9C3B7",
+                            borderRadius: "2px",
+                            color: "#171717",
+                          }}
+                        >
+                          {mockProfile.billingAddress}
+                        </Typography>
                       </Stack>
                     </Grid>
                   </Grid>
                 </Box>
               )}
 
+              {/* Tab 2: Payment Settlements */}
               {activeTab === 2 && (
                 <Box>
-                  <Typography variant="h5" sx={{ fontWeight: 700, color: "#FFFFFF", mb: 3 }}>Payment History & Settlements</Typography>
-                  <TableContainer>
+                  <Typography variant="h4" sx={{ fontWeight: 800, color: "#171717", mb: 3, fontSize: "1.25rem" }}>
+                    Payment History & Settlements
+                  </Typography>
+                  <TableContainer sx={{ border: "1px solid #C9C3B7", borderRadius: "2px" }}>
                     <Table size="small">
                       <TableHead>
                         <TableRow>
-                          <TableCell sx={{ fontWeight: 700, color: "#94A3B8", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>Transaction Ref</TableCell>
-                          <TableCell sx={{ fontWeight: 700, color: "#94A3B8", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>Date</TableCell>
-                          <TableCell sx={{ fontWeight: 700, color: "#94A3B8", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>Amount Paid</TableCell>
-                          <TableCell sx={{ fontWeight: 700, color: "#94A3B8", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>Payment Method</TableCell>
-                          <TableCell sx={{ fontWeight: 700, color: "#94A3B8", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>Status</TableCell>
+                          <TableCell>Transaction Ref</TableCell>
+                          <TableCell>Date</TableCell>
+                          <TableCell>Amount Paid</TableCell>
+                          <TableCell>Payment Method</TableCell>
+                          <TableCell>Status</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         {mockPayments.map((p, idx) => (
                           <TableRow key={idx}>
-                            <TableCell sx={{ fontFamily: "monospace", color: "#E2E8F0", borderBottom: "1px solid rgba(255, 255, 255, 0.04)" }}>{p.ref}</TableCell>
-                            <TableCell sx={{ color: "#E2E8F0", borderBottom: "1px solid rgba(255, 255, 255, 0.04)" }}>{p.date}</TableCell>
-                            <TableCell sx={{ color: "#E2E8F0", borderBottom: "1px solid rgba(255, 255, 255, 0.04)" }}>₹{p.amount.toFixed(2)}</TableCell>
-                            <TableCell sx={{ color: "#E2E8F0", borderBottom: "1px solid rgba(255, 255, 255, 0.04)" }}>{p.mode}</TableCell>
-                            <TableCell sx={{ borderBottom: "1px solid rgba(255, 255, 255, 0.04)" }}>
-                              <Chip label={p.status} size="small" sx={{
-                                  bgcolor: "rgba(52, 211, 153, 0.15)",
-                                  color: "#34D399",
-                                  border: "1px solid rgba(52, 211, 153, 0.3)",
-                                  fontWeight: 700,
+                            <TableCell sx={{ fontFamily: "monospace", fontWeight: 700 }}>{p.ref}</TableCell>
+                            <TableCell>{p.date}</TableCell>
+                            <TableCell sx={{ fontFamily: "monospace", fontWeight: 700 }}>₹{p.amount.toFixed(2)}</TableCell>
+                            <TableCell>{p.mode}</TableCell>
+                            <TableCell>
+                              <Chip
+                                label={p.status}
+                                size="small"
+                                sx={{
+                                  bgcolor: "#FFFDF8",
+                                  color: "#087A5A",
+                                  border: "1px solid #087A5A",
+                                  fontWeight: 800,
                                   fontSize: "0.68rem",
-                                }} />
+                                  borderRadius: "2px",
+                                }}
+                              />
                             </TableCell>
                           </TableRow>
                         ))}
@@ -372,28 +485,33 @@ const ConsumerPreview = () => {
                 </Box>
               )}
 
+              {/* Tab 3: Meter Reading Logs */}
               {activeTab === 3 && (
                 <Box>
-                  <Typography variant="h5" sx={{ fontWeight: 700, color: "#FFFFFF", mb: 3 }}>Meter Reading Ledger</Typography>
-                  <TableContainer>
+                  <Typography variant="h4" sx={{ fontWeight: 800, color: "#171717", mb: 3, fontSize: "1.25rem" }}>
+                    Meter Reading Ledger
+                  </Typography>
+                  <TableContainer sx={{ border: "1px solid #C9C3B7", borderRadius: "2px" }}>
                     <Table size="small">
                       <TableHead>
                         <TableRow>
-                          <TableCell sx={{ fontWeight: 700, color: "#94A3B8", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>Reading Date</TableCell>
-                          <TableCell sx={{ fontWeight: 700, color: "#94A3B8", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>Current Register</TableCell>
-                          <TableCell sx={{ fontWeight: 700, color: "#94A3B8", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>Previous Register</TableCell>
-                          <TableCell sx={{ fontWeight: 700, color: "#94A3B8", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>Consumption Delta</TableCell>
-                          <TableCell sx={{ fontWeight: 700, color: "#94A3B8", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>Submission Channel</TableCell>
+                          <TableCell>Reading Date</TableCell>
+                          <TableCell>Current Register</TableCell>
+                          <TableCell>Previous Register</TableCell>
+                          <TableCell>Consumption Delta</TableCell>
+                          <TableCell>Submission Channel</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         {mockReadings.map((r, idx) => (
                           <TableRow key={idx}>
-                            <TableCell sx={{ color: "#E2E8F0", borderBottom: "1px solid rgba(255, 255, 255, 0.04)" }}>{r.date}</TableCell>
-                            <TableCell sx={{ color: "#E2E8F0", fontWeight: 600, borderBottom: "1px solid rgba(255, 255, 255, 0.04)" }}>{r.reading}</TableCell>
-                            <TableCell sx={{ color: "#E2E8F0", borderBottom: "1px solid rgba(255, 255, 255, 0.04)" }}>{r.previous}</TableCell>
-                            <TableCell sx={{ color: "#06B6D4", fontWeight: 700, borderBottom: "1px solid rgba(255, 255, 255, 0.04)" }}>{r.units} kWh</TableCell>
-                            <TableCell sx={{ color: "#E2E8F0", borderBottom: "1px solid rgba(255, 255, 255, 0.04)" }}>{r.source}</TableCell>
+                            <TableCell>{r.date}</TableCell>
+                            <TableCell sx={{ fontWeight: 700, fontFamily: "monospace" }}>{r.reading}</TableCell>
+                            <TableCell sx={{ fontFamily: "monospace" }}>{r.previous}</TableCell>
+                            <TableCell sx={{ color: "#075BB5", fontWeight: 800, fontFamily: "monospace" }}>
+                              {r.units} kWh
+                            </TableCell>
+                            <TableCell>{r.source}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -403,7 +521,7 @@ const ConsumerPreview = () => {
               )}
             </Grid>
           </Grid>
-        </Card>
+        </Box>
       </Container>
     </Box>
   );

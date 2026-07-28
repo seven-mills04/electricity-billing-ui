@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Box, Container, Stack, Typography, Chip } from "@mui/material";
+import { Box, Container, Stack, Typography } from "@mui/material";
 import { Activity, Phone, Sun, ShieldAlert, Cpu } from "lucide-react";
-import { motion } from "framer-motion";
 
 const SystemTicker = () => {
   const [demand, setDemand] = useState(4824);
   const [frequency, setFrequency] = useState(50.02);
 
-  
   useEffect(() => {
     const interval = setInterval(() => {
       setDemand((prev) => prev + Math.floor(Math.random() * 9) - 4);
@@ -22,101 +20,122 @@ const SystemTicker = () => {
   return (
     <Box
       sx={{
-        bgcolor: "rgba(15, 23, 42, 0.4)",
-        backdropFilter: "blur(8px)",
-        WebkitBackdropFilter: "blur(8px)",
-        color: "#E2E8F0",
-        py: 1,
-        borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
-        overflow: "hidden",
-        fontSize: "0.75rem",
-        fontWeight: 500,
-        position: "relative",
+        bgcolor: "#171717", // Dark ink background
+        color: "#FFFDF8", // Warm paper near-white text
+        py: 0.8,
+        borderBottom: "1px solid #C9C3B7",
         zIndex: 1100,
+        position: "relative",
+        overflowX: "auto", // Allow horizontal scrolling on small devices
+        "&::-webkit-scrollbar": {
+          display: "none", // Hide scrollbars
+        },
+        scrollbarWidth: "none",
       }}
     >
       <Container maxWidth="xl">
         <Stack
-          direction={{ xs: "column", md: "row" }}
+          direction="row"
           justifyContent="space-between"
           alignItems="center"
-          spacing={1.5}
+          spacing={3}
+          sx={{
+            minWidth: { xs: "720px", md: "auto" }, // Prevent shrinking on mobile, allow scrolling
+            fontSize: "0.75rem",
+          }}
         >
-          
-          <Stack direction="row" spacing={3} alignItems="center" flexWrap="wrap" justifyContent="center">
+          {/* Left Grid Status details */}
+          <Stack direction="row" spacing={3} alignItems="center">
             <Stack direction="row" spacing={1} alignItems="center">
               <Box
                 sx={{
-                  width: 6,
-                  height: 6,
+                  width: 8,
+                  height: 8,
                   borderRadius: "50%",
-                  bgcolor: "#10B981",
-                  boxShadow: "0 0 8px #10B981",
-                  animation: "pulse 1.5s infinite",
-                  "@keyframes pulse": {
-                    "0%": { opacity: 0.4 },
-                    "50%": { opacity: 1 },
-                    "100%": { opacity: 0.4 },
-                  },
+                  bgcolor: "#087A5A", // Operational green
                 }}
               />
-              <Typography variant="caption" sx={{ color: "#10B981", fontWeight: 700, letterSpacing: "0.05em" }}>
-                LIVE GRID STATUS: STABLE
+              <Typography
+                variant="caption"
+                sx={{
+                  color: "#087A5A",
+                  fontWeight: 800,
+                  fontFamily: "monospace",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                GRID STATUS: NORMAL
               </Typography>
             </Stack>
 
+            <Box sx={{ width: "1px", height: "12px", bgcolor: "#C9C3B7", opacity: 0.3 }} />
+
             <Stack direction="row" spacing={0.8} alignItems="center">
-              <Activity size={14} style={{ color: "#06B6D4" }} />
-              <Typography variant="caption" sx={{ color: "#94A3B8" }}>
-                Grid Frequency:{" "}
-                <span style={{ color: "#FFFFFF", fontWeight: 700 }}>
-                  {frequency} Hz
-                </span>
+              <Activity size={12} style={{ color: "#075BB5" }} />
+              <Typography variant="caption" sx={{ color: "#FFFDF8", fontFamily: "monospace" }}>
+                FREQ: <span style={{ color: "#FFFDF8", fontWeight: 700 }}>{frequency} HZ</span>
               </Typography>
             </Stack>
 
+            <Box sx={{ width: "1px", height: "12px", bgcolor: "#C9C3B7", opacity: 0.3 }} />
+
             <Stack direction="row" spacing={0.8} alignItems="center">
-              <Cpu size={14} style={{ color: "#A78BFA" }} />
-              <Typography variant="caption" sx={{ color: "#94A3B8" }}>
-                System Demand:{" "}
-                <span style={{ color: "#FFFFFF", fontWeight: 700 }}>
-                  {demand.toLocaleString()} MW
-                </span>
+              <Cpu size={12} style={{ color: "#F05A28" }} />
+              <Typography variant="caption" sx={{ color: "#FFFDF8", fontFamily: "monospace" }}>
+                LOAD: <span style={{ color: "#FFFDF8", fontWeight: 700 }}>{demand.toLocaleString()} MW</span>
               </Typography>
             </Stack>
 
+            <Box sx={{ width: "1px", height: "12px", bgcolor: "#C9C3B7", opacity: 0.3 }} />
+
             <Stack direction="row" spacing={0.8} alignItems="center">
-              <Sun size={14} style={{ color: "#34D399" }} />
-              <Typography variant="caption" sx={{ color: "#94A3B8" }}>
-                Solar/Wind Mix:{" "}
-                <span style={{ color: "#34D399", fontWeight: 700 }}>34.8%</span>
+              <Sun size={12} style={{ color: "#087A5A" }} />
+              <Typography variant="caption" sx={{ color: "#FFFDF8", fontFamily: "monospace" }}>
+                RENEWABLES: <span style={{ color: "#087A5A", fontWeight: 700 }}>34.8%</span>
               </Typography>
             </Stack>
           </Stack>
 
-          
+          {/* Right Safety details */}
           <Stack direction="row" spacing={3} alignItems="center">
             <Stack direction="row" spacing={0.8} alignItems="center">
-              <ShieldAlert size={14} style={{ color: "#F43F5E" }} />
-              <Typography variant="caption" sx={{ color: "#F8FAFC", fontWeight: 600 }}>
-                Safety First: Report power line faults immediately.
+              <ShieldAlert size={12} style={{ color: "#C5382F" }} />
+              <Typography
+                variant="caption"
+                sx={{
+                  color: "#FFFDF8",
+                  fontWeight: 500,
+                  letterSpacing: "0.02em",
+                }}
+              >
+                Report power line faults immediately.
               </Typography>
             </Stack>
 
-            <Chip
-              icon={<Phone size={10} style={{ color: "#FFFFFF" }} />}
-              label="Emergency Helpline: 19122"
-              size="small"
-              sx={{
-                bgcolor: "rgba(6, 182, 212, 0.2)",
-                border: "1px solid rgba(6, 182, 212, 0.3)",
-                color: "#06B6D4",
-                fontWeight: 700,
-                fontSize: "0.68rem",
-                height: 20,
-                "& .MuiChip-icon": { color: "#06B6D4" },
-              }}
-            />
+            <Box sx={{ width: "1px", height: "12px", bgcolor: "#C9C3B7", opacity: 0.3 }} />
+
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+              component="a"
+              href="tel:19122"
+              style={{ textDecoration: "none" }}
+            >
+              <Phone size={12} style={{ color: "#075BB5" }} />
+              <Typography
+                variant="caption"
+                sx={{
+                  color: "#FFFDF8",
+                  fontWeight: 700,
+                  fontFamily: "monospace",
+                  letterSpacing: "0.02em",
+                  borderBottom: "1px solid #075BB5",
+                }}
+              >
+                HELPLINE: 19122
+              </Typography>
+            </Stack>
           </Stack>
         </Stack>
       </Container>

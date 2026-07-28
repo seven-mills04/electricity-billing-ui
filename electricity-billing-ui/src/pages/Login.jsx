@@ -46,7 +46,7 @@ const Login = () => {
   const location = useLocation();
   const [tabValue, setTabValue] = useState(
     location.state?.tab !== undefined ? location.state.tab : 0
-  ); 
+  );
 
   useEffect(() => {
     if (location.state?.tab !== undefined) {
@@ -121,7 +121,6 @@ const Login = () => {
 
     try {
       if (tabValue === 0) {
-        
         const response = await api.post("/api/auth/login", {
           username: username.trim(),
           password,
@@ -135,7 +134,6 @@ const Login = () => {
         audioService.play("admin.mp3");
         navigate("/dashboard");
       } else if (tabValue === 1) {
-        
         const response = await api.post("/api/auth/login", {
           username: username.trim(),
           password,
@@ -167,7 +165,6 @@ const Login = () => {
         audioService.play("consumer.mp3");
         navigate("/dashboard");
       } else {
-        
         let finalConsumerId = selectedConsumerId;
 
         if (isNewConnection) {
@@ -177,7 +174,6 @@ const Login = () => {
             return;
           }
 
-          
           const consumerRes = await api.post("/api/consumers", {
             firstName: firstName.trim(),
             lastName: lastName.trim(),
@@ -186,7 +182,6 @@ const Login = () => {
           });
           finalConsumerId = consumerRes.data.id;
 
-          
           const randConn = "CON" + Math.floor(1000 + Math.random() * 9000);
           const randMeter = "MET" + Math.floor(20000 + Math.random() * 80000);
           await api.post("/api/connections", {
@@ -206,7 +201,6 @@ const Login = () => {
           }
         }
 
-        
         await api.post("/api/auth/register", {
           username: username.trim(),
           password: password,
@@ -214,12 +208,11 @@ const Login = () => {
           consumerId: finalConsumerId,
         });
 
-        
         await fetchPublicConsumers();
 
         setSuccessMessage("Portal account registered and grid connection established successfully! You can now sign in using your chosen credentials.");
-        setTabValue(1); 
-        setPassword(""); 
+        setTabValue(1);
+        setPassword("");
         
         setFirstName("");
         setLastName("");
@@ -245,7 +238,6 @@ const Login = () => {
 
   const fillQuickDemo = (role) => {
     if (role === "ADMIN") {
-      
       setError("Demo access pre-fill is disabled for Administrator accounts. Please enter admin credentials manually.");
     } else {
       setTabValue(1);
@@ -266,15 +258,15 @@ const Login = () => {
       sx={{
         minHeight: "100vh",
         display: "flex",
-        bgcolor: "#071426",
-        color: "#F8FAFC",
+        bgcolor: "#F3F0E8", // Warm paper background
+        color: "#171717",
         position: "relative",
         overflow: "hidden",
       }}
     >
-      {/* Background Particles Canvas */}
       <BackgroundEffects />
       
+      {/* Left Column (Information Display) */}
       <Box
         sx={{
           flex: 1,
@@ -283,55 +275,52 @@ const Login = () => {
           justifyContent: "space-between",
           p: 6,
           position: "relative",
-          bgcolor: "transparent",
-          borderRight: "1px solid rgba(255, 255, 255, 0.06)",
+          bgcolor: "#E9E5DB", // soft panel bg
+          borderRight: "2px solid #171717",
           zIndex: 5,
         }}
       >
-        
-        <Stack direction="row" spacing={1.5} alignItems="center">
+        <Stack direction="row" spacing={1.2} alignItems="center">
           <Box
             sx={{
-              background: "rgba(6, 182, 212, 0.1)",
-              color: "#06B6D4",
-              border: "1px solid rgba(6, 182, 212, 0.3)",
-              p: 1.25,
-              borderRadius: "10px",
+              bgcolor: "#FFFDF8",
+              color: "#171717",
+              border: "1px solid #C9C3B7",
+              p: 0.8,
+              borderRadius: "2px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <Zap size={24} fill="currentColor" />
+            <Zap size={22} fill="currentColor" />
           </Box>
           <Box>
-            <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: "-0.03em", color: "#FFFFFF", lineHeight: 1.1 }}>
+            <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: "-0.03em", color: "#171717", lineHeight: 1.1 }}>
               KNK POWER
             </Typography>
-            <Typography variant="caption" sx={{ color: "#06B6D4", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.1em", display: "block", textTransform: "uppercase" }}>
+            <Typography variant="caption" sx={{ color: "#625F58", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.08em", display: "block", textTransform: "uppercase" }}>
               Corporation Ltd.
             </Typography>
           </Box>
         </Stack>
 
-        
-        <Box sx={{ my: "auto", maxWidth: "520px" }}>
-          <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
+        <Box sx={{ my: "auto", maxWidth: "480px" }}>
+          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
             <Chip
-              icon={<ShieldCheck size={14} color="#06B6D4" />}
+              icon={<ShieldCheck size={14} color="#075BB5" />}
               label="SECURE UTILITY PORTAL"
-              sx={{ bgcolor: "rgba(6, 182, 212, 0.08)", color: "#06B6D4", border: "1px solid rgba(6, 182, 212, 0.25)", fontWeight: 700, mb: 3 }}
+              sx={{ bgcolor: "#FFFDF8", color: "#075BB5", border: "1px solid #075BB5", fontWeight: 800, mb: 3, borderRadius: "2px" }}
             />
-            <Typography variant="h2" sx={{ fontWeight: 800, mb: 2, lineHeight: 1.15, color: "#FFFFFF" }}>
+            <Typography variant="h2" sx={{ fontWeight: 800, mb: 2.5, lineHeight: 1.2, color: "#171717" }}>
               Official Consumer & Billing Portal
             </Typography>
-            <Typography variant="body1" sx={{ color: "#94A3B8", fontSize: "1.05rem", mb: 4, lineHeight: 1.6 }}>
+            <Typography variant="body1" sx={{ color: "#625F58", fontSize: "1rem", mb: 4, lineHeight: 1.6 }}>
               Welcome to the secure billing portal for KNK Power Corporation LTD. Access your account to manage grid connections, view energy invoices, self-report meter readings, and make secure online payments.
             </Typography>
 
-            
-            <Paper sx={{ p: 2.5, borderRadius: "16px", bgcolor: "rgba(15, 23, 42, 0.35)", backdropFilter: "blur(8px)", border: "1px solid rgba(255, 255, 255, 0.08)", boxShadow: "0 4px 30px rgba(0,0,0,0.15)" }}>
-              <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 700, textTransform: "uppercase", display: "block", mb: 1.5 }}>
+            <Paper sx={{ p: 3, borderRadius: "2px", bgcolor: "#FFFDF8", border: "1px solid #C9C3B7" }}>
+              <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 800, textTransform: "uppercase", display: "block", mb: 2 }}>
                 ⚡ Portal Demo Access
               </Typography>
               <Stack direction="row" spacing={1.5}>
@@ -340,7 +329,7 @@ const Login = () => {
                   variant="outlined"
                   onClick={() => fillQuickDemo("CONSUMER")}
                   startIcon={<Users size={14} />}
-                  sx={{ color: "#06B6D4", borderColor: "rgba(6, 182, 212, 0.3)", fontWeight: 600, "&:hover": { bgcolor: "rgba(6, 182, 212, 0.05)", borderColor: "#06B6D4" } }}
+                  sx={{ color: "#171717", borderColor: "#171717", borderRadius: "2px", fontWeight: 700, "&:hover": { bgcolor: "#E9E5DB" } }}
                 >
                   Fill Consumer Demo
                 </Button>
@@ -349,16 +338,15 @@ const Login = () => {
           </motion.div>
         </Box>
 
-        
-        <Typography variant="caption" sx={{ color: "#64748B" }}>
+        <Typography variant="caption" sx={{ color: "#625F58" }}>
           © {new Date().getFullYear()} KNK Power Corporation LTD. All rights reserved.
         </Typography>
       </Box>
 
-      
+      {/* Right Column (Form Box) */}
       <Box
         sx={{
-          width: { xs: "100%", md: "520px" },
+          flex: 1,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -367,9 +355,10 @@ const Login = () => {
           zIndex: 5,
         }}
       >
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} style={{ width: "100%", maxWidth: "420px" }}>
-          <Card sx={{ bgcolor: "rgba(13, 27, 42, 0.55)", border: "1px solid rgba(255, 255, 255, 0.08)", borderRadius: "20px", boxShadow: "0 20px 50px rgba(0, 0, 0, 0.35)", overflow: "hidden", backdropFilter: "blur(16px)" }}>
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} style={{ width: "100%", maxWidth: "440px" }}>
+          <Card sx={{ bgcolor: "#FFFDF8", border: "2px solid #171717", borderRadius: "2px", overflow: "hidden" }}>
             
+            {/* Header Tabs */}
             <Tabs
               value={tabValue}
               onChange={(e, val) => {
@@ -378,13 +367,13 @@ const Login = () => {
                 setSuccessMessage("");
                 setUsername("");
                 setPassword("");
-                if (val === 1) { 
+                if (val === 1) {
                   if (consumers.length > 0) {
                     setSelectedConsumerId(consumers[0].id);
                     setUsername(consumers[0].consumerNumber ? consumers[0].consumerNumber.toLowerCase() : "");
                     setPassword("password");
                   }
-                } else if (val === 2) { 
+                } else if (val === 2) {
                   if (consumers.length > 0) {
                     setSelectedConsumerId(consumers[0].id);
                   }
@@ -392,11 +381,11 @@ const Login = () => {
               }}
               variant="fullWidth"
               sx={{
-                bgcolor: "rgba(15, 23, 42, 0.25)",
-                borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
-                "& .MuiTab-root": { color: "#94A3B8", fontWeight: 600, py: 2, fontSize: "0.85rem" },
-                "& .Mui-selected": { color: "#06B6D4" },
-                "& .MuiTabs-indicator": { bgcolor: "#06B6D4", height: 3 },
+                bgcolor: "#E9E5DB",
+                borderBottom: "1px solid #C9C3B7",
+                "& .MuiTab-root": { color: "#625F58", fontWeight: 700, py: 2, fontSize: "0.85rem" },
+                "& .Mui-selected": { color: "#075BB5" },
+                "& .MuiTabs-indicator": { bgcolor: "#075BB5", height: 3 },
               }}
             >
               <Tab icon={<Building2 size={16} />} iconPosition="start" label="Admin" />
@@ -405,11 +394,11 @@ const Login = () => {
             </Tabs>
 
             <CardContent sx={{ p: 4 }}>
-              <Box sx={{ textCenter: "center", mb: 3 }}>
-                <Typography variant="h4" sx={{ color: "#FFFFFF", mb: 0.5, fontWeight: 800 }}>
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="h4" sx={{ color: "#171717", mb: 0.8, fontWeight: 800, fontSize: "1.25rem" }}>
                   {tabValue === 0 ? "Grid Admin Sign In" : tabValue === 1 ? "Consumer Access" : "Portal Account Registration"}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "#94A3B8" }}>
+                <Typography variant="body2" sx={{ color: "#625F58" }}>
                   {tabValue === 0
                     ? "Enter administrative operator credentials manually."
                     : tabValue === 1
@@ -418,32 +407,31 @@ const Login = () => {
                 </Typography>
               </Box>
 
-              
               {wakingUp && (
                 <Alert
                   severity="info"
-                  icon={<CircularProgress size={16} color="info" />}
+                  icon={<CircularProgress size={16} color="primary" />}
                   sx={{
                     mb: 3,
-                    borderRadius: "10px",
-                    bgcolor: "rgba(37, 99, 235, 0.08)",
-                    color: "#60A5FA",
-                    border: "1px solid rgba(37, 99, 235, 0.2)",
+                    borderRadius: "2px",
+                    bgcolor: "#FFFDF8",
+                    color: "#075BB5",
+                    border: "1px solid #075BB5",
                     fontSize: "0.8rem",
                   }}
                 >
-                  Waking up free Render backend server... This cold start takes ~30–45s. Please hold on!
+                  Establishing grid server link... This may take up to 30s. Please hold.
                 </Alert>
               )}
 
               {successMessage && (
-                <Alert severity="success" sx={{ mb: 3, borderRadius: "10px", bgcolor: "rgba(34, 197, 94, 0.08)", color: "#22C55E", border: "1px solid rgba(34, 197, 94, 0.2)" }}>
+                <Alert severity="success" sx={{ mb: 3, borderRadius: "2px", bgcolor: "#FFFDF8", color: "#087A5A", border: "1px solid #087A5A" }}>
                   {successMessage}
                 </Alert>
               )}
 
               {error && (
-                <Alert severity="error" sx={{ mb: 3, borderRadius: "10px", bgcolor: "rgba(239, 68, 68, 0.08)", color: "#EF4444", border: "1px solid rgba(239, 68, 68, 0.2)" }}>
+                <Alert severity="error" sx={{ mb: 3, borderRadius: "2px", bgcolor: "#FFFDF8", color: "#C5382F", border: "1px solid #C5382F" }}>
                   {error}
                 </Alert>
               )}
@@ -453,7 +441,7 @@ const Login = () => {
                   
                   {tabValue === 2 && (
                     <FormControl component="fieldset">
-                      <FormLabel component="legend" sx={{ fontSize: "0.8rem", color: "#64748B", fontWeight: 700, mb: 0.5 }}>
+                      <FormLabel component="legend" sx={{ fontSize: "0.75rem", color: "#171717", fontWeight: 800, mb: 0.5 }}>
                         GRID CONNECTION ACCESS
                       </FormLabel>
                       <RadioGroup
@@ -465,13 +453,12 @@ const Login = () => {
                           setSuccessMessage("");
                         }}
                       >
-                        <FormControlLabel value="existing" control={<Radio size="small" />} label="Link Existing Connection" sx={{ "& .MuiFormControlLabel-label": { fontSize: "0.85rem", fontWeight: 600 } }} />
-                        <FormControlLabel value="new" control={<Radio size="small" />} label="Apply New Connection" sx={{ "& .MuiFormControlLabel-label": { fontSize: "0.85rem", fontWeight: 600 } }} />
+                        <FormControlLabel value="existing" control={<Radio size="small" />} label="Link Existing" sx={{ "& .MuiFormControlLabel-label": { fontSize: "0.85rem", fontWeight: 700 } }} />
+                        <FormControlLabel value="new" control={<Radio size="small" />} label="Apply New" sx={{ "& .MuiFormControlLabel-label": { fontSize: "0.85rem", fontWeight: 700 } }} />
                       </RadioGroup>
                     </FormControl>
                   )}
 
-                  
                   {((tabValue === 2 && !isNewConnection) || (tabValue === 1 && selectedConsumerId)) && (
                     <TextField
                       select
@@ -480,8 +467,8 @@ const Login = () => {
                       value={selectedConsumerId}
                       onChange={handleConsumerSelect}
                       sx={{
-                        "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
-                        "& .MuiInputLabel-root": { color: "#94A3B8" },
+                        "& .MuiOutlinedInput-root": { color: "#171717", bgcolor: "#F3F0E8" },
+                        "& .MuiInputLabel-root": { color: "#625F58" },
                       }}
                     >
                       {consumers.map((c) => (
@@ -492,7 +479,6 @@ const Login = () => {
                     </TextField>
                   )}
 
-                  
                   {tabValue === 2 && isNewConnection && (
                     <>
                       <Stack direction="row" spacing={2}>
@@ -503,8 +489,7 @@ const Login = () => {
                           onChange={(e) => setFirstName(e.target.value)}
                           required
                           sx={{
-                            "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
-                            "& .MuiInputLabel-root": { color: "#94A3B8" },
+                            "& .MuiOutlinedInput-root": { color: "#171717", bgcolor: "#F3F0E8" },
                           }}
                         />
                         <TextField
@@ -514,8 +499,7 @@ const Login = () => {
                           onChange={(e) => setLastName(e.target.value)}
                           required
                           sx={{
-                            "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
-                            "& .MuiInputLabel-root": { color: "#94A3B8" },
+                            "& .MuiOutlinedInput-root": { color: "#171717", bgcolor: "#F3F0E8" },
                           }}
                         />
                       </Stack>
@@ -528,8 +512,7 @@ const Login = () => {
                         onChange={(e) => setRegEmail(e.target.value)}
                         required
                         sx={{
-                          "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
-                          "& .MuiInputLabel-root": { color: "#94A3B8" },
+                          "& .MuiOutlinedInput-root": { color: "#171717", bgcolor: "#F3F0E8" },
                         }}
                       />
 
@@ -541,8 +524,7 @@ const Login = () => {
                         required
                         inputProps={{ maxLength: 10 }}
                         sx={{
-                          "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
-                          "& .MuiInputLabel-root": { color: "#94A3B8" },
+                          "& .MuiOutlinedInput-root": { color: "#171717", bgcolor: "#F3F0E8" },
                         }}
                       />
 
@@ -553,8 +535,7 @@ const Login = () => {
                         value={connectionType}
                         onChange={(e) => setConnectionType(e.target.value)}
                         sx={{
-                          "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
-                          "& .MuiInputLabel-root": { color: "#94A3B8" },
+                          "& .MuiOutlinedInput-root": { color: "#171717", bgcolor: "#F3F0E8" },
                         }}
                       >
                         <MenuItem value="DOMESTIC">DOMESTIC (Residential)</MenuItem>
@@ -571,8 +552,7 @@ const Login = () => {
                           onChange={(e) => setSanctionedLoad(e.target.value)}
                           required
                           sx={{
-                            "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
-                            "& .MuiInputLabel-root": { color: "#94A3B8" },
+                            "& .MuiOutlinedInput-root": { color: "#171717", bgcolor: "#F3F0E8" },
                           }}
                         />
                         <TextField
@@ -582,8 +562,7 @@ const Login = () => {
                           value={phaseType}
                           onChange={(e) => setPhaseType(e.target.value)}
                           sx={{
-                            "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
-                            "& .MuiInputLabel-root": { color: "#94A3B8" },
+                            "& .MuiOutlinedInput-root": { color: "#171717", bgcolor: "#F3F0E8" },
                           }}
                         >
                           <MenuItem value="SINGLE_PHASE">SINGLE PHASE</MenuItem>
@@ -593,7 +572,6 @@ const Login = () => {
                     </>
                   )}
 
-                  
                   <TextField
                     fullWidth
                     label={tabValue === 2 ? "Choose Username" : "Username / Consumer No."}
@@ -603,17 +581,16 @@ const Login = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <User size={18} color="#64748B" />
+                          <User size={18} color="#625F58" />
                         </InputAdornment>
                       ),
+                      sx: { fontFamily: "monospace" }
                     }}
                     sx={{
-                      "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
-                      "& .MuiInputLabel-root": { color: "#94A3B8" },
+                      "& .MuiOutlinedInput-root": { color: "#171717", bgcolor: "#F3F0E8" },
                     }}
                   />
 
-                  
                   <TextField
                     fullWidth
                     label={tabValue === 2 ? "Choose Password" : "Password"}
@@ -624,24 +601,22 @@ const Login = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <Lock size={18} color="#64748B" />
+                          <Lock size={18} color="#625F58" />
                         </InputAdornment>
                       ),
                       endAdornment: (
                         <InputAdornment position="end">
-                          <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" sx={{ color: "#64748B" }}>
+                          <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" sx={{ color: "#625F58" }}>
                             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                           </IconButton>
                         </InputAdornment>
                       ),
                     }}
                     sx={{
-                      "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
-                      "& .MuiInputLabel-root": { color: "#94A3B8" },
+                      "& .MuiOutlinedInput-root": { color: "#171717", bgcolor: "#F3F0E8" },
                     }}
                   />
 
-                  
                   <Button
                     type="submit"
                     fullWidth
@@ -652,27 +627,28 @@ const Login = () => {
                       py: 1.5,
                       mt: 1,
                       fontSize: "0.95rem",
-                      background: tabValue === 0 
-                        ? "linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)" 
-                        : tabValue === 1 
-                        ? "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)" 
-                        : "linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)",
-                      color: tabValue === 1 ? "#0F172A" : "#FFFFFF",
+                      bgcolor: tabValue === 0
+                        ? "#171717" // Admin is solid ink black
+                        : tabValue === 1
+                        ? "#075BB5" // Consumer is utility blue
+                        : "#F05A28", // Register is safety orange
+                      color: "#FFFDF8",
                       fontWeight: 700,
-                      boxShadow: "0 4px 15px rgba(0, 0, 0, 0.25)",
+                      borderRadius: "2px",
+                      boxShadow: "none",
                       "&:hover": {
-                        background: tabValue === 0 
-                          ? "linear-gradient(135deg, #1D4ED8 0%, #172554 100%)" 
-                          : tabValue === 1 
-                          ? "linear-gradient(135deg, #0891B2 0%, #06B6D4 100%)" 
-                          : "linear-gradient(135deg, #6D28D9 0%, #4C1D95 100%)",
-                        boxShadow: "0 6px 20px rgba(6, 182, 212, 0.2)",
+                        bgcolor: tabValue === 0
+                          ? "#000000"
+                          : tabValue === 1
+                          ? "#064B95"
+                          : "#d94918",
+                        boxShadow: "none",
                       },
                     }}
                   >
                     {loading
                       ? wakingUp
-                        ? "Waking up server..."
+                        ? "Connecting..."
                         : tabValue === 2 ? "Registering account..." : "Authenticating..."
                       : tabValue === 0
                       ? "Sign In to Admin Dashboard"
@@ -681,10 +657,9 @@ const Login = () => {
                       : "Create Web Access Account"}
                   </Button>
 
-                  
                   <Button
                     onClick={() => navigate("/")}
-                    sx={{ color: "#94A3B8", fontSize: "0.85rem", textTransform: "none", "&:hover": { color: "#06B6D4" } }}
+                    sx={{ color: "#625F58", fontSize: "0.85rem", textTransform: "none", fontWeight: 700, "&:hover": { color: "#075BB5" } }}
                   >
                     ← Back to Public Website
                   </Button>

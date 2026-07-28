@@ -1,36 +1,37 @@
 import React from "react";
-import { Box, Container, Grid, Typography, Stack, useTheme, useMediaQuery } from "@mui/material";
-import { UserPlus, Eye, CreditCard, Download, ArrowRight, ArrowDown } from "lucide-react";
+import { Box, Container, Grid, Typography, Stack } from "@mui/material";
+import { UserPlus, Eye, CreditCard, Download } from "lucide-react";
 import { motion } from "framer-motion";
 
 const HowItWorks = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
   const steps = [
     {
       step: "01",
-      title: "Register Account",
-      desc: "Sign up on the portal using your unique Consumer Number. Setup your login credentials.",
-      icon: <UserPlus size={24} color="#06B6D4" />,
+      title: "Register account",
+      desc: "Use the consumer number to create portal credentials.",
+      icon: <UserPlus size={18} color="#075BB5" />,
+      offset: -12, // Offset to create rhythm on desktop
     },
     {
       step: "02",
-      title: "View Bills",
-      desc: "Log in to check your active meter readings, energy statements, and total dues.",
-      icon: <Eye size={24} color="#34D399" />,
+      title: "Review bills",
+      desc: "Check current readings, statements, due dates, and outstanding amounts.",
+      icon: <Eye size={18} color="#075BB5" />,
+      offset: 12,
     },
     {
       step: "03",
-      title: "Pay Online",
-      desc: "Settle your electricity bills instantly using secure UPI, card, or banking options.",
-      icon: <CreditCard size={24} color="#F59E0B" />,
+      title: "Pay securely",
+      desc: "Select an available digital payment method and complete payment.",
+      icon: <CreditCard size={18} color="#075BB5" />,
+      offset: -12,
     },
     {
       step: "04",
-      title: "Download Receipt",
-      desc: "Download and save the digitally generated transaction receipts for your records.",
-      icon: <Download size={24} color="#60A5FA" />,
+      title: "Save receipt",
+      desc: "Download or print the generated transaction receipt.",
+      icon: <Download size={18} color="#075BB5" />,
+      offset: 12,
     },
   ];
 
@@ -38,152 +39,146 @@ const HowItWorks = () => {
     <Box
       id="how-it-works"
       sx={{
-        py: { xs: 10, md: 14 },
+        py: { xs: 8, md: 12 },
         bgcolor: "transparent",
-        borderTop: "1px solid rgba(255, 255, 255, 0.06)",
+        borderBottom: "1px solid #C9C3B7",
       }}
     >
       <Container maxWidth="xl">
-        <Stack alignItems="center" textAlign="center" spacing={2} sx={{ mb: 10 }}>
-          <Typography
-            variant="h6"
-            sx={{
-              color: "#06B6D4",
-              fontWeight: 700,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-            }}
-          >
-            Workflow
-          </Typography>
-          <Typography
-            variant="h2"
-            sx={{
-              color: "#FFFFFF",
-              fontWeight: 800,
-              fontSize: { xs: "2rem", md: "2.5rem" },
-            }}
-          >
-            How it Works
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              color: "#94A3B8",
-              maxWidth: "600px",
-            }}
-          >
-            Follow these simple steps to manage your connection and settle your electricity invoices digitally.
-          </Typography>
-        </Stack>
+        <Grid container spacing={6}>
+          {/* Left Column: Heading */}
+          <Grid item xs={12} md={3.5}>
+            <Stack spacing={2} sx={{ position: "sticky", top: 120 }}>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: "#075BB5",
+                  fontWeight: 800,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                }}
+              >
+                PORTAL WORKFLOW
+              </Typography>
+              <Typography
+                variant="h2"
+                sx={{
+                  fontWeight: 800,
+                  fontSize: { xs: "1.85rem", md: "2.3rem" },
+                  lineHeight: 1.15,
+                }}
+              >
+                How it works
+              </Typography>
+              <Typography variant="body2" sx={{ color: "#625F58", maxWidth: "280px", fontSize: "0.9rem" }}>
+                Settle your accounts and manage your distribution details online in four straightforward steps.
+              </Typography>
+            </Stack>
+          </Grid>
 
-        <Grid container spacing={4} justifyContent="center" alignItems="stretch">
-          {steps.map((step, index) => (
-            <React.Fragment key={index}>
-              <Grid item xs={12} sm={6} md={2.5}>
+          {/* Right Column: Connected Timeline */}
+          <Grid item xs={12} md={8.5}>
+            <Box
+              sx={{
+                position: "relative",
+                display: "flex",
+                flexDirection: { xs: "column", md: "row" },
+                justifyContent: "space-between",
+                gap: { xs: 5, md: 3.5 },
+                pt: { xs: 2, md: 6 },
+                pb: { xs: 2, md: 6 },
+                // Connected timeline line (horizontal on desktop, vertical on mobile)
+                "&::before": {
+                  content: '""',
+                  position: "absolute",
+                  bgcolor: "#F05A28", // Safety orange process line
+                  opacity: 0.8,
+                  // Desktop settings
+                  top: { xs: 0, md: "50%" },
+                  left: { xs: "28px", md: 0 },
+                  width: { xs: "3px", md: "100%" },
+                  height: { xs: "100%", md: "3px" },
+                  zIndex: 0,
+                },
+              }}
+            >
+              {steps.map((step, index) => (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
+                  key={index}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  style={{ height: "100%" }}
+                  transition={{ duration: 0.4, delay: index * 0.08 }}
+                  style={{
+                    position: "relative",
+                    zIndex: 1,
+                  }}
                 >
                   <Stack
-                    spacing={3}
-                    alignItems="center"
-                    textAlign="center"
+                    spacing={2.5}
                     sx={{
-                      bgcolor: "rgba(15, 23, 42, 0.35)",
-                      backdropFilter: "blur(12px)",
-                      WebkitBackdropFilter: "blur(12px)",
-                      p: 4,
-                      borderRadius: "18px",
-                      border: "1px solid rgba(255, 255, 255, 0.08)",
-                      boxShadow: "0 4px 30px rgba(0, 0, 0, 0.15)",
-                      height: "100%",
-                      position: "relative",
+                      alignItems: "flex-start",
+                      textAlign: "left",
+                      pl: { xs: 8, md: 0 },
+                      // Vary alignment on desktop to create rhythm
+                      transform: { xs: "none", md: `translateY(${step.offset}px)` },
+                      maxWidth: { xs: "100%", md: "190px" },
                     }}
                   >
+                    {/* Step Circle & Icon */}
                     <Box
                       sx={{
-                        position: "absolute",
-                        top: 15,
-                        left: 15,
-                        fontSize: "0.75rem",
-                        fontWeight: 800,
-                        color: "#06B6D4",
-                        bgcolor: "rgba(6, 182, 212, 0.1)",
-                        px: 1.2,
-                        py: 0.4,
-                        borderRadius: "20px",
-                      }}
-                    >
-                      Step {step.step}
-                    </Box>
-
-                    <Box
-                      sx={{
-                        width: 64,
-                        height: 64,
+                        width: 56,
+                        height: 56,
                         borderRadius: "50%",
-                        border: "1px solid rgba(255, 255, 255, 0.08)",
+                        bgcolor: "#FFFDF8",
+                        border: "2.5px solid #F05A28", // safety orange border
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        bgcolor: "rgba(15, 23, 42, 0.5)",
-                        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
-                        mt: 2,
+                        boxShadow: "none",
+                        position: { xs: "absolute", md: "relative" },
+                        left: { xs: 0, md: "auto" },
+                        top: { xs: 0, md: "auto" },
                       }}
                     >
                       {step.icon}
                     </Box>
 
-                    <Typography
-                      variant="h5"
-                      sx={{
-                        fontWeight: 700,
-                        color: "#E2E8F0",
-                        fontSize: "1.1rem",
-                      }}
-                    >
-                      {step.title}
-                    </Typography>
-
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: "#94A3B8",
-                        lineHeight: 1.55,
-                        fontSize: "0.85rem",
-                      }}
-                    >
-                      {step.desc}
-                    </Typography>
+                    {/* Step Content */}
+                    <Box>
+                      <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            fontFamily: "monospace",
+                            fontWeight: 700,
+                            color: "#F05A28",
+                            fontSize: "0.85rem",
+                          }}
+                        >
+                          {step.step}
+                        </Typography>
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            fontWeight: 800,
+                            fontSize: "1rem",
+                            color: "#171717",
+                          }}
+                        >
+                          {step.title}
+                        </Typography>
+                      </Stack>
+                      <Typography variant="body2" sx={{ color: "#625F58", fontSize: "0.825rem", lineHeight: 1.45 }}>
+                        {step.desc}
+                      </Typography>
+                    </Box>
                   </Stack>
                 </motion.div>
-              </Grid>
-
-              {index < 3 && (
-                <Grid
-                  item
-                  xs={12}
-                  md={0.6}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    py: { xs: 1, md: 0 },
-                  }}
-                >
-                  {isMobile ? (
-                    <ArrowDown size={24} color="#06B6D4" style={{ opacity: 0.6 }} />
-                  ) : (
-                    <ArrowRight size={24} color="#06B6D4" style={{ opacity: 0.6 }} />
-                  )}
-                </Grid>
-              )}
-            </React.Fragment>
-          ))}
+              ))}
+            </Box>
+          </Grid>
         </Grid>
       </Container>
     </Box>

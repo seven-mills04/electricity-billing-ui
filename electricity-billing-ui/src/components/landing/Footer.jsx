@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Container, Grid, Typography, Stack, Divider, Link, IconButton } from "@mui/material";
-import { Zap, Phone, Mail, MapPin, ShieldAlert } from "lucide-react";
+import { Zap, Phone, Mail, MapPin, ShieldAlert, AlertOctagon } from "lucide-react";
 
 const Footer = () => {
   const handleScrollToTop = (e) => {
@@ -22,160 +22,220 @@ const Footer = () => {
   };
 
   return (
-    <Box
-      id="footer"
-      sx={{
-        bgcolor: "#030712", 
-        color: "#E2E8F0",
-        pt: 10,
-        pb: 5,
-        borderTop: "1px solid rgba(6, 182, 212, 0.2)",
-      }}
-    >
-      <Container maxWidth="xl">
-        <Grid container spacing={6}>
-          {/* Brand Column */}
-          <Grid item xs={12} md={4}>
-            <Stack spacing={3}>
-              <Stack direction="row" spacing={1.5} alignItems="center">
+    <Box sx={{ mt: 4 }}>
+      {/* ==================================================
+          EMERGENCY AND SUPPORT SECTION (Before standard footer)
+          ================================================== */}
+      <Box
+        sx={{
+          bgcolor: "#FFFDF8",
+          borderTop: "2px solid #C5382F", // Red border for emergency section
+          borderBottom: "2px solid #171717",
+          py: 6,
+        }}
+      >
+        <Container maxWidth="xl">
+          <Grid container spacing={4} alignItems="stretch">
+            {/* Left Column: Power Line Fault Emergency */}
+            <Grid item xs={12} md={6} sx={{ borderRight: { xs: "none", md: "1px solid #C9C3B7" } }}>
+              <Stack spacing={2.5} sx={{ pr: { xs: 0, md: 4 } }}>
+                <Stack direction="row" spacing={1.5} alignItems="center" sx={{ color: "#C5382F" }}>
+                  <AlertOctagon size={24} />
+                  <Typography variant="h5" sx={{ fontWeight: 800, fontSize: "1.2rem", color: "#C5382F" }}>
+                    Report a power-line fault
+                  </Typography>
+                </Stack>
+                
+                <Typography variant="body2" sx={{ color: "#625F58", lineHeight: 1.5 }}>
+                  If you detect fallen wires, spark damage on distribution poles, or localized power surges, report immediately to our 24x7 emergency helpline. Do not approach electrical wires.
+                </Typography>
+
                 <Box
                   sx={{
-                    bgcolor: "rgba(6, 182, 212, 0.1)",
-                    color: "#06B6D4",
-                    border: "1px solid rgba(6, 182, 212, 0.3)",
-                    p: 0.8,
-                    borderRadius: "8px",
-                    display: "flex",
+                    p: 2,
+                    border: "2px solid #C5382F", // Red alert border
+                    borderRadius: "2px",
+                    bgcolor: "#FFFDF8",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 2,
+                    maxWidth: 420,
                   }}
                 >
-                  <Zap size={22} fill="currentColor" />
-                </Box>
-                <Box>
-                  <Typography variant="h6" sx={{ fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.02em" }}>
-                    KNK POWER
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: "#06B6D4", fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase" }}>
-                    Corporation LTD.
-                  </Typography>
+                  <Phone size={20} color="#C5382F" />
+                  <Box>
+                    <Typography variant="caption" sx={{ color: "#C5382F", fontWeight: 800, display: "block" }}>
+                      EMERGENCY LINE (TOLL FREE)
+                    </Typography>
+                    <Typography
+                      component="a"
+                      href="tel:19122"
+                      variant="h5"
+                      sx={{ fontWeight: 900, color: "#171717", textDecoration: "underline", fontFamily: "monospace" }}
+                    >
+                      19122
+                    </Typography>
+                  </Box>
                 </Box>
               </Stack>
-              <Typography variant="body2" sx={{ color: "#94A3B8", lineHeight: 1.6, maxWidth: 320 }}>
-                KNK Power Corporation LTD. is a certified state-licensed power distribution utility serving over 4.8 million consumers. Powering growth, residential reliability, and national grid safety.
+            </Grid>
+
+            {/* Right Column: Account Assistance */}
+            <Grid item xs={12} md={6} sx={{ pl: { xs: 0, md: 6 } }}>
+              <Stack spacing={2.5} sx={{ pl: { xs: 0, md: 4 } }}>
+                <Typography variant="h5" sx={{ fontWeight: 800, fontSize: "1.2rem", color: "#171717" }}>
+                  Need account assistance?
+                </Typography>
+                
+                <Typography variant="body2" sx={{ color: "#625F58", lineHeight: 1.5 }}>
+                  For general billing issues, connections status lookups, online password resets, or tariff questions, browse our portal resources or speak with billing support.
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <Stack spacing={1}>
+                      <Link href="#services" onClick={handleScrollToSection("services")} sx={{ color: "#075BB5", fontWeight: 700, fontSize: "0.85rem", textDecoration: "underline" }}>
+                        Consumer services
+                      </Link>
+                      <Link href="#faq" onClick={handleScrollToSection("faq")} sx={{ color: "#075BB5", fontWeight: 700, fontSize: "0.85rem", textDecoration: "underline" }}>
+                        Billing help & FAQ
+                      </Link>
+                    </Stack>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Stack spacing={1}>
+                      <Link href="/login" sx={{ color: "#075BB5", fontWeight: 700, fontSize: "0.85rem", textDecoration: "underline" }}>
+                        New connection support
+                      </Link>
+                      <Link href="tel:01128942100" sx={{ color: "#075BB5", fontWeight: 700, fontSize: "0.85rem", textDecoration: "underline" }}>
+                        Corporate desk
+                      </Link>
+                    </Stack>
+                  </Grid>
+                </Grid>
+              </Stack>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* ==================================================
+          MAIN PRACTICAL FOOTER
+          ================================================== */}
+      <Box
+        id="footer"
+        sx={{
+          bgcolor: "#171717", // Ink-black background
+          color: "#FFFDF8", // Warm off-white text
+          pt: 8,
+          pb: 5,
+          borderTop: "3px solid #F05A28", // Strong top border in safety orange
+        }}
+      >
+        <Container maxWidth="xl">
+          <Grid container spacing={6}>
+            {/* Column 1: Brand Info */}
+            <Grid item xs={12} md={4}>
+              <Stack spacing={2.5}>
+                <Stack direction="row" spacing={1.2} alignItems="center">
+                  <Box
+                    sx={{
+                      bgcolor: "#FFFDF8",
+                      color: "#171717",
+                      p: 0.8,
+                      border: "1px solid #C9C3B7",
+                      display: "flex",
+                    }}
+                  >
+                    <Zap size={18} fill="#171717" />
+                  </Box>
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 800, color: "#FFFDF8", letterSpacing: "-0.02em" }}>
+                      KNK POWER
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase" }}>
+                      Corporation LTD.
+                    </Typography>
+                  </Box>
+                </Stack>
+                <Typography variant="body2" sx={{ color: "#C9C3B7", lineHeight: 1.6, maxWidth: 320 }}>
+                  KNK Power Corporation LTD. is a certified state-licensed power distribution utility serving over 4.8 million consumers. Powering growth and grid reliability.
+                </Typography>
+                <Typography variant="caption" sx={{ color: "#625F58", display: "block", fontFamily: "monospace" }}>
+                  CIN: U40109DL2026PLC098241
+                </Typography>
+              </Stack>
+            </Grid>
+
+            {/* Column 2: Consumer Services Links */}
+            <Grid item xs={6} md={2}>
+              <Typography variant="subtitle1" sx={{ color: "#FFFDF8", fontWeight: 800, mb: 2.5, fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                Services
               </Typography>
-              <Typography variant="caption" sx={{ color: "#64748B", display: "block" }}>
-                CIN: U40109DL2026PLC098241
-              </Typography>
-            </Stack>
-          </Grid>
-
-          {/* Column 2 */}
-          <Grid item xs={6} md={2}>
-            <Typography variant="subtitle1" sx={{ color: "#FFFFFF", fontWeight: 700, mb: 3 }}>
-              Consumer Services
-            </Typography>
-            <Stack spacing={1.8}>
-              <Link href="#" onClick={handleScrollToSection("services")} sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>Quick Bill Pay</Link>
-              <Link href="/login" sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>View Bill History</Link>
-              <Link href="/login" sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>Apply for Connection</Link>
-              <Link href="/login" sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>Submit Meter Reading</Link>
-              <Link href="/login" sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>Register Complaint</Link>
-            </Stack>
-          </Grid>
-
-          {/* Column 3 */}
-          <Grid item xs={6} md={2}>
-            <Typography variant="subtitle1" sx={{ color: "#FFFFFF", fontWeight: 700, mb: 3 }}>
-              Quick Links
-            </Typography>
-            <Stack spacing={1.8}>
-              <Link href="#" onClick={handleScrollToSection("home")} sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>Home Page</Link>
-              <Link href="#" onClick={handleScrollToSection("highlights")} sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>Tariff Slab Structure</Link>
-              <Link href="#" onClick={handleScrollToSection("announcements")} sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>Latest Notices</Link>
-              <Link href="#" onClick={handleScrollToSection("faq")} sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>FAQs / Help</Link>
-              <Link href="/login" sx={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.875rem", transition: "color 0.2s", "&:hover": { color: "#06B6D4" } }}>Portal Login</Link>
-            </Stack>
-          </Grid>
-
-          {/* Column 4 */}
-          <Grid item xs={12} md={4}>
-            <Typography variant="subtitle1" sx={{ color: "#FFFFFF", fontWeight: 700, mb: 3 }}>
-              Customer Care & Contact
-            </Typography>
-            <Stack spacing={2.5}>
-              <Box
-                sx={{
-                  p: 2,
-                  bgcolor: "rgba(245, 158, 11, 0.05)",
-                  border: "1px dashed rgba(245, 158, 11, 0.3)",
-                  borderRadius: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 2,
-                }}
-              >
-                <ShieldAlert size={24} color="#F59E0B" />
-                <Box>
-                  <Typography variant="caption" sx={{ color: "#F59E0B", fontWeight: 700, display: "block", textTransform: "uppercase" }}>
-                    Emergency Helpline (24x7)
-                  </Typography>
-                  <Typography variant="body2" sx={{ fontWeight: 800, color: "#FFFFFF" }}>
-                    19122 / 1800-419-1912 (Toll Free)
-                  </Typography>
-                </Box>
-              </Box>
-              
               <Stack spacing={1.5}>
-                <Stack direction="row" spacing={1.5} alignItems="center" sx={{ color: "#94A3B8" }}>
-                  <Mail size={16} />
-                  <Typography variant="body2">customercare@knkpower.co.in</Typography>
+                <Link href="#" onClick={handleScrollToSection("services")} sx={{ color: "#C9C3B7", textDecoration: "none", fontSize: "0.85rem", transition: "color 120ms", "&:hover": { color: "#FFFDF8", textDecoration: "underline" } }}>Quick Bill Pay</Link>
+                <Link href="/login" sx={{ color: "#C9C3B7", textDecoration: "none", fontSize: "0.85rem", transition: "color 120ms", "&:hover": { color: "#FFFDF8", textDecoration: "underline" } }}>View Bill History</Link>
+                <Link href="/login" sx={{ color: "#C9C3B7", textDecoration: "none", fontSize: "0.85rem", transition: "color 120ms", "&:hover": { color: "#FFFDF8", textDecoration: "underline" } }}>Apply for Connection</Link>
+                <Link href="/login" sx={{ color: "#C9C3B7", textDecoration: "none", fontSize: "0.85rem", transition: "color 120ms", "&:hover": { color: "#FFFDF8", textDecoration: "underline" } }}>Submit Meter Reading</Link>
+              </Stack>
+            </Grid>
+
+            {/* Column 3: Quick Links */}
+            <Grid item xs={6} md={2}>
+              <Typography variant="subtitle1" sx={{ color: "#FFFDF8", fontWeight: 800, mb: 2.5, fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                Quick Links
+              </Typography>
+              <Stack spacing={1.5}>
+                <Link href="#" onClick={handleScrollToSection("home")} sx={{ color: "#C9C3B7", textDecoration: "none", fontSize: "0.85rem", transition: "color 120ms", "&:hover": { color: "#FFFDF8", textDecoration: "underline" } }}>Home Page</Link>
+                <Link href="#" onClick={handleScrollToSection("highlights")} sx={{ color: "#C9C3B7", textDecoration: "none", fontSize: "0.85rem", transition: "color 120ms", "&:hover": { color: "#FFFDF8", textDecoration: "underline" } }}>Tariff Slab Structure</Link>
+                <Link href="#" onClick={handleScrollToSection("announcements")} sx={{ color: "#C9C3B7", textDecoration: "none", fontSize: "0.85rem", transition: "color 120ms", "&:hover": { color: "#FFFDF8", textDecoration: "underline" } }}>Latest Notices</Link>
+                <Link href="#" onClick={handleScrollToSection("faq")} sx={{ color: "#C9C3B7", textDecoration: "none", fontSize: "0.85rem", transition: "color 120ms", "&:hover": { color: "#FFFDF8", textDecoration: "underline" } }}>FAQs / Help</Link>
+              </Stack>
+            </Grid>
+
+            {/* Column 4: Contact info */}
+            <Grid item xs={12} md={4}>
+              <Typography variant="subtitle1" sx={{ color: "#FFFDF8", fontWeight: 800, mb: 2.5, fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                Corporate Contact
+              </Typography>
+              <Stack spacing={2}>
+                <Stack direction="row" spacing={1.5} alignItems="center" sx={{ color: "#C9C3B7" }}>
+                  <Mail size={14} />
+                  <Typography variant="body2" sx={{ fontSize: "0.85rem" }}>customercare@knkpower.co.in</Typography>
                 </Stack>
-                <Stack direction="row" spacing={1.5} alignItems="center" sx={{ color: "#94A3B8" }}>
-                  <Phone size={16} />
-                  <Typography variant="body2">011-28942100 (Corporate Office)</Typography>
+                <Stack direction="row" spacing={1.5} alignItems="center" sx={{ color: "#C9C3B7" }}>
+                  <Phone size={14} />
+                  <Typography variant="body2" sx={{ fontSize: "0.85rem" }}>011-28942100 (Corporate Office)</Typography>
                 </Stack>
-                <Stack direction="row" spacing={1.5} alignItems="flex-start" sx={{ color: "#94A3B8" }}>
-                  <MapPin size={16} sx={{ mt: 0.5 }} />
-                  <Typography variant="body2" sx={{ maxWidth: 280 }}>
+                <Stack direction="row" spacing={1.5} alignItems="flex-start" sx={{ color: "#C9C3B7" }}>
+                  <MapPin size={14} sx={{ mt: 0.5 }} />
+                  <Typography variant="body2" sx={{ maxWidth: 280, fontSize: "0.85rem", lineHeight: 1.4 }}>
                     KNK Power HQ, Energy Bhawan, 12 Institutional Area, Metro City, 110003
                   </Typography>
                 </Stack>
               </Stack>
-            </Stack>
+            </Grid>
           </Grid>
-        </Grid>
 
-        <Divider sx={{ my: 6, borderColor: "rgba(255, 255, 255, 0.06)" }} />
+          <Divider sx={{ my: 4, borderColor: "#625F58" }} />
 
-        {/* Bottom copyright & socials */}
-        <Grid container spacing={3} alignItems="center" justifyContent="space-between">
-          <Grid item xs={12} md={6}>
-            <Typography variant="body2" sx={{ color: "#64748B" }}>
-              © {new Date().getFullYear()} KNK Power Corporation LTD. All rights reserved. Registered under regulatory authorities.
-            </Typography>
+          {/* Bottom copyright details */}
+          <Grid container spacing={3} alignItems="center" justifyContent="space-between">
+            <Grid item xs={12} md={6}>
+              <Typography variant="body2" sx={{ color: "#625F58", fontSize: "0.8rem" }}>
+                © {new Date().getFullYear()} KNK Power Corporation LTD. All rights reserved. Registered under regulatory authorities.
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6} sx={{ textAlign: { xs: "left", md: "right" } }}>
+              <Stack direction="row" spacing={2.5} justifyContent={{ xs: "flex-start", md: "flex-end" }} sx={{ color: "#625F58", fontSize: "0.8rem" }}>
+                <Link href="#" onClick={handleScrollToTop} sx={{ color: "inherit", textDecoration: "none", "&:hover": { color: "#FFFDF8" } }}>Privacy Policy</Link>
+                <Link href="#" onClick={handleScrollToTop} sx={{ color: "inherit", textDecoration: "none", "&:hover": { color: "#FFFDF8" } }}>Terms & Conditions</Link>
+                <Link href="#" onClick={handleScrollToTop} sx={{ color: "inherit", textDecoration: "none", "&:hover": { color: "#FFFDF8" } }}>Hyperlink Policy</Link>
+              </Stack>
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={6} textAlign={{ xs: "left", md: "right" }}>
-            <Stack direction="row" spacing={1} justifyContent={{ xs: "flex-start", md: "flex-end" }} sx={{ mb: 2 }}>
-              <IconButton size="small" sx={{ color: "#94A3B8", "&:hover": { color: "#06B6D4", bgcolor: "rgba(6, 182, 212, 0.05)" } }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-              </IconButton>
-              <IconButton size="small" sx={{ color: "#94A3B8", "&:hover": { color: "#06B6D4", bgcolor: "rgba(6, 182, 212, 0.05)" } }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
-              </IconButton>
-              <IconButton size="small" sx={{ color: "#94A3B8", "&:hover": { color: "#06B6D4", bgcolor: "rgba(6, 182, 212, 0.05)" } }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-              </IconButton>
-              <IconButton size="small" sx={{ color: "#94A3B8", "&:hover": { color: "#06B6D4", bgcolor: "rgba(6, 182, 212, 0.05)" } }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98"/></svg>
-              </IconButton>
-            </Stack>
-            <Stack direction="row" spacing={2.5} justifyContent={{ xs: "flex-start", md: "flex-end" }} sx={{ color: "#64748B", fontSize: "0.8rem" }}>
-              <Link href="#" onClick={handleScrollToTop} sx={{ color: "inherit", textDecoration: "none", "&:hover": { color: "#FFFFFF" } }}>Privacy Policy</Link>
-              <Link href="#" onClick={handleScrollToTop} sx={{ color: "inherit", textDecoration: "none", "&:hover": { color: "#FFFFFF" } }}>Terms & Conditions</Link>
-              <Link href="#" onClick={handleScrollToTop} sx={{ color: "inherit", textDecoration: "none", "&:hover": { color: "#FFFFFF" } }}>Hyperlink Policy</Link>
-            </Stack>
-          </Grid>
-        </Grid>
-      </Container>
+        </Container>
+      </Box>
     </Box>
   );
 };

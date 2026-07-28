@@ -1,13 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Container, Typography, Button, Stack } from "@mui/material";
-import { ArrowRight, CreditCard, Sparkles } from "lucide-react";
+import { ArrowRight, CreditCard, ArrowDown } from "lucide-react";
 import { motion } from "framer-motion";
 
 const Hero = () => {
   const navigate = useNavigate();
 
   const handlePayBillClick = () => {
+    // Scroll to the task strip/services index
     const element = document.getElementById("services");
     if (element) {
       const offset = 80;
@@ -27,329 +28,346 @@ const Hero = () => {
     <Box
       id="home"
       sx={{
-        position: "relative",
         bgcolor: "transparent",
-        pt: { xs: 10, md: 16 },
-        pb: { xs: 12, md: 18 },
-        overflow: "hidden",
+        pt: { xs: 8, md: 12 },
+        pb: { xs: 8, md: 12 },
+        borderBottom: "1px solid #C9C3B7",
       }}
     >
-      <Container maxWidth="xl" sx={{ position: "relative", zIndex: 1 }}>
+      <Container maxWidth="xl">
         <Box
           sx={{
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
             alignItems: "center",
             justifyContent: "space-between",
-            gap: 8,
+            gap: { xs: 6, md: 8 },
           }}
         >
-          {/* Left: Info */}
-          <Box sx={{ flex: 1.1, width: "100%", maxWidth: { xs: "100%", md: "52%" } }}>
+          {/* Left Side: 7 Columns on Desktop */}
+          <Box sx={{ flex: 1.2, width: "100%", textAlign: "left" }}>
             <motion.div
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              transition={{ duration: 0.4 }}
             >
-              <Box
+              {/* Badge label */}
+              <Typography
+                variant="caption"
                 sx={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 1,
-                  bgcolor: "rgba(6, 182, 212, 0.08)",
-                  border: "1px solid rgba(6, 182, 212, 0.25)",
-                  borderRadius: "30px",
-                  px: 2.2,
-                  py: 0.8,
-                  mb: 3,
+                  color: "#075BB5",
+                  fontWeight: 800,
+                  fontSize: "0.78rem",
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  display: "inline-block",
+                  mb: 2,
+                  borderLeft: "3px solid #075BB5",
+                  pl: 1.5,
                 }}
               >
-                <Sparkles size={14} color="#06B6D4" />
-                <Typography
-                  sx={{
-                    color: "#06B6D4",
-                    fontWeight: 700,
-                    fontSize: "0.78rem",
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Official Consumer Portal
-                </Typography>
-              </Box>
+                PUBLIC UTILITY PORTAL
+              </Typography>
 
+              {/* Headline */}
               <Typography
                 variant="h1"
                 sx={{
-                  color: "#FFFFFF",
+                  color: "#171717",
+                  fontSize: { xs: "2.3rem", sm: "3.2rem", md: "3.8rem" },
                   fontWeight: 800,
-                  fontSize: { xs: "2.8rem", sm: "3.6rem", md: "4.2rem" },
                   lineHeight: 1.1,
                   mb: 3,
-                  letterSpacing: "-0.03em",
-                  background: "linear-gradient(135deg, #FFFFFF 0%, #93C5FD 50%, #06B6D4 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
+                  maxWidth: "680px",
                 }}
               >
-                Powering Communities with Smart Digital Services
+                Your electricity account, in one place.
               </Typography>
 
+              {/* Supporting Copy */}
               <Typography
                 variant="body1"
                 sx={{
-                  color: "#94A3B8",
-                  fontSize: { xs: "1.05rem", sm: "1.15rem" },
-                  lineHeight: 1.65,
-                  mb: 5,
+                  color: "#625F58",
+                  fontSize: { xs: "1.05rem", sm: "1.1rem" },
+                  lineHeight: 1.6,
+                  mb: 4,
                   maxWidth: "580px",
                 }}
               >
-                Settle billing transactions, request grid connections, analyze consumption patterns, and report field issues. Experience fully digitized utility services built on next-gen infrastructure.
+                Pay bills, review statements, submit meter readings, apply for a new connection, and download receipts through the official KNK Power consumer portal.
               </Typography>
 
-              <Stack direction={{ xs: "column", sm: "row" }} spacing={2.5}>
+              {/* CTAs */}
+              <Stack direction={{ xs: "column", sm: "row" }} spacing={2.5} sx={{ mb: 4 }}>
                 <Button
                   variant="contained"
-                  size="large"
                   onClick={handlePayBillClick}
                   startIcon={<CreditCard size={18} />}
                   sx={{
-                    bgcolor: "#06B6D4",
-                    color: "#020617",
-                    py: 2,
-                    px: 4.5,
+                    bgcolor: "#075BB5",
+                    color: "#FFFDF8",
+                    py: 1.8,
+                    px: 4,
                     fontSize: "0.95rem",
                     fontWeight: 700,
-                    borderRadius: "14px",
-                    boxShadow: "0 0 20px rgba(6, 182, 212, 0.2)",
+                    borderRadius: "2px",
                     "&:hover": {
-                      bgcolor: "#22D3EE",
-                      boxShadow: "0 0 30px rgba(6, 182, 212, 0.45)",
-                      transform: "translateY(-2px)",
+                      bgcolor: "#064B95",
                     },
                   }}
                 >
-                  Pay Bill
+                  Pay electricity bill
                 </Button>
 
                 <Button
                   variant="outlined"
-                  size="large"
                   onClick={handlePortalClick}
                   endIcon={<ArrowRight size={18} />}
                   sx={{
-                    borderColor: "rgba(255, 255, 255, 0.15)",
-                    color: "#FFFFFF",
-                    borderWidth: "1.5px",
-                    py: 2,
-                    px: 4.5,
+                    borderColor: "#171717",
+                    color: "#171717",
+                    py: 1.8,
+                    px: 4,
                     fontSize: "0.95rem",
                     fontWeight: 700,
-                    borderRadius: "14px",
+                    borderRadius: "2px",
                     "&:hover": {
-                      borderColor: "#8B5CF6",
-                      borderWidth: "1.5px",
-                      bgcolor: "rgba(139, 92, 246, 0.08)",
-                      transform: "translateY(-2px)",
+                      borderColor: "#075BB5",
+                      bgcolor: "#E9E5DB",
                     },
                   }}
                 >
-                  Consumer Portal
+                  Open consumer portal
                 </Button>
               </Stack>
+
+              {/* Tertiary link */}
+              <Typography
+                component="a"
+                onClick={() => navigate("/login", { state: { tab: 2 } })}
+                sx={{
+                  color: "#075BB5",
+                  fontWeight: 700,
+                  fontSize: "0.85rem",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 0.5,
+                  "&:hover": {
+                    color: "#064B95",
+                  },
+                }}
+              >
+                Apply for a new grid connection <ArrowRight size={14} />
+              </Typography>
             </motion.div>
           </Box>
 
-          {/* Right: Premium Isometric Glow Grid & Telemetry Screen */}
-          <Box sx={{ flex: 0.9, width: "100%", maxWidth: { xs: "100%", md: "45%" }, display: "flex", justifyContent: "center" }}>
+          {/* Right Side: 5 Columns on Desktop (Custom Bill and Meter composition) */}
+          <Box
+            sx={{
+              flex: 0.8,
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <motion.div
-              initial={{ opacity: 0, scale: 0.92, rotateY: 5 }}
-              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-              transition={{ duration: 1, ease: "easeOut", delay: 0.15 }}
-              style={{ width: "100%" }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              style={{ width: "100%", maxWidth: "420px" }}
             >
               <Box
                 sx={{
+                  bgcolor: "#FFFDF8",
+                  border: "2px solid #171717",
+                  borderRadius: "2px",
+                  p: 3.5,
                   position: "relative",
-                  width: "100%",
-                  maxWidth: 500,
-                  aspectRatio: "1/1",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  boxShadow: "none",
                 }}
               >
-                {/* Glowing Aura behind Illustration */}
+                {/* Visual perforated stamp at top left */}
                 <Box
                   sx={{
                     position: "absolute",
-                    width: "70%",
-                    height: "70%",
-                    borderRadius: "50%",
-                    bgcolor: "rgba(6, 182, 212, 0.15)",
-                    filter: "blur(70px)",
-                    zIndex: 0,
+                    top: -1,
+                    left: 24,
+                    width: 32,
+                    height: 12,
+                    bgcolor: "#F3F0E8",
+                    borderBottom: "2px solid #171717",
+                    borderLeft: "2px solid #171717",
+                    borderRight: "2px solid #171717",
                   }}
                 />
 
-                {/* SVG Telemetry Dashboard Graphic */}
-                <svg
-                  viewBox="0 0 500 500"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  style={{ width: "100%", height: "auto", zIndex: 1, filter: "drop-shadow(0 20px 50px rgba(0,0,0,0.3))" }}
+                {/* Technical watermark/stamp */}
+                <Box
+                  sx={{
+                    position: "absolute",
+                    bottom: 24,
+                    right: 24,
+                    border: "1.5px dashed #087A5A",
+                    color: "#087A5A",
+                    fontSize: "0.68rem",
+                    fontFamily: "monospace",
+                    fontWeight: 700,
+                    px: 1,
+                    py: 0.4,
+                    transform: "rotate(-8deg)",
+                    textTransform: "uppercase",
+                    userSelect: "none",
+                  }}
                 >
-                  {/* Grid Lines */}
-                  <g opacity="0.3">
-                    <line x1="50" y1="50" x2="450" y2="50" stroke="#1E293B" strokeWidth="1" />
-                    <line x1="50" y1="150" x2="450" y2="150" stroke="#1E293B" strokeWidth="1" />
-                    <line x1="50" y1="250" x2="450" y2="250" stroke="#1E293B" strokeWidth="1" />
-                    <line x1="50" y1="350" x2="450" y2="350" stroke="#1E293B" strokeWidth="1" />
-                    <line x1="50" y1="450" x2="450" y2="450" stroke="#1E293B" strokeWidth="1" />
+                  APPROVED & VERIFIED
+                </Box>
 
-                    <line x1="50" y1="50" x2="50" y2="450" stroke="#1E293B" strokeWidth="1" />
-                    <line x1="150" y1="50" x2="150" y2="450" stroke="#1E293B" strokeWidth="1" />
-                    <line x1="250" y1="50" x2="250" y2="450" stroke="#1E293B" strokeWidth="1" />
-                    <line x1="350" y1="50" x2="350" y2="450" stroke="#1E293B" strokeWidth="1" />
-                    <line x1="450" y1="50" x2="450" y2="450" stroke="#1E293B" strokeWidth="1" />
-                  </g>
+                {/* Section title */}
+                <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3, mt: 1 }}>
+                  <Typography
+                    variant="caption"
+                    sx={{ fontFamily: "monospace", fontWeight: 700, color: "#625F58", fontSize: "0.75rem" }}
+                  >
+                    REF: KNK-BILL-STUB
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      bgcolor: "#E9E5DB",
+                      color: "#171717",
+                      px: 1,
+                      py: 0.25,
+                      fontWeight: 700,
+                      fontSize: "0.65rem",
+                      fontFamily: "monospace",
+                    }}
+                  >
+                    CY-2026
+                  </Typography>
+                </Stack>
 
-                  {/* Smart Grid Flow Path Lines */}
-                  <path d="M 100 250 H 400" stroke="rgba(255,255,255,0.06)" strokeWidth="4" strokeLinecap="round" />
-                  <path d="M 250 100 V 400" stroke="rgba(255,255,255,0.06)" strokeWidth="4" strokeLinecap="round" />
-                  
-                  {/* Neon Flow Paths */}
-                  <path
-                    d="M 100 250 H 250 V 400"
-                    stroke="url(#neonCyanGrad)"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeDasharray="40 120"
-                    style={{ animation: "dashFlow 8s infinite linear" }}
-                  />
-                  <path
-                    d="M 400 250 H 250 V 100"
-                    stroke="url(#neonPurpleGrad)"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeDasharray="40 120"
-                    style={{ animation: "dashFlowReverse 8s infinite linear" }}
-                  />
+                {/* Stub details */}
+                <Stack spacing={1.5} sx={{ mb: 4 }}>
+                  <Box>
+                    <Typography variant="caption" sx={{ color: "#625F58", fontSize: "0.75rem" }}>
+                      Consumer Number
+                    </Typography>
+                    <Typography variant="body1" sx={{ fontFamily: "monospace", fontWeight: 700, fontSize: "1.1rem" }}>
+                      CON-984210
+                    </Typography>
+                  </Box>
 
-                  {/* Core Nodes */}
-                  {/* Node 1: Left (Commercial Grid) */}
-                  <g transform="translate(100, 250)">
-                    <circle r="22" fill="#020617" stroke="#1E293B" strokeWidth="2" />
-                    <circle r="15" fill="rgba(6, 182, 212, 0.1)" stroke="#06B6D4" strokeWidth="2" />
-                    <circle r="5" fill="#06B6D4" />
-                    <circle r="15" fill="none" stroke="#06B6D4" strokeWidth="1.5">
-                      <animate attributeName="r" values="8;24;8" dur="3s" repeatCount="indefinite" />
-                      <animate attributeName="opacity" values="0.8;0;0.8" dur="3s" repeatCount="indefinite" />
-                    </circle>
-                  </g>
+                  <Box sx={{ borderBottom: "1px dashed #C9C3B7", my: 0.5 }} />
 
-                  {/* Node 2: Center (Substation Hub) */}
-                  <g transform="translate(250, 250)">
-                    <circle r="28" fill="#020617" stroke="#1E293B" strokeWidth="2" />
-                    <circle r="20" fill="rgba(244, 180, 0, 0.08)" stroke="#F4B400" strokeWidth="2" />
-                    <circle r="8" fill="#F4B400" />
-                    <polygon points="0,-12 10,6 -10,6" fill="#F4B400" transform="scale(0.65)" />
-                  </g>
+                  <Stack direction="row" justifyContent="space-between">
+                    <Box>
+                      <Typography variant="caption" sx={{ color: "#625F58", fontSize: "0.7rem" }}>
+                        Billing Period
+                      </Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 700 }}>
+                        July 2026
+                      </Typography>
+                    </Box>
+                    <Box sx={{ textAlign: "right" }}>
+                      <Typography variant="caption" sx={{ color: "#625F58", fontSize: "0.7rem" }}>
+                        Due Date
+                      </Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 700, color: "#C5382F" }}>
+                        2026-08-05
+                      </Typography>
+                    </Box>
+                  </Stack>
 
-                  {/* Node 3: Right (Smart Community) */}
-                  <g transform="translate(400, 250)">
-                    <circle r="22" fill="#020617" stroke="#1E293B" strokeWidth="2" />
-                    <circle r="15" fill="rgba(139, 92, 246, 0.1)" stroke="#8B5CF6" strokeWidth="2" />
-                    <circle r="5" fill="#8B5CF6" />
-                    <circle r="15" fill="none" stroke="#8B5CF6" strokeWidth="1.5">
-                      <animate attributeName="r" values="8;24;8" dur="4s" repeatCount="indefinite" />
-                      <animate attributeName="opacity" values="0.8;0;0.8" dur="4s" repeatCount="indefinite" />
-                    </circle>
-                  </g>
+                  <Box sx={{ borderBottom: "1px dashed #C9C3B7", my: 0.5 }} />
 
-                  {/* Node 4: Top (Renewable Energy Solar/Wind Input) */}
-                  <g transform="translate(250, 100)">
-                    <circle r="20" fill="#020617" stroke="#1E293B" strokeWidth="2" />
-                    <circle r="13" fill="rgba(52, 211, 153, 0.1)" stroke="#34D399" strokeWidth="2" />
-                    <circle r="4" fill="#34D399" />
-                  </g>
+                  <Stack direction="row" justifyContent="space-between" alignItems="center">
+                    <Box>
+                      <Typography variant="caption" sx={{ color: "#625F58", fontSize: "0.7rem" }}>
+                        Total Outstanding Dues
+                      </Typography>
+                      <Typography variant="h4" sx={{ fontWeight: 800, color: "#075BB5" }}>
+                        ₹1,845.00
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </Stack>
 
-                  {/* Node 5: Bottom (Industrial Feeder) */}
-                  <g transform="translate(250, 400)">
-                    <circle r="20" fill="#020617" stroke="#1E293B" strokeWidth="2" />
-                    <circle r="13" fill="rgba(244, 63, 94, 0.1)" stroke="#F43F5E" strokeWidth="2" />
-                    <circle r="4" fill="#F43F5E" />
-                  </g>
+                {/* Line illustration of a meter */}
+                <Box
+                  sx={{
+                    border: "1px solid #C9C3B7",
+                    bgcolor: "#E9E5DB",
+                    p: 2.5,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 3,
+                  }}
+                >
+                  <svg
+                    width="64"
+                    height="64"
+                    viewBox="0 0 64 64"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    style={{ flexShrink: 0 }}
+                  >
+                    {/* Meter Outer Frame */}
+                    <rect x="2" y="2" width="60" height="60" rx="2" stroke="#171717" strokeWidth="2" fill="#FFFDF8" />
+                    {/* Glass Dial Border */}
+                    <circle cx="32" cy="24" r="16" stroke="#171717" strokeWidth="1.5" />
+                    {/* Indicator Scale Ticks */}
+                    <line x1="22" y1="24" x2="25" y2="24" stroke="#171717" strokeWidth="1" />
+                    <line x1="42" y1="24" x2="39" y2="24" stroke="#171717" strokeWidth="1" />
+                    <line x1="32" y1="14" x2="32" y2="17" stroke="#171717" strokeWidth="1" />
+                    {/* Dial pointer */}
+                    <line x1="32" y1="24" x2="38" y2="18" stroke="#F05A28" strokeWidth="1.5" />
+                    {/* Digital display box */}
+                    <rect x="12" y="44" width="40" height="12" stroke="#171717" strokeWidth="1" fill="#E9E5DB" />
+                    {/* Monospace reading */}
+                    <text
+                      x="32"
+                      y="53"
+                      fill="#171717"
+                      fontSize="7"
+                      fontWeight="bold"
+                      fontFamily="monospace"
+                      textAnchor="middle"
+                    >
+                      04520.8
+                    </text>
+                  </svg>
 
-                  {/* Floating Analytics Card Layer */}
-                  <g transform="translate(60, 60)" style={{ filter: "drop-shadow(0 15px 25px rgba(0,0,0,0.4))" }}>
-                    {/* Glass Frame */}
-                    <rect width="160" height="90" rx="12" fill="rgba(15, 23, 42, 0.65)" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" />
-                    
-                    {/* Header */}
-                    <circle cx="20" cy="20" r="4" fill="#EF4444" />
-                    <circle cx="32" cy="20" r="4" fill="#F59E0B" />
-                    <circle cx="44" cy="20" r="4" fill="#10B981" />
-                    <text x="145" y="23" fill="#64748B" fontSize="8" fontWeight="700" textAnchor="end" fontFamily="sans-serif">TELEMETRY</text>
-
-                    {/* Chart / Indicators */}
-                    <rect x="15" y="40" width="130" height="36" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.04)" />
-                    
-                    {/* Sine Waves for telemetry */}
-                    <path d="M 20 58 Q 30 45 40 58 T 60 58 T 80 58 T 100 58 T 120 58 T 140 58" fill="none" stroke="rgba(6, 182, 212, 0.25)" strokeWidth="1.5" />
-                    <path d="M 20 58 Q 30 38 40 58 T 60 58 T 80 44 T 100 58 T 120 52 T 140 58" fill="none" stroke="#06B6D4" strokeWidth="2" strokeLinecap="round" />
-
-                    {/* Pulse Dot */}
-                    <circle cx="80" cy="44" r="3" fill="#FFFFFF" />
-                    <circle cx="80" cy="44" r="5" fill="none" stroke="#FFFFFF" strokeWidth="1" />
-                  </g>
-
-                  {/* Floating Bill Ledger Card Layer */}
-                  <g transform="translate(280, 310)" style={{ filter: "drop-shadow(0 15px 25px rgba(0,0,0,0.4))" }}>
-                    {/* Glass Frame */}
-                    <rect width="160" height="110" rx="12" fill="rgba(15, 23, 42, 0.65)" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" />
-                    
-                    <text x="15" y="25" fill="#E2E8F0" fontSize="10" fontWeight="800" fontFamily="sans-serif">Quick Settlement</text>
-                    
-                    {/* Bill Item */}
-                    <rect x="15" y="40" width="130" height="28" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.04)" />
-                    <text x="25" y="57" fill="#94A3B8" fontSize="8" fontWeight="600" fontFamily="sans-serif">Ref: #KNP-2026</text>
-                    <text x="135" y="57" fill="#34D399" fontSize="8" fontWeight="800" textAnchor="end" fontFamily="sans-serif">₹2,480.00</text>
-
-                    {/* Button */}
-                    <rect x="15" y="76" width="130" height="20" rx="6" fill="#8B5CF6" />
-                    <text x="80" y="89" fill="#FFFFFF" fontSize="8" fontWeight="800" textAnchor="middle" fontFamily="sans-serif">AUTHORIZE INSTANTLY</text>
-                  </g>
-
-                  {/* Definitions */}
-                  <defs>
-                    <linearGradient id="neonCyanGrad" x1="100" y1="250" x2="250" y2="400" gradientUnits="userSpaceOnUse">
-                      <stop offset="0%" stopColor="#06B6D4" stopOpacity="1" />
-                      <stop offset="50%" stopColor="#3B82F6" stopOpacity="0.8" />
-                      <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0.2" />
-                    </linearGradient>
-                    <linearGradient id="neonPurpleGrad" x1="400" y1="250" x2="250" y2="100" gradientUnits="userSpaceOnUse">
-                      <stop offset="0%" stopColor="#8B5CF6" stopOpacity="1" />
-                      <stop offset="50%" stopColor="#EC4899" stopOpacity="0.8" />
-                      <stop offset="100%" stopColor="#06B6D4" stopOpacity="0.2" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-
-                {/* Embedded styles for dashboard svg animations */}
-                <style dangerouslySetInnerHTML={{
-                  __html: `
-                    @keyframes dashFlow {
-                      0% { stroke-dashoffset: 320; }
-                      100% { stroke-dashoffset: 0; }
-                    }
-                    @keyframes dashFlowReverse {
-                      0% { stroke-dashoffset: -320; }
-                      100% { stroke-dashoffset: 0; }
-                    }
-                  `
-                }} />
+                  <Box>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: "#171717",
+                        fontWeight: 800,
+                        fontSize: "0.75rem",
+                        display: "block",
+                        mb: 0.5,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.02em",
+                      }}
+                    >
+                      Smart Grid Meter
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: "#625F58", fontSize: "0.7rem", display: "block" }}>
+                      Model: SPX-8800-M1
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      sx={{ color: "#087A5A", fontSize: "0.68rem", fontWeight: 700, fontFamily: "monospace", display: "block" }}
+                    >
+                      ● ONLINE STATUS: SYNCED
+                    </Typography>
+                  </Box>
+                </Box>
               </Box>
             </motion.div>
           </Box>

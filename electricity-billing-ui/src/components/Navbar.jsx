@@ -76,27 +76,24 @@ const Navbar = ({ onMobileToggle, title }) => {
       sx={{
         width: { sm: `calc(100% - 260px)` },
         ml: { sm: `260px` },
-        bgcolor: "rgba(13, 27, 42, 0.45)",
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
-        borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
-        color: "#FFFFFF",
+        bgcolor: "#FFFDF8",
+        borderBottom: "1px solid #C9C3B7",
+        color: "#171717",
       }}
     >
       <Toolbar sx={{ justifySelf: "stretch", justifyContent: "space-between", px: { xs: 2.5, sm: 4 } }}>
         <Stack direction="row" spacing={2} alignItems="center">
           <IconButton
             onClick={onMobileToggle}
-            sx={{ color: "#FFFFFF", display: { sm: "none" } }}
+            sx={{ color: "#171717", display: { sm: "none" } }}
           >
             <Menu size={20} />
           </IconButton>
 
-          <Typography variant="h6" sx={{ fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.02em" }}>
+          <Typography variant="h6" sx={{ fontWeight: 800, color: "#171717", letterSpacing: "-0.02em" }}>
             {title || "Overview"}
           </Typography>
 
-          
           <Box
             sx={{
               display: { xs: "none", md: "flex" },
@@ -105,9 +102,9 @@ const Navbar = ({ onMobileToggle, title }) => {
               ml: 2,
               px: 1.5,
               py: 0.5,
-              bgcolor: "rgba(34, 197, 94, 0.08)",
-              border: "1px solid rgba(34, 197, 94, 0.25)",
-              borderRadius: "20px",
+              bgcolor: "#FFFDF8",
+              border: "1px solid #087A5A",
+              borderRadius: "2px",
             }}
           >
             <Box
@@ -115,46 +112,44 @@ const Navbar = ({ onMobileToggle, title }) => {
                 width: 7,
                 height: 7,
                 borderRadius: "50%",
-                bgcolor: "#22C55E",
-                boxShadow: "0 0 8px #22C55E",
+                bgcolor: "#087A5A",
               }}
             />
-            <Typography sx={{ fontSize: "0.7rem", fontWeight: 700, color: "#22C55E" }}>
+            <Typography sx={{ fontSize: "0.7rem", fontWeight: 700, color: "#087A5A" }}>
               GRID OPERATIONAL 99.98%
             </Typography>
           </Box>
         </Stack>
 
         <Stack direction="row" spacing={2} alignItems="center">
-          
           {userRole === "CONSUMER" && (
             <Box
               sx={{
                 px: 1.5,
                 py: 0.5,
-                borderRadius: "8px",
-                border: "1px solid rgba(255, 255, 255, 0.08)",
-                bgcolor: "rgba(255, 255, 255, 0.02)",
+                borderRadius: "2px",
+                border: "1px solid #C9C3B7",
+                bgcolor: "#F3F0E8",
                 display: { xs: "none", sm: "block" },
               }}
             >
-              <Typography sx={{ fontSize: "0.75rem", fontWeight: 600, color: "#94A3B8" }}>
-                Consumer No: <span style={{ color: "#06B6D4", fontWeight: 700 }}>{consumerNumber}</span>
+              <Typography sx={{ fontSize: "0.75rem", fontWeight: 700, color: "#625F58" }}>
+                Consumer No: <span style={{ color: "#075BB5", fontWeight: 800, fontFamily: "monospace" }}>{consumerNumber}</span>
               </Typography>
             </Box>
           )}
 
-          
           <IconButton
             onClick={toggleMute}
             aria-label={muted ? "Unmute Voice Assistant" : "Mute Voice Assistant"}
             sx={{
-              border: "1px solid rgba(255, 255, 255, 0.08)",
-              color: muted ? "#EF4444" : "#94A3B8",
+              border: "1px solid #C9C3B7",
+              color: muted ? "#C5382F" : "#625F58",
+              borderRadius: "2px",
               "&:hover": {
-                color: muted ? "#F87171" : "#06B6D4",
-                borderColor: muted ? "#F87171" : "#06B6D4",
-                bgcolor: muted ? "rgba(239, 68, 68, 0.04)" : "rgba(6, 182, 212, 0.04)",
+                color: muted ? "#C5382F" : "#075BB5",
+                borderColor: "#171717",
+                bgcolor: "rgba(23, 23, 23, 0.04)",
               },
             }}
           >
@@ -164,9 +159,10 @@ const Navbar = ({ onMobileToggle, title }) => {
           <IconButton
             onClick={handleNotifClick}
             sx={{
-              border: "1px solid rgba(255, 255, 255, 0.08)",
-              color: "#94A3B8",
-              "&:hover": { color: "#06B6D4", borderColor: "#06B6D4", bgcolor: "rgba(6, 182, 212, 0.04)" },
+              border: "1px solid #C9C3B7",
+              color: "#625F58",
+              borderRadius: "2px",
+              "&:hover": { color: "#075BB5", borderColor: "#171717", bgcolor: "rgba(7, 91, 181, 0.04)" },
             }}
           >
             <Badge badgeContent={unreadCount} color="primary">
@@ -174,7 +170,6 @@ const Navbar = ({ onMobileToggle, title }) => {
             </Badge>
           </IconButton>
 
-          
           <Popover
             open={notifOpen}
             anchorEl={anchorEl}
@@ -185,30 +180,29 @@ const Navbar = ({ onMobileToggle, title }) => {
               sx: { 
                 width: 340, 
                 p: 2.5, 
-                borderRadius: "16px", 
-                border: "1px solid rgba(255, 255, 255, 0.08)",
-                bgcolor: "rgba(13, 27, 42, 0.95)",
-                backdropFilter: "blur(16px)",
-                boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)",
-                color: "#FFFFFF",
+                borderRadius: "2px", 
+                border: "1px solid #C9C3B7",
+                bgcolor: "#FFFDF8",
+                boxShadow: "none",
+                color: "#171717",
               },
             }}
           >
             <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1.5 }}>
-              <Typography variant="h6" sx={{ fontWeight: 800, color: "#FFFFFF", fontSize: "0.95rem" }}>
+              <Typography variant="h6" sx={{ fontWeight: 800, color: "#171717", fontSize: "0.95rem" }}>
                 Notifications
               </Typography>
               {unreadCount > 0 && (
                 <Typography 
                   variant="caption" 
-                  sx={{ color: "primary.light", fontWeight: 700, cursor: "pointer", "&:hover": { textDecoration: "underline" } }}
+                  sx={{ color: "#075BB5", fontWeight: 700, cursor: "pointer", "&:hover": { textDecoration: "underline" } }}
                   onClick={() => setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))}
                 >
                   Mark all as read
                 </Typography>
               )}
             </Stack>
-            <Divider sx={{ mb: 1.5, borderColor: "rgba(255, 255, 255, 0.06)" }} />
+            <Divider sx={{ mb: 1.5, borderColor: "#C9C3B7" }} />
             {notifications.length === 0 ? (
               <Box sx={{ py: 3, textAlign: "center" }}>
                 <Typography variant="body2" color="text.secondary">
@@ -224,23 +218,21 @@ const Navbar = ({ onMobileToggle, title }) => {
                       sx={{ 
                         py: 1.25, 
                         px: 1.5, 
-                        borderRadius: "8px", 
+                        borderRadius: "2px", 
                         transition: "background-color 0.2s",
-                        "&:hover": { bgcolor: "rgba(255, 255, 255, 0.03)" },
+                        "&:hover": { bgcolor: "#F3F0E8" },
                         mb: index !== notifications.length - 1 ? 1 : 0
                       }}
                     >
                       <Stack direction="row" spacing={1.5} alignItems="flex-start" sx={{ width: "100%" }}>
-                        
                         <Box sx={{ display: "flex", alignItems: "center", pt: 0.5 }}>
                           <Box 
                             sx={{ 
                               width: 8, 
                               height: 8, 
                               borderRadius: "50%", 
-                              bgcolor: notif.read ? "transparent" : "#06B6D4", 
-                              border: notif.read ? "none" : "2px solid #0D1B2A",
-                              boxShadow: notif.read ? "none" : "0 0 6px #06B6D4"
+                              bgcolor: notif.read ? "transparent" : "#075BB5", 
+                              border: notif.read ? "none" : "2px solid #FFFDF8",
                             }} 
                           />
                         </Box>
@@ -248,48 +240,48 @@ const Navbar = ({ onMobileToggle, title }) => {
                           primary={notif.primary}
                           secondary={notif.secondary}
                           primaryTypographyProps={{ 
-                            fontWeight: notif.read ? 600 : 700, 
+                            fontWeight: notif.read ? 600 : 800, 
                             fontSize: "0.85rem", 
-                            color: notif.read ? "#94A3B8" : "#FFFFFF",
+                            color: notif.read ? "#625F58" : "#171717",
                             lineHeight: 1.3
                           }}
                           secondaryTypographyProps={{ 
                             fontSize: "0.75rem", 
-                            color: "#64748B",
+                            color: "#625F58",
                             sx: { mt: 0.25, lineHeight: 1.4 }
                           }}
                         />
                       </Stack>
                     </ListItem>
-                    {index !== notifications.length - 1 && <Divider sx={{ my: 0.5, borderColor: "rgba(255, 255, 255, 0.04)" }} />}
+                    {index !== notifications.length - 1 && <Divider sx={{ my: 0.5, borderColor: "#C9C3B7" }} />}
                   </React.Fragment>
                 ))}
               </List>
             )}
           </Popover>
 
-          <Divider orientation="vertical" flexItem sx={{ borderColor: "rgba(255, 255, 255, 0.06)" }} />
+          <Divider orientation="vertical" flexItem sx={{ borderColor: "#C9C3B7", mx: 1 }} />
 
-          
           <Stack direction="row" spacing={1.5} alignItems="center">
             <Box sx={{ textAlign: "right", display: { xs: "none", sm: "block" } }}>
-              <Typography fontWeight={700} variant="body2" sx={{ color: "#FFFFFF" }}>
+              <Typography fontWeight={800} variant="body2" sx={{ color: "#171717" }}>
                 {consumerName}
               </Typography>
-              <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 500 }}>
+              <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700 }}>
                 {userRole === "ADMIN" ? "Senior Grid Operator" : "Consumer Portal"}
               </Typography>
             </Box>
 
             <Avatar
               sx={{
-                background: "linear-gradient(135deg, #06B6D4 0%, #2563EB 100%)",
-                color: "#FFFFFF",
+                bgcolor: "#075BB5",
+                color: "#FFFDF8",
                 fontWeight: 800,
                 fontSize: "0.8rem",
-                width: 38,
-                height: 38,
-                boxShadow: "0 2px 8px rgba(6, 182, 212, 0.3)",
+                width: 36,
+                height: 36,
+                borderRadius: "2px",
+                border: "1px solid #171717",
               }}
             >
               {userInitials || "U"}

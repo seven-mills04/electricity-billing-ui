@@ -91,23 +91,20 @@ const Sidebar = ({ onClose }) => {
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        bgcolor: "rgba(13, 27, 42, 0.65)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-        color: "#FFFFFF",
-        borderRight: "1px solid rgba(255, 255, 255, 0.06)",
+        bgcolor: "#FFFDF8",
+        color: "#171717",
+        borderRight: "1px solid #C9C3B7",
       }}
     >
-      
       <Toolbar sx={{ my: 1.5, px: 3 }}>
         <Stack direction="row" spacing={1.5} alignItems="center">
           <Box
             sx={{
-              background: "rgba(6, 182, 212, 0.1)",
-              color: "#06B6D4",
-              border: "1px solid rgba(6, 182, 212, 0.3)",
+              background: "#E9E5DB",
+              color: "#171717",
+              border: "1px solid #C9C3B7",
               p: 1,
-              borderRadius: "10px",
+              borderRadius: "2px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -116,35 +113,34 @@ const Sidebar = ({ onClose }) => {
             <Zap size={20} fill="currentColor" />
           </Box>
           <Box>
-            <Typography variant="h6" sx={{ fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.03em", fontSize: "1.05rem", lineHeight: 1.1 }}>
+            <Typography variant="h6" sx={{ fontWeight: 800, color: "#171717", letterSpacing: "-0.03em", fontSize: "1.05rem", lineHeight: 1.1 }}>
               KNK POWER
             </Typography>
-            <Typography variant="caption" sx={{ color: "#06B6D4", fontSize: "0.68rem", display: "block", fontWeight: 700, textTransform: "uppercase" }}>
+            <Typography variant="caption" sx={{ color: "#625F58", fontSize: "0.68rem", display: "block", fontWeight: 700, textTransform: "uppercase" }}>
               Corporation Ltd.
             </Typography>
           </Box>
         </Stack>
       </Toolbar>
 
-      <Divider sx={{ borderColor: "rgba(255, 255, 255, 0.06)", mb: 2 }} />
+      <Divider sx={{ borderColor: "#C9C3B7", mb: 2 }} />
 
-      
       <Box sx={{ px: 3, mb: 2 }}>
         <Chip
           size="small"
           label={userRole === "ADMIN" ? "Scope: Senior Grid Operator" : "Scope: Consumer Self-Service"}
           sx={{
             width: "100%",
-            bgcolor: userRole === "ADMIN" ? "rgba(37, 99, 235, 0.15)" : "rgba(34, 197, 94, 0.15)",
-            color: userRole === "ADMIN" ? "#60A5FA" : "#22C55E",
-            fontWeight: 700,
+            bgcolor: "#F3F0E8",
+            color: userRole === "ADMIN" ? "#171717" : "#075BB5",
+            fontWeight: 800,
             fontSize: "0.72rem",
-            border: `1px solid ${userRole === "ADMIN" ? "rgba(96, 165, 250, 0.25)" : "rgba(34, 197, 94, 0.25)"}`,
+            borderRadius: "2px",
+            border: `1.5px solid ${userRole === "ADMIN" ? "#171717" : "#075BB5"}`,
           }}
         />
       </Box>
 
-      
       <List sx={{ px: 2, flexGrow: 1 }}>
         {menuItems.map((item) => {
           const isActive = location.pathname.startsWith(item.path);
@@ -163,22 +159,22 @@ const Sidebar = ({ onClose }) => {
                     if (onClose) onClose();
                   }}
                   sx={{
-                    borderRadius: "12px",
+                    borderRadius: "2px",
                     py: 1.2,
                     px: 2,
-                    bgcolor: isActive ? "rgba(6, 182, 212, 0.1)" : "transparent",
-                    color: isActive ? "#06B6D4" : "#94A3B8",
-                    borderLeft: isActive ? "3px solid #06B6D4" : "3px solid transparent",
+                    bgcolor: isActive ? "#E9E5DB" : "transparent",
+                    color: isActive ? "#075BB5" : "#625F58",
+                    borderLeft: isActive ? "3px solid #075BB5" : "3px solid transparent",
                     "&:hover": {
-                      bgcolor: isActive ? "rgba(6, 182, 212, 0.15)" : "rgba(255, 255, 255, 0.03)",
-                      color: "#FFFFFF",
+                      bgcolor: isActive ? "#E9E5DB" : "#F3F0E8",
+                      color: "#171717",
                     },
-                    transition: "all 0.2s ease",
+                    transition: "all 120ms ease",
                   }}
                 >
                   <ListItemIcon
                     sx={{
-                      color: isActive ? "#06B6D4" : "#64748B",
+                      color: isActive ? "#075BB5" : "#625F58",
                       minWidth: 38,
                     }}
                   >
@@ -188,7 +184,7 @@ const Sidebar = ({ onClose }) => {
                   <ListItemText
                     primary={item.text}
                     primaryTypographyProps={{
-                      fontWeight: isActive ? 700 : 500,
+                      fontWeight: isActive ? 800 : 700,
                       fontSize: "0.875rem",
                     }}
                   />
@@ -199,24 +195,23 @@ const Sidebar = ({ onClose }) => {
         })}
       </List>
 
-      
-      <Box sx={{ p: 2.5, borderTop: "1px solid rgba(255, 255, 255, 0.06)" }}>
+      <Box sx={{ p: 2.5, borderTop: "1px solid #C9C3B7" }}>
         <ListItemButton
           onClick={handleSignOut}
           sx={{
-            borderRadius: "10px",
-            color: "#EF4444",
+            borderRadius: "2px",
+            color: "#C5382F",
             py: 1,
             px: 2,
-            "&:hover": { bgcolor: "rgba(239, 68, 68, 0.08)" },
+            "&:hover": { bgcolor: "#F3F0E8" },
           }}
         >
-          <ListItemIcon sx={{ color: "#EF4444", minWidth: 38 }}>
+          <ListItemIcon sx={{ color: "#C5382F", minWidth: 38 }}>
             <LogOut size={18} />
           </ListItemIcon>
           <ListItemText
             primary="Sign Out"
-            primaryTypographyProps={{ fontWeight: 700, fontSize: "0.875rem" }}
+            primaryTypographyProps={{ fontWeight: 800, fontSize: "0.875rem" }}
           />
         </ListItemButton>
       </Box>

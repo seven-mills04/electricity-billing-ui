@@ -42,75 +42,73 @@ const FAQ = () => {
     <Box
       id="faq"
       sx={{
-        py: { xs: 10, md: 14 },
+        py: { xs: 8, md: 12 },
         bgcolor: "transparent",
-        borderTop: "1px solid rgba(255, 255, 255, 0.06)",
       }}
     >
       <Container maxWidth="md">
         <Stack alignItems="center" textAlign="center" spacing={2} sx={{ mb: 8 }}>
           <Typography
-            variant="h6"
+            variant="caption"
             sx={{
-              color: "#06B6D4",
-              fontWeight: 700,
-              letterSpacing: "0.1em",
+              color: "#075BB5",
+              fontWeight: 800,
+              letterSpacing: "0.08em",
               textTransform: "uppercase",
             }}
           >
-            Help Desk
+            HELP DESK
           </Typography>
           <Typography
             variant="h2"
             sx={{
-              color: "#FFFFFF",
               fontWeight: 800,
-              fontSize: { xs: "2rem", md: "2.5rem" },
+              fontSize: { xs: "1.85rem", md: "2.3rem" },
+              color: "#171717",
             }}
           >
             Frequently Asked Questions
           </Typography>
           <Typography
-            variant="body1"
+            variant="body2"
             sx={{
-              color: "#94A3B8",
+              color: "#625F58",
               maxWidth: "500px",
+              fontSize: "0.9rem",
             }}
           >
             Find quick answers to common questions regarding account setup, payments, billing, and connection requests.
           </Typography>
         </Stack>
 
-        <Stack spacing={2.5}>
+        <Stack spacing={2}>
           {faqs.map((faq, index) => (
             <motion.div
               key={faq.id}
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.08 }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
             >
               <Accordion
                 expanded={expanded === faq.id}
                 onChange={handleChange(faq.id)}
                 elevation={0}
                 sx={{
-                  borderRadius: "14px !important",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                  bgcolor: "rgba(15, 23, 42, 0.35)",
-                  backdropFilter: "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
-                  color: "#E2E8F0",
-                  transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+                  borderRadius: "2px !important",
+                  border: "1px solid #C9C3B7",
+                  bgcolor: "#FFFDF8",
+                  color: "#171717",
+                  transition: "background-color 120ms ease",
                   "&::before": { display: "none" },
                   "&:hover": {
-                    borderColor: "#06B6D4",
+                    borderColor: "#171717",
                   },
-                  boxShadow: expanded === faq.id ? "0 4px 30px rgba(6, 182, 212, 0.1)" : "none",
+                  boxShadow: "none",
                 }}
               >
                 <AccordionSummary
-                  expandIcon={<ChevronDown size={18} color="#06B6D4" />}
+                  expandIcon={<ChevronDown size={18} color="#171717" />}
                   sx={{
                     px: 3,
                     py: 1,
@@ -120,26 +118,26 @@ const FAQ = () => {
                     },
                   }}
                 >
-                  <Box sx={{ color: "#06B6D4", display: "flex" }}>
-                    <HelpCircle size={20} />
+                  <Box sx={{ color: "#075BB5", display: "flex" }}>
+                    <HelpCircle size={18} />
                   </Box>
                   <Typography
                     sx={{
-                      fontWeight: 700,
-                      color: expanded === faq.id ? "#06B6D4" : "#E2E8F0",
-                      fontSize: "1.05rem",
-                      transition: "color 0.2s ease",
+                      fontWeight: 800,
+                      color: expanded === faq.id ? "#075BB5" : "#171717",
+                      fontSize: "0.95rem",
+                      transition: "color 120ms ease",
                     }}
                   >
                     {faq.question}
                   </Typography>
                 </AccordionSummary>
-                <AccordionDetails sx={{ px: 3, pb: 3.5, pl: 7.5 }}>
+                <AccordionDetails sx={{ px: 3, pb: 3, pl: 7.5 }}>
                   <Typography
                     sx={{
-                      color: "#94A3B8",
-                      lineHeight: 1.6,
-                      fontSize: "0.925rem",
+                      color: "#625F58",
+                      lineHeight: 1.55,
+                      fontSize: "0.875rem",
                     }}
                   >
                     {faq.answer}

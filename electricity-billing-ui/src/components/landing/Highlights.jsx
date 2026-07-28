@@ -8,38 +8,32 @@ const Highlights = () => {
     {
       title: "24×7 Online Services",
       desc: "Apply for connections, report outages, and check connection details anytime without visiting billing offices.",
-      icon: <Clock size={24} color="#06B6D4" />,
-      bg: "rgba(6, 182, 212, 0.1)",
+      icon: <Clock size={22} color="#075BB5" />,
     },
     {
       title: "Instant Bill Generation",
       desc: "Smart meters feed consumption data directly, generating automated electronic invoices instantly every month.",
-      icon: <Zap size={24} color="#34D399" />,
-      bg: "rgba(52, 211, 153, 0.1)",
+      icon: <Zap size={22} color="#075BB5" />,
     },
     {
       title: "Digital Payment Gateway",
       desc: "Safe online payment settlements with multi-channel support (UPI, debit/credit cards, and net banking).",
-      icon: <CreditCard size={24} color="#F59E0B" />,
-      bg: "rgba(245, 158, 11, 0.1)",
+      icon: <CreditCard size={22} color="#075BB5" />,
     },
     {
       title: "SMS & Email Notifications",
       desc: "Automated alerts sent directly to registered details for billing updates, payment confirmations, and notices.",
-      icon: <Bell size={24} color="#A78BFA" />,
-      bg: "rgba(167, 139, 250, 0.1)",
+      icon: <Bell size={22} color="#075BB5" />,
     },
     {
       title: "Secure JWT Authentication",
       desc: "Ensuring top-tier security for consumer credentials and data exchanges using JSON Web Tokens (JWT).",
-      icon: <Lock size={24} color="#60A5FA" />,
-      bg: "rgba(96, 165, 250, 0.1)",
+      icon: <Lock size={22} color="#075BB5" />,
     },
     {
       title: "Transparent Tariff Slabs",
       desc: "Clear itemized breakdown of energy charges, state electricity duty, and fixed load charges on every bill.",
-      icon: <Calculator size={24} color="#EC4899" />,
-      bg: "rgba(236, 72, 153, 0.1)",
+      icon: <Calculator size={22} color="#075BB5" />,
     },
   ];
 
@@ -47,39 +41,40 @@ const Highlights = () => {
     <Box
       id="highlights"
       sx={{
-        py: { xs: 10, md: 14 },
+        py: { xs: 8, md: 12 },
         bgcolor: "transparent",
-        borderTop: "1px solid rgba(255, 255, 255, 0.06)",
+        borderBottom: "1px solid #C9C3B7",
       }}
     >
       <Container maxWidth="xl">
         <Stack alignItems="center" textAlign="center" spacing={2} sx={{ mb: 8 }}>
           <Typography
-            variant="h6"
+            variant="caption"
             sx={{
-              color: "#06B6D4",
-              fontWeight: 700,
-              letterSpacing: "0.1em",
+              color: "#075BB5",
+              fontWeight: 800,
+              letterSpacing: "0.08em",
               textTransform: "uppercase",
             }}
           >
-            Capabilities
+            PORTAL FEATURES
           </Typography>
           <Typography
             variant="h2"
             sx={{
-              color: "#FFFFFF",
               fontWeight: 800,
-              fontSize: { xs: "2rem", md: "2.5rem" },
+              fontSize: { xs: "1.85rem", md: "2.3rem" },
+              color: "#171717",
             }}
           >
-            Service Highlights & Infrastructure
+            Service Highlights & Capabilities
           </Typography>
           <Typography
-            variant="body1"
+            variant="body2"
             sx={{
-              color: "#94A3B8",
+              color: "#625F58",
               maxWidth: "600px",
+              fontSize: "0.9rem",
             }}
           >
             Engineered to deliver transparency, efficiency, and data security to power consumers.
@@ -88,39 +83,38 @@ const Highlights = () => {
 
         <Grid container spacing={3.5}>
           {highlights.map((highlight, index) => (
-            <Grid item xs={12} md={4} key={index}>
+            <Grid item xs={12} sm={6} md={4} key={index}>
               <motion.div
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.4, delay: index * 0.06 }}
               >
                 <Card
                   sx={{
-                    borderRadius: "18px",
-                    border: "1px solid rgba(255, 255, 255, 0.08)",
-                    bgcolor: "rgba(15, 23, 42, 0.35)",
-                    backdropFilter: "blur(12px)",
-                    WebkitBackdropFilter: "blur(12px)",
-                    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.15)",
-                    transition: "all 0.25s ease",
+                    borderRadius: "2px",
+                    border: "1px solid #C9C3B7",
+                    bgcolor: "#FFFDF8",
+                    boxShadow: "none",
+                    height: "100%",
+                    transition: "all 120ms ease-in-out",
                     "&:hover": {
-                      transform: "translateY(-3px)",
-                      borderColor: "#06B6D4",
-                      boxShadow: "0 8px 30px rgba(6, 182, 212, 0.15)",
+                      borderColor: "#171717",
+                      bgcolor: "#F3F0E8",
                     },
                   }}
                 >
-                  <CardContent sx={{ p: 3.5 }}>
-                    <Stack direction="row" spacing={3} alignItems="flex-start">
+                  <CardContent sx={{ p: 3 }}>
+                    <Stack direction="row" spacing={2.5} alignItems="flex-start">
                       <Box
                         sx={{
-                          p: 1.8,
-                          borderRadius: "12px",
-                          bgcolor: highlight.bg,
+                          p: 1.5,
+                          borderRadius: "2px",
+                          bgcolor: "#E9E5DB",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
+                          border: "1px solid #C9C3B7",
                         }}
                       >
                         {highlight.icon}
@@ -129,8 +123,8 @@ const Highlights = () => {
                         <Typography
                           variant="h5"
                           sx={{
-                            fontWeight: 700,
-                            color: "#E2E8F0",
+                            fontWeight: 800,
+                            color: "#171717",
                             fontSize: "1.1rem",
                           }}
                         >
@@ -139,7 +133,7 @@ const Highlights = () => {
                         <Typography
                           variant="body2"
                           sx={{
-                            color: "#94A3B8",
+                            color: "#625F58",
                             lineHeight: 1.5,
                             fontSize: "0.85rem",
                           }}
