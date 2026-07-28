@@ -108,6 +108,7 @@ const ConnectionDialog = ({
   <Dialog
     open={open}
     onClose={activeClose}
+    ModalProps={{ closeAfterTransition: false }}
     fullWidth
     maxWidth="sm"
   >
@@ -119,6 +120,7 @@ const ConnectionDialog = ({
       <Stack spacing={2}>
 
         <TextField
+          autoFocus
           label="Connection Number"
           name="connectionNumber"
           value={form.connectionNumber}

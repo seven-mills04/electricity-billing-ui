@@ -237,7 +237,7 @@ const Bills = () => {
       />
 
       
-      <Dialog open={paymentOpen} onClose={() => setPaymentOpen(false)} maxWidth="xs" fullWidth>
+      <Dialog open={paymentOpen} onClose={() => setPaymentOpen(false)} ModalProps={{ closeAfterTransition: false }} maxWidth="xs" fullWidth>
         <DialogTitle sx={{ fontWeight: 800, color: "#171717", pb: 1.5 }}>Settle Outstanding Invoice</DialogTitle>
         <DialogContent dividers sx={{ py: 3, borderColor: "#C9C3B7" }}>
           {payingBill && (
@@ -261,6 +261,7 @@ const Bills = () => {
               <FormControl fullWidth>
                 <InputLabel id="payment-mode-label">Select Payment Mode</InputLabel>
                 <Select
+                  autoFocus
                   labelId="payment-mode-label"
                   label="Select Payment Mode"
                   value={paymentMode}

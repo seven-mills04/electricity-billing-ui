@@ -143,6 +143,7 @@ const handleSave = async () => {
     <Dialog
       open={open}
       onClose={handleClose}
+      ModalProps={{ closeAfterTransition: false }}
       fullWidth
       maxWidth="sm"
     >
@@ -156,6 +157,7 @@ const handleSave = async () => {
             <InputLabel>Connection</InputLabel>
 
             <Select
+              autoFocus
               name="connectionId"
               value={form.connectionId}
               label="Connection"

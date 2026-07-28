@@ -216,7 +216,7 @@ const Payments = () => {
       />
 
       
-      <Dialog open={payDialogOpen} onClose={() => setPayDialogOpen(false)} maxWidth="sm" fullWidth>
+      <Dialog open={payDialogOpen} onClose={() => setPayDialogOpen(false)} ModalProps={{ closeAfterTransition: false }} maxWidth="sm" fullWidth>
         <form onSubmit={handlePaySubmit}>
           <DialogTitle sx={{ p: 3, color: "#171717", fontWeight: 800, borderBottom: "1px solid #C9C3B7" }}>
             Process Instant Electricity Settlement
@@ -225,6 +225,7 @@ const Payments = () => {
           <DialogContent sx={{ p: 3, mt: 1 }}>
             <Stack spacing={3} sx={{ mt: 1 }}>
               <TextField
+                autoFocus
                 select
                 fullWidth
                 label="Select Outstanding Unpaid Bill"

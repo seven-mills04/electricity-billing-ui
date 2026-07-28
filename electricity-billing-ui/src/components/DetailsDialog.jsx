@@ -44,6 +44,7 @@ const DetailsDialog = ({
     <Dialog
       open={open}
       onClose={activeClose}
+      ModalProps={{ closeAfterTransition: false }}
       fullWidth
       maxWidth="sm"
       PaperProps={{
@@ -104,7 +105,7 @@ const DetailsDialog = ({
       </DialogContent>
 
       <DialogActions sx={{ px: 4, py: 2, borderTop: "1px solid #C9C3B7" }}>
-        <Button variant="outlined" onClick={activeClose} sx={{ px: 3 }}>
+        <Button autoFocus variant="outlined" onClick={activeClose} sx={{ px: 3 }}>
           Close
         </Button>
       </DialogActions>

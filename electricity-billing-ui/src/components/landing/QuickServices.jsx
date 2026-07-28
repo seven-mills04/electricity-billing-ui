@@ -419,6 +419,7 @@ const QuickServices = () => {
       <Dialog
         open={payDialogOpen}
         onClose={() => setPayDialogOpen(false)}
+        ModalProps={{ closeAfterTransition: false }}
         fullWidth
         maxWidth="sm"
         PaperProps={{
@@ -444,6 +445,7 @@ const QuickServices = () => {
 
               <Stack direction="row" spacing={1.5}>
                 <TextField
+                  autoFocus
                   fullWidth
                   label="Consumer Number"
                   value={consumerNo}

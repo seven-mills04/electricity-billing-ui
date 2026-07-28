@@ -101,6 +101,7 @@ const ConsumerDialog = ({
     <Dialog
       open={open}
       onClose={handleClose}
+      ModalProps={{ closeAfterTransition: false }}
       fullWidth
       maxWidth="sm"
     >
@@ -111,6 +112,7 @@ const ConsumerDialog = ({
       <DialogContent sx={{ mt: 2 }}>
         <Stack spacing={2}>
           <TextField
+            autoFocus
             label="Consumer Number"
             name="consumerNumber"
             value={formData.consumerNumber}

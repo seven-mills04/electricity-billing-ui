@@ -23,7 +23,7 @@ const ConfirmDialog = ({
   const activeMessage = message || description || "Are you sure you want to proceed?";
 
   return (
-    <Dialog open={open} onClose={activeClose}>
+    <Dialog open={open} onClose={activeClose} ModalProps={{ closeAfterTransition: false }}>
       <DialogTitle sx={{ fontWeight: 800, color: "#171717" }}>{title}</DialogTitle>
 
       <DialogContent sx={{ py: 1 }}>
@@ -31,7 +31,7 @@ const ConfirmDialog = ({
       </DialogContent>
 
       <DialogActions sx={{ p: 2.5 }}>
-        <Button onClick={activeClose} sx={{ color: "#625F58" }}>
+        <Button autoFocus onClick={activeClose} sx={{ color: "#625F58" }}>
           Cancel
         </Button>
 

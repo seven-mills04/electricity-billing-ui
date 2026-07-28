@@ -43,6 +43,7 @@ const BillInvoiceModal = ({
     <Dialog
       open={open}
       onClose={activeClose}
+      ModalProps={{ closeAfterTransition: false }}
       fullWidth
       maxWidth="md"
       PaperProps={{
@@ -263,6 +264,7 @@ const BillInvoiceModal = ({
 
       <DialogActions className="no-print" sx={{ p: 2.5, bgcolor: "#FFFDF8", borderTop: "1px solid #C9C3B7" }}>
         <Button
+          autoFocus
           onClick={activeClose}
           variant="outlined"
           sx={{
