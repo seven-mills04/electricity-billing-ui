@@ -8,6 +8,8 @@ import {
   Snackbar,
   Alert,
   Stack,
+  CircularProgress,
+  Typography,
 } from "@mui/material";
 import { Plus, Eye, Edit, Trash2, Users } from "lucide-react";
 import EnterpriseTable from "../components/EnterpriseTable";
@@ -22,7 +24,8 @@ import { getConsumers, deleteConsumer } from "../api/consumerApi";
 const Consumers = () => {
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingConsumer, setEditingConsumer] = useState(null);
@@ -44,6 +47,7 @@ const Consumers = () => {
 
   const fetchConsumers = async () => {
     setLoading(true);
+    setErrorMsg("");
     try {
       const response = await getConsumers();
       let consumers = [];
@@ -70,6 +74,7 @@ const Consumers = () => {
       setRows(mapped);
     } catch (err) {
       console.error(err);
+      setErrorMsg("Unable to load consumers. Please verify your connection to the grid database.");
       setSnackbar({ open: true, message: "Failed to fetch consumers", severity: "error" });
     } finally {
       setLoading(false);
@@ -166,6 +171,44 @@ const Consumers = () => {
       ),
     },
   ];
+
+  if (loading) {
+    return (
+      <PageContainer>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "350px", gap: 2 }}>
+          <CircularProgress color="primary" />
+          <Typography variant="body2" sx={{ color: "#625F58", fontWeight: 700 }}>
+            Loading consumer records...
+          </Typography>
+        </Box>
+      </PageContainer>
+    );
+  }
+
+  if (errorMsg) {
+    return (
+      <PageContainer>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "350px", gap: 2 }}>
+          <Alert severity="error" sx={{ width: "100%", maxWidth: "480px", bgcolor: "#FFFDF8", color: "#C5382F", border: "1px solid #C5382F", borderRadius: "2px" }}>
+            {errorMsg}
+          </Alert>
+          <Button
+            variant="outlined"
+            onClick={fetchConsumers}
+            sx={{
+              borderColor: "#C9C3B7",
+              color: "#171717",
+              fontWeight: 700,
+              borderRadius: "2px",
+              "&:hover": { borderColor: "#171717", bgcolor: "#E9E5DB" },
+            }}
+          >
+            Retry Connection
+          </Button>
+        </Box>
+      </PageContainer>
+    );
+  }
 
   return (
     <PageContainer>

@@ -17,8 +17,9 @@ import {
   Paper,
   Grid,
   Typography,
+  CircularProgress,
 } from "@mui/material";
-import { Plus, CreditCard, CheckCircle, Receipt, DollarSign, Wallet } from "lucide-react";
+import { Plus, Eye, CheckCircle, Clock, CreditCard, ShieldCheck, Receipt, DollarSign, Wallet } from "lucide-react";
 import EnterpriseTable from "../components/EnterpriseTable";
 import DetailsDialog from "../components/DetailsDialog";
 import PageContainer from "../components/common/PageContainer";
@@ -32,7 +33,8 @@ const Payments = () => {
   const [rows, setRows] = useState([]);
   const [unpaidBills, setUnpaidBills] = useState([]);
   const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const [payDialogOpen, setPayDialogOpen] = useState(false);
   const [selectedBillId, setSelectedBillId] = useState("");
@@ -79,6 +81,7 @@ const Payments = () => {
       setRows(mapped);
     } catch (err) {
       console.error(err);
+      setErrorMsg("Unable to load financial settlements. Please check your connectivity.");
       setSnackbar({ open: true, message: "Failed to fetch payment settlements", severity: "error" });
     } finally {
       setLoading(false);
@@ -185,6 +188,44 @@ const Payments = () => {
       ),
     },
   ];
+
+  if (loading) {
+    return (
+      <PageContainer>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "350px", gap: 2 }}>
+          <CircularProgress color="primary" />
+          <Typography variant="body2" sx={{ color: "#625F58", fontWeight: 700 }}>
+            Loading payment history...
+          </Typography>
+        </Box>
+      </PageContainer>
+    );
+  }
+
+  if (errorMsg) {
+    return (
+      <PageContainer>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "350px", gap: 2 }}>
+          <Alert severity="error" sx={{ width: "100%", maxWidth: "480px", bgcolor: "#FFFDF8", color: "#C5382F", border: "1px solid #C5382F", borderRadius: "2px" }}>
+            {errorMsg}
+          </Alert>
+          <Button
+            variant="outlined"
+            onClick={fetchPayments}
+            sx={{
+              borderColor: "#C9C3B7",
+              color: "#171717",
+              fontWeight: 700,
+              borderRadius: "2px",
+              "&:hover": { borderColor: "#171717", bgcolor: "#E9E5DB" },
+            }}
+          >
+            Retry Connection
+          </Button>
+        </Box>
+      </PageContainer>
+    );
+  }
 
   return (
     <PageContainer>
