@@ -39,7 +39,6 @@ import { motion } from "framer-motion";
 import api from "../api/axiosConfig";
 import { getPublicConsumers } from "../api/consumerApi";
 import BackgroundEffects from "../components/landing/BackgroundEffects";
-import audioService from "../services/audioService";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -131,7 +130,6 @@ const Login = () => {
         localStorage.setItem("userRole", role);
         localStorage.setItem("consumerName", consumerName || "Admin User");
 
-        audioService.play("admin.mp3");
         navigate("/dashboard");
       } else if (tabValue === 1) {
         const response = await api.post("/api/auth/login", {
@@ -162,7 +160,6 @@ const Login = () => {
           }
         }
 
-        audioService.play("consumer.mp3");
         navigate("/dashboard");
       } else {
         let finalConsumerId = selectedConsumerId;
@@ -228,7 +225,6 @@ const Login = () => {
         "Authentication failed. Please verify your connection & credentials."
       );
       if ((tabValue === 0 || tabValue === 1) && err.response) {
-        audioService.play("failed-authentication.mp3");
       }
     } finally {
       setLoading(false);

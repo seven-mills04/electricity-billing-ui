@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, Stack, Chip } from "@mui/material";
+import { Box, Typography, Stack } from "@mui/material";
 import { Sparkles } from "lucide-react";
 
 const SectionHeader = ({ title, subtitle, badgeText, sx = {} }) => {
@@ -12,19 +12,19 @@ const SectionHeader = ({ title, subtitle, badgeText, sx = {} }) => {
               display: "inline-flex",
               alignItems: "center",
               gap: 1,
-              bgcolor: "rgba(6, 182, 212, 0.08)",
-              border: "1px solid rgba(6, 182, 212, 0.25)",
-              borderRadius: "20px",
+              bgcolor: "#FFFDF8",
+              border: "1.5px solid #075BB5",
+              borderRadius: "2px",
               px: 1.5,
               py: 0.4,
               mb: 0.5,
             }}
           >
-            <Sparkles size={12} color="#06B6D4" />
+            <Sparkles size={12} color="#075BB5" />
             <Typography
               sx={{
-                color: "#06B6D4",
-                fontWeight: 700,
+                color: "#075BB5",
+                fontWeight: 800,
                 fontSize: "0.7rem",
                 letterSpacing: "0.08em",
                 textTransform: "uppercase",
@@ -40,7 +40,7 @@ const SectionHeader = ({ title, subtitle, badgeText, sx = {} }) => {
         variant="h4"
         sx={{
           fontWeight: 800,
-          color: "#FFFFFF",
+          color: "#171717",
           letterSpacing: "-0.02em",
           lineHeight: 1.2,
         }}
@@ -49,7 +49,7 @@ const SectionHeader = ({ title, subtitle, badgeText, sx = {} }) => {
       </Typography>
 
       {subtitle && (
-        <Typography variant="body2" sx={{ color: "#94A3B8", maxWidth: "680px" }}>
+        <Typography variant="body2" sx={{ color: "#625F58", maxWidth: "680px", fontSize: "0.9rem" }}>
           {subtitle}
         </Typography>
       )}

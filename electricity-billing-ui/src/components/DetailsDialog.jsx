@@ -9,14 +9,20 @@ import {
   Stack,
   Box,
   Grid,
-  Divider
+  Divider,
 } from "@mui/material";
 
-const DetailsDialog = ({ open, onClose, handleClose, title, subtitle, sections, data }) => {
-  const activeClose = onClose || handleClose;
-
-  
+const DetailsDialog = ({
+  open,
+  onClose,
+  data,
+  title = "Details View",
+  subtitle,
+  sections,
+}) => {
+  const activeClose = onClose;
   let activeSections = sections;
+
   if (!activeSections && data) {
     activeSections = [
       {
@@ -41,26 +47,25 @@ const DetailsDialog = ({ open, onClose, handleClose, title, subtitle, sections, 
       maxWidth="sm"
       PaperProps={{
         sx: {
-          borderRadius: "20px",
-          border: "1px solid rgba(255, 255, 255, 0.08)",
-          bgcolor: "rgba(13, 27, 42, 0.95)",
-          backdropFilter: "blur(16px)",
-          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.6)",
+          borderRadius: "2px",
+          border: "1px solid #C9C3B7",
+          bgcolor: "#FFFDF8",
+          boxShadow: "none",
         }
       }}
     >
       <DialogTitle sx={{ px: 4, pt: 3.5, pb: 1.5 }}>
-        <Typography variant="h6" sx={{ fontWeight: 700, color: "#FFFFFF" }}>
+        <Typography variant="h6" sx={{ fontWeight: 800, color: "#171717" }}>
           {title}
         </Typography>
         {subtitle && (
-          <Typography variant="caption" sx={{ color: "#94A3B8" }}>
+          <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700 }}>
             {subtitle}
           </Typography>
         )}
       </DialogTitle>
 
-      <DialogContent dividers sx={{ px: 4, py: 3, borderColor: "rgba(255, 255, 255, 0.08)" }}>
+      <DialogContent dividers sx={{ px: 4, py: 3, borderColor: "#C9C3B7" }}>
         <Stack spacing={3}>
           {activeSections.map((section, sIdx) => (
             <Box key={sIdx}>
@@ -68,9 +73,9 @@ const DetailsDialog = ({ open, onClose, handleClose, title, subtitle, sections, 
                 <Typography
                   variant="caption"
                   sx={{
-                    color: "#06B6D4",
+                    color: "#075BB5",
                     textTransform: "uppercase",
-                    fontWeight: 700,
+                    fontWeight: 800,
                     display: "block",
                     mb: 1.5,
                     letterSpacing: "0.05em"
@@ -82,23 +87,23 @@ const DetailsDialog = ({ open, onClose, handleClose, title, subtitle, sections, 
               <Grid container spacing={2}>
                 {section.fields.map((field, fIdx) => (
                   <Grid item xs={field.xs || 12} sm={field.sm || 6} key={fIdx}>
-                    <Typography variant="caption" sx={{ display: "block", fontWeight: 500, color: "#94A3B8" }}>
+                    <Typography variant="caption" sx={{ display: "block", fontWeight: 700, color: "#625F58" }}>
                       {field.label}
                     </Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 650, color: "#FFFFFF", mt: 0.5 }}>
+                    <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717", mt: 0.5 }}>
                       {field.value ?? "-"}
                     </Typography>
                   </Grid>
                 ))}
               </Grid>
-              {sIdx !== activeSections.length - 1 && <Divider sx={{ mt: 3, borderColor: "rgba(255, 255, 255, 0.06)" }} />}
+              {sIdx !== activeSections.length - 1 && <Divider sx={{ mt: 3, borderColor: "#C9C3B7" }} />}
             </Box>
           ))}
         </Stack>
       </DialogContent>
 
-      <DialogActions sx={{ px: 4, py: 2, borderTop: "1px solid rgba(255, 255, 255, 0.08)" }}>
-        <Button variant="outlined" color="primary" onClick={activeClose} sx={{ px: 3 }}>
+      <DialogActions sx={{ px: 4, py: 2, borderTop: "1px solid #C9C3B7" }}>
+        <Button variant="outlined" onClick={activeClose} sx={{ px: 3 }}>
           Close
         </Button>
       </DialogActions>

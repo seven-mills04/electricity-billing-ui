@@ -128,7 +128,7 @@ const Connections = () => {
         <Chip
           label={row.meterNumber}
           size="small"
-          sx={{ bgcolor: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255,255,255,0.08)", color: "#94A3B8", fontWeight: 600 }}
+          sx={{ bgcolor: "#F3F0E8", border: "1px solid #C9C3B7", color: "#171717", fontWeight: 800, borderRadius: "2px" }}
         />
       ),
     },
@@ -140,26 +140,22 @@ const Connections = () => {
           size="small"
           label={row.connectionType}
           sx={{
-            bgcolor:
-              row.connectionType === "INDUSTRIAL"
-                ? "rgba(245, 158, 11, 0.1)"
-                : row.connectionType === "COMMERCIAL"
-                ? "rgba(124, 58, 237, 0.1)"
-                : "rgba(34, 197, 94, 0.1)",
+            bgcolor: "#FFFDF8",
             color:
               row.connectionType === "INDUSTRIAL"
-                ? "#F59E0B"
+                ? "#F05A28"
                 : row.connectionType === "COMMERCIAL"
-                ? "#A78BFA"
-                : "#22C55E",
-            border: `1px solid ${
+                ? "#075BB5"
+                : "#087A5A",
+            border: `1.5px solid ${
               row.connectionType === "INDUSTRIAL"
-                ? "rgba(245, 158, 11, 0.25)"
+                ? "#F05A28"
                 : row.connectionType === "COMMERCIAL"
-                ? "rgba(124, 58, 237, 0.25)"
-                : "rgba(34, 197, 94, 0.25)"
+                ? "#075BB5"
+                : "#087A5A"
             }`,
-            fontWeight: 700,
+            fontWeight: 800,
+            borderRadius: "2px",
           }}
         />
       ),
@@ -168,7 +164,7 @@ const Connections = () => {
       field: "sanctionedLoad",
       headerName: "Sanctioned Load",
       renderCell: (row) => (
-        <span style={{ fontWeight: 700, color: "#FFFFFF" }}>
+        <span style={{ fontWeight: 700, color: "#171717" }}>
           {row.sanctionedLoad} kW
         </span>
       ),

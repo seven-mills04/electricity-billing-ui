@@ -26,8 +26,8 @@ import {
   Plus,
   BarChart2,
   Calendar,
-  Sparkles,
   User,
+  Info,
 } from "lucide-react";
 import {
   ResponsiveContainer,
@@ -37,9 +37,6 @@ import {
   YAxis,
   Tooltip as RechartsTooltip,
   CartesianGrid,
-  BarChart,
-  Bar,
-  Legend,
 } from "recharts";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -130,7 +127,6 @@ const Dashboard = () => {
     }
   };
 
-  
   const chartData = [
     { month: "Jan", revenue: 42000, collection: 38000 },
     { month: "Feb", revenue: 48000, collection: 45000 },
@@ -140,475 +136,623 @@ const Dashboard = () => {
     { month: "Jun", revenue: 84000, collection: 81000 },
   ];
 
-  const categoryData = [
-    { category: "Domestic", kWh: 18400, fill: "#0284C7" },
-    { category: "Commercial", kWh: 24500, fill: "#10B981" },
-    { category: "Industrial", kWh: 39100, fill: "#F59E0B" },
-  ];
-
   return (
     <Box sx={{ pb: 6 }}>
       
-      <Paper
-        elevation={0}
-        sx={{
-          p: { xs: 3, md: 4 },
-          mb: 4,
-          borderRadius: "24px",
-          background: "linear-gradient(135deg, rgba(13, 27, 42, 0.45) 0%, rgba(7, 20, 38, 0.55) 100%)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
-          color: "#FFFFFF",
-          position: "relative",
-          overflow: "hidden",
-          border: "1px solid rgba(255, 255, 255, 0.08)",
-        }}
-      >
-        <Stack direction={{ xs: "column", md: "row" }} justifyContent="space-between" alignItems={{ xs: "flex-start", md: "center" }} spacing={3}>
-          <Box>
-            <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
-              <Chip
-                icon={<Sparkles size={14} color="#06B6D4" />}
-                label={userRole === "ADMIN" ? "ENTERPRISE GRID CONTROL" : "CONSUMER PORTAL"}
-                size="small"
-                sx={{ bgcolor: "rgba(6, 182, 212, 0.12)", color: "#06B6D4", border: "1px solid rgba(6, 182, 212, 0.2)", fontWeight: 700, fontSize: "0.72rem" }}
-              />
-              <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 500 }}>
-                {new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric", year: "numeric" })}
-              </Typography>
-            </Stack>
-
-            <Typography variant="h3" sx={{ fontWeight: 800, color: "#FFFFFF", mb: 1, letterSpacing: "-0.02em" }}>
-              Welcome back, {userRole === "CONSUMER" && stats.fullName ? stats.fullName : consumerName} 👋
-            </Typography>
-
-            <Typography variant="body1" sx={{ color: "#94A3B8", maxWidth: "600px" }}>
-              {userRole === "ADMIN"
-                ? "Grid Sector-4 status is operating normally. 99.98% load settlement efficiency recorded today."
-                : "View your electricity consumption metrics, outstanding bills, and instant payment receipts."}
-            </Typography>
-          </Box>
-
-          <Stack direction="row" spacing={2}>
-            <Tooltip title="Refresh All Data">
-              <IconButton
-                onClick={fetchDashboardData}
-                sx={{
-                  bgcolor: "rgba(255, 255, 255, 0.04)",
-                  color: "#FFFFFF",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                  "&:hover": { bgcolor: "rgba(255, 255, 255, 0.12)", borderColor: "rgba(255, 255, 255, 0.2)" },
-                }}
-              >
-                <RefreshCw size={18} />
-              </IconButton>
-            </Tooltip>
-          </Stack>
-        </Stack>
-      </Paper>
-
-      
-      {loading && <LinearProgress sx={{ mb: 3, borderRadius: 2, bgcolor: "rgba(255,255,255,0.05)", "& .MuiLinearProgress-bar": { background: "linear-gradient(90deg, #2563EB, #06B6D4)" } }} />}
-
-      
+      {/* ==================================================
+          ADMIN DASHBOARD VIEW
+          ================================================== */}
       {userRole === "ADMIN" ? (
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} sm={6} md={3}>
-            <EnergyStatCard
-              title="Total Registered Consumers"
-              value={stats.totalConsumers ? stats.totalConsumers.toLocaleString() : "0"}
-              subtitle="Active User Accounts"
-              icon={Users}
-              color="#2563EB"
-              trend="up"
-              trendLabel="+12% MoM"
-            />
-          </Grid>
+        <>
+          {/* Operations Overview Summary (replaces gray banner) */}
+          <Paper
+            elevation={0}
+            sx={{
+              p: 3.5,
+              mb: 4,
+              borderRadius: "2px",
+              bgcolor: "#FFFDF8",
+              border: "1px solid #C9C3B7",
+              borderTop: "4px solid #075BB5", // Utility Blue Accent Rule
+              position: "relative",
+            }}
+          >
+            <Stack direction={{ xs: "column", md: "row" }} justifyContent="space-between" alignItems={{ xs: "flex-start", md: "center" }} spacing={3}>
+              <Box>
+                <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+                  <Typography variant="caption" sx={{ color: "#075BB5", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                    OPERATIONS OVERVIEW
+                  </Typography>
+                  <Divider orientation="vertical" flexItem sx={{ borderColor: "#C9C3B7", height: 12, alignSelf: "center" }} />
+                  <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700, fontFamily: "monospace" }}>
+                    {new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric", year: "numeric" })}
+                  </Typography>
+                </Stack>
 
-          <Grid item xs={12} sm={6} md={3}>
-            <EnergyStatCard
-              title="Active Grid Connections"
-              value={stats.totalConnections ? stats.totalConnections.toLocaleString() : "0"}
-              subtitle="Smart Meter Nodes"
-              icon={Plug2}
-              color="#06B6D4"
-              trend="up"
-              trendLabel="Operational"
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <EnergyStatCard
-              title="Monthly Revenue Settled"
-              value={`₹${(stats.monthlyRevenue || 0).toLocaleString()}`}
-              subtitle="Total Collections This Month"
-              icon={CreditCard}
-              color="#7C3AED"
-              trend="up"
-              trendLabel="+8.4%"
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <EnergyStatCard
-              title="Pending Unpaid Bills"
-              value={stats.unpaidBills ? stats.unpaidBills.toLocaleString() : "0"}
-              subtitle="Awaiting Consumer Payment"
-              icon={Receipt}
-              color="#F59E0B"
-              trend="down"
-              trendLabel="Action Due"
-            />
-          </Grid>
-        </Grid>
-      ) : (
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} sm={6} md={3}>
-            <EnergyStatCard
-              title="Consumer Number"
-              value={stats.consumerNumber || "-"}
-              subtitle="Portal Account ID"
-              icon={User}
-              color="#06B6D4"
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <EnergyStatCard
-              title="Connection Status"
-              value={stats.connectionStatus || "-"}
-              subtitle="Smart Meter Node"
-              icon={Plug2}
-              color={stats.connectionStatus === "ACTIVE" ? "#10B981" : "#EF4444"}
-              trend={stats.connectionStatus === "ACTIVE" ? "up" : "down"}
-              trendLabel={stats.connectionStatus === "ACTIVE" ? "ONLINE" : "OFFLINE"}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <EnergyStatCard
-              title="Month Consumption"
-              value={`${(stats.currentMonthUnitsConsumed || 0).toLocaleString()} kWh`}
-              subtitle="Active Units Recorded"
-              icon={Zap}
-              color="#2563EB"
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <EnergyStatCard
-              title="Outstanding Bill"
-              value={`₹${(stats.currentOutstandingBill || 0).toLocaleString()}`}
-              subtitle={`Status: ${stats.paymentStatus || "N/A"}`}
-              icon={Receipt}
-              color={stats.currentOutstandingBill > 0 ? "#F59E0B" : "#10B981"}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <EnergyStatCard
-              title="Last Payment Settled"
-              value={`₹${(stats.lastPaymentAmount || 0).toLocaleString()}`}
-              subtitle={stats.lastPaymentDate ? `Date: ${stats.lastPaymentDate}` : "No payment history"}
-              icon={CreditCard}
-              color="#7C3AED"
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <EnergyStatCard
-              title="Current Tariff Rate"
-              value={`₹${(stats.currentTariff || 0).toFixed(2)}/u`}
-              subtitle="Energy Slab Rate"
-              icon={TrendingUp}
-              color="#EC4899"
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <EnergyStatCard
-              title="Meter Serial Number"
-              value={stats.meterNumber || "-"}
-              subtitle="Smart Meter ID"
-              icon={BarChart2}
-              color="#8B5CF6"
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <EnergyStatCard
-              title="Connection Type"
-              value={stats.connectionType || "-"}
-              subtitle="Tariff Category"
-              icon={Users}
-              color="#F97316"
-            />
-          </Grid>
-        </Grid>
-      )}
-
-      
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        
-        <Grid item xs={12} md={8}>
-          {userRole === "ADMIN" ? (
-            <ChartCard
-              title="Monthly Billing vs Settlement Collection"
-              subtitle="Financial revenue performance over the last 6 billing cycles"
-              action={<Chip label="2026 AUDITED" size="small" sx={{ bgcolor: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255,255,255,0.08)", color: "#94A3B8", fontWeight: 700 }} />}
-            >
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 15, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#2563EB" stopOpacity={0.4} />
-                      <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
-                    </linearGradient>
-                    <linearGradient id="colorCol" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#06B6D4" stopOpacity={0.4} />
-                      <stop offset="95%" stopColor="#06B6D4" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#C9C3B7" />
-                  <XAxis dataKey="month" stroke="#625F58" fontSize={12} tickLine={false} />
-                  <YAxis stroke="#625F58" fontSize={12} tickLine={false} />
-                  <RechartsTooltip contentStyle={{ backgroundColor: "#FFFDF8", border: "1px solid #C9C3B7", borderRadius: "2px", color: "#171717" }} />
-                  <Area type="monotone" dataKey="revenue" name="Billed Revenue (₹)" stroke="#075BB5" strokeWidth={3} fillOpacity={1} fill="url(#colorRev)" />
-                  <Area type="monotone" dataKey="collection" name="Amount Settled (₹)" stroke="#087A5A" strokeWidth={3} fillOpacity={1} fill="url(#colorCol)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </ChartCard>
-          ) : (
-            <ChartCard
-              title="Monthly Energy Consumption"
-              subtitle="Historical power usage (kWh) over the last 6 months"
-              action={<Chip label="REAL-TIME DATA" size="small" sx={{ bgcolor: "#FFFDF8", border: "1px solid #075BB5", color: "#075BB5", fontWeight: 700 }} />}
-            >
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={consumerChartData} margin={{ top: 10, right: 10, left: 15, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="colorUnits" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#075BB5" stopOpacity={0.4} />
-                      <stop offset="95%" stopColor="#075BB5" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#C9C3B7" />
-                  <XAxis dataKey="month" stroke="#625F58" fontSize={12} tickLine={false} />
-                  <YAxis stroke="#625F58" fontSize={12} tickLine={false} />
-                  <RechartsTooltip contentStyle={{ backgroundColor: "#FFFDF8", border: "1px solid #C9C3B7", borderRadius: "2px", color: "#171717" }} />
-                  <Area type="monotone" dataKey="unitsConsumed" name="Consumption (kWh)" stroke="#075BB5" strokeWidth={3} fillOpacity={1} fill="url(#colorUnits)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </ChartCard>
-          )}
-        </Grid>
-
-        
-        <Grid item xs={12} md={4}>
-          {userRole === "ADMIN" ? (
-            <GlassCard sx={{ p: 3, height: "100%" }}>
-              <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
-                <TrendingUp color="#06B6D4" size={20} />
-                <Typography variant="h5" sx={{ fontWeight: 700, color: "#FFFFFF" }}>
-                  AI Load Forecast
+                <Typography variant="h4" sx={{ fontWeight: 800, color: "#171717", mb: 1, letterSpacing: "-0.02em" }}>
+                  Welcome back, {consumerName}
                 </Typography>
-              </Stack>
-              <Typography variant="caption" sx={{ color: "#94A3B8", display: "block", mb: 3 }}>
-                Upcoming 3-month predictive energy consumption model
-              </Typography>
 
-              <Stack spacing={2}>
-                {predictions.length > 0 ? (
-                  predictions.map((pred, idx) => (
-                    <Box key={idx} sx={{ p: 2, borderRadius: "14px", bgcolor: "rgba(255, 255, 255, 0.02)", border: "1px solid rgba(255, 255, 255, 0.04)", "&:hover": { bgcolor: "rgba(255, 255, 255, 0.04)" }, transition: "all 0.2s" }}>
-                      <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: 2, mb: 0.5, width: "100%" }}>
-                        <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#FFFFFF" }}>
-                          {pred.month} Forecast
-                        </Typography>
-                        <Box sx={{ flexGrow: 1 }} />
-                        <Typography variant="h6" sx={{ fontWeight: 800, color: "#06B6D4", whiteSpace: "nowrap" }}>
-                          {pred.predictedKwh} kWh
-                        </Typography>
-                      </Box>
-                      <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", gap: 2, width: "100%" }}>
-                        <Typography variant="caption" sx={{ color: "#64748B", whiteSpace: "nowrap" }}>
-                          Lower: {pred.lowerBoundKwh} kWh
-                        </Typography>
-                        <Box sx={{ flexGrow: 1 }} />
-                        <Typography variant="caption" sx={{ color: "#64748B", whiteSpace: "nowrap" }}>
-                          Upper: {pred.upperBoundKwh} kWh
-                        </Typography>
-                      </Box>
-                    </Box>
-                  ))
-                ) : (
-                  <Box sx={{ p: 3, textAlign: "center", bgcolor: "rgba(255, 255, 255, 0.02)", borderRadius: "14px" }}>
-                    <Typography variant="body2" sx={{ color: "#64748B" }}>
-                      Generating statistical forecast predictions...
-                    </Typography>
-                  </Box>
-                )}
-              </Stack>
-
-              <Box sx={{ mt: 3, p: 2, borderRadius: "12px", bgcolor: "rgba(6, 182, 212, 0.05)", border: "1px solid rgba(6, 182, 212, 0.15)" }}>
-                <Typography variant="caption" sx={{ color: "#06B6D4", fontWeight: 700, display: "block" }}>
-                  💡 MODEL CONFIDENCE: 96.4%
-                </Typography>
-                <Typography variant="caption" sx={{ color: "#94A3B8" }}>
-                  Calculated using linear regression over historical meter reading logs.
+                <Typography variant="body2" sx={{ color: "#625F58", maxWidth: "680px", lineHeight: 1.5 }}>
+                  Grid operations are normal. Review consumer accounts, connections, billing invoices, and transaction settlements from the metrics and logs panel below.
                 </Typography>
               </Box>
-            </GlassCard>
-          ) : (
-            <GlassCard sx={{ p: 3, height: "100%" }}>
-              <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
-                <Zap color="#06B6D4" size={20} fill="#06B6D4" />
-                <Typography variant="h5" sx={{ fontWeight: 700, color: "#FFFFFF" }}>
-                  Quick Actions
-                </Typography>
-              </Stack>
-              <Typography variant="caption" sx={{ color: "#94A3B8", display: "block", mb: 3 }}>
-                Portal shortcuts for rapid bill management
-              </Typography>
 
-              <Stack spacing={2.5}>
+              <Stack direction="row" spacing={2} sx={{ alignSelf: { xs: "flex-end", md: "center" } }}>
                 <Button
-                  fullWidth
-                  variant="contained"
-                  startIcon={<Receipt size={18} />}
-                  onClick={() => navigate("/bills")}
+                  onClick={fetchDashboardData}
+                  variant="outlined"
+                  size="small"
+                  startIcon={<RefreshCw size={14} />}
                   sx={{
-                    py: 1.5,
-                    borderRadius: "12px",
-                    bgcolor: "rgba(6, 182, 212, 0.12)",
-                    color: "#06B6D4",
-                    border: "1px solid rgba(6, 182, 212, 0.25)",
+                    borderColor: "#C9C3B7",
+                    color: "#171717",
                     fontWeight: 700,
-                    textTransform: "none",
-                    fontSize: "0.9rem",
-                    "&:hover": {
-                      bgcolor: "rgba(6, 182, 212, 0.22)",
-                      borderColor: "#06B6D4",
-                    },
-                    transition: "all 0.2s",
+                    borderRadius: "2px",
+                    px: 2,
+                    py: 1,
+                    "&:hover": { borderColor: "#171717", bgcolor: "#E9E5DB" },
                   }}
                 >
-                  View Bills
-                </Button>
-
-                <Button
-                  fullWidth
-                  variant="contained"
-                  startIcon={<CreditCard size={18} />}
-                  onClick={() => navigate("/bills")}
-                  sx={{
-                    py: 1.5,
-                    borderRadius: "12px",
-                    bgcolor: "rgba(16, 185, 129, 0.12)",
-                    color: "#10B981",
-                    border: "1px solid rgba(16, 185, 129, 0.25)",
-                    fontWeight: 700,
-                    textTransform: "none",
-                    fontSize: "0.9rem",
-                    "&:hover": {
-                      bgcolor: "rgba(16, 185, 129, 0.22)",
-                      borderColor: "#10B981",
-                    },
-                    transition: "all 0.2s",
-                  }}
-                >
-                  Pay Bill
-                </Button>
-
-                <Button
-                  fullWidth
-                  variant="contained"
-                  startIcon={<ArrowUpRight size={18} />}
-                  onClick={() => navigate("/payments")}
-                  sx={{
-                    py: 1.5,
-                    borderRadius: "12px",
-                    bgcolor: "rgba(124, 58, 237, 0.12)",
-                    color: "#8B5CF6",
-                    border: "1px solid rgba(124, 58, 237, 0.25)",
-                    fontWeight: 700,
-                    textTransform: "none",
-                    fontSize: "0.9rem",
-                    "&:hover": {
-                      bgcolor: "rgba(124, 58, 237, 0.22)",
-                      borderColor: "#8B5CF6",
-                    },
-                    transition: "all 0.2s",
-                  }}
-                >
-                  Download Receipt
+                  Refresh Data
                 </Button>
               </Stack>
-            </GlassCard>
+            </Stack>
+          </Paper>
+
+          {loading && (
+            <LinearProgress
+              sx={{
+                mb: 3,
+                borderRadius: "2px",
+                bgcolor: "#E9E5DB",
+                "& .MuiLinearProgress-bar": { bgcolor: "#075BB5" },
+              }}
+            />
           )}
-        </Grid>
-      </Grid>
 
-      
-      <Grid container spacing={3}>
-        
-        <Grid item xs={12} md={6}>
-          <GlassCard sx={{ p: 3 }}>
-            <Typography variant="h5" sx={{ fontWeight: 700, color: "#FFFFFF", mb: 2.5 }}>
-              Recent Generated Bills
-            </Typography>
-            <Stack spacing={1.5}>
-              {recentBills.map((b) => (
-                <Stack key={b.id} direction="row" justifyContent="space-between" alignItems="center" sx={{ p: 2, borderRadius: "12px", border: "1px solid rgba(255, 255, 255, 0.04)", bgcolor: "rgba(255,255,255,0.02)", "&:hover": { bgcolor: "rgba(255,255,255,0.04)" }, transition: "all 0.2s" }}>
-                  <Box>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#FFFFFF" }}>
-                      Bill #{b.billNumber}
+          {/* KPI Statistics Section (Desktop 4 columns, Tablet 2x2, Mobile 1 column) */}
+          <Grid container spacing={3.5} sx={{ mb: 4 }}>
+            <Grid item xs={12} sm={6} md={3}>
+              <EnergyStatCard
+                title="Total Registered Consumers"
+                value={stats.totalConsumers ? stats.totalConsumers.toLocaleString() : "0"}
+                subtitle="Active consumer accounts"
+                icon={Users}
+                color="#075BB5" // Utility blue
+                trend="up"
+                trendLabel="+12% MoM"
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={3}>
+              <EnergyStatCard
+                title="Active Grid Connections"
+                value={stats.totalConnections ? stats.totalConnections.toLocaleString() : "0"}
+                subtitle="Registered load points"
+                icon={Plug2}
+                color="#087A5A" // Operational green
+                trend="up"
+                trendLabel="Operational"
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={3}>
+              <EnergyStatCard
+                title="Monthly Collections Settled"
+                value={`₹${(stats.monthlyRevenue || 0).toLocaleString()}`}
+                subtitle="Current billing cycle receipts"
+                icon={CreditCard}
+                color="#075BB5" // Utility blue
+                trend="up"
+                trendLabel="+8.4%"
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={3}>
+              <EnergyStatCard
+                title="Pending Unpaid Bills"
+                value={stats.unpaidBills ? stats.unpaidBills.toLocaleString() : "0"}
+                subtitle="Outstanding dues ledger"
+                icon={Receipt}
+                color="#F05A28" // Safety orange
+                trend="down"
+                trendLabel="Action Due"
+              />
+            </Grid>
+          </Grid>
+
+          {/* Analytics Block */}
+          <Grid container spacing={3.5} sx={{ mb: 4 }}>
+            {/* Left Chart */}
+            <Grid item xs={12} md={8}>
+              <ChartCard
+                title="Monthly Billing vs Settlement Collection"
+                subtitle="Financial revenue performance over the last 6 billing cycles"
+                action={
+                  <Chip
+                    label="AUDITED REPORT"
+                    size="small"
+                    sx={{
+                      bgcolor: "#FFFDF8",
+                      border: "1.5px solid #087A5A",
+                      color: "#087A5A",
+                      fontWeight: 800,
+                      borderRadius: "2px",
+                    }}
+                  />
+                }
+              >
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 15, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#075BB5" stopOpacity={0.25} />
+                        <stop offset="95%" stopColor="#075BB5" stopOpacity={0} />
+                      </linearGradient>
+                      <linearGradient id="colorCol" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#087A5A" stopOpacity={0.25} />
+                        <stop offset="95%" stopColor="#087A5A" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#C9C3B7" />
+                    <XAxis dataKey="month" stroke="#625F58" fontSize={11} tickLine={false} style={{ fontWeight: 700 }} />
+                    <YAxis stroke="#625F58" fontSize={11} tickLine={false} style={{ fontWeight: 700 }} />
+                    <RechartsTooltip contentStyle={{ backgroundColor: "#FFFDF8", border: "1px solid #C9C3B7", borderRadius: "2px", color: "#171717" }} />
+                    <Area type="monotone" dataKey="revenue" name="Billed Revenue (₹)" stroke="#075BB5" strokeWidth={2} fillOpacity={1} fill="url(#colorRev)" />
+                    <Area type="monotone" dataKey="collection" name="Amount Settled (₹)" stroke="#087A5A" strokeWidth={2} fillOpacity={1} fill="url(#colorCol)" />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </ChartCard>
+            </Grid>
+
+            {/* Right predictions list */}
+            <Grid item xs={12} md={4}>
+              <GlassCard sx={{ p: 3, height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                <Box>
+                  <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
+                    <TrendingUp color="#075BB5" size={18} />
+                    <Typography variant="h6" sx={{ fontWeight: 800, color: "#171717", fontSize: "1.05rem" }}>
+                      Load Forecast Model
                     </Typography>
-                    <Typography variant="caption" sx={{ color: "#94A3B8" }}>
-                      Month: {b.billingMonth} | {b.unitsConsumed} kWh
-                    </Typography>
-                  </Box>
-                  <Stack textAlign="right" alignItems="flex-end" spacing={0.5}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 800, color: "#FFFFFF" }}>
-                      ₹{(b.totalAmount || 0).toLocaleString()}
-                    </Typography>
-                    <StatusBadge label={b.billStatus} />
                   </Stack>
-                </Stack>
-              ))}
-            </Stack>
-          </GlassCard>
-        </Grid>
+                  <Typography variant="caption" sx={{ color: "#625F58", display: "block", mb: 3, fontWeight: 700 }}>
+                    Upcoming 3-month predictive energy consumption model based on regression
+                  </Typography>
 
-        
-        <Grid item xs={12} md={6}>
-          <GlassCard sx={{ p: 3 }}>
-            <Typography variant="h5" sx={{ fontWeight: 700, color: "#FFFFFF", mb: 2.5 }}>
-              Recent Payment Settlements
-            </Typography>
-            <Stack spacing={1.5}>
-              {recentPayments.map((p) => (
-                <Stack key={p.id} direction="row" justifyContent="space-between" alignItems="center" sx={{ p: 2, borderRadius: "12px", border: "1px solid rgba(255, 255, 255, 0.04)", bgcolor: "rgba(255,255,255,0.02)", "&:hover": { bgcolor: "rgba(255,255,255,0.04)" }, transition: "all 0.2s" }}>
-                  <Box>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#FFFFFF" }}>
-                      Txn #{p.transactionId}
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: "#94A3B8" }}>
-                      Date: {p.paymentDate} | Mode: {p.paymentMode}
-                    </Typography>
-                  </Box>
-                  <Box textAlign="right">
-                    <Typography variant="subtitle1" sx={{ fontWeight: 800, color: "#22C55E", mb: 0.5 }}>
-                      +₹{(p.amountPaid || 0).toLocaleString()}
-                    </Typography>
-                    <StatusBadge label="SETTLED" />
-                  </Box>
+                  <Stack spacing={2}>
+                    {predictions.length > 0 ? (
+                      predictions.map((pred, idx) => (
+                        <Box
+                          key={idx}
+                          sx={{
+                            p: 2,
+                            borderRadius: "2px",
+                            bgcolor: "#FFFDF8",
+                            border: "1px solid #C9C3B7",
+                            transition: "all 120ms ease",
+                            "&:hover": { bgcolor: "#F3F0E8" },
+                          }}
+                        >
+                          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 0.5 }}>
+                            <Typography variant="subtitle2" sx={{ fontWeight: 800, color: "#171717" }}>
+                              {pred.month} Forecast
+                            </Typography>
+                            <Typography variant="h6" sx={{ fontWeight: 800, color: "#075BB5", fontFamily: "monospace" }}>
+                              {pred.predictedKwh} kWh
+                            </Typography>
+                          </Box>
+                          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                            <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700 }}>
+                              Lower: {pred.lowerBoundKwh} kWh
+                            </Typography>
+                            <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700 }}>
+                              Upper: {pred.upperBoundKwh} kWh
+                            </Typography>
+                          </Box>
+                        </Box>
+                      ))
+                    ) : (
+                      <Box sx={{ p: 3, textAlign: "center", bgcolor: "#FFFDF8", border: "1px dashed #C9C3B7", borderRadius: "2px" }}>
+                        <Typography variant="body2" sx={{ color: "#625F58" }}>
+                          Generating forecast projections...
+                        </Typography>
+                      </Box>
+                    )}
+                  </Stack>
+                </Box>
+
+                <Box sx={{ mt: 3, p: 2, borderRadius: "2px", bgcolor: "#FFFDF8", border: "1px solid #C9C3B7" }}>
+                  <Typography variant="caption" sx={{ color: "#087A5A", fontWeight: 800, display: "flex", alignItems: "center", gap: 0.8, mb: 0.5 }}>
+                    <Info size={14} /> MODEL CONFIDENCE: 96.4%
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: "#625F58", display: "block", lineHeight: 1.3 }}>
+                    Calculated using standard linear regression over historical grid meter readings ledger.
+                  </Typography>
+                </Box>
+              </GlassCard>
+            </Grid>
+          </Grid>
+
+          {/* Lower activity cards */}
+          <Grid container spacing={3.5}>
+            <Grid item xs={12} md={6}>
+              <GlassCard sx={{ p: 3 }}>
+                <Typography variant="h6" sx={{ fontWeight: 800, color: "#171717", mb: 2.5, fontSize: "1.05rem" }}>
+                  Recent Generated Invoices
+                </Typography>
+                <Stack spacing={1.5}>
+                  {recentBills.map((b) => (
+                    <Stack
+                      key={b.id}
+                      direction="row"
+                      justifyContent="space-between"
+                      alignItems="center"
+                      sx={{
+                        p: 2,
+                        borderRadius: "2px",
+                        border: "1px solid #C9C3B7",
+                        bgcolor: "#FFFDF8",
+                        transition: "all 120ms ease",
+                        "&:hover": { bgcolor: "#F3F0E8" },
+                      }}
+                    >
+                      <Box>
+                        <Typography variant="subtitle2" sx={{ fontWeight: 800, color: "#171717" }}>
+                          Bill #{b.billNumber}
+                        </Typography>
+                        <Typography variant="caption" sx={{ color: "#625F58", display: "block", mt: 0.2, fontWeight: 700 }}>
+                          Period: {b.billingMonth} | Consumed: {b.unitsConsumed} kWh
+                        </Typography>
+                      </Box>
+                      <Stack textAlign="right" alignItems="flex-end" spacing={0.5}>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 800, color: "#171717", fontFamily: "monospace" }}>
+                          ₹{(b.totalAmount || 0).toLocaleString()}
+                        </Typography>
+                        <StatusBadge label={b.billStatus} />
+                      </Stack>
+                    </Stack>
+                  ))}
                 </Stack>
-              ))}
+              </GlassCard>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <GlassCard sx={{ p: 3 }}>
+                <Typography variant="h6" sx={{ fontWeight: 800, color: "#171717", mb: 2.5, fontSize: "1.05rem" }}>
+                  Recent Settlement Receipts
+                </Typography>
+                <Stack spacing={1.5}>
+                  {recentPayments.map((p) => (
+                    <Stack
+                      key={p.id}
+                      direction="row"
+                      justifyContent="space-between"
+                      alignItems="center"
+                      sx={{
+                        p: 2,
+                        borderRadius: "2px",
+                        border: "1px solid #C9C3B7",
+                        bgcolor: "#FFFDF8",
+                        transition: "all 120ms ease",
+                        "&:hover": { bgcolor: "#F3F0E8" },
+                      }}
+                    >
+                      <Box>
+                        <Typography variant="subtitle2" sx={{ fontWeight: 800, color: "#171717" }}>
+                          Txn #{p.transactionId}
+                        </Typography>
+                        <Typography variant="caption" sx={{ color: "#625F58", display: "block", mt: 0.2, fontWeight: 700 }}>
+                          Date: {p.paymentDate} | Method: {p.paymentMode}
+                        </Typography>
+                      </Box>
+                      <Stack textAlign="right" alignItems="flex-end" spacing={0.5}>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 800, color: "#087A5A", fontFamily: "monospace" }}>
+                          +₹{(p.amountPaid || 0).toLocaleString()}
+                        </Typography>
+                        <StatusBadge label="SETTLED" />
+                      </Stack>
+                    </Stack>
+                  ))}
+                </Stack>
+              </GlassCard>
+            </Grid>
+          </Grid>
+        </>
+      ) : (
+        /* ==================================================
+            CONSUMER DASHBOARD VIEW
+            ================================================== */
+        <>
+          {/* Account Overview Summary */}
+          <Paper
+            elevation={0}
+            sx={{
+              p: 3.5,
+              mb: 4,
+              borderRadius: "2px",
+              bgcolor: "#FFFDF8",
+              border: "1px solid #C9C3B7",
+              borderTop: "4px solid #075BB5",
+            }}
+          >
+            <Stack direction={{ xs: "column", md: "row" }} justifyContent="space-between" alignItems={{ xs: "flex-start", md: "center" }} spacing={3}>
+              <Box>
+                <Typography variant="caption" sx={{ color: "#075BB5", fontWeight: 800, letterSpacing: "0.08em", display: "block", mb: 1, textTransform: "uppercase" }}>
+                  YOUR ELECTRICITY ACCOUNT
+                </Typography>
+                <Typography variant="h4" sx={{ fontWeight: 800, color: "#171717", mb: 1.5, letterSpacing: "-0.02em" }}>
+                  Welcome back, {stats.fullName || consumerName}
+                </Typography>
+                
+                <Stack direction={{ xs: "column", sm: "row" }} spacing={2.5} divider={<Divider orientation="vertical" flexItem sx={{ borderColor: "#C9C3B7", display: { xs: "none", sm: "block" } }} />}>
+                  <Typography variant="body2" sx={{ color: "#625F58", fontWeight: 700 }}>
+                    Consumer No: <span style={{ color: "#171717", fontFamily: "monospace", fontWeight: 800 }}>{stats.consumerNumber || "Loading..."}</span>
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "#625F58", fontWeight: 700 }}>
+                    Connection Type: <span style={{ color: "#171717", fontWeight: 800 }}>{stats.connectionType || "Loading..."}</span>
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "#625F58", fontWeight: 700, display: "flex", alignItems: "center", gap: 1 }}>
+                    Status: <StatusBadge label={stats.connectionStatus || "ACTIVE"} />
+                  </Typography>
+                </Stack>
+              </Box>
+
+              <Button
+                onClick={fetchDashboardData}
+                variant="outlined"
+                size="small"
+                startIcon={<RefreshCw size={14} />}
+                sx={{
+                  borderColor: "#C9C3B7",
+                  color: "#171717",
+                  fontWeight: 700,
+                  borderRadius: "2px",
+                  px: 2,
+                  py: 1,
+                  "&:hover": { borderColor: "#171717", bgcolor: "#E9E5DB" },
+                }}
+              >
+                Refresh
+              </Button>
             </Stack>
-          </GlassCard>
-        </Grid>
-      </Grid>
+          </Paper>
+
+          {loading && (
+            <LinearProgress
+              sx={{
+                mb: 3,
+                borderRadius: "2px",
+                bgcolor: "#E9E5DB",
+                "& .MuiLinearProgress-bar": { bgcolor: "#075BB5" },
+              }}
+            />
+          )}
+
+          {/* LEVEL 1: PRIMARY ACCOUNT INFORMATION STATS */}
+          <Grid container spacing={3.5} sx={{ mb: 4 }}>
+            <Grid item xs={12} sm={4}>
+              <EnergyStatCard
+                title="Current Outstanding Bill"
+                value={`₹${(stats.currentOutstandingBill || 0).toLocaleString()}`}
+                subtitle={`Payment Status: ${stats.paymentStatus || "SETTLED"}`}
+                icon={Receipt}
+                color={stats.currentOutstandingBill > 0 ? "#F05A28" : "#087A5A"} // Orange or Green
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={4}>
+              <EnergyStatCard
+                title="Monthly Energy Consumption"
+                value={`${(stats.currentMonthUnitsConsumed || 0).toLocaleString()} kWh`}
+                subtitle="Electricity units recorded"
+                icon={Zap}
+                color="#075BB5" // Utility blue
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={4}>
+              <EnergyStatCard
+                title="Connection Status"
+                value={stats.connectionStatus || "ACTIVE"}
+                subtitle={`Meter Serial: ${stats.meterNumber || "-"}`}
+                icon={Plug2}
+                color={stats.connectionStatus === "ACTIVE" ? "#087A5A" : "#C5382F"}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={3.5} sx={{ mb: 4 }}>
+            {/* Left side: Bill Action & Consumption Chart */}
+            <Grid item xs={12} md={8}>
+              <Stack spacing={3.5}>
+                {/* Billing Summary Box */}
+                <Paper
+                  elevation={0}
+                  sx={{
+                    p: 3,
+                    borderRadius: "2px",
+                    bgcolor: "#FFFDF8",
+                    border: "1px solid #C9C3B7",
+                  }}
+                >
+                  <Typography variant="h6" sx={{ fontWeight: 800, color: "#171717", mb: 2 }}>
+                    Active Invoicing Summary
+                  </Typography>
+
+                  <Grid container spacing={2.5}>
+                    <Grid item xs={12} sm={6}>
+                      <Stack spacing={1.5}>
+                        <Box>
+                          <Typography variant="caption" sx={{ color: "#625F58", display: "block", fontWeight: 700 }}>
+                            BILLING MONTH
+                          </Typography>
+                          <Typography variant="body1" sx={{ fontWeight: 800, color: "#171717" }}>
+                            {recentBills[0]?.billingMonth || "Current Month"}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant="caption" sx={{ color: "#625F58", display: "block", fontWeight: 700 }}>
+                            OUTSTANDING DUE
+                          </Typography>
+                          <Typography variant="h5" sx={{ fontWeight: 900, color: stats.currentOutstandingBill > 0 ? "#F05A28" : "#171717", fontFamily: "monospace" }}>
+                            ₹{(stats.currentOutstandingBill || 0).toLocaleString()}
+                          </Typography>
+                        </Box>
+                      </Stack>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6} sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                      <Stack direction="row" spacing={2}>
+                        <Button
+                          variant="contained"
+                          onClick={() => navigate("/bills")}
+                          sx={{
+                            flex: 1,
+                            bgcolor: "#075BB5",
+                            color: "#FFFDF8",
+                            borderRadius: "2px",
+                            fontWeight: 700,
+                            py: 1.5,
+                            "&:hover": { bgcolor: "#064B95" },
+                          }}
+                        >
+                          {stats.currentOutstandingBill > 0 ? "Pay Outstanding Dues" : "View Billing Ledger"}
+                        </Button>
+                      </Stack>
+                    </Grid>
+                  </Grid>
+                </Paper>
+
+                {/* Energy Consumption History Chart */}
+                <ChartCard
+                  title="Monthly Energy Consumption"
+                  subtitle="Recorded power consumption (kWh) over the last 6 months"
+                  action={
+                    <Chip
+                      label="METER HISTORY"
+                      size="small"
+                      sx={{
+                        bgcolor: "#FFFDF8",
+                        border: "1.5px solid #075BB5",
+                        color: "#075BB5",
+                        fontWeight: 800,
+                        borderRadius: "2px",
+                      }}
+                    />
+                  }
+                >
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={consumerChartData} margin={{ top: 10, right: 10, left: 15, bottom: 0 }}>
+                      <defs>
+                        <linearGradient id="colorUnits" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#075BB5" stopOpacity={0.25} />
+                          <stop offset="95%" stopColor="#075BB5" stopOpacity={0} />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#C9C3B7" />
+                      <XAxis dataKey="month" stroke="#625F58" fontSize={11} tickLine={false} style={{ fontWeight: 700 }} />
+                      <YAxis stroke="#625F58" fontSize={11} tickLine={false} style={{ fontWeight: 700 }} />
+                      <RechartsTooltip contentStyle={{ backgroundColor: "#FFFDF8", border: "1px solid #C9C3B7", borderRadius: "2px", color: "#171717" }} />
+                      <Area type="monotone" dataKey="unitsConsumed" name="Consumption (kWh)" stroke="#075BB5" strokeWidth={2} fillOpacity={1} fill="url(#colorUnits)" />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </ChartCard>
+              </Stack>
+            </Grid>
+
+            {/* Right side: Quick Actions & Secondary Account Details */}
+            <Grid item xs={12} md={4}>
+              <Stack spacing={3.5}>
+                {/* Quick Actions */}
+                <GlassCard sx={{ p: 3 }}>
+                  <Typography variant="h6" sx={{ fontWeight: 800, color: "#171717", mb: 2.5 }}>
+                    Quick Shortcuts
+                  </Typography>
+                  <Stack spacing={2}>
+                    <Button
+                      fullWidth
+                      variant="outlined"
+                      startIcon={<Receipt size={16} />}
+                      onClick={() => navigate("/bills")}
+                      sx={{
+                        py: 1.5,
+                        borderColor: "#C9C3B7",
+                        color: "#171717",
+                        borderRadius: "2px",
+                        fontWeight: 700,
+                        textTransform: "none",
+                        "&:hover": { borderColor: "#171717", bgcolor: "#E9E5DB" },
+                      }}
+                    >
+                      View Billing History
+                    </Button>
+                    <Button
+                      fullWidth
+                      variant="outlined"
+                      startIcon={<CreditCard size={16} />}
+                      onClick={() => navigate("/payments")}
+                      sx={{
+                        py: 1.5,
+                        borderColor: "#C9C3B7",
+                        color: "#171717",
+                        borderRadius: "2px",
+                        fontWeight: 700,
+                        textTransform: "none",
+                        "&:hover": { borderColor: "#171717", bgcolor: "#E9E5DB" },
+                      }}
+                    >
+                      View Payment Ledger
+                    </Button>
+                  </Stack>
+                </GlassCard>
+
+                {/* LEVEL 2: SECONDARY ACCOUNT DETAILS */}
+                <GlassCard sx={{ p: 3 }}>
+                  <Typography variant="h6" sx={{ fontWeight: 800, color: "#171717", mb: 2 }}>
+                    Account Details
+                  </Typography>
+
+                  <Stack spacing={1.8}>
+                    <Box sx={{ pb: 1.2, borderBottom: "1px dashed #C9C3B7", display: "flex", justifyContent: "space-between" }}>
+                      <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700 }}>
+                        METER SERIAL NO.
+                      </Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717", fontFamily: "monospace" }}>
+                        {stats.meterNumber || "-"}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ pb: 1.2, borderBottom: "1px dashed #C9C3B7", display: "flex", justifyContent: "space-between" }}>
+                      <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700 }}>
+                        ACTIVE TARIFF
+                      </Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717" }}>
+                        ₹{(stats.currentTariff || 0).toFixed(2)}/kWh
+                      </Typography>
+                    </Box>
+                    <Box sx={{ pb: 1.2, borderBottom: "1px dashed #C9C3B7", display: "flex", justifyContent: "space-between" }}>
+                      <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700 }}>
+                        CONNECTION NUMBER
+                      </Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717", fontFamily: "monospace" }}>
+                        {stats.connectionNumber || "-"}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                      <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700 }}>
+                        LAST PAYMENT SETTLED
+                      </Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 800, color: "#087A5A", fontFamily: "monospace" }}>
+                        ₹{(stats.lastPaymentAmount || 0).toLocaleString()}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </GlassCard>
+              </Stack>
+            </Grid>
+          </Grid>
+        </>
+      )}
     </Box>
   );
 };

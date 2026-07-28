@@ -15,15 +15,8 @@ import FAQ from "../components/landing/FAQ";
 import Footer from "../components/landing/Footer";
 import SystemTicker from "../components/landing/SystemTicker";
 import BackgroundEffects from "../components/landing/BackgroundEffects";
-import audioService from "../services/audioService";
 
 const LandingPage = () => {
-  useEffect(() => {
-    const cleanup = audioService.playWelcome();
-    return () => {
-      if (cleanup) cleanup();
-    };
-  }, []);
 
   const stats = [
     {

@@ -14,12 +14,13 @@ const MainLayout = () => {
 
   const getPageTitle = () => {
     const path = location.pathname;
+    const role = localStorage.getItem("userRole") || "ADMIN";
     if (path.includes("consumers")) return "Consumer Directory";
     if (path.includes("connections")) return "Grid Connections Management";
     if (path.includes("meter-readings")) return "Meter Reading Ledger";
     if (path.includes("bills")) return "Billing & Invoices";
     if (path.includes("payments")) return "Payment Settlements";
-    return "Executive Dashboard";
+    return role === "ADMIN" ? "Executive Dashboard" : "Consumer Dashboard";
   };
 
   return (

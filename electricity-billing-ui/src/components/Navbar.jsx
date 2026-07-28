@@ -14,23 +14,26 @@ import {
   ListItemText,
   Divider,
 } from "@mui/material";
-import { Bell, Menu, Activity, ShieldCheck, User, Volume2, VolumeX } from "lucide-react";
-import audioService from "../services/audioService";
+import { Bell, Menu, Activity, ShieldCheck, User } from "lucide-react";
+import api from "../api/axiosConfig";
 
 const Navbar = ({ onMobileToggle, title }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [muted, setMuted] = useState(audioService.isMuted());
+  const userRole = localStorage.getItem("userRole") || "ADMIN";
+  const [consumerNum, setConsumerNum] = useState(localStorage.getItem("consumerNumber") || "");
 
   useEffect(() => {
-    const unsubscribe = audioService.subscribe((mutedState) => {
-      setMuted(mutedState);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  const toggleMute = () => {
-    audioService.setMuted(!muted);
-  };
+    if (userRole === "CONSUMER" && !consumerNum) {
+      api.get("/api/consumer/profile")
+        .then((res) => {
+          if (res.data?.consumerNumber) {
+            localStorage.setItem("consumerNumber", res.data.consumerNumber);
+            setConsumerNum(res.data.consumerNumber);
+          }
+        })
+        .catch((err) => console.error("Error loading profile number", err));
+    }
+  }, [userRole, consumerNum]);
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -46,9 +49,8 @@ const Navbar = ({ onMobileToggle, title }) => {
     },
   ]);
 
-  const userRole = localStorage.getItem("userRole") || "ADMIN";
   const consumerName = localStorage.getItem("consumerName") || "Admin User";
-  const consumerNumber = localStorage.getItem("consumerNumber") || "N/A";
+  const consumerNumber = consumerNum || "Loading...";
 
   const userInitials = consumerName
     .split(" ")
@@ -138,23 +140,6 @@ const Navbar = ({ onMobileToggle, title }) => {
               </Typography>
             </Box>
           )}
-
-          <IconButton
-            onClick={toggleMute}
-            aria-label={muted ? "Unmute Voice Assistant" : "Mute Voice Assistant"}
-            sx={{
-              border: "1px solid #C9C3B7",
-              color: muted ? "#C5382F" : "#625F58",
-              borderRadius: "2px",
-              "&:hover": {
-                color: muted ? "#C5382F" : "#075BB5",
-                borderColor: "#171717",
-                bgcolor: "rgba(23, 23, 23, 0.04)",
-              },
-            }}
-          >
-            {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-          </IconButton>
 
           <IconButton
             onClick={handleNotifClick}

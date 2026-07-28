@@ -6,30 +6,30 @@ const StatusBadge = ({ label = "", statusType = "success", sx = {}, ...props }) 
     const status = String(label).toUpperCase();
     if (status === "PAID" || status === "ACTIVE" || status === "SUCCESS" || status === "SETTLED" || statusType === "success") {
       return {
-        bgcolor: "rgba(34, 197, 94, 0.12)",
-        color: "#22C55E",
-        border: "1px solid rgba(34, 197, 94, 0.25)",
+        bgcolor: "#FFFDF8",
+        color: "#087A5A", // Operational green
+        border: "1.5px solid #087A5A",
       };
     }
     if (status === "UNPAID" || status === "PENDING" || status === "IN_PROGRESS" || statusType === "warning") {
       return {
-        bgcolor: "rgba(245, 158, 11, 0.12)",
-        color: "#F59E0B",
-        border: "1px solid rgba(245, 158, 11, 0.25)",
+        bgcolor: "#FFFDF8",
+        color: "#F05A28", // Safety orange
+        border: "1.5px solid #F05A28",
       };
     }
     if (status === "ERROR" || status === "FAILED" || status === "INACTIVE" || statusType === "error") {
       return {
-        bgcolor: "rgba(239, 68, 68, 0.12)",
-        color: "#EF4444",
-        border: "1px solid rgba(239, 68, 68, 0.25)",
+        bgcolor: "#FFFDF8",
+        color: "#C5382F", // Alert red
+        border: "1.5px solid #C5382F",
       };
     }
     // Default style
     return {
-      bgcolor: "rgba(6, 182, 212, 0.12)",
-      color: "#06B6D4",
-      border: "1px solid rgba(6, 182, 212, 0.25)",
+      bgcolor: "#FFFDF8",
+      color: "#075BB5", // Utility blue
+      border: "1.5px solid #075BB5",
     };
   };
 
@@ -38,9 +38,9 @@ const StatusBadge = ({ label = "", statusType = "success", sx = {}, ...props }) 
       label={label}
       size="small"
       sx={{
-        fontWeight: 700,
+        fontWeight: 800,
         fontSize: "0.72rem",
-        borderRadius: "6px",
+        borderRadius: "2px",
         height: "22px",
         ...getColors(),
         ...sx,

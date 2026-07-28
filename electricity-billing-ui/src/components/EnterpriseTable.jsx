@@ -13,7 +13,6 @@ import {
   TablePagination,
   Typography,
   Stack,
-  Chip,
 } from "@mui/material";
 import { Search, Inbox } from "lucide-react";
 
@@ -39,25 +38,24 @@ const EnterpriseTable = ({
     <Paper
       elevation={0}
       sx={{
-        borderRadius: "16px",
-        border: "1px solid rgba(255, 255, 255, 0.08)",
-        bgcolor: "rgba(15, 23, 42, 0.35)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
+        borderRadius: "2px",
+        border: "1px solid #C9C3B7",
+        bgcolor: "#FFFDF8",
         overflow: "hidden",
       }}
     >
       
-      <Box sx={{ p: 2.5, borderBottom: "1px solid rgba(255, 255, 255, 0.06)", bgcolor: "transparent" }}>
+      {/* Header and Search Actions */}
+      <Box sx={{ p: 2.5, borderBottom: "1px solid #C9C3B7", bgcolor: "transparent" }}>
         <Stack direction={{ xs: "column", sm: "row" }} justifyContent="space-between" alignItems={{ xs: "stretch", sm: "center" }} spacing={2}>
           <Box>
             {title && (
-              <Typography variant="h5" sx={{ fontWeight: 700, color: "#FFFFFF" }}>
+              <Typography variant="h5" sx={{ fontWeight: 800, color: "#171717", fontSize: "1.1rem" }}>
                 {title}
               </Typography>
             )}
             {subtitle && (
-              <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 500 }}>
+              <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700 }}>
                 {subtitle}
               </Typography>
             )}
@@ -73,16 +71,18 @@ const EnterpriseTable = ({
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Search size={16} color="#94A3B8" />
+                      <Search size={16} color="#625F58" />
                     </InputAdornment>
                   ),
                 }}
                 sx={{
                   width: { xs: "100%", sm: "260px" },
                   "& .MuiOutlinedInput-root": {
-                    bgcolor: "rgba(255, 255, 255, 0.02)",
-                    borderRadius: "10px",
-                    color: "#FFFFFF",
+                    bgcolor: "#FFFDF8",
+                    borderRadius: "2px",
+                    color: "#171717",
+                    "& fieldset": { borderColor: "#C9C3B7" },
+                    "&:hover fieldset": { borderColor: "#171717" },
                   },
                 }}
               />
@@ -92,7 +92,7 @@ const EnterpriseTable = ({
         </Stack>
       </Box>
 
-      
+      {/* Table grid records */}
       <TableContainer sx={{ maxHeight: "640px" }}>
         <Table stickyHeader>
           <TableHead>
@@ -102,7 +102,14 @@ const EnterpriseTable = ({
                   key={col.field || col.headerName}
                   align={col.align || "left"}
                   style={{ width: col.width }}
-                  sx={{ bgcolor: "rgba(13, 27, 42, 0.95)", borderBottom: "2px solid rgba(255, 255, 255, 0.08)", color: "#94A3B8" }}
+                  sx={{
+                    bgcolor: "#E9E5DB",
+                    borderBottom: "2px solid #C9C3B7",
+                    color: "#171717",
+                    fontWeight: 800,
+                    fontSize: "0.8rem",
+                    py: 2,
+                  }}
                 >
                   {col.headerName}
                 </TableCell>
@@ -115,11 +122,11 @@ const EnterpriseTable = ({
               <TableRow>
                 <TableCell colSpan={columns.length} align="center" sx={{ py: 6 }}>
                   <Stack spacing={1} alignItems="center">
-                    <Inbox size={36} color="#64748B" />
-                    <Typography variant="body2" sx={{ color: "#94A3B8", fontWeight: 600 }}>
+                    <Inbox size={36} color="#625F58" />
+                    <Typography variant="body2" sx={{ color: "#171717", fontWeight: 800 }}>
                       No Records Found
                     </Typography>
-                    <Typography variant="caption" sx={{ color: "#64748B" }}>
+                    <Typography variant="caption" sx={{ color: "#625F58" }}>
                       Try adjusting your search query or filter parameters.
                     </Typography>
                   </Stack>
@@ -131,12 +138,22 @@ const EnterpriseTable = ({
                   hover
                   key={row.id || idx}
                   sx={{
-                    "&:hover": { bgcolor: "rgba(6, 182, 212, 0.06) !important" },
-                    transition: "bgcolor 0.15s ease",
+                    "&:hover": { bgcolor: "#F3F0E8 !important" },
+                    transition: "bgcolor 120ms ease",
                   }}
                 >
                   {columns.map((col) => (
-                    <TableCell key={col.field} align={col.align || "left"} sx={{ borderBottom: "1px solid rgba(255, 255, 255, 0.04)" }}>
+                    <TableCell
+                      key={col.field}
+                      align={col.align || "left"}
+                      sx={{
+                        borderBottom: "1px solid #C9C3B7",
+                        color: "#171717",
+                        fontWeight: 600,
+                        fontSize: "0.85rem",
+                        py: 1.8,
+                      }}
+                    >
                       {col.renderCell ? col.renderCell(row) : row[col.field]}
                     </TableCell>
                   ))}
@@ -147,7 +164,7 @@ const EnterpriseTable = ({
         </Table>
       </TableContainer>
 
-      
+      {/* Pagination controls */}
       {onPageChange && (
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 50]}
@@ -157,7 +174,15 @@ const EnterpriseTable = ({
           page={page}
           onPageChange={onPageChange}
           onRowsPerPageChange={onRowsPerPageChange}
-          sx={{ borderTop: "1px solid rgba(255, 255, 255, 0.06)", bgcolor: "transparent", color: "#94A3B8" }}
+          sx={{
+            borderTop: "1px solid #C9C3B7",
+            bgcolor: "transparent",
+            color: "#171717",
+            "& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows": {
+              fontWeight: 700,
+              fontSize: "0.8rem",
+            }
+          }}
         />
       )}
     </Paper>

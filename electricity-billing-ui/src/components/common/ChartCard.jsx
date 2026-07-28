@@ -7,11 +7,11 @@ const ChartCard = ({ title, subtitle, action, children, sx = {}, ...props }) => 
     <GlassCard sx={{ p: 3, height: "100%", ...sx }} {...props}>
       <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 3 }}>
         <Box>
-          <Typography variant="h5" sx={{ fontWeight: 700, color: "#FFFFFF" }}>
+          <Typography variant="h5" sx={{ fontWeight: 800, color: "#171717", fontSize: "1.1rem" }}>
             {title}
           </Typography>
           {subtitle && (
-            <Typography variant="caption" sx={{ color: "#94A3B8" }}>
+            <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700 }}>
               {subtitle}
             </Typography>
           )}

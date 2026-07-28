@@ -147,7 +147,7 @@ const Bills = () => {
       field: "amount",
       headerName: "Total Amount Due",
       renderCell: (row) => (
-        <span style={{ fontWeight: 800, color: "#FFFFFF" }}>
+        <span style={{ fontWeight: 800, color: "#171717" }}>
           ₹{(row.amount || 0).toLocaleString()}
         </span>
       ),
@@ -205,13 +205,13 @@ const Bills = () => {
             value={statusFilter}
             onChange={(e, val) => setStatusFilter(val)}
             sx={{
-              bgcolor: "rgba(15, 23, 42, 0.25)",
-              border: "1px solid rgba(255, 255, 255, 0.06)",
+              bgcolor: "#F3F0E8",
+              border: "1px solid #C9C3B7",
               p: 0.5,
-              borderRadius: "10px",
+              borderRadius: "2px",
               minHeight: 36,
-              "& .MuiTab-root": { minHeight: 32, px: 2, fontSize: "0.75rem", fontWeight: 700, color: "#94A3B8" },
-              "& .Mui-selected": { bgcolor: "#06B6D4", color: "#0F172A !important", borderRadius: "8px", boxShadow: "0 4px 15px rgba(6, 182, 212, 0.2)" },
+              "& .MuiTab-root": { minHeight: 32, px: 2, fontSize: "0.72rem", fontWeight: 800, color: "#625F58" },
+              "& .Mui-selected": { bgcolor: "#075BB5", color: "#FFFDF8 !important", borderRadius: "2px", boxShadow: "none" },
               "& .MuiTabs-indicator": { display: "none" },
             }}
           >
@@ -231,30 +231,27 @@ const Bills = () => {
 
       
       <Dialog open={paymentOpen} onClose={() => setPaymentOpen(false)} maxWidth="xs" fullWidth>
-        <DialogTitle sx={{ fontWeight: 800, color: "#FFFFFF" }}>Settle Outstanding Invoice</DialogTitle>
-        <DialogContent dividers sx={{ py: 3, borderColor: "rgba(255, 255, 255, 0.08)" }}>
+        <DialogTitle sx={{ fontWeight: 800, color: "#171717", pb: 1.5 }}>Settle Outstanding Invoice</DialogTitle>
+        <DialogContent dividers sx={{ py: 3, borderColor: "#C9C3B7" }}>
           {payingBill && (
             <Stack spacing={2.5}>
-              <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.02)", borderRadius: "12px", border: "1px solid rgba(255, 255, 255, 0.06)" }}>
-                <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 700, display: "block", mb: 0.5 }}>
+              <Box sx={{ p: 2, bgcolor: "#F3F0E8", borderRadius: "2px", border: "1px solid #C9C3B7" }}>
+                <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 800, display: "block", mb: 0.5 }}>
                   BILL NUMBER
                 </Typography>
-                <Typography variant="body1" sx={{ fontWeight: 800, color: "#FFFFFF", mb: 2 }}>
+                <Typography variant="body1" sx={{ fontWeight: 800, color: "#171717", mb: 2 }}>
                   {payingBill.billNumber}
                 </Typography>
                 
-                <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 700, display: "block", mb: 0.5 }}>
+                <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 800, display: "block", mb: 0.5 }}>
                   TOTAL OUTSTANDING AMOUNT
                 </Typography>
-                <Typography variant="h4" sx={{ fontWeight: 800, color: "#EF4444" }}>
+                <Typography variant="h4" sx={{ fontWeight: 800, color: "#C5382F", fontFamily: "monospace" }}>
                   ₹{(payingBill.totalAmount || payingBill.amount || 0).toLocaleString()}
                 </Typography>
               </Box>
 
-              <FormControl fullWidth sx={{
-                "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
-                "& .MuiInputLabel-root": { color: "#94A3B8" },
-              }}>
+              <FormControl fullWidth>
                 <InputLabel id="payment-mode-label">Select Payment Mode</InputLabel>
                 <Select
                   labelId="payment-mode-label"
@@ -271,8 +268,8 @@ const Bills = () => {
             </Stack>
           )}
         </DialogContent>
-        <DialogActions sx={{ p: 2.5 }}>
-          <Button onClick={() => setPaymentOpen(false)} sx={{ color: "#94A3B8" }}>
+        <DialogActions sx={{ p: 2.5, borderTop: "1px solid #C9C3B7" }}>
+          <Button onClick={() => setPaymentOpen(false)} sx={{ color: "#625F58" }}>
             Cancel
           </Button>
           <GradientButton

@@ -133,7 +133,7 @@ const MeterReadings = () => {
       field: "currentReading",
       headerName: "Current Reading (kWh)",
       renderCell: (row) => (
-        <span style={{ fontWeight: 600, color: "#FFFFFF" }}>{row.currentReading} kWh</span>
+        <span style={{ fontWeight: 600, color: "#171717" }}>{row.currentReading} kWh</span>
       ),
     },
     {
@@ -143,7 +143,7 @@ const MeterReadings = () => {
         <Chip
           label={`${row.unitsConsumed} kWh`}
           size="small"
-          sx={{ bgcolor: "rgba(34, 197, 94, 0.1)", color: "#22C55E", border: "1px solid rgba(34, 197, 94, 0.25)", fontWeight: 800 }}
+          sx={{ bgcolor: "#FFFDF8", color: "#087A5A", border: "1.5px solid #087A5A", fontWeight: 800, borderRadius: "2px" }}
         />
       ),
     },

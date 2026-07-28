@@ -8,34 +8,34 @@ const EnergyStatCard = ({
   value,
   subtitle,
   icon: Icon,
-  color = "#0284C7",
+  color = "#075BB5",
   trend,
   trendLabel,
 }) => {
   return (
-    <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
+    <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.12 }}>
       <Card
         elevation={0}
         sx={{
-          borderRadius: "16px",
-          border: "1px solid rgba(255, 255, 255, 0.08)",
-          bgcolor: "rgba(15, 23, 42, 0.35)",
-          backdropFilter: "blur(12px)",
+          borderRadius: "2px",
+          border: "1px solid #C9C3B7",
+          bgcolor: "#FFFDF8",
           p: 0.5,
           position: "relative",
           overflow: "hidden",
+          transition: "all 120ms ease-in-out",
           "&:hover": {
-            boxShadow: `0 12px 30px ${color}15`,
-            borderColor: color,
+            borderColor: "#171717",
+            bgcolor: "#FFFDF8",
           },
         }}
       >
-        
+        {/* Accent Bar */}
         <Box
           sx={{
             height: "4px",
             width: "100%",
-            background: `linear-gradient(90deg, ${color} 0%, rgba(255,255,255,0) 100%)`,
+            bgcolor: color,
             position: "absolute",
             top: 0,
             left: 0,
@@ -48,8 +48,8 @@ const EnergyStatCard = ({
             <Typography
               variant="subtitle2"
               sx={{
-                color: "#94A3B8",
-                fontWeight: 600,
+                color: "#625F58",
+                fontWeight: 800,
                 textTransform: "uppercase",
                 fontSize: "0.72rem",
                 letterSpacing: "0.04em",
@@ -67,26 +67,26 @@ const EnergyStatCard = ({
             {Icon && (
               <Box
                 sx={{
-                  width: "40px",
-                  height: "40px",
+                  width: "36px",
+                  height: "36px",
                   flexShrink: 0,
-                  borderRadius: "12px",
-                  bgcolor: `${color}15`,
+                  borderRadius: "2px",
+                  bgcolor: "#E9E5DB",
                   color: color,
-                  border: `1px solid ${color}30`,
+                  border: `1px solid #C9C3B7`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <Icon size={20} />
+                <Icon size={18} />
               </Box>
             )}
           </Stack>
 
           {/* Metric Section: positioned below header */}
           <Box sx={{ mb: 2 }}>
-            <Typography variant="h3" sx={{ fontWeight: 800, color: "#FFFFFF" }}>
+            <Typography variant="h3" sx={{ fontWeight: 800, color: "#171717", fontSize: { xs: "1.65rem", md: "1.95rem" }, fontFamily: "monospace" }}>
               {value}
             </Typography>
           </Box>
@@ -94,7 +94,7 @@ const EnergyStatCard = ({
           {/* Footer Section: Subtitle and trend badge */}
           <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
             {subtitle && (
-              <Typography variant="caption" sx={{ color: "#64748B", fontWeight: 500 }}>
+              <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700, fontSize: "0.75rem" }}>
                 {subtitle}
               </Typography>
             )}
@@ -105,12 +105,17 @@ const EnergyStatCard = ({
                 icon={trend === "up" ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
                 label={trendLabel}
                 sx={{
-                  bgcolor: trend === "up" ? "rgba(16, 185, 129, 0.1)" : "rgba(239, 68, 68, 0.1)",
-                  color: trend === "up" ? "#059669" : "#DC2626",
-                  fontWeight: 700,
-                  fontSize: "0.7rem",
+                  bgcolor: "#FFFDF8",
+                  border: `1px solid ${trend === "up" ? "#087A5A" : "#C5382F"}`,
+                  color: trend === "up" ? "#087A5A" : "#C5382F",
+                  fontWeight: 800,
+                  fontSize: "0.68rem",
+                  borderRadius: "2px",
                   height: "22px",
                   flexShrink: 0,
+                  "& .MuiChip-icon": {
+                    color: "currentColor",
+                  }
                 }}
               />
             )}

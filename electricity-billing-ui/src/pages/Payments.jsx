@@ -150,7 +150,7 @@ const Payments = () => {
         <Chip
           size="small"
           label={row.paymentMode}
-          sx={{ bgcolor: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255, 255, 255, 0.08)", color: "#94A3B8", fontWeight: 600 }}
+          sx={{ bgcolor: "#F3F0E8", border: "1px solid #C9C3B7", color: "#171717", fontWeight: 800, borderRadius: "2px" }}
         />
       ),
     },
@@ -158,7 +158,7 @@ const Payments = () => {
       field: "amountPaid",
       headerName: "Amount Settled",
       renderCell: (row) => (
-        <span style={{ fontWeight: 800, color: "#22C55E" }}>
+        <span style={{ fontWeight: 800, color: "#087A5A" }}>
           +₹{(row.amountPaid || 0).toLocaleString()}
         </span>
       ),
@@ -211,7 +211,7 @@ const Payments = () => {
       
       <Dialog open={payDialogOpen} onClose={() => setPayDialogOpen(false)} maxWidth="sm" fullWidth>
         <form onSubmit={handlePaySubmit}>
-          <DialogTitle sx={{ p: 3, color: "#FFFFFF", fontWeight: 700, borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>
+          <DialogTitle sx={{ p: 3, color: "#171717", fontWeight: 800, borderBottom: "1px solid #C9C3B7" }}>
             Process Instant Electricity Settlement
           </DialogTitle>
 
@@ -224,10 +224,6 @@ const Payments = () => {
                 value={selectedBillId}
                 onChange={(e) => setSelectedBillId(e.target.value)}
                 required
-                sx={{
-                  "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
-                  "& .MuiInputLabel-root": { color: "#94A3B8" },
-                }}
               >
                 {unpaidBills.length === 0 ? (
                   <MenuItem disabled value="">No Unpaid Bills Found</MenuItem>
@@ -247,10 +243,6 @@ const Payments = () => {
                 value={paymentMode}
                 onChange={(e) => setPaymentMode(e.target.value)}
                 required
-                sx={{
-                  "& .MuiOutlinedInput-root": { color: "#FFFFFF", bgcolor: "rgba(255, 255, 255, 0.02)" },
-                  "& .MuiInputLabel-root": { color: "#94A3B8" },
-                }}
               >
                 <MenuItem value="UPI">UPI / Digital Wallet</MenuItem>
                 <MenuItem value="CREDIT_CARD">Credit Card</MenuItem>
@@ -261,8 +253,8 @@ const Payments = () => {
             </Stack>
           </DialogContent>
 
-          <DialogActions sx={{ p: 2.5, borderTop: "1px solid rgba(255, 255, 255, 0.08)" }}>
-            <Button onClick={() => setPayDialogOpen(false)} sx={{ color: "#94A3B8" }}>Cancel</Button>
+          <DialogActions sx={{ p: 2.5, borderTop: "1px solid #C9C3B7" }}>
+            <Button onClick={() => setPayDialogOpen(false)} sx={{ color: "#625F58" }}>Cancel</Button>
             <GradientButton
               type="submit"
               variant="contained"

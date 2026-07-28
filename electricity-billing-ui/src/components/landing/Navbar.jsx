@@ -15,24 +15,11 @@ import {
   ListItemText,
   Container,
 } from "@mui/material";
-import { Menu, X, Zap, Volume2, VolumeX } from "lucide-react";
-import audioService from "../../services/audioService";
+import { Menu, X, Zap } from "lucide-react";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [muted, setMuted] = useState(audioService.isMuted());
-
-  useEffect(() => {
-    const unsubscribe = audioService.subscribe((mutedState) => {
-      setMuted(mutedState);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  const toggleMute = () => {
-    audioService.setMuted(!muted);
-  };
 
   const handleDrawerToggle = () => {
     setMobileOpen((prev) => !prev);
@@ -245,25 +232,8 @@ const Navbar = () => {
               ))}
             </Stack>
 
-            {/* Actions: Voice Assistant & Login buttons */}
+            {/* Actions: Login buttons */}
             <Stack direction="row" spacing={1.5} alignItems="center">
-              <IconButton
-                onClick={toggleMute}
-                aria-label={muted ? "Unmute Voice Assistant" : "Mute Voice Assistant"}
-                sx={{
-                  color: muted ? "#C5382F" : "#625F58",
-                  border: "1px solid #C9C3B7",
-                  borderRadius: "2px",
-                  p: 1,
-                  "&:hover": {
-                    color: muted ? "#C5382F" : "#075BB5",
-                    borderColor: "#171717",
-                    bgcolor: "rgba(23, 23, 23, 0.04)",
-                  },
-                }}
-              >
-                {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-              </IconButton>
 
               <Stack
                 direction="row"

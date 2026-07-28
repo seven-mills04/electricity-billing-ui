@@ -25,7 +25,6 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import audioService from "../services/audioService";
 
 const Sidebar = ({ onClose }) => {
   const navigate = useNavigate();
@@ -76,12 +75,7 @@ const Sidebar = ({ onClose }) => {
   const menuItems = allMenuItems.filter((item) => item.roles.includes(userRole));
 
   const handleSignOut = () => {
-    const isMuted = localStorage.getItem("audio_muted");
     localStorage.clear();
-    if (isMuted !== null) {
-      localStorage.setItem("audio_muted", isMuted);
-    }
-    audioService.play("logout.mp3");
     navigate("/login");
   };
 
@@ -126,19 +120,12 @@ const Sidebar = ({ onClose }) => {
       <Divider sx={{ borderColor: "#C9C3B7", mb: 2 }} />
 
       <Box sx={{ px: 3, mb: 2 }}>
-        <Chip
-          size="small"
-          label={userRole === "ADMIN" ? "Scope: Senior Grid Operator" : "Scope: Consumer Self-Service"}
-          sx={{
-            width: "100%",
-            bgcolor: "#F3F0E8",
-            color: userRole === "ADMIN" ? "#171717" : "#075BB5",
-            fontWeight: 800,
-            fontSize: "0.72rem",
-            borderRadius: "2px",
-            border: `1.5px solid ${userRole === "ADMIN" ? "#171717" : "#075BB5"}`,
-          }}
-        />
+        <Typography variant="caption" sx={{ fontWeight: 900, color: userRole === "ADMIN" ? "#171717" : "#075BB5", textTransform: "uppercase", display: "block", fontSize: "0.72rem", letterSpacing: "0.05em", mb: 0.2 }}>
+          {userRole === "ADMIN" ? "ADMIN PORTAL" : "CONSUMER PORTAL"}
+        </Typography>
+        <Typography variant="body2" sx={{ color: "#625F58", fontWeight: 700, fontSize: "0.8rem" }}>
+          {userRole === "ADMIN" ? "Senior Grid Operator" : "Self-Service Account"}
+        </Typography>
       </Box>
 
       <List sx={{ px: 2, flexGrow: 1 }}>

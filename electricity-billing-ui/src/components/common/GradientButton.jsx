@@ -5,38 +5,39 @@ const GradientButton = ({ children, variant = "contained", colorType = "primary"
   const getGradientStyles = () => {
     if (variant === "outlined") {
       return {
-        borderColor: "rgba(255, 255, 255, 0.12)",
-        color: "#F8FAFC",
+        borderColor: "#C9C3B7",
+        color: "#171717",
+        boxShadow: "none",
         "&:hover": {
-          borderColor: "#06B6D4",
-          bgcolor: "rgba(6, 182, 212, 0.05)",
-          boxShadow: "0 0 15px rgba(6, 182, 212, 0.2)",
+          borderColor: "#171717",
+          bgcolor: "#F3F0E8",
+          boxShadow: "none",
         },
       };
     }
 
     if (colorType === "accent") {
       return {
-        background: "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)",
-        color: "#0F172A",
-        fontWeight: 700,
+        bgcolor: "#F05A28",
+        color: "#FFFDF8",
+        fontWeight: 800,
+        boxShadow: "none",
         "&:hover": {
-          background: "linear-gradient(135deg, #22D3EE 0%, #06B6D4 100%)",
-          boxShadow: "0 0 20px rgba(6, 182, 212, 0.45)",
-          transform: "translateY(-1px)",
+          bgcolor: "#d94918",
+          boxShadow: "none",
         },
       };
     }
 
     // Default: Primary
     return {
-      background: "linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)",
-      color: "#FFFFFF",
-      fontWeight: 700,
+      bgcolor: "#075BB5",
+      color: "#FFFDF8",
+      fontWeight: 800,
+      boxShadow: "none",
       "&:hover": {
-        background: "linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)",
-        boxShadow: "0 0 20px rgba(37, 99, 235, 0.45)",
-        transform: "translateY(-1px)",
+        bgcolor: "#064B95",
+        boxShadow: "none",
       },
     };
   };
@@ -45,11 +46,11 @@ const GradientButton = ({ children, variant = "contained", colorType = "primary"
     <Button
       variant={variant}
       sx={{
-        borderRadius: "12px",
+        borderRadius: "2px",
         py: 1.25,
         px: 3,
         textTransform: "none",
-        transition: "all 0.2s ease-in-out",
+        transition: "all 120ms ease-in-out",
         ...getGradientStyles(),
         ...sx,
       }}
