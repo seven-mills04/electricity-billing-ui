@@ -25,13 +25,14 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useAuth } from "../context/AuthContext";
 
 const Sidebar = ({ onClose }) => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  const userRole = localStorage.getItem("userRole") || "ADMIN";
-  const consumerName = localStorage.getItem("consumerName") || "Admin User";
+  const { userRole, consumerName, logout } = useAuth();
+  const activeUserRole = userRole || "ADMIN";
+  const activeConsumerName = consumerName || (activeUserRole === "ADMIN" ? "Admin User" : "Consumer User");
 
   const allMenuItems = [
     {
@@ -41,19 +42,19 @@ const Sidebar = ({ onClose }) => {
       roles: ["ADMIN", "CONSUMER"],
     },
     {
-      text: "Consumers Directory",
+      text: "Consumers",
       icon: <Users size={20} />,
       path: "/consumers",
       roles: ["ADMIN"],
     },
     {
-      text: "Grid Connections",
+      text: "Connections",
       icon: <Plug2 size={20} />,
       path: "/connections",
       roles: ["ADMIN"],
     },
     {
-      text: "Meter Readings Ledger",
+      text: "Meter Readings",
       icon: <Gauge size={20} />,
       path: "/meter-readings",
       roles: ["ADMIN"],
@@ -65,17 +66,17 @@ const Sidebar = ({ onClose }) => {
       roles: ["ADMIN", "CONSUMER"],
     },
     {
-      text: "Payments & Settlements",
+      text: "Payments",
       icon: <CreditCard size={20} />,
       path: "/payments",
       roles: ["ADMIN", "CONSUMER"],
     },
   ];
 
-  const menuItems = allMenuItems.filter((item) => item.roles.includes(userRole));
+  const menuItems = allMenuItems.filter((item) => item.roles.includes(activeUserRole));
 
   const handleSignOut = () => {
-    localStorage.clear();
+    logout();
     navigate("/login");
   };
 
@@ -120,11 +121,11 @@ const Sidebar = ({ onClose }) => {
       <Divider sx={{ borderColor: "#C9C3B7", mb: 2 }} />
 
       <Box sx={{ px: 3, mb: 2 }}>
-        <Typography variant="caption" sx={{ fontWeight: 900, color: userRole === "ADMIN" ? "#171717" : "#075BB5", textTransform: "uppercase", display: "block", fontSize: "0.72rem", letterSpacing: "0.05em", mb: 0.2 }}>
-          {userRole === "ADMIN" ? "ADMIN PORTAL" : "CONSUMER PORTAL"}
+        <Typography variant="caption" sx={{ fontWeight: 900, color: activeUserRole === "ADMIN" ? "#171717" : "#075BB5", textTransform: "uppercase", display: "block", fontSize: "0.72rem", letterSpacing: "0.05em", mb: 0.2 }}>
+          {activeUserRole === "ADMIN" ? "ADMIN PORTAL" : "CONSUMER PORTAL"}
         </Typography>
         <Typography variant="body2" sx={{ color: "#625F58", fontWeight: 700, fontSize: "0.8rem" }}>
-          {userRole === "ADMIN" ? "Senior Grid Operator" : "Self-Service Account"}
+          {activeUserRole === "ADMIN" ? "Senior Grid Operator" : "Self-Service Account"}
         </Typography>
       </Box>
 

@@ -16,24 +16,12 @@ import {
 } from "@mui/material";
 import { Bell, Menu, Activity, ShieldCheck, User } from "lucide-react";
 import api from "../api/axiosConfig";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = ({ onMobileToggle, title }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const userRole = localStorage.getItem("userRole") || "ADMIN";
-  const [consumerNum, setConsumerNum] = useState(localStorage.getItem("consumerNumber") || "");
+  const { userRole, consumerName, consumerNumber, loadingProfile } = useAuth();
 
-  useEffect(() => {
-    if (userRole === "CONSUMER" && !consumerNum) {
-      api.get("/api/consumer/profile")
-        .then((res) => {
-          if (res.data?.consumerNumber) {
-            localStorage.setItem("consumerNumber", res.data.consumerNumber);
-            setConsumerNum(res.data.consumerNumber);
-          }
-        })
-        .catch((err) => console.error("Error loading profile number", err));
-    }
-  }, [userRole, consumerNum]);
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -49,10 +37,10 @@ const Navbar = ({ onMobileToggle, title }) => {
     },
   ]);
 
-  const consumerName = localStorage.getItem("consumerName") || "Admin User";
-  const consumerNumber = consumerNum || "Loading...";
+  const activeConsumerName = consumerName || (userRole === "ADMIN" ? "Admin User" : "Consumer User");
+  const displayConsumerNumber = consumerNumber || (loadingProfile ? "Loading..." : "N/A");
 
-  const userInitials = consumerName
+  const userInitials = activeConsumerName
     .split(" ")
     .map((n) => n[0])
     .join("")
@@ -136,7 +124,7 @@ const Navbar = ({ onMobileToggle, title }) => {
               }}
             >
               <Typography sx={{ fontSize: "0.75rem", fontWeight: 700, color: "#625F58" }}>
-                Consumer No: <span style={{ color: "#075BB5", fontWeight: 800, fontFamily: "monospace" }}>{consumerNumber}</span>
+                Consumer No: <span style={{ color: "#075BB5", fontWeight: 800, fontFamily: "monospace" }}>{displayConsumerNumber}</span>
               </Typography>
             </Box>
           )}
@@ -159,34 +147,30 @@ const Navbar = ({ onMobileToggle, title }) => {
             open={notifOpen}
             anchorEl={anchorEl}
             onClose={handleNotifClose}
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            transformOrigin={{ vertical: "top", horizontal: "right" }}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
             PaperProps={{
-              sx: { 
-                width: 340, 
-                p: 2.5, 
-                borderRadius: "2px", 
-                border: "1px solid #C9C3B7",
+              sx: {
+                width: 320,
+                mt: 1.5,
                 bgcolor: "#FFFDF8",
+                border: "1px solid #171717",
                 boxShadow: "none",
-                color: "#171717",
+                borderRadius: "2px",
               },
             }}
           >
-            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1.5 }}>
-              <Typography variant="h6" sx={{ fontWeight: 800, color: "#171717", fontSize: "0.95rem" }}>
-                Notifications
+            <Box sx={{ p: 2, bgcolor: "#E9E5DB", borderBottom: "1px solid #C9C3B7" }}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 800, color: "#171717" }}>
+                Grid Notifications
               </Typography>
-              {unreadCount > 0 && (
-                <Typography 
-                  variant="caption" 
-                  sx={{ color: "#075BB5", fontWeight: 700, cursor: "pointer", "&:hover": { textDecoration: "underline" } }}
-                  onClick={() => setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))}
-                >
-                  Mark all as read
-                </Typography>
-              )}
-            </Stack>
+            </Box>
             <Divider sx={{ mb: 1.5, borderColor: "#C9C3B7" }} />
             {notifications.length === 0 ? (
               <Box sx={{ py: 3, textAlign: "center" }}>

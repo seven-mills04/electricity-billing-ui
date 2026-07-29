@@ -39,10 +39,12 @@ import { motion } from "framer-motion";
 import api from "../api/axiosConfig";
 import { getPublicConsumers } from "../api/consumerApi";
 import BackgroundEffects from "../components/landing/BackgroundEffects";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { loginSuccess } = useAuth();
   const [tabValue, setTabValue] = useState(
     location.state?.tab !== undefined ? location.state.tab : 0
   );
@@ -126,9 +128,11 @@ const Login = () => {
         });
 
         const { token, role, consumerName } = response.data;
-        localStorage.setItem("authToken", token);
-        localStorage.setItem("userRole", role);
-        localStorage.setItem("consumerName", consumerName || "Admin User");
+        loginSuccess({
+          token,
+          role,
+          consumerName: consumerName || "Admin User",
+        });
 
         navigate("/dashboard");
       } else if (tabValue === 1) {
@@ -138,27 +142,28 @@ const Login = () => {
         });
 
         const { token, role, consumerId, consumerName } = response.data;
-        localStorage.setItem("authToken", token);
-        localStorage.setItem("userRole", role);
-        localStorage.setItem("consumerName", consumerName || "Consumer User");
+        let fetchedConsumerNum = "";
 
         if (consumerId) {
-          localStorage.setItem("consumerId", consumerId);
           try {
             const consumerRes = await api.get("/api/consumer/profile");
             const consumerData = consumerRes.data;
 
             if (consumerData) {
-              localStorage.setItem("consumerNumber", consumerData.consumerNumber || "");
-              const connectionNumbers = (consumerData.connections || []).map(
-                (c) => c.connectionNumber
-              );
-              localStorage.setItem("consumerConnections", JSON.stringify(connectionNumbers));
+              fetchedConsumerNum = consumerData.consumerNumber || "";
             }
           } catch (cErr) {
             console.error("Failed to fetch consumer details", cErr);
           }
         }
+
+        loginSuccess({
+          token,
+          role,
+          consumerId,
+          consumerName: consumerName || "Consumer User",
+          consumerNumber: fetchedConsumerNum,
+        });
 
         navigate("/dashboard");
       } else {

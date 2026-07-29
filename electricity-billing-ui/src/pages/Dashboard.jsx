@@ -50,9 +50,11 @@ import { getDashboard, getPredictions } from "../api/dashboardApi";
 import { getBills } from "../api/billApi";
 import { getPayments } from "../api/paymentApi";
 import { getConsumerDashboard } from "../api/consumerApi";
+import { useAuth } from "../context/AuthContext";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { userRole, consumerName, updateConsumerNumber } = useAuth();
   const [stats, setStats] = useState({
     totalConsumers: 0,
     totalConnections: 0,
@@ -69,9 +71,6 @@ const Dashboard = () => {
   const [recentPayments, setRecentPayments] = useState([]);
   const [consumerChartData, setConsumerChartData] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const userRole = localStorage.getItem("userRole") || "ADMIN";
-  const consumerName = localStorage.getItem("consumerName") || "Admin User";
 
   useEffect(() => {
     fetchDashboardData();
@@ -101,6 +100,9 @@ const Dashboard = () => {
         const response = await getConsumerDashboard();
         if (response?.data) {
           const d = response.data;
+          if (d.consumerNumber) {
+            updateConsumerNumber(d.consumerNumber);
+          }
           setStats({
             consumerNumber: d.consumerNumber,
             fullName: d.fullName,
@@ -269,19 +271,6 @@ const Dashboard = () => {
               <ChartCard
                 title="Monthly Billing vs Settlement Collection"
                 subtitle="Financial revenue performance over the last 6 billing cycles"
-                action={
-                  <Chip
-                    label="AUDITED REPORT"
-                    size="small"
-                    sx={{
-                      bgcolor: "#FFFDF8",
-                      border: "1.5px solid #087A5A",
-                      color: "#087A5A",
-                      fontWeight: 800,
-                      borderRadius: "2px",
-                    }}
-                  />
-                }
               >
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 15, bottom: 0 }}>
