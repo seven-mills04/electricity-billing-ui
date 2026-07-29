@@ -26,7 +26,11 @@ api.interceptors.response.use(
       localStorage.removeItem("consumerName");
       localStorage.removeItem("consumerId");
       localStorage.removeItem("consumerNumber");
-      window.location.href = "/login";
+      localStorage.removeItem("consumerConnections");
+
+      if (typeof window !== "undefined" && window.location.pathname !== "/login" && window.location.pathname !== "/") {
+        window.dispatchEvent(new Event("unauthorized_access"));
+      }
     }
     return Promise.reject(error);
   }

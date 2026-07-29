@@ -27,8 +27,10 @@ import {
   Activity,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const ConsumerPreview = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -410,7 +412,7 @@ const ConsumerPreview = () => {
                             <Button
                               variant="contained"
                               size="small"
-                              onClick={() => window.location.href = "/login"}
+                              onClick={() => navigate("/login", { state: { tab: 1 } })}
                               sx={{
                                 bgcolor: "#075BB5",
                                 color: "#FFFDF8",
@@ -592,7 +594,7 @@ const ConsumerPreview = () => {
                           <Button
                             variant="contained"
                             size="small"
-                            onClick={() => window.location.href = "/login"}
+                            onClick={() => navigate("/login", { state: { tab: 1 } })}
                             sx={{
                               bgcolor: "#075BB5",
                               color: "#FFFDF8",
@@ -813,7 +815,7 @@ const ConsumerPreview = () => {
           </Typography>
           <Button
             variant="contained"
-            onClick={() => window.location.href = "/login"}
+            onClick={() => navigate("/login", { state: { tab: 1 } })}
             sx={{
               bgcolor: "#075BB5",
               color: "#FFFDF8",

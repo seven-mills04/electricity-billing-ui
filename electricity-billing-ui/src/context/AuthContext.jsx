@@ -77,11 +77,26 @@ export const AuthProvider = ({ children }) => {
   }, [fetchConsumerProfile]);
 
   const logout = useCallback(() => {
-    localStorage.clear();
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("consumerName");
+    localStorage.removeItem("consumerNumber");
+    localStorage.removeItem("consumerId");
+    localStorage.removeItem("consumerConnections");
     setUserRole(null);
     setConsumerName("");
     setConsumerNumber("");
   }, []);
+
+  useEffect(() => {
+    const handleUnauthorized = () => {
+      logout();
+    };
+    window.addEventListener("unauthorized_access", handleUnauthorized);
+    return () => {
+      window.removeEventListener("unauthorized_access", handleUnauthorized);
+    };
+  }, [logout]);
 
   return (
     <AuthContext.Provider

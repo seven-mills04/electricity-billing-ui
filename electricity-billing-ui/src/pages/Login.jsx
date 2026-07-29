@@ -44,7 +44,7 @@ import { useAuth } from "../context/AuthContext";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { loginSuccess } = useAuth();
+  const { loginSuccess, updateConsumerNumber } = useAuth();
   const [tabValue, setTabValue] = useState(
     location.state?.tab !== undefined ? location.state.tab : 0
   );
@@ -142,6 +142,15 @@ const Login = () => {
         });
 
         const { token, role, consumerId, consumerName } = response.data;
+
+        // Set token and auth context state FIRST so api.get uses the Bearer token header
+        loginSuccess({
+          token,
+          role,
+          consumerId,
+          consumerName: consumerName || "Consumer User",
+        });
+
         let fetchedConsumerNum = "";
 
         if (consumerId) {
@@ -149,21 +158,14 @@ const Login = () => {
             const consumerRes = await api.get("/api/consumer/profile");
             const consumerData = consumerRes.data;
 
-            if (consumerData) {
-              fetchedConsumerNum = consumerData.consumerNumber || "";
+            if (consumerData && consumerData.consumerNumber) {
+              fetchedConsumerNum = consumerData.consumerNumber;
+              updateConsumerNumber(fetchedConsumerNum);
             }
           } catch (cErr) {
             console.error("Failed to fetch consumer details", cErr);
           }
         }
-
-        loginSuccess({
-          token,
-          role,
-          consumerId,
-          consumerName: consumerName || "Consumer User",
-          consumerNumber: fetchedConsumerNum,
-        });
 
         navigate("/dashboard");
       } else {
