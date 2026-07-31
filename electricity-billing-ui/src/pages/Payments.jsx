@@ -329,7 +329,7 @@ const Payments = () => {
                 "Payment Channel": viewPayment.paymentMode,
                 "Amount Paid": `₹${(viewPayment.amountPaid || 0).toLocaleString()}`,
                 "Bill Reference": viewPayment.bill?.billNumber || "N/A",
-                "Grid Connection": viewPayment.bill?.meterReading?.connection?.connectionNumber || "N/A",
+                "Connection": viewPayment.bill?.meterReading?.connection?.connectionNumber || "N/A",
               }
             : null
         }

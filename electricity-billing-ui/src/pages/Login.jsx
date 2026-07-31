@@ -173,7 +173,7 @@ const Login = () => {
 
         if (isNewConnection) {
           if (!firstName.trim() || !lastName.trim() || !regEmail.trim() || !regPhone.trim()) {
-            setError("All applicant details (First/Last Name, Email, Phone) are required to apply for a new grid connection.");
+            setError("All applicant details (First/Last Name, Email, Phone) are required to apply for a new connection.");
             setLoading(false);
             return;
           }
@@ -214,7 +214,7 @@ const Login = () => {
 
         await fetchPublicConsumers();
 
-        setSuccessMessage("Portal account registered and grid connection established successfully! You can now sign in using your chosen credentials.");
+        setSuccessMessage("Portal account registered and connection established successfully! You can now sign in using your chosen credentials.");
         setTabValue(1);
         setPassword("");
         
@@ -319,7 +319,7 @@ const Login = () => {
               Official Consumer & Billing Portal
             </Typography>
             <Typography variant="body1" sx={{ color: "#625F58", fontSize: "1rem", mb: 4, lineHeight: 1.6 }}>
-              Welcome to the secure billing portal for KNK Power Corporation LTD. Access your account to manage grid connections, view energy invoices, self-report meter readings, and make secure online payments.
+              Welcome to the secure billing portal for KNK Power Corporation LTD. Access your account to manage connections, view energy invoices, self-report meter readings, and make secure online payments.
             </Typography>
 
             <Paper sx={{ p: 3, borderRadius: "2px", bgcolor: "#FFFDF8", border: "1px solid #C9C3B7" }}>
@@ -399,7 +399,7 @@ const Login = () => {
             <CardContent sx={{ p: 4 }}>
               <Box sx={{ mb: 3 }}>
                 <Typography variant="h4" sx={{ color: "#171717", mb: 0.8, fontWeight: 800, fontSize: "1.25rem" }}>
-                  {tabValue === 0 ? "Grid Admin Sign In" : tabValue === 1 ? "Consumer Access" : "Portal Account Registration"}
+                  {tabValue === 0 ? "Admin Sign In" : tabValue === 1 ? "Consumer Access" : "Portal Account Registration"}
                 </Typography>
                 <Typography variant="body2" sx={{ color: "#625F58" }}>
                   {tabValue === 0
@@ -423,7 +423,7 @@ const Login = () => {
                     fontSize: "0.8rem",
                   }}
                 >
-                  Establishing grid server link... This may take up to 30s. Please hold.
+                  Establishing server link... This may take up to 30s. Please hold.
                 </Alert>
               )}
 
@@ -445,7 +445,7 @@ const Login = () => {
                   {tabValue === 2 && (
                     <FormControl component="fieldset">
                       <FormLabel component="legend" sx={{ fontSize: "0.75rem", color: "#171717", fontWeight: 800, mb: 0.5 }}>
-                        GRID CONNECTION ACCESS
+                        CONNECTION ACCESS
                       </FormLabel>
                       <RadioGroup
                         row

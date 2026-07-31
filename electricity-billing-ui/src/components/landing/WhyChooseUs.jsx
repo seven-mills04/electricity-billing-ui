@@ -43,7 +43,7 @@ const WhyChooseUs = () => {
                   Built for dependable everyday service
                 </Typography>
                 <Typography variant="body1" sx={{ color: "#625F58", maxWidth: "600px", lineHeight: 1.6 }}>
-                  Our network operations monitor electrical grid loads, automated sub-station routing, and consumer service access coordinates. We maintain operational standards ensuring stable electricity delivery and secure account settlements.
+                  Our network operations monitor electrical loads, automated sub-station routing, and consumer service access coordinates. We maintain operational standards ensuring stable electricity delivery and secure account settlements.
                 </Typography>
               </Box>
 
@@ -61,7 +61,7 @@ const WhyChooseUs = () => {
                 }}
               >
                 <Typography variant="caption" sx={{ fontFamily: "monospace", color: "#625F58", fontSize: "0.72rem" }}>
-                  GRID DISTRIBUTION ROUTE SCHEMATIC (SCH-R10)
+                  DISTRIBUTION ROUTE SCHEMATIC (SCH-R10)
                 </Typography>
 
                 <svg
@@ -134,10 +134,10 @@ const WhyChooseUs = () => {
                   99.98%
                 </Typography>
                 <Typography variant="h5" sx={{ fontWeight: 800, fontSize: "1.1rem", mb: 0.8, color: "#171717" }}>
-                  Operational Grid Uptime
+                  Operational System Uptime
                 </Typography>
                 <Typography variant="body2" sx={{ color: "#625F58", lineHeight: 1.5 }}>
-                  Grid uptime and distribution stability are monitored 24x7 by command centers to ensure uninterrupted power delivery to residential, commercial, and industrial consumers.
+                  Network uptime and distribution stability are monitored 24x7 by command centers to ensure uninterrupted power delivery to residential, commercial, and industrial consumers.
                 </Typography>
               </Box>
 
@@ -187,7 +187,7 @@ const WhyChooseUs = () => {
                   Registered Service Endpoints
                 </Typography>
                 <Typography variant="body2" sx={{ color: "#625F58", lineHeight: 1.5 }}>
-                  Providing active grid distribution services to residential, commercial, and manufacturing sectors with itemized tariff transparency.
+                  Providing active distribution services to residential, commercial, and manufacturing sectors with itemized tariff transparency.
                 </Typography>
               </Box>
             </Stack>

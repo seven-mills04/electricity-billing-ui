@@ -160,7 +160,7 @@ const Hero = () => {
                   },
                 }}
               >
-                Apply for a new grid connection <ArrowRight size={14} />
+                Apply for a new connection <ArrowRight size={14} />
               </Typography>
             </motion.div>
           </Box>
@@ -361,7 +361,7 @@ const Hero = () => {
                         letterSpacing: "0.02em",
                       }}
                     >
-                      Smart Grid Meter
+                      Smart Meter
                     </Typography>
                     <Typography variant="caption" sx={{ color: "#625F58", fontSize: "0.7rem", display: "block" }}>
                       Model: SPX-8800-M1

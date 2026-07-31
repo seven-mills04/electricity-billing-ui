@@ -8,9 +8,9 @@ const Announcements = () => {
     {
       category: "Scheduled Maintenance",
       colorStyle: { bgcolor: "#FFFDF8", color: "#075BB5", border: "1px solid #075BB5" },
-      title: "Planned Grid Infrastructure Upgrades",
+      title: "Planned Infrastructure Upgrades",
       date: "July 22, 2026",
-      desc: "Scheduled maintenance will take place in Grid Sector-4 on July 25, 2026, from 09:00 AM to 01:00 PM to replace distribution transformers and improve line safety. Power supply will be temporarily affected.",
+      desc: "Scheduled maintenance will take place in Sector-4 on July 25, 2026, from 09:00 AM to 01:00 PM to replace distribution transformers and improve line safety. Power supply will be temporarily affected.",
     },
     {
       category: "Tariff Update",
@@ -24,14 +24,14 @@ const Announcements = () => {
       colorStyle: { bgcolor: "#FFFDF8", color: "#087A5A", border: "1px solid #087A5A" },
       title: "Solar Rooftop Net-Metering Subsidy Guidelines",
       date: "July 10, 2026",
-      desc: "Under the new clean energy initiative, residential consumers installing approved grid-interactive solar systems up to 10 kW can apply for a capital subsidy of 30%. Applications are open in the consumer portal.",
+      desc: "Under the new clean energy initiative, residential consumers installing approved solar systems up to 10 kW can apply for a capital subsidy of 30%. Applications are open in the consumer portal.",
     },
     {
       category: "Power Outage",
       colorStyle: { bgcolor: "#FFFDF8", color: "#C5382F", border: "1px solid #C5382F" },
-      title: "Storm Recovery & Grid Restoration Report",
+      title: "Storm Recovery & Network Restoration Report",
       date: "July 08, 2026",
-      desc: "Monsoon storms damaged overhead transmission lines in Sector-12 yesterday. Our emergency crew successfully restored power supply to all affected grid sub-stations within 4 hours. We appreciate your patience.",
+      desc: "Monsoon storms damaged overhead transmission lines in Sector-12 yesterday. Our emergency crew successfully restored power supply to all affected sub-stations within 4 hours. We appreciate your patience.",
     },
   ];
 
@@ -75,7 +75,7 @@ const Announcements = () => {
               fontSize: "0.9rem",
             }}
           >
-            Keep track of active grid maintenance schedules, approved regulatory updates, and official notifications.
+            Keep track of active maintenance schedules, approved regulatory updates, and official notifications.
           </Typography>
         </Stack>
 
@@ -190,7 +190,7 @@ const Announcements = () => {
               <BellRing size={22} />
             </Box>
             <Typography variant="body2" sx={{ color: "#171717", fontWeight: 700 }}>
-              Want real-time grid alerts? Log in to your consumer account to configure SMS and Email notification settings.
+              Want real-time alerts? Log in to your consumer account to configure SMS and Email notification settings.
             </Typography>
           </Stack>
           <Button

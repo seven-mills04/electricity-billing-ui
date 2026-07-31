@@ -64,7 +64,7 @@ const SystemTicker = () => {
                   letterSpacing: "0.05em",
                 }}
               >
-                GRID STATUS: NORMAL
+                SYSTEM STATUS: NORMAL
               </Typography>
             </Stack>
 

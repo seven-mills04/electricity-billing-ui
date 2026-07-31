@@ -74,7 +74,7 @@ const Consumers = () => {
       setRows(mapped);
     } catch (err) {
       console.error(err);
-      setErrorMsg("Unable to load consumers. Please verify your connection to the grid database.");
+      setErrorMsg("Unable to load consumers. Please verify your connection to the database.");
       setSnackbar({ open: true, message: "Failed to fetch consumers", severity: "error" });
     } finally {
       setLoading(false);
@@ -138,7 +138,7 @@ const Consumers = () => {
     { field: "phone", headerName: "Phone Number" },
     {
       field: "status",
-      headerName: "Grid Status",
+      headerName: "Connection Status",
       renderCell: (row) => (
         <StatusBadge 
           label={row.hasActiveConn ? "Active Connection" : "Registered"} 

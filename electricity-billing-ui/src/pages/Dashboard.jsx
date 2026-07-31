@@ -176,7 +176,7 @@ const Dashboard = () => {
                 </Typography>
 
                 <Typography variant="body2" sx={{ color: "#625F58", maxWidth: "680px", lineHeight: 1.5 }}>
-                  Grid operations are normal. Review consumer accounts, connections, billing invoices, and transaction settlements from the metrics and logs panel below.
+                  Operations are normal. Review consumer accounts, connections, billing invoices, and transaction settlements from the metrics and logs panel below.
                 </Typography>
               </Box>
 
@@ -229,7 +229,7 @@ const Dashboard = () => {
 
             <Grid item xs={12} sm={6} md={3}>
               <EnergyStatCard
-                title="Active Grid Connections"
+                title="Active Connections"
                 value={stats.totalConnections ? stats.totalConnections.toLocaleString() : "0"}
                 subtitle="Registered load points"
                 icon={Plug2}
@@ -356,7 +356,7 @@ const Dashboard = () => {
                     <Info size={14} /> MODEL CONFIDENCE: 96.4%
                   </Typography>
                   <Typography variant="caption" sx={{ color: "#625F58", display: "block", lineHeight: 1.3 }}>
-                    Calculated using standard linear regression over historical grid meter readings ledger.
+                    Calculated using standard linear regression over historical meter readings ledger.
                   </Typography>
                 </Box>
               </GlassCard>

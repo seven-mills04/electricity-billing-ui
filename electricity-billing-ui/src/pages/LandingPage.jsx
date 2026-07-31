@@ -22,7 +22,7 @@ const LandingPage = () => {
     {
       label: "Consumers Served",
       value: "4.8 Million+",
-      desc: "Providing active grid connections to domestic, industrial, and commercial sectors.",
+      desc: "Providing active connections to domestic, industrial, and commercial sectors.",
       icon: <Users size={24} color="#075BB5" />,
     },
     {
@@ -40,7 +40,7 @@ const LandingPage = () => {
     {
       label: "Service Availability",
       value: "99.98%",
-      desc: "Grid uptime and continuous power distribution monitored 24x7 by command centers.",
+      desc: "Network uptime and continuous power distribution monitored 24x7 by command centers.",
       icon: <ShieldCheck size={24} color="#075BB5" />,
     },
   ];

@@ -26,7 +26,7 @@ const Navbar = ({ onMobileToggle, title }) => {
     {
       id: 1,
       primary: "Monthly Billing Cycle Completed",
-      secondary: "Grid Sector-4 invoices compiled and generated.",
+      secondary: "Sector-4 invoices compiled and generated.",
       read: false,
     },
     {
@@ -106,7 +106,7 @@ const Navbar = ({ onMobileToggle, title }) => {
               }}
             />
             <Typography sx={{ fontSize: "0.7rem", fontWeight: 700, color: "#087A5A" }}>
-              GRID OPERATIONAL 99.98%
+              SYSTEM OPERATIONAL 99.98%
             </Typography>
           </Box>
         </Stack>
@@ -168,7 +168,7 @@ const Navbar = ({ onMobileToggle, title }) => {
           >
             <Box sx={{ p: 2, bgcolor: "#E9E5DB", borderBottom: "1px solid #C9C3B7" }}>
               <Typography variant="subtitle2" sx={{ fontWeight: 800, color: "#171717" }}>
-                Grid Notifications
+                System Notifications
               </Typography>
             </Box>
             <Divider sx={{ mb: 1.5, borderColor: "#C9C3B7" }} />
@@ -237,7 +237,7 @@ const Navbar = ({ onMobileToggle, title }) => {
                 {consumerName}
               </Typography>
               <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700 }}>
-                {userRole === "ADMIN" ? "Senior Grid Operator" : "Consumer Portal"}
+                {userRole === "ADMIN" ? "Senior System Operator" : "Consumer Portal"}
               </Typography>
             </Box>
 

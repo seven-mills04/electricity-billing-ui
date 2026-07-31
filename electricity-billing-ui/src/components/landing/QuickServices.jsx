@@ -136,7 +136,7 @@ const QuickServices = () => {
     {
       num: "03",
       label: "New Connection",
-      desc: "Apply for a commercial or domestic grid meter.",
+      desc: "Apply for a commercial or domestic meter.",
       action: "new",
       accent: "#F05A28",
     },

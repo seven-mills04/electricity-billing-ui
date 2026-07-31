@@ -500,7 +500,7 @@ const ConsumerPreview = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                           <Typography variant="caption" sx={{ color: "#625F58", fontWeight: 700, fontSize: "0.72rem", display: "block" }}>Service Sector</Typography>
-                          <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717", fontSize: "0.8rem", mt: 0.25 }}>Grid Sector 4</Typography>
+                          <Typography variant="body2" sx={{ fontWeight: 800, color: "#171717", fontSize: "0.8rem", mt: 0.25 }}>Sector 4</Typography>
                         </Grid>
                       </Grid>
                     </Box>
@@ -663,7 +663,7 @@ const ConsumerPreview = () => {
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <Stack spacing={0.5}>
-                        <Typography variant="caption" sx={{ color: "#625F58" }}>Sanctioned Grid Load</Typography>
+                        <Typography variant="caption" sx={{ color: "#625F58" }}>Sanctioned Load</Typography>
                         <Typography
                           variant="body2"
                           sx={{

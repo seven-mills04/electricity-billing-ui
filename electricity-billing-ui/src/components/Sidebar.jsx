@@ -125,7 +125,7 @@ const Sidebar = ({ onClose }) => {
           {activeUserRole === "ADMIN" ? "ADMIN PORTAL" : "CONSUMER PORTAL"}
         </Typography>
         <Typography variant="body2" sx={{ color: "#625F58", fontWeight: 700, fontSize: "0.8rem" }}>
-          {activeUserRole === "ADMIN" ? "Senior Grid Operator" : "Self-Service Account"}
+          {activeUserRole === "ADMIN" ? "Senior System Operator" : "Self-Service Account"}
         </Typography>
       </Box>
 
